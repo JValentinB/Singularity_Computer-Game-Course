@@ -31,8 +31,8 @@ public class Player : MonoBehaviour
         else speed = walking_speed;
 
         // turn around
-        if (Input.GetKey(KeyCode.A)) direction = 1;
-        if (Input.GetKey(KeyCode.D)) direction = -1;
+        if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = 1;
+        if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = -1;
         this.transform.rotation = Quaternion.Euler(0, direction * 90, 0);
 
         float landing = (animator.GetCurrentAnimatorStateInfo(0).IsName("Landing")) ? 0.5f : 1;
