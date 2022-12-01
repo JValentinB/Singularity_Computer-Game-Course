@@ -15,8 +15,9 @@ public class PlayerControl : MonoBehaviour
     private float direction = -1;
     private Animator animator;
     private Rigidbody rigidbody;
-    private GameObject weapon;
-
+    private GameObject gun;
+    private GameObject sword;
+    private float last_Attack; // Time since last Attack
     private float lastPosY;
 
     // Start is called before the first frame update
@@ -38,8 +39,8 @@ public class PlayerControl : MonoBehaviour
         else speed = running_speed;
 
         // turn around
-        if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = 1;
-        if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = -1;
+        if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
+        if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
         this.transform.rotation = Quaternion.Euler(0, direction * 90, 0);
 
         // Running
@@ -62,22 +63,24 @@ public class PlayerControl : MonoBehaviour
         }
 
         // Scroll Mouse Wheel to change Equipment
-        if (Input.mouseScrollDelta.y != 0)
+        animator.SetInteger("Current Equip", animator.GetInteger("Equipment"));
+
+        if (Input.mouseScrollDelta.y > 0)
         {
-            animator.SetInteger("Equipment", (animator.GetInteger("Equipment") + 1) % 2);
+            animator.SetInteger("Equipment", (animator.GetInteger("Equipment") + 1) % 3);
+        }
+        if (Input.mouseScrollDelta.y < 0)
+        {
+            animator.SetInteger("Equipment", (3 + (animator.GetInteger("Equipment") - 1)) % 3);
         }
         // Show equipped Weapon
-        if (animator.GetInteger("Equipment") == 0) {
-            weapon = GameObject.Find("Gun");
-            weapon.GetComponent<MeshRenderer>().enabled = false;
-        }
-        if (animator.GetInteger("Equipment") == 1)
-        {
-            weapon = GameObject.Find("Gun");
-            weapon.GetComponent<MeshRenderer>().enabled = true;
-        }
+        EquipWeapon(animator.GetInteger("Equipment"));
+        
+
+        // Cant move on the z-Plane
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, 0);
 
+        Attack();
         GroundCheck();
     }
     
@@ -91,7 +94,7 @@ public class PlayerControl : MonoBehaviour
         RaycastHit hit2;
         if (Physics.Raycast(ray1, out hit1) && Physics.Raycast(ray1, out hit2))
         {
-            //print(hit1.collider.name + " " + hit1.distance);
+            print(hit1.collider.name + " " + hit1.distance);
             if (hit1.distance > falling_distance && hit2.distance > falling_distance)
                 animator.SetBool("Falling", true);
             else {
@@ -103,5 +106,28 @@ public class PlayerControl : MonoBehaviour
 
 
         }
+    }
+    void Attack()
+    {
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            last_Attack = Time.time;
+            animator.SetLayerWeight(1, 1);
+            animator.SetInteger("Attack", (animator.GetInteger("Attack") + 1) % 3);
+        }
+        else if (Time.time - last_Attack > 0.5)
+        {
+            animator.SetLayerWeight(1, 0);
+            animator.SetInteger("Attack", 0);
+        }
+    }
+
+    void EquipWeapon(int weapon)
+    {
+        gun = GameObject.Find("Gun");
+        sword = GameObject.Find("Sword");
+        gun.GetComponent<MeshRenderer>().enabled = (weapon == 1);
+        sword.GetComponent<MeshRenderer>().enabled = (weapon == 2);
     }
 }
