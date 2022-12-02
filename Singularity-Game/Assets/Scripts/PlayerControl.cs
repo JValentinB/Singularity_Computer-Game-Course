@@ -80,7 +80,18 @@ public class PlayerControl : MonoBehaviour
 
         GroundCheck();
     }
-    
+
+    void updateMass(float x_left, float x_right, float y_lower, float y_upper, float scale_mass)
+    {
+        float x_player = this.transform.position.x;
+        float y_player = this.transform.position.y;
+
+        if (x_player < x_right && x_left < x_player && y_player < y_upper && y_lower < y_player)
+        {
+            rigidbody.mass = rigidbody.mass * scale_mass;
+        }
+    }
+
     // Checks how far away the ground is and sets the Falling bool
     void GroundCheck()
     {
