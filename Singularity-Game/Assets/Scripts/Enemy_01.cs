@@ -9,16 +9,19 @@ using UnityEngine;
 public class Enemy_01 : MonoBehaviour
 {
     [SerializeField] private float walking_speed = 1f;
-    private float explForce = 700f;
-    private float explRadius = 30f;
-    private float explUplift = 5f;
+    [SerializeField] private float explForce = 700f;
+    [SerializeField] private float explRadius = 30f;
+    [SerializeField] private float explUplift = 5f;
     
+    [SerializeField] private float cooldown = 200f;
+    float done = 0;
+
+    [SerializeField] private bool inRange = false;
+    [SerializeField] private bool dead = false;
+    [SerializeField] private bool onCooldown = true;
+
     private Rigidbody enemybody;
     private CapsuleCollider triggerCollider;
-    bool inRange = false;
-    bool dead = false;
-    bool time = false;
-
 
     // Start is called before the first frame update
     void Start()
@@ -34,10 +37,10 @@ public class Enemy_01 : MonoBehaviour
         var player = GameObject.FindWithTag("Player").transform; //Make it global in this class!
         var distance = player.position.x - transform.position.x;
 
-        if(distance < 10 & distance > 0 & !inRange){
+        if(distance < 5 & distance > 0 & !inRange){
             velocity = Vector3.right * walking_speed;
         }
-        else if(distance > -10 & distance < 0 & !inRange){
+        else if(distance > -5 & distance < 0 & !inRange){
             velocity = Vector3.left * walking_speed;
         }
         else{
@@ -45,13 +48,16 @@ public class Enemy_01 : MonoBehaviour
         }
         
         transform.Translate(velocity * Time.deltaTime);
-        
-    }
 
-    //Waits for "time" seconds 
-    IEnumerator wait(int timer)
-    {
-        yield return new WaitForSeconds(timer); 
+        //wait function
+        if(inRange & onCooldown){
+            if(done >= cooldown) {
+                Impact();
+                done = 0;
+            }
+            done += Time.deltaTime;
+        }
+        
     }
 
     //Function will be called on entering Collider range
@@ -60,7 +66,7 @@ public class Enemy_01 : MonoBehaviour
     {
         if(col.GetComponent<Collider>().tag == "Player" & !dead){
             inRange = true;
-            Impact();
+            //Impact();
         }
     }
 
@@ -68,30 +74,26 @@ public class Enemy_01 : MonoBehaviour
     private void OnTriggerExit(Collider col)
     {
         if(col.GetComponent<Collider>().tag == "Player" & !dead){
-            inRange = true;
+            inRange = false;
+            onCooldown = true;
         }
     }
 
     //Creates knockback on hit
     //Create Impact function for Player, which is used by every enemy!
-    //AddForce or ExplosionForce has to be fixed!
     private void Impact()
     {   
-        //FIXME! Function shoudl wait 2 seconds, doesn't work rn
-        wait(2);
-
-        if(inRange){
-            var playerRigid = GameObject.FindWithTag("Player").GetComponent<Rigidbody>(); //Make it global in this class
-            var player = GameObject.FindWithTag("Player").transform; //Same as above
-            var enemyPos = switchAxisToPlayer(transform.position);
-            
-            playerRigid.velocity = Vector3.zero;
-            playerRigid.AddExplosionForce(explForce, enemyPos, explRadius, explUplift);
-            dead = false;
-        }
-
+        var playerRigid = GameObject.FindWithTag("Player").GetComponent<Rigidbody>(); //Make it global in this class
+        var player = GameObject.FindWithTag("Player").transform; //Same as above
+        var enemyPos = switchAxisToPlayer(transform.position);
+        
+        playerRigid.velocity = Vector3.zero;
+        playerRigid.AddExplosionForce(explForce, enemyPos, explRadius, explUplift);
+        dead = false;
+        onCooldown = true;
     }
 
+    //Adjusting height diff between player.pos and enemy.pos
     private Vector3 switchAxisToPlayer(Vector3 vec){
         var newVec = new Vector3(vec.x, vec.y+1.591f, vec.z);
         return newVec;
