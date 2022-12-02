@@ -14,7 +14,7 @@ public class PlayerControl : MonoBehaviour
 
     private float direction = -1;
     private Animator animator;
-    private Rigidbody rigidbody;
+    private new Rigidbody rigidbody;
     private GameObject gun;
     private GameObject sword;
     private float last_Attack; // Time since last Attack
@@ -52,7 +52,7 @@ public class PlayerControl : MonoBehaviour
 
 
         // Jumping and how many airjumps you can do
-        if (animator.GetBool("Jumping")) 
+        if (animator.GetBool("Jumping") && animator.GetBool("Falling")) 
             animator.SetBool("Jumping", false);
         if (Input.GetKeyDown(KeyCode.Space) && jumpnumber > 0)
         {
@@ -74,12 +74,16 @@ public class PlayerControl : MonoBehaviour
             animator.SetInteger("Equipment", (3 + (animator.GetInteger("Equipment") - 1)) % 3);
         }
         // Show equipped Weapon
-        EquipWeapon(animator.GetInteger("Equipment"));
+        //EquipWeapon(animator.GetInteger("Equipment"));
         
 
         // Cant move on the z-Plane
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, 0);
-
+        
+        if (Input.GetMouseButtonDown(1))
+        {
+            EnemyPull();
+        }
         Attack();
         GroundCheck();
     }
@@ -92,9 +96,9 @@ public class PlayerControl : MonoBehaviour
         Ray ray2 = new Ray(transform.position + new Vector3(-0.5f, 1, 0), new Vector3(0, -5, 0));
         RaycastHit hit1;
         RaycastHit hit2;
-        if (Physics.Raycast(ray1, out hit1) && Physics.Raycast(ray1, out hit2))
+        if (Physics.Raycast(ray1, out hit1) && Physics.Raycast(ray2, out hit2))
         {
-            print(hit1.collider.name + " " + hit1.distance);
+            //print(hit1.collider.name + " " + hit1.distance);
             if (hit1.distance > falling_distance && hit2.distance > falling_distance)
                 animator.SetBool("Falling", true);
             else {
@@ -123,11 +127,35 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    void EquipWeapon(int weapon)
+    void EnemyPull()
     {
-        gun = GameObject.Find("Gun");
-        sword = GameObject.Find("Sword");
-        gun.GetComponent<MeshRenderer>().enabled = (weapon == 1);
-        sword.GetComponent<MeshRenderer>().enabled = (weapon == 2);
-    }
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position + Vector3.up   , transform.TransformDirection(Vector3.forward));
+        LayerMask hitLayer = LayerMask.NameToLayer("Enemy");
+
+        Debug.DrawRay(transform.position + Vector3.up, transform.TransformDirection(Vector3.forward), Color.red, 5);
+
+        float sphereRadius = 2;
+        float maxDistance = 10;
+        int layerMask = (1 << hitLayer);
+        if (Physics.SphereCast(ray, sphereRadius, out hit, maxDistance, layerMask))
+        {
+            Debug.Log("There is an enemy!");
+            Rigidbody enemy = hit.rigidbody;
+            enemy.AddForce(transform.TransformDirection(Vector3.back) * 100);
+        }
+        else
+        {
+            Debug.Log("There is no enemy!");
+        }
+
+    } 
+    //void EquipWeapon(int weapon)
+    //{
+    //    gun = GameObject.Find("Gun");
+    //    sword = GameObject.Find("Sword");
+    //    gun.GetComponent<MeshRenderer>().enabled = (weapon == 1);
+    //    sword.GetComponent<MeshRenderer>().enabled = (weapon == 2);
+    //    sword.GetComponent<BoxCollider>().enabled = (weapon == 2);
+    //}
 }
