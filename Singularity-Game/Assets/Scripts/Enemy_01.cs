@@ -6,41 +6,54 @@ using UnityEngine;
 //Player y = -0.01290798
 //Diff = 1,59103002
 
-public class Enemy_01 : MonoBehaviour
+public class enemy_01 : MonoBehaviour
 {
+    [SerializeField] private float health = 100f; //Useless till it can be damaged
+    [SerializeField] private float cooldown = 200f;
+    [SerializeField] private float fov = 5f;
+
     [SerializeField] private float walking_speed = 1f;
     [SerializeField] private float explForce = 700f;
     [SerializeField] private float explRadius = 30f;
     [SerializeField] private float explUplift = 5f;
     
-    [SerializeField] private float cooldown = 200f;
     float done = 0;
 
     [SerializeField] private bool inRange = false;
     [SerializeField] private bool dead = false;
     [SerializeField] private bool onCooldown = true;
 
-    private Rigidbody enemybody;
+    //Enemy related
+    private Rigidbody enemyBody;
     private CapsuleCollider triggerCollider;
+    private BoxCollider collider;
+    //Place player health related variable here
+
+    //Player related
+    private Transform player;
+    private Rigidbody playerRigid;
 
     // Start is called before the first frame update
     void Start()
     {
-        enemybody = GetComponent<Rigidbody>();
+        enemyBody = GetComponent<Rigidbody>();
         triggerCollider = GetComponent<CapsuleCollider>();
+        collider = GetComponent<BoxCollider>();
+
+        playerRigid = GameObject.FindWithTag("Player").GetComponent<Rigidbody>();
+        player = GameObject.FindWithTag("Player").transform;
     }
 
     // Update is called once per frame
     void Update()
     {
         var velocity = Vector3.right * walking_speed;
-        var player = GameObject.FindWithTag("Player").transform; //Make it global in this class!
         var distance = player.position.x - transform.position.x;
 
-        if(distance < 5 & distance > 0 & !inRange){
+        if(distance < fov & distance > 0 & !inRange){
             velocity = Vector3.right * walking_speed;
         }
-        else if(distance > -5 & distance < 0 & !inRange){
+        else if(distance > -fov & distance < 0 & !inRange){
             velocity = Vector3.left * walking_speed;
         }
         else{
@@ -57,20 +70,20 @@ public class Enemy_01 : MonoBehaviour
             }
             done += Time.deltaTime;
         }
-        
+
+        if(health <= 0){ DestroyNPC(); }
     }
 
-    //Function will be called on entering Collider range
+    //Function will be called on entering collider range
     //(col is the other collider)
     private void OnTriggerEnter(Collider col)
     {
         if(col.GetComponent<Collider>().tag == "Player" & !dead){
             inRange = true;
-            //Impact();
         }
     }
 
-    //Function will be called on leaving Collider range
+    //Function will be called on leaving collider range
     private void OnTriggerExit(Collider col)
     {
         if(col.GetComponent<Collider>().tag == "Player" & !dead){
@@ -79,24 +92,36 @@ public class Enemy_01 : MonoBehaviour
         }
     }
 
-    //Creates knockback on hit
-    //Create Impact function for Player, which is used by every enemy!
+    //Creates knockback on hit (later on with force as parameter)
+    //Should later be placed in enemy_lib
     private void Impact()
     {   
-        var playerRigid = GameObject.FindWithTag("Player").GetComponent<Rigidbody>(); //Make it global in this class
-        var player = GameObject.FindWithTag("Player").transform; //Same as above
-        var enemyPos = switchAxisToPlayer(transform.position);
+        var enemyPos = SwitchAxisToPlayer(transform.position);
         
         playerRigid.velocity = Vector3.zero;
         playerRigid.AddExplosionForce(explForce, enemyPos, explRadius, explUplift);
-        dead = false;
         onCooldown = true;
+
+        health = 0; //only suicider destroy themselves on hit
     }
 
     //Adjusting height diff between player.pos and enemy.pos
-    private Vector3 switchAxisToPlayer(Vector3 vec){
-        var newVec = new Vector3(vec.x, vec.y+1.591f, vec.z);
-        return newVec;
+    private Vector3 SwitchAxisToPlayer(Vector3 vec){
+        return new Vector3(vec.x, vec.y+1.591f, vec.z);
+    }
+
+    //Give player damage 
+    //Should later be placed in enemy_lib
+    private void DamagePlayer(float dmg){
+        /*
+        Code for accessing player hp and reducing it according to parameter dmg
+        */
+    }
+    
+    //Destroy selected NPC / Enemy (later on with specific gameObject as parameter)
+    //Should later be placed in enemy_lib
+    private void DestroyNPC(){
+        gameObject.SetActive(false);
     }
 }
 
