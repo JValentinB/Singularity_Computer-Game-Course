@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -20,7 +21,8 @@ public class PlayerControl : MonoBehaviour
 
     private float lastPosY;
     private float old_mass = 1f;
-    public float[,] changedMassFields = { { 7.0f, 16.4f, -4.5f, -3.2f, 10f }, { 7.0f, 16.4f, 0f, 5f, 0f } };
+    public float[,] changedMassFields = { { 7.0f, 16.4f, -4.6f, -3.2f, 100.0f }, { 7.0f, 16.4f, 0f, 5f, 0.1f } };
+    public int cMF_length = 2;
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +39,10 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        walking_speed = 0.4f * 1 / rigidbody.mass;
+        walking_speed = 0.4f * 1 / rigidbody.mass;
+        walking_speed = 0.4f * 1 / rigidbody.mass;
+
         // press shift to run fast
         if (Input.GetKey(KeyCode.LeftControl)) speed = walking_speed;
         else if (Input.GetKey(KeyCode.LeftShift)) speed = sprinting_speed;
@@ -91,16 +97,17 @@ public class PlayerControl : MonoBehaviour
 
     void updateMass(float[,] changedMassFields)
     {
-        for (int i = 0; i < changedMassFields.Length-1; i++)
+        for (int i = 0; i < cMF_length; i++)
         {
             // changedMassFields[i] = {x_left, x_right, y_lower, y_upper, new_mass}
             float player_x = this.transform.position.x;
             float player_y = this.transform.position.y;
             if (changedMassFields[i, 0] < player_x && player_x < changedMassFields[i, 1]
-             && changedMassFields[i, 2] < player_x && player_x < changedMassFields[i, 3])
+             && changedMassFields[i, 2] < player_y && player_y < changedMassFields[i, 3])
             {
-                rigidbody.AddForce(new_mass* 100 * Vector3.down);
+  
                 rigidbody.mass = changedMassFields[i, 4];
+                Console.WriteLine(rigidbody.mass);
                 return;
             }
         }
