@@ -20,9 +20,11 @@ public class PlayerControl : MonoBehaviour
     private GameObject weapon;
 
     private float lastPosY;
-    private float old_mass = 1f;
+    private float old_mass = 75f;
     public float[,] changedMassFields = { { 7.0f, 16.4f, -4.6f, -3.2f, 100.0f }, { 7.0f, 16.4f, 0f, 5f, 0.1f } };
     public int cMF_length = 2;
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +32,8 @@ public class PlayerControl : MonoBehaviour
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
         lastPosY = this.transform.position.y;
+
+        rigidbody.mass = 75f;
 
         jumpnumber = airjumps;
 
