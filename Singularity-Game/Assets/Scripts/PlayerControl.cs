@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
@@ -18,6 +19,8 @@ public class PlayerControl : MonoBehaviour
     private GameObject weapon;
 
     private float lastPosY;
+    private float old_mass = 1f;
+    public float[,] changedMassFields = { { 7.0f, 16.4f, -4.5f, -3.2f, 10f }, { 7.0f, 16.4f, 0f, 5f, 0f } };
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +30,8 @@ public class PlayerControl : MonoBehaviour
         lastPosY = this.transform.position.y;
 
         jumpnumber = airjumps;
+
+
     }
     
     // Update is called once per frame
@@ -79,17 +84,28 @@ public class PlayerControl : MonoBehaviour
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, 0);
 
         GroundCheck();
+
+        updateMass(changedMassFields);
     }
 
-    void updateMass(float x_left, float x_right, float y_lower, float y_upper, float scale_mass)
-    {
-        float x_player = this.transform.position.x;
-        float y_player = this.transform.position.y;
 
-        if (x_player < x_right && x_left < x_player && y_player < y_upper && y_lower < y_player)
+    void updateMass(float[,] changedMassFields)
+    {
+        for (int i = 0; i < changedMassFields.Length-1; i++)
         {
-            rigidbody.mass = rigidbody.mass * scale_mass;
+            // changedMassFields[i] = {x_left, x_right, y_lower, y_upper, new_mass}
+            float player_x = this.transform.position.x;
+            float player_y = this.transform.position.y;
+            if (changedMassFields[i, 0] < player_x && player_x < changedMassFields[i, 1]
+             && changedMassFields[i, 2] < player_x && player_x < changedMassFields[i, 3])
+            {
+                rigidbody.AddForce(new_mass* 100 * Vector3.down);
+                rigidbody.mass = changedMassFields[i, 4];
+                return;
+            }
         }
+        rigidbody.mass = old_mass;
+        return;
     }
 
     // Checks how far away the ground is and sets the Falling bool
