@@ -246,7 +246,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000053406, y: -466.86}
+  m_AnchoredPosition: {x: 0.000013072, y: -325}
   m_SizeDelta: {x: 450, y: 63.003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &67485872
@@ -312,6 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 325ff753185e0494da9ec1da9b813b16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AttackSlider: {fileID: 67485872}
 --- !u!1 &77177026
 GameObject:
   m_ObjectHideFlags: 0
@@ -2320,7 +2321,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.05, y: 0.03, z: 0.026818845}
   m_Center: {x: 0.0024885088, y: 0.0017519379, z: 0.008110841}
---- !u!114 &1099807664
+--- !u!114 &1099807668
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2332,6 +2333,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b44361e890cd1048bf85383f1a98a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentAttack: 0
+  maxAttack: 4
+  attack: {fileID: 67485873}
 --- !u!1 &1146062915
 GameObject:
   m_ObjectHideFlags: 0
