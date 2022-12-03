@@ -78,7 +78,7 @@ public class PlayerControl : MonoBehaviour
         changeEquipment();
 
         GroundCheck();
-
+        
         updateMass(gravityFields);
     }
 
