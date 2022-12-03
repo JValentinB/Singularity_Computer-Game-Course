@@ -6,30 +6,34 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-    private static int              FIELDS          = 1;
-    private static float            FIELDFACTOR     = 2.0f;
-    public  static float            START_MASS      = 75.0f;
-    private float                   WALK            = 0.4f;
-    private float                   RUN             = 3.0f;
-    private float                   SPRINT          = 4.0f;
+    //declare and initialize constants
+    [SerializeField] private static int     FIELDS          = 1;
+    [SerializeField] private static float   FIELDFACTOR     = 2.0f;
+    [SerializeField] private static float   START_MASS      = 75.0f;
+    [SerializeField] private float          WALK            = 0.4f;
+    [SerializeField] private float          RUN             = 3.0f;
+    [SerializeField] private float          SPRINT          = 4.0f;
+    [SerializeField] private int            JUMPFACTOR      = 200;
+    
 
-    [SerializeField] private float  walking_speed   = 0.4f;
-    [SerializeField] private float  running_speed   = 3.0f;
-    [SerializeField] private float  sprinting_speed = 4.0f;
-    [SerializeField] private float  jumpforce       = 14000;
-    [SerializeField] private int    airjumps        = 2;
 
-    private int                     jumpnumber;
-    private float                   speed;
+    //declare variables
+    private float           walking_speed;
+    private float           running_speed;
+    private float           sprinting_speed;
+    private float           jumpforce;
+    private float           speed;
+    private float           direction;
+    private float           lastPosY;
+    private int             jumpnumber;
+    private bool            jumpboots;
+    private Animator        animator;
+    private Rigidbody       rigidbody;
+    private GameObject      weapon;
 
-    private float                   direction       = -1;
-    private Animator                animator;
-    private Rigidbody               rigidbody;
-    private GameObject              weapon;
-    public  GameObject[]            gravityFields   = new GameObject[FIELDS];
 
-    private float                   lastPosY;
-    private float                   old_mass        = START_MASS;
+    [SerializeField] private int             airjumps;
+    [SerializeField] private GameObject[]    gravityFields = new GameObject[FIELDS];
 
 
 
@@ -45,10 +49,12 @@ public class PlayerControl : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         lastPosY = this.transform.position.y;
 
+        airjumps = 0;
         rigidbody.mass = START_MASS;
-
-        jumpnumber = airjumps;
-
+        jumpforce = START_MASS * JUMPFACTOR;
+        jumpnumber = jumpnum();
+        direction = -1;
+        jumpboots = false;
 
     }
 
@@ -59,7 +65,6 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         speedUpdate();
 
         walk_run_sprint();
@@ -158,10 +163,10 @@ public class PlayerControl : MonoBehaviour
         for (int i = 0; i < FIELDS; i++)
         {
             
-            if (gravityFields[i].transform.position.x - gravityFields[i].transform.localScale.x < player_x &&
-                gravityFields[i].transform.position.x + gravityFields[i].transform.localScale.x > player_x &&
-                gravityFields[i].transform.position.y - gravityFields[i].transform.localScale.y < player_x &&
-                gravityFields[i].transform.position.y + gravityFields[i].transform.localScale.y > player_x)
+            if (gravityFields[i].transform.position.x - gravityFields[i].transform.localScale.x * 0.5f < player_x &&
+                gravityFields[i].transform.position.x + gravityFields[i].transform.localScale.x * 0.5f > player_x &&
+                gravityFields[i].transform.position.y - gravityFields[i].transform.localScale.y * 0.5f < player_y &&
+                gravityFields[i].transform.position.y + gravityFields[i].transform.localScale.y * 0.5f > player_y)
             {
   
                 rigidbody.mass = 75.0f * FIELDFACTOR;
@@ -169,7 +174,7 @@ public class PlayerControl : MonoBehaviour
                 return;
             }
         }
-        rigidbody.mass = old_mass;
+        rigidbody.mass = START_MASS;
         return;
     }
 
@@ -189,11 +194,25 @@ public class PlayerControl : MonoBehaviour
             else {
                 animator.SetBool("Falling", false);
                 // reset airjump number
-                jumpnumber = airjumps;
+                jumpnumber = jumpnum();
             }
 
 
 
         }
+    }
+
+    int jumpnum()
+    {
+        return airjumpnum() + 1;
+    }
+
+    int airjumpnum()
+    {
+        if (jumpboots)
+        {
+            return 1;
+        }
+        else return 0;
     }
 }

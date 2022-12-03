@@ -1385,12 +1385,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c88e7c60f2ba0b4ebf52da3614fc248, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  START_MASS: 75
-  walking_speed: 0.4
-  running_speed: 3
-  sprinting_speed: 4
-  jumpforce: 17500
-  airjumps: 1
+  WALK: 0.4
+  RUN: 3
+  SPRINT: 4
+  JUMPFACTOR: 200
+  airjumps: 0
   gravityFields:
   - {fileID: 2035012011}
 --- !u!1 &375402636
