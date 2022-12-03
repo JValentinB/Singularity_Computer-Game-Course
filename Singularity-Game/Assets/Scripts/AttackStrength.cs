@@ -10,12 +10,12 @@ public class AttackStrength : MonoBehaviour
 
     public void AttackInit(int attackStrength)
     {
-        slider.maxValue = attackStrength;
-        slider.value = 0;
+        AttackSlider.maxValue = attackStrength;
+        AttackSlider.value = 0;
     }
 
     public void SetAttack(int attack)
     {
-        slider.value = attack;
+        AttackSlider.value = attack;
     }
 }

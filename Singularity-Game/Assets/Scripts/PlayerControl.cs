@@ -74,8 +74,8 @@ public class PlayerControl : MonoBehaviour
             animator.SetInteger("Equipment", (3 + (animator.GetInteger("Equipment") - 1)) % 3);
         }
         // Show equipped Weapon
-        //EquipWeapon(animator.GetInteger("Equipment"));
-        
+        EquipWeapon(animator.GetInteger("Equipment"));
+
 
         // Cant move on the z-Plane
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, 0);
@@ -120,7 +120,7 @@ public class PlayerControl : MonoBehaviour
             animator.SetLayerWeight(1, 1);
             animator.SetInteger("Attack", (animator.GetInteger("Attack") + 1) % 3);
         }
-        else if (Time.time - last_Attack > 0.5)
+        else if (Time.time - last_Attack > 1)
         {
             animator.SetLayerWeight(1, 0);
             animator.SetInteger("Attack", 0);
@@ -149,13 +149,13 @@ public class PlayerControl : MonoBehaviour
             Debug.Log("There is no enemy!");
         }
 
-    } 
-    //void EquipWeapon(int weapon)
-    //{
-    //    gun = GameObject.Find("Gun");
-    //    sword = GameObject.Find("Sword");
-    //    gun.GetComponent<MeshRenderer>().enabled = (weapon == 1);
-    //    sword.GetComponent<MeshRenderer>().enabled = (weapon == 2);
-    //    sword.GetComponent<BoxCollider>().enabled = (weapon == 2);
-    //}
+    }
+    void EquipWeapon(int weapon)
+    {
+        gun = GameObject.Find("Gun");
+        sword = GameObject.Find("Sword");
+        gun.GetComponent<MeshRenderer>().enabled = (weapon == 1);
+        sword.GetComponent<MeshRenderer>().enabled = (weapon == 2);
+        sword.GetComponent<BoxCollider>().enabled = (weapon == 2);
+    }
 }
