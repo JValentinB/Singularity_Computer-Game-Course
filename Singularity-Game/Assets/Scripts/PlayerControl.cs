@@ -30,9 +30,11 @@ public class PlayerControl : MonoBehaviour
 
     private float                   lastPosY;
     private float                   old_mass        = START_MASS;
-    
 
     
+
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -51,9 +53,11 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        walking_speed   = WALK   * START_MASS * 1 / rigidbody.mass;
-        running_speed   = RUN    * START_MASS * 1 / rigidbody.mass;
-        sprinting_speed = SPRINT * START_MASS * 1 / rigidbody.mass;
+
+        float ratio_mass_speed = START_MASS / rigidbody.mass;
+        walking_speed = WALK * ratio_mass_speed;
+        running_speed = RUN * ratio_mass_speed;
+        sprinting_speed = SPRINT * ratio_mass_speed;
 
         // press shift to run fast
         if (Input.GetKey(KeyCode.LeftControl)) speed = walking_speed;
