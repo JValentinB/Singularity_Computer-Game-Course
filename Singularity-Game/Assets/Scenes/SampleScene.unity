@@ -1174,6 +1174,7 @@ MonoBehaviour:
   sprinting_speed: 8
   jumpforce: 400
   airjumps: 1000
+  cMF_length: 2
 --- !u!95 &362278212
 Animator:
   serializedVersion: 4
