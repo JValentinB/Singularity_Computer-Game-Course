@@ -6,23 +6,31 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-    [SerializeField] private float walking_speed = 0.4f;
-    [SerializeField] private float running_speed = 3.0f;
-    [SerializeField] private float sprinting_speed = 4.0f;
-    [SerializeField] private float jumpforce = 400;
-    [SerializeField] private int airjumps = 2;
-    private int jumpnumber;
-    private float speed;
+    private static int              FIELDS          = 1;
+    private static float            FIELDFACTOR     = 2.0f;
+    public  static float            START_MASS      = 75.0f;
+    private float                   WALK            = 0.4f;
+    private float                   RUN             = 3.0f;
+    private float                   SPRINT          = 4.0f;
 
-    private float direction = -1;
-    private Animator animator;
-    private Rigidbody rigidbody;
-    private GameObject weapon;
+    [SerializeField] private float  walking_speed   = 0.4f;
+    [SerializeField] private float  running_speed   = 3.0f;
+    [SerializeField] private float  sprinting_speed = 4.0f;
+    [SerializeField] private float  jumpforce       = 14000;
+    [SerializeField] private int    airjumps        = 2;
 
-    private float lastPosY;
-    private float old_mass = 75f;
-    public float[,] changedMassFields = { { 7.0f, 16.4f, -4.6f, -3.2f, 100.0f }, { 7.0f, 16.4f, 0f, 5f, 0.1f } };
-    public int cMF_length = 2;
+    private int                     jumpnumber;
+    private float                   speed;
+
+    private float                   direction       = -1;
+    private Animator                animator;
+    private Rigidbody               rigidbody;
+    private GameObject              weapon;
+    public  GameObject[]            gravityFields   = new GameObject[FIELDS];
+
+    private float                   lastPosY;
+    private float                   old_mass        = START_MASS;
+    
 
     
 
@@ -33,7 +41,7 @@ public class PlayerControl : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         lastPosY = this.transform.position.y;
 
-        rigidbody.mass = 75f;
+        rigidbody.mass = START_MASS;
 
         jumpnumber = airjumps;
 
@@ -43,9 +51,9 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        walking_speed = 0.4f * 1 / rigidbody.mass;
-        walking_speed = 0.4f * 1 / rigidbody.mass;
-        walking_speed = 0.4f * 1 / rigidbody.mass;
+        walking_speed   = WALK   * START_MASS * 1 / rigidbody.mass;
+        running_speed   = RUN    * START_MASS * 1 / rigidbody.mass;
+        sprinting_speed = SPRINT * START_MASS * 1 / rigidbody.mass;
 
         // press shift to run fast
         if (Input.GetKey(KeyCode.LeftControl)) speed = walking_speed;
@@ -61,20 +69,9 @@ public class PlayerControl : MonoBehaviour
         float landing = (animator.GetCurrentAnimatorStateInfo(0).IsName("Landing")) ? 0.5f : 1;
         var velocity = direction * Vector3.forward * Input.GetAxis("Horizontal") * landing * speed;
         transform.Translate(velocity * Time.deltaTime);
-        //rigidbody.AddForce(new Vector3(velocity.x,0,velocity.z) * rigidbody.mass * 100);
         animator.SetFloat("Speed", velocity.magnitude);
 
-
-        // Jumping and how many airjumps you can do
-        if (animator.GetBool("Jumping")) 
-            animator.SetBool("Jumping", false);
-        if (Input.GetKeyDown(KeyCode.Space) && jumpnumber > 0)
-        {
-            animator.SetTrigger("Jumping");
-            animator.SetBool("Falling", true);
-            rigidbody.AddForce(Vector3.up * jumpforce);
-            jumpnumber--;
-        }
+        jump();
 
         // Scroll Mouse Wheel to change Equipment
         if (Input.mouseScrollDelta.y != 0)
@@ -95,22 +92,39 @@ public class PlayerControl : MonoBehaviour
 
         GroundCheck();
 
-        updateMass(changedMassFields);
+        updateMass(gravityFields);
     }
 
-
-    void updateMass(float[,] changedMassFields)
+    void jump()
     {
-        for (int i = 0; i < cMF_length; i++)
+        // Jumping and how many airjumps you can do
+        if (animator.GetBool("Jumping"))
+            animator.SetBool("Jumping", false);
+        if (Input.GetKeyDown(KeyCode.Space) && jumpnumber > 0)
         {
-            // changedMassFields[i] = {x_left, x_right, y_lower, y_upper, new_mass}
-            float player_x = this.transform.position.x;
-            float player_y = this.transform.position.y;
-            if (changedMassFields[i, 0] < player_x && player_x < changedMassFields[i, 1]
-             && changedMassFields[i, 2] < player_y && player_y < changedMassFields[i, 3])
+            animator.SetTrigger("Jumping");
+            animator.SetBool("Falling", true);
+            rigidbody.AddForce(Vector3.up * jumpforce);
+            jumpnumber--;
+        }
+    }
+
+    // checks if player is in a GravityField and changes mass, if necessary
+    void updateMass(GameObject[] gravityFields)
+    {
+        float player_x = this.transform.position.x;
+        float player_y = this.transform.position.y;
+
+        for (int i = 0; i < FIELDS; i++)
+        {
+            
+            if (gravityFields[i].transform.position.x - gravityFields[i].transform.localScale.x < player_x &&
+                gravityFields[i].transform.position.x + gravityFields[i].transform.localScale.x > player_x &&
+                gravityFields[i].transform.position.y - gravityFields[i].transform.localScale.y < player_x &&
+                gravityFields[i].transform.position.y + gravityFields[i].transform.localScale.y > player_x)
             {
   
-                rigidbody.mass = changedMassFields[i, 4];
+                rigidbody.mass = 75.0f * FIELDFACTOR;
                 Console.WriteLine(rigidbody.mass);
                 return;
             }
