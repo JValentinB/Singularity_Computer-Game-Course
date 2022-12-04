@@ -119,7 +119,7 @@ public class Suicider_01 : MonoBehaviour
 
     //Adjusting height diff between player.pos and enemy.pos
     private Vector3 SwitchAxisToPlayer(Vector3 vec){
-        return new Vector3(vec.x, vec.y+1.591f, vec.z);
+        return new Vector3(vec.x, vec.y, vec.z);
     }
 
     //Give player damage 

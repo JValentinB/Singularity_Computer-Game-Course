@@ -7,7 +7,8 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
     //declare and initialize constants
-    [SerializeField] private static int     FIELDS          = 1;
+    [SerializeField] private static int     FIELDS          = 0;
+    [SerializeField] private static float[] FIELDFACTORS = new float[FIELDS];
     [SerializeField] private static float   FIELDFACTOR     = 2.0f;
     [SerializeField] private static float   START_MASS      = 75.0f;
     [SerializeField] private float          WALK            = 0.4f;
@@ -57,6 +58,9 @@ public class PlayerControl : MonoBehaviour
         direction = -1;
         jumpboots = false;
 
+        //FIELDFACTORS[0] = 2.0f;
+        //FIELDFACTORS[1] = 0.5f;
+
     }
 
     //=========================================================================================================================================
@@ -78,9 +82,11 @@ public class PlayerControl : MonoBehaviour
 
         changeEquipment();
 
+        Attack();
+
         GroundCheck();
         
-        updateMass(gravityFields);
+        updateMass(gravityFields, FIELDFACTORS);
     }
 
     //=========================================================================================================================================
@@ -148,35 +154,25 @@ public class PlayerControl : MonoBehaviour
             animator.SetInteger("Equipment", (3 + (animator.GetInteger("Equipment") - 1)) % 3);
         }
         // Show equipped Weapon
-        if (animator.GetInteger("Equipment") == 0)
-        {
-            weapon = GameObject.Find("Gun");
-            weapon.GetComponent<MeshRenderer>().enabled = false;
-        }
-        if (animator.GetInteger("Equipment") == 1)
-        {
-            weapon = GameObject.Find("Gun");
-            weapon.GetComponent<MeshRenderer>().enabled = true;
-        }
         EquipWeapon(animator.GetInteger("Equipment"));
     }
 
     // checks if player is in a GravityField and changes mass, if necessary
-    void updateMass(GameObject[] gravityFields)
+    void updateMass(GameObject[] gravityFields, float[] FIELDFACTORS)
     {
         float player_x = this.transform.position.x;
         float player_y = this.transform.position.y;
 
         for (int i = 0; i < FIELDS; i++)
         {
-            
+
             if (gravityFields[i].transform.position.x - gravityFields[i].transform.localScale.x * 0.5f < player_x &&
                 gravityFields[i].transform.position.x + gravityFields[i].transform.localScale.x * 0.5f > player_x &&
                 gravityFields[i].transform.position.y - gravityFields[i].transform.localScale.y * 0.5f < player_y &&
                 gravityFields[i].transform.position.y + gravityFields[i].transform.localScale.y * 0.5f > player_y)
             {
-  
-                rigidbody.mass = 75.0f * FIELDFACTOR;
+
+                rigidbody.mass = START_MASS * FIELDFACTORS[i];
                 Console.WriteLine(rigidbody.mass);
                 return;
             }
@@ -221,6 +217,7 @@ public class PlayerControl : MonoBehaviour
             return 1;
         }
         else return 0;
+    }
 
     void Attack()
     {
