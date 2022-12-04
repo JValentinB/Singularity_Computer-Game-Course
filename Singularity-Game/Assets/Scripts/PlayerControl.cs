@@ -80,10 +80,7 @@ public class PlayerControl : MonoBehaviour
         // Cant move on the z-Plane
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, 0);
         
-        if (Input.GetMouseButtonDown(1))
-        {
-            EnemyPull();
-        }
+        
         Attack();
         GroundCheck();
     }
@@ -127,29 +124,7 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    void EnemyPull()
-    {
-        RaycastHit hit;
-        Ray ray = new Ray(transform.position + Vector3.up   , transform.TransformDirection(Vector3.forward));
-        LayerMask hitLayer = LayerMask.NameToLayer("Enemy");
-
-        Debug.DrawRay(transform.position + Vector3.up, transform.TransformDirection(Vector3.forward), Color.red, 5);
-
-        float sphereRadius = 2;
-        float maxDistance = 10;
-        int layerMask = (1 << hitLayer);
-        if (Physics.SphereCast(ray, sphereRadius, out hit, maxDistance, layerMask))
-        {
-            Debug.Log("There is an enemy!");
-            Rigidbody enemy = hit.rigidbody;
-            enemy.AddForce(transform.TransformDirection(Vector3.back) * 100);
-        }
-        else
-        {
-            Debug.Log("There is no enemy!");
-        }
-
-    }
+    
     void EquipWeapon(int weapon)
     {
         gun = GameObject.Find("Gun");
