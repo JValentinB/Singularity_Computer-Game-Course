@@ -29,8 +29,9 @@ public class PlayerControl : MonoBehaviour
     private bool            jumpboots;
     private Animator        animator;
     private Rigidbody       rigidbody;
-    private GameObject      weapon;
-
+    private GameObject gun;
+    private GameObject sword;
+    private float last_Attack; // Time since last Attack
 
     [SerializeField] private int             airjumps;
     [SerializeField] private GameObject[]    gravityFields = new GameObject[FIELDS];
@@ -105,8 +106,8 @@ public class PlayerControl : MonoBehaviour
     void directionChange()
     {
         // turn around
-        if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = 1;
-        if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = -1;
+        if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
+        if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
         this.transform.rotation = Quaternion.Euler(0, direction * 90, 0);
     }
 
@@ -122,7 +123,7 @@ public class PlayerControl : MonoBehaviour
     void jump()
     {
         // Jumping and how many airjumps you can do
-        if (animator.GetBool("Jumping"))
+        if (animator.GetBool("Jumping") && animator.GetBool("Falling")) 
             animator.SetBool("Jumping", false);
         if (Input.GetKeyDown(KeyCode.Space) && jumpnumber > 0)
         {
@@ -136,9 +137,15 @@ public class PlayerControl : MonoBehaviour
     void changeEquipment()
     {
         // Scroll Mouse Wheel to change Equipment
-        if (Input.mouseScrollDelta.y != 0)
+        animator.SetInteger("Current Equip", animator.GetInteger("Equipment"));
+
+        if (Input.mouseScrollDelta.y > 0)
         {
-            animator.SetInteger("Equipment", (animator.GetInteger("Equipment") + 1) % 2);
+            animator.SetInteger("Equipment", (animator.GetInteger("Equipment") + 1) % 3);
+        }
+        if (Input.mouseScrollDelta.y < 0)
+        {
+            animator.SetInteger("Equipment", (3 + (animator.GetInteger("Equipment") - 1)) % 3);
         }
         // Show equipped Weapon
         if (animator.GetInteger("Equipment") == 0)
@@ -151,7 +158,7 @@ public class PlayerControl : MonoBehaviour
             weapon = GameObject.Find("Gun");
             weapon.GetComponent<MeshRenderer>().enabled = true;
         }
-        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, 0);
+        EquipWeapon(animator.GetInteger("Equipment"));
     }
 
     // checks if player is in a GravityField and changes mass, if necessary
@@ -186,7 +193,7 @@ public class PlayerControl : MonoBehaviour
         Ray ray2 = new Ray(transform.position + new Vector3(-0.5f, 1, 0), new Vector3(0, -5, 0));
         RaycastHit hit1;
         RaycastHit hit2;
-        if (Physics.Raycast(ray1, out hit1) && Physics.Raycast(ray1, out hit2))
+        if (Physics.Raycast(ray1, out hit1) && Physics.Raycast(ray2, out hit2))
         {
             //print(hit1.collider.name + " " + hit1.distance);
             if (hit1.distance > falling_distance && hit2.distance > falling_distance)
@@ -214,5 +221,30 @@ public class PlayerControl : MonoBehaviour
             return 1;
         }
         else return 0;
+
+    void Attack()
+    {
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            last_Attack = Time.time;
+            animator.SetLayerWeight(1, 1);
+            animator.SetInteger("Attack", (animator.GetInteger("Attack") + 1) % 3);
+        }
+        else if (Time.time - last_Attack > 1)
+        {
+            animator.SetLayerWeight(1, 0);
+            animator.SetInteger("Attack", 0);
+        }
+    }
+
+    
+    void EquipWeapon(int weapon)
+    {
+        gun = GameObject.Find("Gun");
+        sword = GameObject.Find("Sword");
+        gun.GetComponent<MeshRenderer>().enabled = (weapon == 1);
+        sword.GetComponent<MeshRenderer>().enabled = (weapon == 2);
+        sword.GetComponent<BoxCollider>().enabled = (weapon == 2);
     }
 }
