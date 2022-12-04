@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//Enemy y = -1.603938
-//Player y = -0.01290798
-//Diff = 1,59103002
+//Enemy y = -2.069685
+//Player y = -0.01290846
+//Diff = 2,05677654
 
 public class Suicider_01 : MonoBehaviour
 {
@@ -13,9 +13,9 @@ public class Suicider_01 : MonoBehaviour
     [SerializeField] private float fov = 5f;
 
     [SerializeField] private float walking_speed = 1f;
-    [SerializeField] private float explForce = 9000f;
+    [SerializeField] private float explForce = 30000f;
     [SerializeField] private float explRadius = 30f;
-    [SerializeField] private float explUplift = 250f;
+    [SerializeField] private float explUplift = 200f;
     
     [SerializeField] private float done = 0;
     private bool dirRight = false;
@@ -113,10 +113,17 @@ public class Suicider_01 : MonoBehaviour
     //Should later be placed in enemy_lib
     private void Impact()
     {   
+        //Test diff between local and global position, is important in case of explosive
+        Debug.Log("Enemy: " + transform.position.x + " " + transform.position.y +" " + transform.position.z);
+        Debug.Log("Enemy local: " + transform.localPosition.x + " " + transform.localPosition.y +" " + transform.localPosition.z);
+        Debug.Log("Player: " + player.position.x + " " + player.position.y +" " + player.position.z);
+        Debug.Log("Player local: " + player.localPosition.x + " " + player.localPosition.y +" " + player.localPosition.z);
+
         var enemyPos = SwitchAxisToPlayer(transform.position);
         
         playerRigid.velocity = Vector3.zero;
         playerRigid.AddExplosionForce(explForce, enemyPos, explRadius, explUplift);
+
         DamagePlayer(50);
         onCooldown = true;
 
@@ -125,7 +132,7 @@ public class Suicider_01 : MonoBehaviour
 
     //Adjusting height diff between player.pos and enemy.pos
     private Vector3 SwitchAxisToPlayer(Vector3 vec){
-        return new Vector3(vec.x, vec.y+1.591f, vec.z);
+        return new Vector3(vec.x, vec.y, vec.z);
     }
 
     //Give player damage 
