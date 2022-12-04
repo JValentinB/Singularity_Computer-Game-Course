@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
     //declare and initialize constants
+    [SerializeField] public int     HEALTH          = 200;
     [SerializeField] private static int     FIELDS          = 0;
     [SerializeField] private static float[] FIELDFACTORS = new float[FIELDS];
     [SerializeField] private static float   FIELDFACTOR     = 2.0f;
