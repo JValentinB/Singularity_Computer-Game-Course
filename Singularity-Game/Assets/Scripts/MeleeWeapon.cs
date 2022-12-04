@@ -32,7 +32,6 @@ public class MeleeWeapon : MonoBehaviour
             enemy.takeDamage(damagePerHit);
             enemy.tookDamage = true;
             other.GetComponent<Renderer>().material.color = Color.red;
-            Debug.Log(other.GetComponent<Renderer>().material.color);
         }
     }
 
@@ -52,7 +51,7 @@ public class MeleeWeapon : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Mouse1))
         {
             attackTimer = 0;
-            currentAttack
+            currentAttack = 0;
         }
     }
 

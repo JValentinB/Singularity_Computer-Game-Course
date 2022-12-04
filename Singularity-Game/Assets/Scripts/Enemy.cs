@@ -12,25 +12,29 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         defaultColor = this.GetComponent<Renderer>().material.color;
-        
+        lastTimeHit = float.PositiveInfinity;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Time.time - lastTimeHit > 0.5f)
+        // color enemy red when hit
+        if (Time.time - lastTimeHit > 0.2f && tookDamage)
         {
             tookDamage = false;
+            lastTimeHit = float.PositiveInfinity;
             this.GetComponent<Renderer>().material.color = defaultColor;
         }
-        if (healthPoints <= 0)
-        {
-            this.GetComponent<MeshRenderer>().enabled = false;
-        }
-        if (tookDamage)
+        if (tookDamage && lastTimeHit == float.PositiveInfinity)
         {
             lastTimeHit = Time.time;
             this.GetComponent<Renderer>().material.color = Color.red;
+        }
+
+
+        if (healthPoints <= 0  && Time.time - lastTimeHit > 0.1f)
+        {
+            this.GetComponent<MeshRenderer>().enabled = false;
         }
     }
 

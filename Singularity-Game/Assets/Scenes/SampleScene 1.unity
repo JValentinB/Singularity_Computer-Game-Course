@@ -1188,8 +1188,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.092770875, y: 0.05979916, z: 0.026818862}
-  m_Center: {x: 0.002488765, y: 0.0017517093, z: 0.008110816}
+  m_Size: {x: 0.03, y: 0.03, z: 0.02}
+  m_Center: {x: 0.002488765, y: 0.0017517093, z: 0.012}
 --- !u!114 &316465533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1204,6 +1204,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 362278210}
   damagePerHit: 40
+  currentAttack: 0
+  maxAttack: 4
+  attack: {fileID: 67485873}
 --- !u!1 &362278210 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
@@ -2350,39 +2353,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000503480}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1099807659 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -6935034308275055144, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
-  m_PrefabInstance: {fileID: 1933174793}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &1099807663
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1099807659}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.05, y: 0.03, z: 0.026818845}
-  m_Center: {x: 0.0024885088, y: 0.0017519379, z: 0.008110841}
---- !u!114 &1099807668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1099807659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b44361e890cd1048bf85383f1a98a19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentAttack: 0
-  maxAttack: 4
-  attack: {fileID: 67485873}
 --- !u!1 &1146062915
 GameObject:
   m_ObjectHideFlags: 0
