@@ -46,8 +46,8 @@ public class Suicider_01 : MonoBehaviour
         animator = GetComponent<Animator>();
 
         playerObject = GameObject.FindWithTag("Player");
-        playerRigid = GameObject.FindWithTag("Player").GetComponent<Rigidbody>();
-        player = GameObject.FindWithTag("Player").transform;
+        playerRigid = playerObject.GetComponent<Rigidbody>();
+        player = playerObject.transform;
         playerScript = playerObject.GetComponent<PlayerControl>();
     }
 
@@ -112,15 +112,12 @@ public class Suicider_01 : MonoBehaviour
     //Creates knockback on hit (later on with force as parameter)
     //Should later be placed in enemy_lib
     private void Impact()
-    {   
-        //Test diff between local and global position, is important in case of explosive
-        Debug.Log("Enemy: " + transform.position.x + " " + transform.position.y +" " + transform.position.z);
-        Debug.Log("Enemy local: " + transform.localPosition.x + " " + transform.localPosition.y +" " + transform.localPosition.z);
-        Debug.Log("Player: " + player.position.x + " " + player.position.y +" " + player.position.z);
-        Debug.Log("Player local: " + player.localPosition.x + " " + player.localPosition.y +" " + player.localPosition.z);
+    {  
+        printPositions();
+        //Don't ask me why AddExplosionForce works with those 2 lines, unity is retarded
+        var forceDir = player.transform.position - transform.position;
+        var enemyPos = player.transform.position + forceDir;
 
-        var enemyPos = SwitchAxisToPlayer(transform.position);
-        
         playerRigid.velocity = Vector3.zero;
         playerRigid.AddExplosionForce(explForce, enemyPos, explRadius, explUplift);
 
@@ -132,7 +129,7 @@ public class Suicider_01 : MonoBehaviour
 
     //Adjusting height diff between player.pos and enemy.pos
     private Vector3 SwitchAxisToPlayer(Vector3 vec){
-        return new Vector3(vec.x, vec.y, vec.z);
+        return new Vector3(vec.x, vec.y-1.17f, vec.z);
     }
 
     //Give player damage 
@@ -145,6 +142,15 @@ public class Suicider_01 : MonoBehaviour
     //Should later be placed in enemy_lib
     private void DestroyNPC(){
         gameObject.SetActive(false);
+    }
+
+    //Debugging purpose, prints global and local positions of this object and player
+    private void printPositions(){
+        //Test diff between local and global position, is important in case of explosive
+        Debug.Log("Enemy: " + transform.position.x + " " + transform.position.y +" " + transform.position.z);
+        Debug.Log("Enemy local: " + transform.localPosition.x + " " + transform.localPosition.y +" " + transform.localPosition.z);
+        Debug.Log("Player: " + player.position.x + " " + player.position.y +" " + player.position.z);
+        Debug.Log("Player local: " + player.localPosition.x + " " + player.localPosition.y +" " + player.localPosition.z);
     }
 }
 
