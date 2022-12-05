@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MeleeWeapon : MonoBehaviour
 {
-    [SerializeField ]GameObject player;
+    [SerializeField] GameObject player;
     [SerializeField] int damagePerHit = 40;
     public int currentAttack = 0;
     public int maxAttack = 100;
@@ -30,6 +30,7 @@ public class MeleeWeapon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //Suicider enemy = other.GetComponent<Suicider>();
         Enemy enemy = other.GetComponent<Enemy>();
         if (other.gameObject.layer == 6 && player.GetComponent<Animator>().GetInteger("Attack") > 0)
         {

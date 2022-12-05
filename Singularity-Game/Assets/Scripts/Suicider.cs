@@ -6,9 +6,9 @@ using UnityEngine;
 //Player y = -0.01290846
 //Diff = 2,05677654
 
-public class Suicider_01 : MonoBehaviour
+public class Suicider : MonoBehaviour
 {
-    [SerializeField] private float health = 100f; //Useless till it can be damaged
+    [SerializeField] private float health = 100f;
     [SerializeField] private float cooldown = 2f;
     [SerializeField] private float fov = 5f;
 
@@ -142,6 +142,11 @@ public class Suicider_01 : MonoBehaviour
     //Should later be placed in enemy_lib
     private void DestroyNPC(){
         gameObject.SetActive(false);
+    }
+
+    public void takeDamage(int damage)
+    {
+        health -= damage;
     }
 
     //Debugging purpose, prints global and local positions of this object and player

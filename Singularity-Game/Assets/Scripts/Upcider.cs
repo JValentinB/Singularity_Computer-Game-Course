@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class Upcider : MonoBehaviour
 {
-    [SerializeField] private float health = 100f; 
+    [SerializeField] private int health = 100; 
     [SerializeField] private float cooldown = 2f;
     [SerializeField] private float fov = 5f;
 
@@ -146,6 +146,11 @@ public class Upcider : MonoBehaviour
         playerRigid.useGravity = false;
         playerScript.positionAtImpact = player.transform.position;
         playerScript.reverse = true;
+    }
+
+    public void takeDamage(int damage)
+    {
+        health -= damage;
     }
 
     //Debugging purpose, prints global and local positions of this object and player

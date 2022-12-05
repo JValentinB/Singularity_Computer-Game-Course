@@ -148,11 +148,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 285522ed8b268f544a669d96b3eedbfb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.18
+      value: -2.94
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 285522ed8b268f544a669d96b3eedbfb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.8
+      value: 0.73
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 285522ed8b268f544a669d96b3eedbfb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -212,7 +212,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 285522ed8b268f544a669d96b3eedbfb, type: 3}
       propertyPath: m_Name
-      value: suicider_01
+      value: suicider
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 285522ed8b268f544a669d96b3eedbfb, type: 3}
       propertyPath: m_Layer
@@ -1363,7 +1363,6 @@ MonoBehaviour:
   SPRINT: 4
   JUMPFACTOR: 500
   reverse: 0
-  reversed: 0
   positionAtImpact: {x: 0, y: 0, z: 0}
   airjumps: 1000
   gravityFields: []
@@ -2213,7 +2212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fcef7e23b47a994d907b3246d900313, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 50
   cooldown: 2
   fov: 5
   walking_speed: 1
@@ -4544,11 +4543,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 285522ed8b268f544a669d96b3eedbfb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -18.37
+      value: 0.68
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 285522ed8b268f544a669d96b3eedbfb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.88
+      value: 0.62
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 285522ed8b268f544a669d96b3eedbfb, type: 3}
       propertyPath: m_LocalPosition.z
