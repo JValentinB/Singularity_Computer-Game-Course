@@ -229,7 +229,6 @@ public class PlayerControl : MonoBehaviour
 
     void Attack()
     {
-
         if (Input.GetMouseButtonDown(0))
         {
             last_Attack = Time.time;
@@ -253,6 +252,8 @@ public class PlayerControl : MonoBehaviour
         sword.GetComponent<BoxCollider>().enabled = (weapon == 2);
     }
 
+    //Removes gravity from player and flips him after 3f
+    //Needs position of moment of impact as parameter
     //Gotta implement a smooth rotation here
     public void ReversedGravity(Vector3 pos){
         var rotationSmooth = 3f;

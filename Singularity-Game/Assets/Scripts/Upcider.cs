@@ -113,9 +113,7 @@ public class Upcider : MonoBehaviour
     //Should later be placed in enemy_lib
     private void Impact()
     {  
-        printPositions();
-        //Don't ask me why AddExplosionForce works with those 2 lines, unity is retarded
-        //var forceDir = player.transform.position - transform.position;
+        //printPositions();
         var enemyPos = new Vector3(player.transform.position.x, player.transform.position.y-1f, player.transform.position.z);
 
         playerRigid.velocity = Vector3.zero;

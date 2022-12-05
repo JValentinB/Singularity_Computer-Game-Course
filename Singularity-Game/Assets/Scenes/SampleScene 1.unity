@@ -148,11 +148,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 285522ed8b268f544a669d96b3eedbfb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -22.74
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 285522ed8b268f544a669d96b3eedbfb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.01
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 285522ed8b268f544a669d96b3eedbfb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -538,7 +538,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 77177026}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -117.26836, y: 1.6, z: -2.23}
+  m_LocalPosition: {x: -123.04, y: 1.74, z: -2.23}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1363,6 +1363,8 @@ MonoBehaviour:
   SPRINT: 4
   JUMPFACTOR: 500
   reverse: 0
+  reversed: 0
+  positionAtImpact: {x: 0, y: 0, z: 0}
   airjumps: 1000
   gravityFields: []
 --- !u!95 &362278212
@@ -1404,7 +1406,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 120
+  m_Constraints: 8
   m_CollisionDetection: 1
 --- !u!65 &362278215
 BoxCollider:
@@ -4542,11 +4544,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 285522ed8b268f544a669d96b3eedbfb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.17
+      value: -18.37
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 285522ed8b268f544a669d96b3eedbfb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.77
+      value: -5.88
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 285522ed8b268f544a669d96b3eedbfb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6197,8 +6199,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   cooldown: 2
-  fov: 20
-  walking_speed: 5
+  fov: 5
+  walking_speed: 1
   explForce: 30000
   explRadius: 30
   explUplift: 200
