@@ -7,7 +7,7 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
     //declare and initialize constants
-    [SerializeField] public int     HEALTH          = 200;
+    [SerializeField] public int             HEALTH          = 200;
     [SerializeField] private static int     FIELDS          = 0;
     [SerializeField] private static float[] FIELDFACTORS = new float[FIELDS];
     [SerializeField] private static float   FIELDFACTOR     = 2.0f;
@@ -31,9 +31,15 @@ public class PlayerControl : MonoBehaviour
     private bool            jumpboots;
     private Animator        animator;
     private Rigidbody       rigidbody;
-    private GameObject gun;
-    private GameObject sword;
-    private float last_Attack; // Time since last Attack
+    private GameObject      gun;
+    private GameObject      sword;
+    private float           last_Attack; // Time since last Attack
+
+    private bool            reversed = false;
+    public bool             reverse = false;
+    public Vector3          positionAtImpact = Vector3.zero;
+    private float           angle; 
+    private float           turned = 0f;
 
     [SerializeField] private int             airjumps;
     [SerializeField] private GameObject[]    gravityFields = new GameObject[FIELDS];
@@ -75,8 +81,10 @@ public class PlayerControl : MonoBehaviour
 
         walk_run_sprint();
 
-        directionChange();
+        ReversedGravity(positionAtImpact);
 
+        directionChange();
+        
         foo();
 
         jump();
@@ -113,9 +121,12 @@ public class PlayerControl : MonoBehaviour
     void directionChange()
     {
         // turn around
-        if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
-        if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
-        this.transform.rotation = Quaternion.Euler(0, direction * 90, 0);
+        if(!reverse){
+            if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
+            if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
+            if (!reversed) this.transform.rotation = Quaternion.Euler(0, direction * 90, 0);
+            else this.transform.rotation = Quaternion.Euler(180, direction * 90, 0);
+        }
     }
 
     void foo()
@@ -200,9 +211,6 @@ public class PlayerControl : MonoBehaviour
                 // reset airjump number
                 jumpnumber = jumpnum();
             }
-
-
-
         }
     }
 
@@ -222,7 +230,6 @@ public class PlayerControl : MonoBehaviour
 
     void Attack()
     {
-
         if (Input.GetMouseButtonDown(0))
         {
             last_Attack = Time.time;
@@ -244,5 +251,34 @@ public class PlayerControl : MonoBehaviour
         gun.GetComponent<MeshRenderer>().enabled = (weapon == 1);
         sword.GetComponent<MeshRenderer>().enabled = (weapon == 2);
         sword.GetComponent<BoxCollider>().enabled = (weapon == 2);
+    }
+
+    //Removes gravity from player and flips him after 3f
+    //Needs position of moment of impact as parameter
+    //Gotta implement a smooth rotation here
+    public void ReversedGravity(Vector3 pos){
+        var rotationSpeed = 100f;
+        var playerRotation = this.transform.rotation.x;
+
+        if(reverse && !reversed){
+            if (turned >= 250f){
+                angle = 0f;
+                reverse = false;
+                reversed = true;
+            }
+            else{
+                angle = 3f;
+                turned += angle;
+            }
+
+            if(this.transform.position.y >= pos.y+3f){
+                Debug.Log(angle);
+                Debug.Log(turned);
+                transform.Rotate(angle, 0, 0);
+            }
+        }
+        else if(reversed){
+            rigidbody.AddForce(Physics.gravity*-1);
+        }
     }
 }
