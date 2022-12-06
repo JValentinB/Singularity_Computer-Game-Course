@@ -40,6 +40,7 @@ public class PlayerControl : MonoBehaviour
     public Vector3          positionAtImpact = Vector3.zero;
     private float           angle; 
     private float           turned = 0f;
+    private float           ReversedGravityStrength = 2f; //Should maybe be applied to all gravity directions
 
     [SerializeField] private int             airjumps;
     [SerializeField] private GameObject[]    gravityFields = new GameObject[FIELDS];
@@ -125,7 +126,7 @@ public class PlayerControl : MonoBehaviour
             if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
             if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
             if (!reversed) this.transform.rotation = Quaternion.Euler(0, direction * 90, 0);
-            else this.transform.rotation = Quaternion.Euler(180, direction * 90, 0);
+            else this.transform.rotation = Quaternion.Euler(180, -1 * direction * 90, 0);
         }
     }
 
@@ -147,7 +148,7 @@ public class PlayerControl : MonoBehaviour
         {
             animator.SetTrigger("Jumping");
             animator.SetBool("Falling", true);
-            rigidbody.AddForce(Vector3.up * jumpforce);
+            rigidbody.AddForce((reversed ? Vector3.down : Vector3.up) * jumpforce);
             jumpnumber--;
         }
     }
@@ -279,6 +280,7 @@ public class PlayerControl : MonoBehaviour
         }
         else if(reversed){
             rigidbody.AddForce(Physics.gravity*-1);
+            rigidbody.AddForce(Vector3.up*START_MASS*ReversedGravityStrength);
         }
     }
 }
