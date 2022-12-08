@@ -61,7 +61,7 @@ public class PlayerControl : MonoBehaviour
         airjumps = 0;
         rigidbody.mass = START_MASS;
         jumpforce = START_MASS * JUMPFACTOR;
-        jumpnumber = jumpnum();
+        jumpnumber = jumpboots ? 10 : 5;
         direction = -1;
         jumpboots = false;
 
@@ -75,7 +75,7 @@ public class PlayerControl : MonoBehaviour
     //=========================================================================================================================================
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         speedUpdate();
 
@@ -87,8 +87,6 @@ public class PlayerControl : MonoBehaviour
         
         foo();
 
-        jump();
-
         changeEquipment();
 
         Attack();
@@ -96,10 +94,17 @@ public class PlayerControl : MonoBehaviour
         GroundCheck();
         
         updateMass(gravityFields, FIELDFACTORS);
+
+        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, 0);
+    }
+
+    void Update()
+    {
+        jump();
     }
 
     //=========================================================================================================================================
-                                                                                                                                         
+
     //=========================================================================================================================================
 
     void speedUpdate()
@@ -201,7 +206,10 @@ public class PlayerControl : MonoBehaviour
         Ray ray2 = new Ray(transform.position + new Vector3(-0.5f, 1, 0), new Vector3(0, -5, 0));
         RaycastHit hit1;
         RaycastHit hit2;
-        if (Physics.Raycast(ray1, out hit1) && Physics.Raycast(ray2, out hit2))
+
+        LayerMask hitLayer = LayerMask.NameToLayer("Ground");
+        int layerMask = (1 << hitLayer);
+        if (Physics.Raycast(ray1, out hit1, layerMask) && Physics.Raycast(ray2, out hit2, layerMask))
         {
             //print(hit1.collider.name + " " + hit1.distance);
             if (hit1.distance > falling_distance && hit2.distance > falling_distance)
@@ -209,23 +217,9 @@ public class PlayerControl : MonoBehaviour
             else {
                 animator.SetBool("Falling", false);
                 // reset airjump number
-                jumpnumber = jumpnum();
+                jumpnumber = jumpboots ? 10 : 5;
             }
         }
-    }
-
-    int jumpnum()
-    {
-        return airjumpnum() + 1;
-    }
-
-    int airjumpnum()
-    {
-        if (jumpboots)
-        {
-            return 1;
-        }
-        else return 0;
     }
 
     void Attack()

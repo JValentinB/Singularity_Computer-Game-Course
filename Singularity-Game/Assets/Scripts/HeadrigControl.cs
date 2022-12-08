@@ -20,6 +20,6 @@ public class HeadrigControl : MonoBehaviour
     void HeadControl() 
     {
         Vector3 position = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        this.transform.position = new Vector3(position.x, position.y, 0);
+        transform.position = new Vector3(position.x, position.y, 0);
     }
 }
