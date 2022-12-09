@@ -16,6 +16,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float          RUN             = 3.0f;
     [SerializeField] private float          SPRINT          = 4.0f;
     [SerializeField] private int            JUMPFACTOR      = 200;
+    [SerializeField] public XpManager       xpManager;
     
 
 
@@ -276,5 +277,8 @@ public class PlayerControl : MonoBehaviour
             rigidbody.AddForce(Physics.gravity*-1);
             rigidbody.AddForce(Vector3.up*START_MASS*ReversedGravityStrength);
         }
+    }
+    public void giveXp(int xp){
+        GetComponent<XpManager>().GainXp(xp);
     }
 }
