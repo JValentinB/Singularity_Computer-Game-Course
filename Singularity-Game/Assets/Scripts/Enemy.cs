@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] int healthPoints = 100;
+    private int xpPoints = 10001;
     Color defaultColor;
     public bool tookDamage = false;
     float lastTimeHit;
@@ -34,8 +35,15 @@ public class Enemy : MonoBehaviour
 
         if (healthPoints <= 0  && Time.time - lastTimeHit > 0.1f)
         {
+            PlayerControl player = GameObject.FindWithTag("Player").GetComponent<PlayerControl>();
+            player.giveXp(xpPoints);
             this.GetComponent<MeshRenderer>().enabled = false;
+            DestroyNPC();
         }
+    }
+
+    private void DestroyNPC(){
+        gameObject.SetActive(false);
     }
 
     public void takeDamage(int damage)
