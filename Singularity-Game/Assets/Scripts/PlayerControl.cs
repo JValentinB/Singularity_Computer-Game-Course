@@ -87,7 +87,7 @@ public class PlayerControl : MonoBehaviour
 
         directionChange();
         
-        foo();
+        moveCharacter();
 
         changeEquipment();
 
@@ -136,12 +136,17 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    void foo()
+    void moveCharacter()
     {
         // Running
         float landing = (animator.GetCurrentAnimatorStateInfo(0).IsName("Landing")) ? 0.5f : 1;
         var velocity = direction * Vector3.forward * Input.GetAxis("Horizontal") * landing * speed;
         transform.Translate(velocity * Time.deltaTime);
+
+        //float horizontalInput = Input.GetAxis("Horizontal");
+        //Vector3 movement = new Vector3(0, 0, horizontalInput);
+        //rigidbody.AddForce(movement * speed * 1000);
+
         animator.SetFloat("Speed", velocity.magnitude);
     }
 
