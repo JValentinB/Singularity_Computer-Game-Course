@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] int healthPoints = 100;
-    private int xpPoints = 10001;
+    private int xpPoints = 10;
     Color defaultColor;
     public bool tookDamage = false;
     float lastTimeHit;
