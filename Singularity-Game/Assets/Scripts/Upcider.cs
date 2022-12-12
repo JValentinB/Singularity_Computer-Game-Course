@@ -143,9 +143,7 @@ public class Upcider : MonoBehaviour
     }
 
     private void upciderAttack(){
-        playerRigid.useGravity = false;
-        playerScript.positionAtImpact = player.transform.position;
-        playerScript.reverse = true;
+        playerScript.shiftGravity(Vector3.up);
     }
 
     public void takeDamage(int damage)

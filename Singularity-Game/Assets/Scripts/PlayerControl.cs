@@ -36,12 +36,11 @@ public class PlayerControl : MonoBehaviour
     private GameObject      sword;
     private float           last_Attack; // Time since last Attack
 
-    private bool            reversed = false;
-    public bool             reverse = false;
-    public Vector3          positionAtImpact = Vector3.zero;
-    private float           angle; 
+    public bool             shift = false;
     private float           turned = 0f;
-    private float           ReversedGravityStrength = 2f; //Should maybe be applied to all gravity directions
+    private float           turnBy = 0f;
+    private float           gravityStrength = 16f;
+    public Vector3          gravitationalDirection = Vector3.down;
 
     [SerializeField] private int             airjumps;
     [SerializeField] private GameObject[]    gravityFields = new GameObject[FIELDS];
@@ -79,11 +78,13 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        ApplyGravity();
+
         speedUpdate();
 
         walk_run_sprint();
 
-        ReversedGravity(positionAtImpact);
+        animateRotation();
 
         directionChange();
         
@@ -109,6 +110,11 @@ public class PlayerControl : MonoBehaviour
 
     //=========================================================================================================================================
 
+    void ApplyGravity()
+    {
+        this.rigidbody.AddForce(gravitationalDirection * rigidbody.mass * gravityStrength);
+    }
+
     void speedUpdate()
     {
         float ratio_mass_speed = START_MASS / rigidbody.mass;
@@ -128,11 +134,14 @@ public class PlayerControl : MonoBehaviour
     void directionChange()
     {
         // turn around
-        if(!reverse){
+        if(!shift){
             if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
             if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
-            if (!reversed) this.transform.rotation = Quaternion.Euler(0, direction * 90, 0);
-            else this.transform.rotation = Quaternion.Euler(180, -1 * direction * 90, 0);
+
+            if(gravitationalDirection == Vector3.down) this.transform.rotation = Quaternion.Euler(0, direction * 90, 0);
+            else if(gravitationalDirection == Vector3.up) this.transform.rotation = Quaternion.Euler(180, direction * 90 * (-1), 0);
+            else if(gravitationalDirection == Vector3.right) this.transform.rotation = Quaternion.Euler(direction * 90  * (-1), -90, 0);
+            else if(gravitationalDirection == Vector3.left) this.transform.rotation = Quaternion.Euler(direction * 90, 90, 0);
         }
     }
 
@@ -159,7 +168,7 @@ public class PlayerControl : MonoBehaviour
         {
             animator.SetTrigger("Jumping");
             animator.SetBool("Falling", true);
-            rigidbody.AddForce((reversed ? Vector3.down : Vector3.up) * jumpforce);
+            rigidbody.AddForce((-1) * gravitationalDirection * jumpforce);
             jumpnumber--;
         }
     }
@@ -254,35 +263,45 @@ public class PlayerControl : MonoBehaviour
         sword.GetComponent<BoxCollider>().enabled = (weapon == 2);
     }
 
-    //Removes gravity from player and flips him after 3f
-    //Needs position of moment of impact as parameter
-    //Gotta implement a smooth rotation here
-    public void ReversedGravity(Vector3 pos){
-        var rotationSpeed = 100f;
-        var playerRotation = this.transform.rotation.x;
+    //Function used by other objects to shift gravity
+    public void shiftGravity(Vector3 direction){
+        rotateTo(direction);
+        this.gravitationalDirection = direction;
+    }
 
-        if(reverse && !reversed){
-            if (turned >= 250f){
-                angle = 0f;
-                reverse = false;
-                reversed = true;
+    private void rotateTo(Vector3 direction){
+        var rotationSpeed = 3f;
+        var currentDir = this.gravitationalDirection;
+        var degree = 0f;
+
+        if(direction == currentDir*(-1))
+            degree = 180f;
+        else if(direction.x == currentDir.y)
+            degree = 90f;
+        else if(direction.y == currentDir.x)
+            degree = -90f;
+
+        turnBy = degree;
+        shift = true;
+    }
+
+    private void animateRotation(){
+        if(shift){
+            var rotDir = (turnBy >= 0 ? 1 : -1);
+            var rotSpeed = turnBy/30f;
+
+            if(turned == turnBy * rotDir){
+                shift = false;
+                turned = 0f;
             }
             else{
-                angle = 3f;
-                turned += angle;
-            }
-
-            if(this.transform.position.y >= pos.y+3f){
-                Debug.Log(angle);
+                turned += rotSpeed * rotDir;
                 Debug.Log(turned);
-                transform.Rotate(angle, 0, 0);
+                this.transform.Rotate(rotSpeed * rotDir, 0f, 0f);
             }
-        }
-        else if(reversed){
-            rigidbody.AddForce(Physics.gravity*-1);
-            rigidbody.AddForce(Vector3.up*START_MASS*ReversedGravityStrength);
         }
     }
+
     public void giveXp(int xp){
         GetComponent<XpManager>().GainXp(xp);
     }
