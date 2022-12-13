@@ -36,9 +36,10 @@ public class PlayerControl : MonoBehaviour
     private GameObject      sword;
     private float           last_Attack; // Time since last Attack
 
+    //Rotation and Gravity shifting stuff
     public bool             shift = false;
-    private float           turned = 0f;
-    private float           turnBy = 0f;
+    private Vector3         targetDirection;
+    private Quaternion      targetRotation;
     private float           gravityStrength = 16f;
     public Vector3          gravitationalDirection = Vector3.down;
 
@@ -84,7 +85,7 @@ public class PlayerControl : MonoBehaviour
 
         walk_run_sprint();
 
-        animateRotation();
+        rotateToDirection();
 
         directionChange();
         
@@ -138,10 +139,10 @@ public class PlayerControl : MonoBehaviour
             if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
             if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
 
-            if(gravitationalDirection == Vector3.down) this.transform.rotation = Quaternion.Euler(0, direction * 90, 0);
-            else if(gravitationalDirection == Vector3.up) this.transform.rotation = Quaternion.Euler(180, direction * 90 * (-1), 0);
-            else if(gravitationalDirection == Vector3.right) this.transform.rotation = Quaternion.Euler(direction * 90  * (-1), -90, 0);
-            else if(gravitationalDirection == Vector3.left) this.transform.rotation = Quaternion.Euler(direction * 90, 90, 0);
+            if(gravitationalDirection == Vector3.down) this.transform.rotation = Quaternion.LookRotation(Vector3.right * direction, gravitationalDirection * (-1));
+            else if(gravitationalDirection == Vector3.up) this.transform.rotation = Quaternion.LookRotation(Vector3.left * direction, gravitationalDirection * (-1));
+            else if(gravitationalDirection == Vector3.right) this.transform.rotation = Quaternion.LookRotation(Vector3.up * direction, gravitationalDirection * (-1));
+            else if(gravitationalDirection == Vector3.left) this.transform.rotation = Quaternion.LookRotation(Vector3.down * direction, gravitationalDirection * (-1));
         }
     }
 
@@ -265,39 +266,22 @@ public class PlayerControl : MonoBehaviour
 
     //Function used by other objects to shift gravity
     public void shiftGravity(Vector3 direction){
-        rotateTo(direction);
+        targetDirection = direction;
+        shift = true;
         this.gravitationalDirection = direction;
     }
 
-    private void rotateTo(Vector3 direction){
-        var rotationSpeed = 3f;
-        var currentDir = this.gravitationalDirection;
-        var degree = 0f;
-
-        if(direction == currentDir*(-1))
-            degree = 180f;
-        else if(direction.x == currentDir.y)
-            degree = 90f;
-        else if(direction.y == currentDir.x)
-            degree = -90f;
-
-        turnBy = degree;
-        shift = true;
-    }
-
-    private void animateRotation(){
+    private void rotateToDirection(){
         if(shift){
-            var rotDir = (turnBy >= 0 ? 1 : -1);
-            var rotSpeed = turnBy/30f;
-
-            if(turned == turnBy * rotDir){
+            if(targetDirection == Vector3.down) targetRotation = Quaternion.LookRotation(Vector3.right * direction, gravitationalDirection * (-1));
+            else if(targetDirection == Vector3.up) targetRotation = Quaternion.LookRotation(Vector3.left * direction, gravitationalDirection * (-1));
+            else if(targetDirection == Vector3.right) targetRotation = Quaternion.LookRotation(Vector3.up * direction, gravitationalDirection * (-1));
+            else if(targetDirection == Vector3.left) targetRotation = Quaternion.LookRotation(Vector3.down * direction, gravitationalDirection * (-1));
+            
+            var rotSpeed = 5f;
+            this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, targetRotation, rotSpeed);
+            if(this.transform.rotation == targetRotation){
                 shift = false;
-                turned = 0f;
-            }
-            else{
-                turned += rotSpeed * rotDir;
-                Debug.Log(turned);
-                this.transform.Rotate(rotSpeed * rotDir, 0f, 0f);
             }
         }
     }
