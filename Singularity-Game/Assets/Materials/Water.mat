@@ -125,7 +125,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _High_Frequenzy: 100
+    - _High_Frequenzy: 197.2
     - _Metallic: 0
     - _Mode: 0
     - _Normal_Strength: 0
@@ -149,9 +149,9 @@ Material:
     - _WaterDepth: 3.7
     - _Water_Depth: 9.1
     - _WaveScale: 0.33
-    - _Wave_Amplitude: 2.04
-    - _Wave_Frequency: 15
-    - _Wave_Speed: 6.9
+    - _Wave_Amplitude: 1
+    - _Wave_Frequency: 71.7
+    - _Wave_Speed: 2.9
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.078497685, g: 0.30066326, b: 0.7924528, a: 1}
@@ -161,5 +161,5 @@ Material:
     - _RefractionScale: {r: 1, g: 1, b: 0, a: 0}
     - _Refraction_Scale_Vector: {r: 1, g: 1, b: 0, a: 0}
     - _ShallowWater: {r: 0.149, g: 0.7176471, b: 0.53863907, a: 0.54509807}
-    - _Shallow_Water: {r: 0, g: 0.67564654, b: 1, a: 0.4745098}
+    - _Shallow_Water: {r: 0, g: 0.707391, b: 1, a: 0.4745098}
   m_BuildTextureStacks: []
