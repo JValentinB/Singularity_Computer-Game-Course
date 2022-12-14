@@ -45,8 +45,8 @@ public class Suicider : Enemy
     }
 
     void FixedUpdate(){
+        ChangeLineOfSight();
         RotateGravity();
-        ChangeLineOfSight(Vector3.forward, Vector3.up);
         ApplyGravity();
         MoveEnemy();
     }

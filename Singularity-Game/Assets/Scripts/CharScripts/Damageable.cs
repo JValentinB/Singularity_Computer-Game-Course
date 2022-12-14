@@ -35,9 +35,9 @@ public class Damageable : MonoBehaviour
 
     public void RotateGravity(){
         if(shift){
-            if(targetDirection == Vector3.down) targetRotation = Quaternion.LookRotation(Vector3.right * direction, gravitationalDirection * (-1));
+            if(targetDirection == Vector3.down) targetRotation = Quaternion.LookRotation(Vector3.right * direction, gravitationalDirection * (-1));//right
             else if(targetDirection == Vector3.up) targetRotation = Quaternion.LookRotation(Vector3.left * direction, gravitationalDirection * (-1));
-            else if(targetDirection == Vector3.right) targetRotation = Quaternion.LookRotation(Vector3.up * direction, gravitationalDirection * (-1));
+            else if(targetDirection == Vector3.right) targetRotation = Quaternion.LookRotation(Vector3.up * direction, gravitationalDirection * (-1));//up
             else if(targetDirection == Vector3.left) targetRotation = Quaternion.LookRotation(Vector3.down * direction, gravitationalDirection * (-1));
             
             var rotSpeed = 5f;

@@ -44,7 +44,7 @@ public class Shiftcider : Enemy
 
     void FixedUpdate(){
         RotateGravity();
-        ChangeLineOfSight(Vector3.forward, Vector3.up);
+        ChangeLineOfSight();
         ApplyGravity();
         MoveEnemy();
     }

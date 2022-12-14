@@ -17,10 +17,12 @@ public class Enemy : Character
         if(InRange(sightRange) && !InRange(attackRange)){
             if(gravitationalDirection.x == 0){
                 direction = playerObject.transform.position.x - transform.position.x > 0 ? -1 : 1;
+                velocity = Vector3.left * currentSpeed;
             } else {
-                direction = playerObject.transform.position.y - transform.position.y > 0 ? -1 : 1; //??
+                direction = playerObject.transform.position.y - transform.position.y > 0 ? -1 : 1;
+                velocity = Vector3.left * currentSpeed;
             }
-            velocity = - Vector3.right * currentSpeed;
+            
         }
         transform.Translate(velocity * Time.deltaTime);
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);

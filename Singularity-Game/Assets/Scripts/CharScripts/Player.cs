@@ -24,7 +24,7 @@ public class Player : Character
 
     void FixedUpdate(){
         SpeedToggle();
-        ChangeLineOfSight(Vector3.right, Vector3.up);
+        ChangeLineOfSight();
         Turn();
         MovePlayer();
         GroundCheck();
@@ -56,8 +56,25 @@ public class Player : Character
     private void Turn()
     {
         // turn around
-        if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
-        if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
+        if(gravitationalDirection == Vector3.up){
+            if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
+            if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
+        }
+        else if(gravitationalDirection == Vector3.up){
+            if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = 1;
+            if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = -1;
+        }
+        /* 
+        else if(gravitationalDirection == Vector3.right){
+            if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
+            if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
+        }
+        else if(gravitationalDirection == Vector3.left){
+            if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
+            if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
+        }
+ */
+        
     }
 
     public void giveXp(int xp){
