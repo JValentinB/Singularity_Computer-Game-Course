@@ -113,7 +113,7 @@ public class PlayerControl : MonoBehaviour
 
     void ApplyGravity()
     {
-        this.rigidbody.AddForce(gravitationalDirection * rigidbody.mass * gravityStrength);
+        this.rigidbody.AddForce(gravitationalDirection * gravityStrength, ForceMode.Acceleration);
     }
 
     void speedUpdate()
@@ -149,10 +149,13 @@ public class PlayerControl : MonoBehaviour
     void moveCharacter()
     {
         // Running
-        float landing = (animator.GetCurrentAnimatorStateInfo(0).IsName("Landing")) ? 0.5f : 1;
+        float landing = (animator.GetCurrentAnimatorStateInfo(0).IsName("Landing")) ? 0.5f : 1; //!!!
+        Debug.Log("Jumping: " + animator.GetBool("Jumping"));
+        Debug.Log("Falling: " + animator.GetBool("Falling"));
+
         var velocity = direction * Vector3.forward * Input.GetAxis("Horizontal") * landing * speed;
         transform.Translate(velocity * Time.deltaTime);
-
+    
         //float horizontalInput = Input.GetAxis("Horizontal");
         //Vector3 movement = new Vector3(0, 0, horizontalInput);
         //rigidbody.AddForce(movement * speed * 1000);
@@ -160,18 +163,17 @@ public class PlayerControl : MonoBehaviour
         animator.SetFloat("Speed", velocity.magnitude);
     }
 
-    void jump()
+    void jump() //!!!
     {
         // Jumping and how many airjumps you can do
-        if (animator.GetBool("Jumping") && animator.GetBool("Falling")) 
+        if (animator.GetBool("Jumping") && rigidbody.velocity.y < 0f) 
+            animator.SetBool("Falling", true);
             animator.SetBool("Jumping", false);
         if (Input.GetKeyDown(KeyCode.Space) && jumpnumber > 0)
         {
-            animator.SetTrigger("Jumping");
-            animator.SetBool("Falling", true);
-            Debug.Log(jumpforce);
-            Debug.Log(gravityStrength);
-            rigidbody.velocity = Vector3.zero; //!!!
+            animator.SetBool("Jumping", true);
+            //animator.SetBool("Falling", true);
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z); //!!!
             rigidbody.AddForce((-1) * gravitationalDirection * jumpforce, ForceMode.Impulse); //!!!
             jumpnumber--;
         }
@@ -226,13 +228,14 @@ public class PlayerControl : MonoBehaviour
         Ray ray2 = new Ray(transform.position + new Vector3(-0.5f, 1, 0), new Vector3(0, -5, 0));
         RaycastHit hit1;
         RaycastHit hit2;
+        Debug.DrawRay(transform.position + new Vector3( 0.5f, 1, 0), new Vector3(0, -5, 0), Color.red);
 
         LayerMask hitLayer = LayerMask.NameToLayer("Ground");
         int layerMask = (1 << hitLayer);
         if (Physics.Raycast(ray1, out hit1, layerMask) && Physics.Raycast(ray2, out hit2, layerMask))
         {
             //print(hit1.collider.name + " " + hit1.distance);
-            if (hit1.distance > falling_distance && hit2.distance > falling_distance)
+            if (hit1.distance > falling_distance && hit2.distance > falling_distance && !animator.GetBool("Jumping")) //!!!
                 animator.SetBool("Falling", true);
             else {
                 animator.SetBool("Falling", false);

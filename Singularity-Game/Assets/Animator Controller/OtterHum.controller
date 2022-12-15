@@ -111,6 +111,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: Equipment
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Jumping
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: -6014923141994084953}
   m_DstState: {fileID: 0}
   m_Solo: 0
@@ -1489,7 +1492,7 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 7
+  - m_ConditionMode: 6
     m_ConditionEvent: Current Equip
     m_EventTreshold: 0
   - m_ConditionMode: 6
