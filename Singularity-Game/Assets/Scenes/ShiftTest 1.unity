@@ -1041,9 +1041,9 @@ MonoBehaviour:
   WALK: 0.4
   RUN: 3
   SPRINT: 8
-  JUMPFACTOR: 500
   xpManager: {fileID: 0}
   shift: 0
+  gravityStrength: 16
   gravitationalDirection: {x: 0, y: -1, z: 0}
   airjumps: 1000
   gravityFields: []
