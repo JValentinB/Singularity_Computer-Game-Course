@@ -25,6 +25,7 @@ public class Shift : MonoBehaviour
     {
         if(col.GetComponent<Collider>().tag == "Player"){
             playerScript.shiftGravity(direction);
+            //playerScript.gravityStrength = 5f;
         }
     }
 }

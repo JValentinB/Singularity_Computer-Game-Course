@@ -12,10 +12,10 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private static float[] FIELDFACTORS = new float[FIELDS];
     [SerializeField] private static float   FIELDFACTOR     = 2.0f;
     [SerializeField] private static float   START_MASS      = 75.0f;
+    [SerializeField] private static float   JUMPFACTOR      = 18000f;
     [SerializeField] private float          WALK            = 0.4f;
     [SerializeField] private float          RUN             = 3.0f;
     [SerializeField] private float          SPRINT          = 4.0f;
-    [SerializeField] private int            JUMPFACTOR      = 200;
     [SerializeField] public XpManager       xpManager;
     
 
@@ -40,7 +40,7 @@ public class PlayerControl : MonoBehaviour
     public bool             shift = false;
     private Vector3         targetDirection;
     private Quaternion      targetRotation;
-    private float           gravityStrength = 16f;
+    public float            gravityStrength = 16f;
     public Vector3          gravitationalDirection = Vector3.down;
 
     [SerializeField] private int             airjumps;
@@ -62,7 +62,7 @@ public class PlayerControl : MonoBehaviour
 
         airjumps = 0;
         rigidbody.mass = START_MASS;
-        jumpforce = START_MASS * JUMPFACTOR;
+        jumpforce = JUMPFACTOR;
         jumpnumber = jumpboots ? 10 : 5;
         direction = -1;
         jumpboots = false;
@@ -169,7 +169,8 @@ public class PlayerControl : MonoBehaviour
         {
             animator.SetTrigger("Jumping");
             animator.SetBool("Falling", true);
-            rigidbody.AddForce((-1) * gravitationalDirection * jumpforce);
+            Debug.Log(jumpforce);
+            rigidbody.AddForce((-1) * gravitationalDirection * Mathf.Sqrt(2 * jumpforce * gravityStrength), ForceMode.Impulse);
             jumpnumber--;
         }
     }
