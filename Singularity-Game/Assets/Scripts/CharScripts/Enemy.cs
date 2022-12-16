@@ -16,22 +16,24 @@ public class Enemy : Character
         var velocity = Vector3.zero;
         if(InRange(sightRange) && !InRange(attackRange)){
             if(gravitationalDirection.x == 0){
-                direction = playerObject.transform.position.x - transform.position.x > 0 ? -1 : 1;
-                velocity = Vector3.left * currentSpeed;
+                direction = playerObject.transform.position.x - transform.position.x > 0 ? 1 : -1;
             } else {
-                direction = playerObject.transform.position.y - transform.position.y > 0 ? -1 : 1;
-                velocity = Vector3.left * currentSpeed;
+                direction = playerObject.transform.position.y - transform.position.y > 0 ? 1 : -1;
             }
-            
+            velocity = Vector3.left * currentSpeed;
         }
         transform.Translate(velocity * Time.deltaTime);
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
 
+
     public void OnDeath(){
-        playerObject.GetComponent<Player>().giveXp(xp);
-        //...drop Items...
-        //...animation...
-        gameObject.SetActive(false);
+        if(currentHealth <= 0){
+            currentHealth = 0;
+            playerObject.GetComponent<Player>().giveXp(xp);
+            //...drop Items...
+            //...animation...
+            gameObject.SetActive(false);
+        } 
     }
 }

@@ -24,10 +24,10 @@ public class Character : Damageable
 
     public void ChangeLineOfSight(){
         if(!shift){
-            if(gravitationalDirection == Vector3.down) transform.rotation = Quaternion.LookRotation(Vector3.right * direction, gravitationalDirection * (-1));
-            else if(gravitationalDirection == Vector3.up) transform.rotation = Quaternion.LookRotation(Vector3.left * direction, gravitationalDirection * (-1));
-            else if(gravitationalDirection == Vector3.right) transform.rotation = Quaternion.LookRotation(Vector3.up * direction, gravitationalDirection * (-1));
-            else if(gravitationalDirection == Vector3.left) transform.rotation = Quaternion.LookRotation(Vector3.down * direction, gravitationalDirection * (-1));
+            if(gravitationalDirection == Vector3.down) transform.rotation = Quaternion.LookRotation(Vector3.back * direction, gravitationalDirection * (-1));
+            else if(gravitationalDirection == Vector3.up) transform.rotation = Quaternion.LookRotation(Vector3.forward * direction, gravitationalDirection * (-1));
+            else if(gravitationalDirection == Vector3.right) transform.rotation = Quaternion.LookRotation(Vector3.back * direction, gravitationalDirection * (-1));
+            else if(gravitationalDirection == Vector3.left) transform.rotation = Quaternion.LookRotation(Vector3.forward * direction, gravitationalDirection * (-1));
         }
     }
 

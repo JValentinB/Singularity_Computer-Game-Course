@@ -16,6 +16,7 @@ public class Player : Character
         sprintSpeed = 4.0f;
         mass = 75.0f;
         gravitationalDirection = Vector3.down;
+        direction = 1;
         jumpForce = mass * jumpFactor;
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
@@ -60,11 +61,10 @@ public class Player : Character
             if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
             if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
         }
-        else if(gravitationalDirection == Vector3.up){
+        else if(gravitationalDirection == Vector3.down){
             if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = 1;
             if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = -1;
         }
-        /* 
         else if(gravitationalDirection == Vector3.right){
             if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
             if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
@@ -72,10 +72,8 @@ public class Player : Character
         else if(gravitationalDirection == Vector3.left){
             if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
             if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
-        }
- */
-        
-    }
+    }        
+}
 
     public void giveXp(int xp){
         GetComponent<XpManager>().GainXp(xp);

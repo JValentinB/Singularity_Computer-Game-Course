@@ -54,6 +54,7 @@ public class Suicider : Enemy
     void Update(){
         attacking = InRange(attackRange);
         BoomAttack();
+        OnDeath();
     }
 
     public void BoomAttack(){
@@ -61,7 +62,6 @@ public class Suicider : Enemy
             if(done >= cooldown) {
                 //Speichernutzung? OverlapSphereNoAlloc...?
                 var hitColliders = Physics.OverlapSphere(transform.position, attackRange);
-                OnDeath();
                 foreach (var hitCollider in hitColliders){
                     var hitObject = hitCollider.gameObject;
                     if(hitObject.GetComponent<Damageable>()){
@@ -70,9 +70,11 @@ public class Suicider : Enemy
                         hitObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
                         hitObject.GetComponent<Rigidbody>().AddExplosionForce(explForce, enemyPos, explRadius, explUplift);
                         if(hitObject.GetComponent<Suicider>()){
-                            hitObject.GetComponent<Suicider>().xp = 0;
-                            hitObject.GetComponent<Suicider>().done = 1;
-                            hitObject.GetComponent<Suicider>().triggered = true;
+                            if(!hitObject.GetComponent<Suicider>().triggered && hitObject.GetComponent<Suicider>().done < 1.4f){
+                                hitObject.GetComponent<Suicider>().xp = 0;
+                                hitObject.GetComponent<Suicider>().done = 1;
+                                hitObject.GetComponent<Suicider>().triggered = true;
+                            }
                         } else {
                             xp = InRange(attackRange) ? 0 : xp;
                             hitObject.GetComponent<Damageable>().ApplyDamage((int)Mathf.Floor(Crit() * 50));
