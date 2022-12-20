@@ -1043,7 +1043,7 @@ MonoBehaviour:
   SPRINT: 8
   xpManager: {fileID: 0}
   shift: 0
-  gravityStrength: 16
+  gravityStrength: 27
   gravitationalDirection: {x: 0, y: -1, z: 0}
   airjumps: 1000
   gravityFields: []
