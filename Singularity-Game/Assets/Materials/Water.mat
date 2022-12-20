@@ -139,7 +139,7 @@ Material:
     - _Refraction_Scale: 31.36
     - _Refraction_Speed: -3.4
     - _Refraction_Strength: 2.3
-    - _Smoothness: 0.23
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _Somethin: 0
     - _SpecularHighlights: 1
@@ -147,7 +147,7 @@ Material:
     - _SrcBlend: 1
     - _UVSec: 0
     - _WaterDepth: 3.7
-    - _Water_Depth: 9.1
+    - _Water_Depth: 10.3
     - _WaveScale: 0.33
     - _Wave_Amplitude: 1
     - _Wave_Frequency: 71.7
@@ -156,10 +156,10 @@ Material:
     m_Colors:
     - _Color: {r: 0.078497685, g: 0.30066326, b: 0.7924528, a: 1}
     - _DeepWater: {r: 0.23762906, g: 0.28280956, b: 0.5660378, a: 0.8862745}
-    - _Deep_Water: {r: 0.15138839, g: 0.21521321, b: 0.509434, a: 0.49019608}
+    - _Deep_Water: {r: 0.16113387, g: 0.21739729, b: 0.4811321, a: 0.35686275}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _RefractionScale: {r: 1, g: 1, b: 0, a: 0}
     - _Refraction_Scale_Vector: {r: 1, g: 1, b: 0, a: 0}
     - _ShallowWater: {r: 0.149, g: 0.7176471, b: 0.53863907, a: 0.54509807}
-    - _Shallow_Water: {r: 0, g: 0.707391, b: 1, a: 0.4745098}
+    - _Shallow_Water: {r: 0.2783019, g: 0.78773564, b: 1, a: 0.21960784}
   m_BuildTextureStacks: []
