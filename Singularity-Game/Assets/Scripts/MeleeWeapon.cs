@@ -31,7 +31,7 @@ public class MeleeWeapon : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Suicider enemy = other.GetComponent<Suicider>();
-        Enemy enemy = other.GetComponent<Enemy>();
+        Enemy_ enemy = other.GetComponent<Enemy_>();
         if (other.gameObject.layer == 6 && player.GetComponent<Animator>().GetInteger("Attack") > 0)
         {
             enemy.takeDamage(damagePerHit);

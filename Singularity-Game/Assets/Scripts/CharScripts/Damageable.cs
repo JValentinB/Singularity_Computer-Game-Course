@@ -2,18 +2,56 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Damageable
+public class Damageable : MonoBehaviour
 {
-    int maxHealth { get; }  
-    int currentHealth { get; set; }
+    public int currentHealth, maxHealth, direction;
+    public bool shift = false;
+    public float gravityStrength = 16f;
+    public Quaternion targetRotation;
+    public Vector3 targetDirection, gravitationalDirection;
+    public Animator animator;
+    public Rigidbody rigidbody;
+    public void OnDeath(){}
+    //public InventoryManager inventory = new InventoryManager
 
-    public Damageable(int maxHealth)
-    {
-        this.maxHealth = maxHealth;
-        this.currentHealth = maxHealth;
+    
+    public void ApplyDamage(int damage){
+        currentHealth -= damage;
+        if(currentHealth <= 0){
+            OnDeath();
+        }
     }
-    void ApplyDamage(int damage)
+
+    public void ApplyGravity()
     {
-        this.currentHealth -= damage;
+        rigidbody.AddForce(gravitationalDirection * rigidbody.mass * gravityStrength);
+    }
+
+    public void ShiftGravity(Vector3 shiftDirection){
+        targetDirection = shiftDirection;
+        shift = true;
+        gravitationalDirection = shiftDirection;
+    }
+
+    public void RotateGravity(){
+        if(shift){
+            if(targetDirection == Vector3.down) targetRotation = Quaternion.LookRotation(Vector3.right * direction, gravitationalDirection * (-1));
+            else if(targetDirection == Vector3.up) targetRotation = Quaternion.LookRotation(Vector3.left * direction, gravitationalDirection * (-1));
+            else if(targetDirection == Vector3.right) targetRotation = Quaternion.LookRotation(Vector3.up * direction, gravitationalDirection * (-1));
+            else if(targetDirection == Vector3.left) targetRotation = Quaternion.LookRotation(Vector3.down * direction, gravitationalDirection * (-1));
+            
+            var rotSpeed = 5f;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotSpeed);
+            if(transform.rotation == targetRotation){
+                shift = false;
+            }
+        }
+    }
+
+    public void Wait(float time){
+        var counter = 0f;
+        while (counter < time) {
+            counter += Time.deltaTime;
+        }
     }
 }

@@ -15,7 +15,7 @@ public class Upcider : MonoBehaviour
     [SerializeField] private float walking_speed = 1f;
     [SerializeField] private float explForce = 0f;
     [SerializeField] private float explRadius = 3f;
-    [SerializeField] private float explUplift = 1f;
+    [SerializeField] private float explUplift = 0.1f;
     
     [SerializeField] private float done = 0;
     private bool dirRight = false;
@@ -35,7 +35,7 @@ public class Upcider : MonoBehaviour
     private GameObject playerObject;
     private Transform player;
     private Rigidbody playerRigid;
-    private PlayerControl playerScript;
+    private Player playerScript;
 
     // Start is called before the first frame update
     void Start()
@@ -48,7 +48,7 @@ public class Upcider : MonoBehaviour
         playerObject = GameObject.FindWithTag("Player");
         playerRigid = playerObject.GetComponent<Rigidbody>();
         player = playerObject.transform;
-        playerScript = playerObject.GetComponent<PlayerControl>();
+        playerScript = playerObject.GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -133,7 +133,7 @@ public class Upcider : MonoBehaviour
     //Give player damage 
     //Should later be placed in enemy_lib
     private void DamagePlayer(int dmg){
-        playerScript.HEALTH -= 50;
+        playerScript.ApplyDamage(dmg);
     }
     
     //Destroy selected NPC / Enemy (later on with specific gameObject as parameter)
@@ -143,9 +143,7 @@ public class Upcider : MonoBehaviour
     }
 
     private void upciderAttack(){
-        playerRigid.useGravity = false;
-        playerScript.positionAtImpact = player.transform.position;
-        playerScript.reverse = true;
+        playerScript.ShiftGravity(Vector3.up);
     }
 
     public void takeDamage(int damage)
