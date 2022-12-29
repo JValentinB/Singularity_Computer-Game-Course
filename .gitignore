@@ -61,3 +61,5 @@ crashlytics-build.properties
 
 Singularity-Game/UserSettings/Layouts/CurrentMaximizeLayout.dwlt
 Singularity-Game/UserSettings/Layouts/default-2021.dwlt
+*.dwlt
+*.dwlt
