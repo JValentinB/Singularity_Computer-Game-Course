@@ -62,8 +62,8 @@ public class Player : Character
             if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
         }
         else if(gravitationalDirection == Vector3.down){
-            if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = 1;
-            if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = -1;
+            if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
+            if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
         }
         else if(gravitationalDirection == Vector3.right){
             if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
