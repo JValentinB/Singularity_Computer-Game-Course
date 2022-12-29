@@ -14,13 +14,15 @@ public class Enemy : Character
 
     public void MoveEnemy(){
         var velocity = Vector3.zero;
-        if(InRange(sightRange) && !InRange(attackRange)){
-            if(gravitationalDirection.x == 0){
+        if(InRange(sightRange) && !InRange(attackRange-0.5f)){
+            if(gravitationalDirection.x == 1){
+                direction = playerObject.transform.position.y - transform.position.y > 0 ? 1 : -1;  
+            }else if(gravitationalDirection.x == -1){
+                direction = playerObject.transform.position.y - transform.position.y > 0 ? -1 : 1;
+            }else {
                 direction = playerObject.transform.position.x - transform.position.x > 0 ? 1 : -1;
-            } else {
-                direction = playerObject.transform.position.y - transform.position.y > 0 ? 1 : -1;
             }
-            velocity = Vector3.left * currentSpeed;
+            velocity = Vector3.forward * currentSpeed;
         }
         transform.Translate(velocity * Time.deltaTime);
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);

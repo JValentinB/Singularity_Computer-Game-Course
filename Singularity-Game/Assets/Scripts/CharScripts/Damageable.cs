@@ -28,9 +28,11 @@ public class Damageable : MonoBehaviour
     }
 
     public void ShiftGravity(Vector3 shiftDirection){
-        targetDirection = shiftDirection;
-        shift = true;
-        gravitationalDirection = shiftDirection;
+        if(shiftDirection != gravitationalDirection){
+            targetDirection = shiftDirection;
+            shift = true;
+            gravitationalDirection = shiftDirection;
+        }
     }
 
     public void RotateGravity(){

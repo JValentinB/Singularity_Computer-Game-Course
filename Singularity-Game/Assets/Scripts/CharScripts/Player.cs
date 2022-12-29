@@ -56,23 +56,9 @@ public class Player : Character
     private void Turn()
     {
         // turn around
-        if(gravitationalDirection == Vector3.up){
-            if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
-            if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
-        }
-        else if(gravitationalDirection == Vector3.down){
-            if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
-            if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
-        }
-        else if(gravitationalDirection == Vector3.right){
-            if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
-            if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
-        }
-        else if(gravitationalDirection == Vector3.left){
-            if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
-            if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
-    }        
-}
+        if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1;
+        if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1;
+    }
 
     public void giveXp(int xp){
         GetComponent<XpManager>().GainXp(xp);
