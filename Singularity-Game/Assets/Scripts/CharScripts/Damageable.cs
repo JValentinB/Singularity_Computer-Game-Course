@@ -6,7 +6,7 @@ public class Damageable : MonoBehaviour
 {
     public int currentHealth, maxHealth, direction;
     public bool shift = false;
-    public float gravityStrength = 16f;
+    public float gravityStrength = 27f;
     public Quaternion targetRotation;
     public Vector3 targetDirection, gravitationalDirection;
     public Animator animator;
@@ -24,7 +24,7 @@ public class Damageable : MonoBehaviour
 
     public void ApplyGravity()
     {
-        rigidbody.AddForce(gravitationalDirection * rigidbody.mass * gravityStrength);
+        rigidbody.AddForce(gravitationalDirection * gravityStrength, ForceMode.Acceleration);
     }
 
     public void ShiftGravity(Vector3 shiftDirection){

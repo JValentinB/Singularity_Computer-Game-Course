@@ -9,7 +9,6 @@ public class Player : Character
     void Start(){
         maxHealth = 100;
         currentHealth = maxHealth;
-        jumpFactor = 700;
         jumpNumber = 2;
         walkSpeed = 0.4f;
         runSpeed = 3.0f;
@@ -17,7 +16,7 @@ public class Player : Character
         mass = 75.0f;
         gravitationalDirection = Vector3.down;
         direction = 1;
-        jumpForce = mass * jumpFactor;
+        jumpForce = 1050f;
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
         GetComponent<Rigidbody>().mass = mass;
@@ -92,7 +91,7 @@ public class Player : Character
         if (Physics.Raycast(ray1, out hit1, layerMask) && Physics.Raycast(ray2, out hit2, layerMask))
         {
             //print(hit1.collider.name + " " + hit1.distance);
-            if (hit1.distance > falling_distance && hit2.distance > falling_distance)
+            if (hit1.distance > falling_distance && hit2.distance > falling_distance && !animator.GetBool("Jumping"))
                 animator.SetBool("Falling", true);
             else {
                 animator.SetBool("Falling", false);

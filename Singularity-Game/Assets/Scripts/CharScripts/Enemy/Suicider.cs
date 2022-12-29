@@ -22,11 +22,10 @@ public class Suicider : Enemy
         GetComponent<Rigidbody>().mass = 32.5f;
         gravitationalDirection = Vector3.down;
         //from Character
-        jumpFactor = 0;
         jumpNumber = 0;
         currentSpeed = 2.5f;
         mass = GetComponent<Rigidbody>().mass;
-        jumpForce = mass * jumpFactor;
+        jumpForce = 0;
         critChance = 0.2d;
         critMod = 1.3f;
         //from Enemy

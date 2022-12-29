@@ -6,18 +6,20 @@ using Random = UnityEngine.Random;
 public class Character : Damageable
 {
     //FIXME
-    public int jumpFactor, jumpNumber;
+    public int jumpNumber;
     public float currentSpeed, walkSpeed, runSpeed, sprintSpeed, mass, jumpForce, critMod;
     public double critChance;
 
     public void Jump(){
-        if (animator.GetBool("Jumping") && animator.GetBool("Falling")) 
+        if (animator.GetBool("Jumping") && rigidbody.velocity.y < 0f) 
+            animator.SetBool("Falling", true);
             animator.SetBool("Jumping", false);
         if (Input.GetKeyDown(KeyCode.Space) && jumpNumber > 0)
         {
             animator.SetTrigger("Jumping");
-            animator.SetBool("Falling", true);
-            rigidbody.AddForce(-1 * gravitationalDirection * jumpForce);
+            //animator.SetBool("Falling", true);
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
+            rigidbody.AddForce((-1) * gravitationalDirection * jumpForce, ForceMode.Impulse);
             jumpNumber--;
         }
     }
