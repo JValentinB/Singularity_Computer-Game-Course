@@ -15,10 +15,12 @@ public class Prop : Damageable
     void FixedUpdate(){
         ApplyGravity();
         RotateGravity();
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
 
     public void onDeath(){
         //destroy prop
         //spawn all items from inventory
+        gameObject.SetActive(false);
     }
 }
