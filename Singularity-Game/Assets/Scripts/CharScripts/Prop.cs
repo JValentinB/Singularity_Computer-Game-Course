@@ -4,23 +4,15 @@ using UnityEngine;
 
 public class Prop : Damageable
 {
-    void Start(){
-        maxHealth = 1;
-        currentHealth = maxHealth;
-        gravitationalDirection = Vector3.down;
-        direction = 1;
-        rigidbody = GetComponent<Rigidbody>();
-    }
+    public AudioSource prop_break;
 
-    void FixedUpdate(){
-        ApplyGravity();
-        RotateGravity();
-        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
-    }
-
-    public void onDeath(){
-        //destroy prop
-        //spawn all items from inventory
-        gameObject.SetActive(false);
+    public void OnDeath(){
+        if(currentHealth <= 0){
+            //...drop Items...
+            //...animation...
+            prop_break.Play();
+            Debug.Log("Prop destroyed!");
+            gameObject.SetActive(false);
+        }
     }
 }
