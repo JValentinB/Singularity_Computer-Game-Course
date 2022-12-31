@@ -30,16 +30,9 @@ public class MeleeWeapon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        /* //Suicider enemy = other.GetComponent<Suicider>();
-        Enemy_ enemy = other.GetComponent<Enemy_>();
-        if (other.gameObject.layer == 6 && player.GetComponent<Animator>().GetInteger("Attack") > 0)
-        {
-            enemy.takeDamage(damagePerHit);
-            enemy.tookDamage = true;
-            other.GetComponent<Renderer>().material.color = Color.red;
-        } */
         var col = other.gameObject;
-        if(col.GetComponent<Damageable>()){ col.GetComponent<Damageable>().ApplyDamage(damagePerHit); }
+        if(col.GetComponent<Damageable>() && player.GetComponent<Animator>().GetInteger("Attack") > 0){ 
+            col.GetComponent<Damageable>().ApplyDamage(damagePerHit); }
     }
 
     private void LoadAttack()
