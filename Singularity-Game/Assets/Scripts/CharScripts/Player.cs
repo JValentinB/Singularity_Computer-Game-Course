@@ -11,15 +11,15 @@ public class Player : Character
         currentHealth = maxHealth;
         jumpNumber = 2;
         walkSpeed = 0.4f;
-        runSpeed = 3.0f;
-        sprintSpeed = 4.0f;
+        runSpeed = 4.0f;
+        sprintSpeed = 8.0f;
         mass = 75.0f;
         gravitationalDirection = Vector3.down;
         direction = 1;
-        jumpForce = 1050f;
+        jumpForce = 1250f;
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
-        GetComponent<Rigidbody>().mass = mass;
+        rigidbody.mass = mass;
     }
 
     void FixedUpdate(){
@@ -31,7 +31,7 @@ public class Player : Character
         RotateGravity();
         ApplyGravity();
 
-        changeEquipment();
+        //changeEquipment();
         Attack();
     }
 
@@ -77,7 +77,7 @@ public class Player : Character
         if (Physics.Raycast(ray1, out hit1, layerMask) && Physics.Raycast(ray2, out hit2, layerMask))
         {
             //print(hit1.collider.name + " " + hit1.distance);
-            if (hit1.distance > falling_distance && hit2.distance > falling_distance && !animator.GetBool("Jumping"))
+            if (hit1.distance > falling_distance && hit2.distance > falling_distance && rigidbody.velocity.y < -0.2f)
                 animator.SetBool("Falling", true);
             else {
                 animator.SetBool("Falling", false);
@@ -90,7 +90,6 @@ public class Player : Character
     public void OnDeath(){
         //...
     }
-
 
     //FIXME Muss noch neu gemacht werden:
     //---------------------------------------

@@ -16,15 +16,19 @@ public class Platform : MonoBehaviour
     [Header("Circle")]
     public Vector3 center;
     public float radius;
+    public bool direction;
+    public float directionChange = float.PositiveInfinity;
     private float angle;
 
     private LayerMask playerLayer = 1 << 3; // Layer mask for the "Player" layer
-    private Rigidbody rigidbody;
+    private new Rigidbody rigidbody;
+    private float timer;
 
     // Start is called before the first frame update
     void Start()
     {
         rigidbody = transform.GetComponent<Rigidbody>();
+        timer = 0f;
 
         if (waypoints.Count != 0)
             transform.position = waypoints[0];
@@ -37,6 +41,13 @@ public class Platform : MonoBehaviour
             moveInLine();
         else if (movement == Movement.Circle)
             moveInCircle();
+
+        timer += Time.deltaTime;
+        if(timer > directionChange)
+        {
+            direction = !direction;
+            timer = 0f;
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -63,7 +74,8 @@ public class Platform : MonoBehaviour
     private void moveInCircle()
     {
         // Calculate the new angle based on the elapsed time and speed
-        angle += speed * Time.deltaTime * 0.5f;
+        int clockwise = direction ? 1 : -1;
+        angle += clockwise * speed * Time.deltaTime * 0.5f;
 
         // Calculate the new position of the platform based on the angle and radius
         Vector3 newPosition = center + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * radius;

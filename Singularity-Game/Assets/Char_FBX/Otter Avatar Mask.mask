@@ -11,8 +11,8 @@ AvatarMask:
   m_Elements:
   - m_Path: 
     m_Weight: 1
-  - m_Path: Cube.001
-    m_Weight: 1
+  - m_Path: Character
+    m_Weight: 0
   - m_Path: metarig.001
     m_Weight: 1
   - m_Path: metarig.001/foot.L.006
@@ -123,11 +123,9 @@ AvatarMask:
     m_Weight: 1
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.L/upper_arm.L/forearm.L/hand.L/fingers.L/fingers.L.001
     m_Weight: 1
-  - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.L/upper_arm.L/forearm.L/hand.L/fingers.L/fingers.L.001/fingers.L.001_end
+  - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.L/upper_arm.L/forearm.L/hand.L/fingers.L/fingers.L.001/fingers.L.002
     m_Weight: 1
-  - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.L/upper_arm.L/forearm.L/hand.L/hand.L.001
-    m_Weight: 1
-  - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.L/upper_arm.L/forearm.L/hand.L/hand.L.001/hand.L.001_end
+  - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.L/upper_arm.L/forearm.L/hand.L/fingers.L/fingers.L.001/fingers.L.002/fingers.L.002_end
     m_Weight: 1
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.L/upper_arm.L/forearm.L/hand.L/hand.L.004
     m_Weight: 1
@@ -135,7 +133,9 @@ AvatarMask:
     m_Weight: 1
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.L/upper_arm.L/forearm.L/hand.L/thumb.L
     m_Weight: 1
-  - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.L/upper_arm.L/forearm.L/hand.L/thumb.L/thumb.L_end
+  - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.L/upper_arm.L/forearm.L/hand.L/thumb.L/thumb.L.001
+    m_Weight: 1
+  - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.L/upper_arm.L/forearm.L/hand.L/thumb.L/thumb.L.001/thumb.L.001_end
     m_Weight: 1
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.R
     m_Weight: 1
@@ -149,11 +149,9 @@ AvatarMask:
     m_Weight: 1
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.R/upper_arm.R/forearm.R/hand.R/fingers.R/fingers.R.001
     m_Weight: 1
-  - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.R/upper_arm.R/forearm.R/hand.R/fingers.R/fingers.R.001/fingers.R.001_end
+  - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.R/upper_arm.R/forearm.R/hand.R/fingers.R/fingers.R.001/fingers.R.002
     m_Weight: 1
-  - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.R/upper_arm.R/forearm.R/hand.R/hand.R.001
-    m_Weight: 1
-  - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.R/upper_arm.R/forearm.R/hand.R/hand.R.001/hand.R.001_end
+  - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.R/upper_arm.R/forearm.R/hand.R/fingers.R/fingers.R.001/fingers.R.002/fingers.R.002_end
     m_Weight: 1
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.R/upper_arm.R/forearm.R/hand.R/hand.R.004
     m_Weight: 1
@@ -161,13 +159,13 @@ AvatarMask:
     m_Weight: 1
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.R/upper_arm.R/forearm.R/hand.R/RightHandControl
     m_Weight: 1
-  - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.R/upper_arm.R/forearm.R/hand.R/RightHandControl/Gun
-    m_Weight: 1
-  - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.R/upper_arm.R/forearm.R/hand.R/RightHandControl/Sword
-    m_Weight: 1
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.R/upper_arm.R/forearm.R/hand.R/thumb.R
     m_Weight: 1
-  - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.R/upper_arm.R/forearm.R/hand.R/thumb.R/thumb.R_end
+  - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.R/upper_arm.R/forearm.R/hand.R/thumb.R/thumb.R.001
+    m_Weight: 1
+  - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.R/upper_arm.R/forearm.R/hand.R/thumb.R/thumb.R.001/thumb.R.003
+    m_Weight: 1
+  - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.R/upper_arm.R/forearm.R/hand.R/thumb.R/thumb.R.001/thumb.R.003/thumb.R.003_end
     m_Weight: 1
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/spine.004
     m_Weight: 1
