@@ -102,7 +102,7 @@ public class Player : Character
         {
             last_Attack = Time.time;
             animator.SetLayerWeight(1, 1);
-            animator.SetInteger("Attack", (animator.GetInteger("Attack") + 1) % 3);
+            animator.SetInteger("Attack", (animator.GetInteger("Attack") + 1) % 4);
         }
         else if (Time.time - last_Attack > 1)
         {

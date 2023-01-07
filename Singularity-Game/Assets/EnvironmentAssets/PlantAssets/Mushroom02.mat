@@ -23,7 +23,7 @@ Material:
   m_Name: Mushroom02
   m_Shader: {fileID: 4800000, guid: 766736548846cdf459a9766614dcccab, type: 3}
   m_ValidKeywords:
-  - _EMISSIVE_SIMPLE
+  - _EMISSIVE_ANIMATION
   - _IS_ANGELRING_OFF
   - _IS_CLIPPING_OFF
   - _IS_OUTLINE_CLIPPING_NO
@@ -86,7 +86,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Emissive_Tex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: e2404c275ecd9ee40b2c600adb597426, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HighColor_Tex:
@@ -187,7 +187,7 @@ Material:
     - _AutoRenderQueue: 1
     - _BaseColor_Step: 0.5
     - _BaseShade_Feather: 0.09
-    - _Base_Speed: 0
+    - _Base_Speed: 1
     - _Blend: 0
     - _BlurLevelMatcap: 0
     - _BlurLevelSGM: 0
@@ -198,14 +198,14 @@ Material:
     - _ClearCoatSmoothness: 0
     - _ClippingMode: 0
     - _Clipping_Level: 0
-    - _ColorShift_Speed: 0
+    - _ColorShift_Speed: 1
     - _Cull: 2
     - _CullMode: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EMISSIVE: 0
+    - _EMISSIVE: 1
     - _EnvironmentReflections: 1
     - _Farthest_Distance: 100
     - _GI_Intensity: 0
@@ -222,7 +222,7 @@ Material:
     - _Is_BlendAddToHiColor: 0
     - _Is_BlendAddToMatCap: 1
     - _Is_BlendBaseColor: 0
-    - _Is_ColorShift: 0
+    - _Is_ColorShift: 1
     - _Is_Filter_HiCutPointLightColor: 1
     - _Is_Filter_LightColor: 1
     - _Is_LightColor_1st_Shade: 1
@@ -245,7 +245,7 @@ Material:
     - _Is_UseTweakHighColorOnShadow: 0
     - _Is_UseTweakMatCapOnShadow: 0
     - _Is_ViewCoord_Scroll: 0
-    - _Is_ViewShift: 0
+    - _Is_ViewShift: 1
     - _LightDirection_MaskOn: 0
     - _MatCap: 0
     - _Metallic: 0
@@ -314,9 +314,9 @@ Material:
     - _Ap_RimLightColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorShift: {r: 0, g: 0, b: 0, a: 1}
+    - _ColorShift: {r: 0.7761811, g: 0.46570867, b: 1.9766746, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Emissive_Color: {r: 0, g: 0, b: 0, a: 1}
+    - _Emissive_Color: {r: 0.83215815, g: 0.9391499, b: 2.270603, a: 1}
     - _HighColor: {r: 0, g: 0, b: 0, a: 1}
     - _MatCapColor: {r: 1, g: 1, b: 1, a: 1}
     - _Outline_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
