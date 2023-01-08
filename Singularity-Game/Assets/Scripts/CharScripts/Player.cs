@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Player : Character
 {
-    public string weaponMode;
+    private bulletMode weaponMode;
+    [SerializeField] GameObject projectile;
 
     void Start(){
         maxHealth = 100;
@@ -20,6 +21,7 @@ public class Player : Character
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
         rigidbody.mass = mass;
+        weaponMode = bulletMode.Blue;
     }
 
     void FixedUpdate(){
@@ -103,6 +105,20 @@ public class Player : Character
             last_Attack = Time.time;
             animator.SetLayerWeight(1, 1);
             animator.SetInteger("Attack", (animator.GetInteger("Attack") + 1) % 4);
+            
+            //Fire Projectile
+            Vector3 projSpawn = new Vector3(transform.position.x, transform.position.y, 0);
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos.z = 0;
+            Quaternion projRot = Quaternion.FromToRotation(projSpawn, mousePos);
+
+            Debug.Log("Projectile spawns at: X = " + projSpawn.x + "| Y = " + projSpawn.y);
+            Debug.Log("Mouse psoition is at: X = " + mousePos.x + "| Y = " + mousePos.y);
+
+            projectile = Instantiate(projectile, projSpawn, projRot);
+            projectile.GetComponent<Projectile>().setProjectileConfig(
+                mousePos - projSpawn, 10f, 20, weaponMode);
+
         }
         else if (Time.time - last_Attack > 1)
         {

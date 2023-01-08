@@ -9,15 +9,17 @@ public class Projectile : MonoBehaviour
     private int dmg;
     private bulletMode mode;
 
-    public Projectile(Vector3 dir, float speed, int dmg, bulletMode mode){
-        this.dir = dir;
+    void Update(){
+        Move();
+    }
+
+    public void setProjectileConfig(Vector3 dir, float speed, int dmg, bulletMode mode){
+        transform.LookAt(dir);
+        this.dir = Vector3.Normalize(dir);
         this.speed = speed;
         this.dmg = dmg;
         this.mode = mode;
-    }
 
-    void Update(){
-        Move();
     }
 
     private void Move(){
@@ -25,7 +27,7 @@ public class Projectile : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
 
-    void OnTriggerEnter(Collider other){
+    /* void OnTriggerEnter(Collider other){
         GameObject col = other.gameObject; 
         if(col.GetComponent<Damageable>()){
             col.GetComponent<Damageable>().ApplyDamage(dmg);
@@ -36,5 +38,5 @@ public class Projectile : MonoBehaviour
         } else {
             Destroy(this);
         }
-    }
+    } */
 }

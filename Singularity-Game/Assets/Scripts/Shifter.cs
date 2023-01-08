@@ -2,12 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum bulletMode{
-    Red,
-    Green,
-    Blue
-}
-
 public class Shifter : MonoBehaviour
 {
     [SerializeField] private Vector3 direction;

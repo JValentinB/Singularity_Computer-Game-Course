@@ -2,7 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Damageable : MonoBehaviour
+public enum bulletMode{
+    Red,
+    Green,
+    Blue
+}
+
+public class Damageable : MonoBehaviour
 {
     public int currentHealth, maxHealth, direction;
     public bool shift = false;
@@ -11,17 +17,10 @@ public abstract class Damageable : MonoBehaviour
     public Vector3 targetDirection, gravitationalDirection;
     public Animator animator;
     public Rigidbody rigidbody;
-    //public abstract void OnDeath();
-    //public InventoryManager inventory = new InventoryManager
 
     
     public void ApplyDamage(int damage){
         currentHealth -= damage;
-        //Doesn't work?? Suicider and prop only destroyed if OnDeath() is in Update
-        //Maybe references the OnDeath() function above instead of the reimplemented functions?
-        /* if(currentHealth <= 0){ 
-            OnDeath();
-        } */
     }
 
     public void ApplyGravity()
