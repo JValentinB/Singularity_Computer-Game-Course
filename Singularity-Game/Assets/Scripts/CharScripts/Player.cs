@@ -35,6 +35,9 @@ public class Player : Character
 
         //changeEquipment();
         Attack();
+
+        if(Input.GetMouseButton(0)) FireProjectile();
+        //Debug.DrawRay(transform.position, Input.mousePosition - transform.position, Color.green);
     }
 
     void Update(){
@@ -89,6 +92,17 @@ public class Player : Character
         }
     }
 
+    private void FireProjectile(){
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
+        Vector3 projTarget = mousePos - transform.position;
+
+        Quaternion projRot = Quaternion.FromToRotation(transform.position, projTarget);
+
+        projectile = Instantiate(projectile, transform.position, Quaternion.identity);
+        projectile.GetComponent<Projectile>().setProjectileConfig(
+            projTarget, 10f, 20, weaponMode);
+    }
+
     public void OnDeath(){
         //...
     }
@@ -105,20 +119,6 @@ public class Player : Character
             last_Attack = Time.time;
             animator.SetLayerWeight(1, 1);
             animator.SetInteger("Attack", (animator.GetInteger("Attack") + 1) % 4);
-            
-            //Fire Projectile
-            Vector3 projSpawn = new Vector3(transform.position.x, transform.position.y, 0);
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePos.z = 0;
-            Quaternion projRot = Quaternion.FromToRotation(projSpawn, mousePos);
-
-            Debug.Log("Projectile spawns at: X = " + projSpawn.x + "| Y = " + projSpawn.y);
-            Debug.Log("Mouse psoition is at: X = " + mousePos.x + "| Y = " + mousePos.y);
-
-            projectile = Instantiate(projectile, projSpawn, projRot);
-            projectile.GetComponent<Projectile>().setProjectileConfig(
-                mousePos - projSpawn, 10f, 20, weaponMode);
-
         }
         else if (Time.time - last_Attack > 1)
         {

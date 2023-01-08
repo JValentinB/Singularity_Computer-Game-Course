@@ -14,12 +14,12 @@ public class Projectile : MonoBehaviour
     }
 
     public void setProjectileConfig(Vector3 dir, float speed, int dmg, bulletMode mode){
-        transform.LookAt(dir);
+        //transform.LookAt(dir);
         this.dir = Vector3.Normalize(dir);
         this.speed = speed;
         this.dmg = dmg;
         this.mode = mode;
-
+        //Destroy(gameObject, 5);
     }
 
     private void Move(){
