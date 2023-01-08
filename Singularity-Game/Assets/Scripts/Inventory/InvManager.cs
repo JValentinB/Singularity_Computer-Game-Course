@@ -12,13 +12,6 @@ public class InvManager : ItemDatabase
         stackedInventoryItems = new List<(InventoryItem, int)>();
     }
 
-    /* private void OnTriggerEnter(Collider col){
-        if(gameObject.tag == "Player" && col.tag == "Item"){
-            InventoryItem item = col.gameObject.GetComponent<InventoryItem>();
-            AddItem(item, 1);
-        }
-    } */
-
     //Returns the amount of items which were not added
     public int AddItem(InventoryItem item, int amount)
     {
@@ -61,5 +54,9 @@ public class InvManager : ItemDatabase
     public int FindItemIndexInInventory(InventoryItem item)
     {
         return stackedInventoryItems.FindIndex(i => i.Item1.id == item.id);
+    }
+
+    public bool IsEmpty(){
+        return stackedInventoryItems.Count == 0;
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemDatabase
+public class ItemDatabase : MonoBehaviour
 {
     public List<InventoryItem> databaseItems = new List<InventoryItem>(){
         new InventoryItem(0, "Box", "This is just a Box", null),

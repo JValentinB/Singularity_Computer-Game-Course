@@ -20,4 +20,7 @@ public class Crate : Prop
         RotateGravity();
         OnDeath();
     }
+
+    public override void createLoot(){
+    }
 }
