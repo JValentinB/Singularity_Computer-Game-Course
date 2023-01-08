@@ -30,7 +30,7 @@ public class Shifter : MonoBehaviour
     private void OnTriggerEnter(Collider col)
     {
         var damagableObjectToShift = col.gameObject.GetComponent<Damageable>();
-        if(damagableObjectToShift && active){
+        if(damagableObjectToShift && !active){
             previousDir = damagableObjectToShift.gravitationalDirection;
             damagableObjectToShift.ShiftGravity(direction);
         }/* else if(col.gameObject.GetComponent<Bullet>().mode == mode){
@@ -40,11 +40,11 @@ public class Shifter : MonoBehaviour
     }
 
     //Function will be called on leaving collider range
-    private void OnTriggerExit(Collider col)
+    /* private void OnTriggerExit(Collider col)
     {
         var damagableObjectToShift = col.gameObject.GetComponent<Damageable>();
-        if(damagableObjectToShift && active){
+        if(damagableObjectToShift && !active){
             damagableObjectToShift.ShiftGravity(previousDir);
         }
-    }
+    } */
 }

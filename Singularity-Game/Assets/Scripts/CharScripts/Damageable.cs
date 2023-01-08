@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Damageable : MonoBehaviour
+public abstract class Damageable : MonoBehaviour
 {
     public int currentHealth, maxHealth, direction;
     public bool shift = false;
-    public float gravityStrength = 27f;
+    public float gravityStrength = 18f;
     public Quaternion targetRotation;
     public Vector3 targetDirection, gravitationalDirection;
     public Animator animator;
     public Rigidbody rigidbody;
-    //public void OnDeath(){}
+    //public abstract void OnDeath();
     //public InventoryManager inventory = new InventoryManager
 
     
