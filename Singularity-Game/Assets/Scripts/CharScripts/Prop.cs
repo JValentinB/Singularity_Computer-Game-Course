@@ -12,7 +12,6 @@ public abstract class Prop : Damageable
         if(currentHealth <= 0){
             createLoot();
             //...animation...
-            //if(prop_break == null) Debug.Log("AudioSource is null!");
             prop_break.Play();
             Debug.Log("Prop destroyed!");
             gameObject.SetActive(false);

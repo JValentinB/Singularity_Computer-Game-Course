@@ -22,6 +22,7 @@ public class Projectile : MonoBehaviour
 
     private void Move(){
         transform.Translate(dir * speed * Time.deltaTime);
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
 
     void OnTriggerEnter(Collider other){

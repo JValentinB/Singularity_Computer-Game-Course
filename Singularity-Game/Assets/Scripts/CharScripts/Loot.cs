@@ -7,16 +7,15 @@ public class Loot : MonoBehaviour
     public InvManager inventory;
 
     private void OnTriggerEnter(Collider col){
-        int overflow = 0;
         if(col.tag == "Player"){
             InvManager playerInventory = col.gameObject.GetComponent<InvManager>();
+            
             foreach(var item in inventory.stackedInventoryItems){
-                overflow = playerInventory.AddItem(item.Item1, item.Item2);
-                inventory.RemoveItem(item.Item1, item.Item2 - overflow);
+                playerInventory.AddItem(item.Item1, item.Item2);
+                Debug.Log("Added Item: " + item.Item1.itemName + ", " + item.Item2 + "x");
             }
-            if(inventory.IsEmpty()){
-                Destroy(this);
-            }
+
+            Destroy(gameObject);
         }
     }
 }
