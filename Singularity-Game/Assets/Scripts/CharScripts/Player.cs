@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Player : Character
 {
-    public string weaponMode;
+    private bulletMode weaponMode;
+    [SerializeField] GameObject projectile;
 
     void Start(){
         maxHealth = 100;
@@ -20,6 +21,7 @@ public class Player : Character
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
         rigidbody.mass = mass;
+        weaponMode = bulletMode.Blue;
     }
 
     void FixedUpdate(){
@@ -33,6 +35,8 @@ public class Player : Character
 
         //changeEquipment();
         Attack();
+
+        if(Input.GetMouseButton(0)) FireProjectile();
     }
 
     void Update(){
@@ -85,6 +89,19 @@ public class Player : Character
                 jumpNumber = 2;
             }
         }
+    }
+
+    private void FireProjectile(){
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
+        Vector3 fixedPos = new Vector3(transform.position.x, transform.position.y + 1.3f, 0);
+        Vector3 projTarget = mousePos - fixedPos;
+
+        Quaternion projRot = Quaternion.FromToRotation(fixedPos, projTarget);
+
+        GameObject projectileClone = (GameObject) Instantiate(projectile, fixedPos, Quaternion.identity);
+        projectileClone.GetComponent<Projectile>().setProjectileConfig(
+            projTarget, 50f, 20, weaponMode);
+        Destroy(projectileClone, 5);
     }
 
     public void OnDeath(){

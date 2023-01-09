@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Crate : Prop
 {
+    private InvManager inventory = new InvManager();
+    [SerializeField] GameObject lootPrefab;
+
     void Start(){
         //Components
         rigidbody = GetComponent<Rigidbody>();
@@ -19,5 +22,13 @@ public class Crate : Prop
         ApplyGravity();
         RotateGravity();
         OnDeath();
+    }
+
+    public override void createLoot(){
+        inventory.AddItem(inventory.GetItem(0), 69);
+        inventory.AddItem(inventory.GetItem(1), 420);
+
+        GameObject lootObject = Instantiate(lootPrefab, transform.position, transform.rotation);
+        lootObject.GetComponent<Loot>().inventory = inventory;
     }
 }
