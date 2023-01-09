@@ -37,7 +37,6 @@ public class Player : Character
         Attack();
 
         if(Input.GetMouseButton(0)) FireProjectile();
-        //Debug.DrawRay(transform.position, Input.mousePosition - transform.position, Color.green);
     }
 
     void Update(){
@@ -94,13 +93,15 @@ public class Player : Character
 
     private void FireProjectile(){
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
-        Vector3 projTarget = mousePos - transform.position;
+        Vector3 fixedPos = new Vector3(transform.position.x, transform.position.y + 1.3f, 0);
+        Vector3 projTarget = mousePos - fixedPos;
 
-        Quaternion projRot = Quaternion.FromToRotation(transform.position, projTarget);
+        Quaternion projRot = Quaternion.FromToRotation(fixedPos, projTarget);
 
-        projectile = Instantiate(projectile, transform.position, Quaternion.identity);
-        projectile.GetComponent<Projectile>().setProjectileConfig(
-            projTarget, 10f, 20, weaponMode);
+        GameObject projectileClone = (GameObject) Instantiate(projectile, fixedPos, Quaternion.identity);
+        projectileClone.GetComponent<Projectile>().setProjectileConfig(
+            projTarget, 50f, 20, weaponMode);
+        Destroy(projectileClone, 5);
     }
 
     public void OnDeath(){

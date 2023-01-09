@@ -11,9 +11,9 @@ public class Shifter : MonoBehaviour
     //Function will be called on entering collider range
     private void OnTriggerEnter(Collider col)
     {
-        var damagableObjectToShift = col.gameObject.GetComponent<Damageable>();
-        if(damagableObjectToShift && !active){
-            damagableObjectToShift.ShiftGravity(direction);
+        var ObjectToShift = col.gameObject;
+        if(ObjectToShift.GetComponent<Damageable>() && active){
+            ObjectToShift.GetComponent<Damageable>().ShiftGravity(direction);
         }
     }
 }

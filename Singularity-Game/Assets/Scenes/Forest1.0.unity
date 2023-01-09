@@ -5568,7 +5568,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: {x: 1, y: 0, z: 0}
   active: 0
-  mode: 0
+  mode: 2
 --- !u!65 &87611650
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8410,11 +8410,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -233.9
+      value: -86.19
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 78.28
+      value: 61.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.z
@@ -11546,8 +11546,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: {x: 0, y: -1, z: 0}
-  active: 0
-  mode: 0
+  active: 1
+  mode: 2
 --- !u!65 &1255299473
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -14,29 +14,29 @@ public class Projectile : MonoBehaviour
     }
 
     public void setProjectileConfig(Vector3 dir, float speed, int dmg, bulletMode mode){
-        //transform.LookAt(dir);
+        transform.rotation = Quaternion.FromToRotation(transform.position, dir);
         this.dir = Vector3.Normalize(dir);
         this.speed = speed;
         this.dmg = dmg;
         this.mode = mode;
-        //Destroy(gameObject, 5);
     }
 
     private void Move(){
-        transform.Translate(dir * speed * Time.deltaTime);
+        transform.Translate(dir * speed * Time.deltaTime, Space.World);
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
 
-    /* void OnTriggerEnter(Collider other){
-        GameObject col = other.gameObject; 
-        if(col.GetComponent<Damageable>()){
+    private void OnTriggerEnter(Collider other){
+        var col = other.gameObject; 
+        if(col.GetComponent<Damageable>() && col.tag != "Player"){
             col.GetComponent<Damageable>().ApplyDamage(dmg);
-            Destroy(this);
+            Destroy(gameObject);
         } else if(col.GetComponent<Shifter>()){
-            if(col.GetComponent<Shifter>().mode == mode) col.GetComponent<Shifter>().active = true;
-            Destroy(this);
-        } else {
-            Destroy(this);
+            /* if(col.GetComponent<Shifter>().mode == mode) */ col.GetComponent<Shifter>().active = true;
+            Destroy(gameObject);
+        } else if(col.tag != "Player"){
+            Destroy(gameObject);
         }
-    } */
+        Debug.Log("test");
+    }
 }
