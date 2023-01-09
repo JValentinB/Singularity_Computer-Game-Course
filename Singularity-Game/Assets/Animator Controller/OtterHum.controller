@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d9825d8f91fcd9419cfe7fdcef48e8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sliceStart: 0.6
+  sliceStop: 0.9
+  sliceForce: 30
 --- !u!1102 &-8293167188864416553
 AnimatorState:
   serializedVersion: 6
@@ -260,6 +263,21 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: Speed
+--- !u!114 &-4798577219667731921
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d9825d8f91fcd9419cfe7fdcef48e8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sliceStart: 0.4
+  sliceStop: 1
+  sliceForce: 10
 --- !u!1102 &-4713836054404090690
 AnimatorState:
   serializedVersion: 6
@@ -592,6 +610,21 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &469851027956125306
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d9825d8f91fcd9419cfe7fdcef48e8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sliceStart: 0.625
+  sliceStop: 1
+  sliceForce: 10
 --- !u!1101 &1348556532909004686
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1015,7 +1048,8 @@ AnimatorState:
   m_Transitions:
   - {fileID: 7583235407125605576}
   - {fileID: 4313581125545741120}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 469851027956125306}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1241,7 +1275,8 @@ AnimatorState:
   m_Transitions:
   - {fileID: 7459862673283637597}
   - {fileID: -6402966733877953913}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -4798577219667731921}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
