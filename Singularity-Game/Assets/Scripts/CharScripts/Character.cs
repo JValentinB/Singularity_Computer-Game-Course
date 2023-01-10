@@ -11,9 +11,10 @@ public class Character : Damageable
     public double critChance;
 
     public void Jump(){
-        if (animator.GetBool("Jumping") && rigidbody.velocity.y < 0f) 
+        if (animator.GetBool("Jumping") && rigidbody.velocity.y < -0.2f) {
             animator.SetBool("Falling", true);
             animator.SetBool("Jumping", false);
+        }
         if (Input.GetKeyDown(KeyCode.Space) && jumpNumber > 0)
         {
             animator.SetTrigger("Jumping");

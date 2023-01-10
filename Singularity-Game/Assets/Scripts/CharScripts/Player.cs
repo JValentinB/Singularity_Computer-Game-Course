@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class Player : Character
 {
-    public string weaponMode;
+    private bulletMode weaponMode;
+    [SerializeField] GameObject projectile;
 
     void Start(){
         maxHealth = 100;
         currentHealth = maxHealth;
         jumpNumber = 2;
         walkSpeed = 0.4f;
-        runSpeed = 3.0f;
-        sprintSpeed = 4.0f;
+        runSpeed = 4.0f;
+        sprintSpeed = 8.0f;
         mass = 75.0f;
         gravitationalDirection = Vector3.down;
         direction = 1;
-        jumpForce = 1050f;
+        jumpForce = 1250f;
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
-        GetComponent<Rigidbody>().mass = mass;
+        rigidbody.mass = mass;
+        weaponMode = bulletMode.Blue;
     }
 
     void FixedUpdate(){
@@ -31,8 +33,10 @@ public class Player : Character
         RotateGravity();
         ApplyGravity();
 
-        changeEquipment();
+        //changeEquipment();
         Attack();
+
+        if(Input.GetMouseButton(0)) FireProjectile();
     }
 
     void Update(){
@@ -77,7 +81,7 @@ public class Player : Character
         if (Physics.Raycast(ray1, out hit1, layerMask) && Physics.Raycast(ray2, out hit2, layerMask))
         {
             //print(hit1.collider.name + " " + hit1.distance);
-            if (hit1.distance > falling_distance && hit2.distance > falling_distance && !animator.GetBool("Jumping"))
+            if (hit1.distance > falling_distance && hit2.distance > falling_distance && rigidbody.velocity.y < -0.2f)
                 animator.SetBool("Falling", true);
             else {
                 animator.SetBool("Falling", false);
@@ -87,10 +91,22 @@ public class Player : Character
         }
     }
 
+    private void FireProjectile(){
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
+        Vector3 fixedPos = new Vector3(transform.position.x, transform.position.y + 1.3f, 0);
+        Vector3 projTarget = mousePos - fixedPos;
+
+        Quaternion projRot = Quaternion.FromToRotation(fixedPos, projTarget);
+
+        GameObject projectileClone = (GameObject) Instantiate(projectile, fixedPos, Quaternion.identity);
+        projectileClone.GetComponent<Projectile>().setProjectileConfig(
+            projTarget, 50f, 20, weaponMode);
+        Destroy(projectileClone, 5);
+    }
+
     public void OnDeath(){
         //...
     }
-
 
     //FIXME Muss noch neu gemacht werden:
     //---------------------------------------
@@ -103,7 +119,7 @@ public class Player : Character
         {
             last_Attack = Time.time;
             animator.SetLayerWeight(1, 1);
-            animator.SetInteger("Attack", (animator.GetInteger("Attack") + 1) % 3);
+            animator.SetInteger("Attack", (animator.GetInteger("Attack") + 1) % 4);
         }
         else if (Time.time - last_Attack > 1)
         {
