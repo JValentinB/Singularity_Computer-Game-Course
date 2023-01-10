@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Walze_LR : MonoBehaviour
+public class roller_LR : MonoBehaviour
 {
     [SerializeField] private float range = 20;
     [SerializeField] private float speed = 10;
@@ -11,7 +11,7 @@ public class Walze_LR : MonoBehaviour
     private bool backward = false;
     private float count = 0;
     enum Direction
-    { vor, zurück }
+    { forward, back }
     [SerializeField] Direction direction;
 
 
@@ -25,11 +25,11 @@ public class Walze_LR : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (direction == Direction.vor)
+        if (direction == Direction.forward)
         {
             MoveForward();
         }
-        else if (direction == Direction.zurück)
+        else if (direction == Direction.back)
         {
             MoveBackward();
         }
