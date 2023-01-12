@@ -19,12 +19,12 @@ public class AttackSlice : StateMachineBehaviour
     {
         if (stateInfo.normalizedTime >= sliceStart && stateInfo.normalizedTime < sliceStop)
         {
-            var velocity = Vector3.forward * sliceForce;
+            var velocity = Vector3.forward * sliceForce + player.rigidbody.velocity;
             player.transform.Translate(velocity * Time.deltaTime);
         }
         if (stateInfo.normalizedTime >= sliceStop)
         {
-            player.rigidbody.velocity = Vector3.zero;
+            player.rigidbody.velocity.Set(0, player.rigidbody.velocity.y, player.rigidbody.velocity.z);
         }
     }
 
