@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Crate : Prop
 {
     private InvManager inventory = new InvManager();
-    [SerializeField] GameObject lootPrefab;
 
     void Start(){
         //Components
@@ -30,5 +30,14 @@ public class Crate : Prop
 
         GameObject lootObject = Instantiate(lootPrefab, transform.position, transform.rotation);
         lootObject.GetComponent<Loot>().inventory = inventory;
+    }
+
+    public override void createPieces(){
+        Vector3 pos = transform.position;
+        for(int i = 0; i < 5; i++){
+            Vector3 piecePos = new Vector3(pos.x+(Random.value%10)/10, pos.y+(Random.value%10)/10, pos.z+(Random.value%10)/10);
+            GameObject pieceClone = Instantiate(cratePiece, piecePos, transform.rotation);
+            Destroy(pieceClone, 5);
+        }
     }
 }
