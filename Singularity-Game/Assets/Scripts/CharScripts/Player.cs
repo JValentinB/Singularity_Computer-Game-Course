@@ -6,6 +6,7 @@ public class Player : Character
 {
     [SerializeField] private bulletMode weaponMode;
     [SerializeField] private GameObject projectile;
+    [SerializeField] public GameObject jumpBurst;
 
     void Start(){
         maxHealth = 100;
@@ -34,11 +35,13 @@ public class Player : Character
         ApplyGravity();
 
         //changeEquipment();
-        Attack(); 
+        
     }
 
     void Update(){
+        Attack(); 
         Jump();
+        if(Input.GetKeyDown(KeyCode.Space)) createBurst();
     }
 
     private void MovePlayer(){
@@ -103,6 +106,11 @@ public class Player : Character
 
     public void OnDeath(){
         //...
+    }
+
+    private void createBurst(){
+        GameObject burstClone = Instantiate(jumpBurst, transform.position, transform.rotation);
+        Destroy(burstClone, 1);
     }
 
     //FIXME Muss noch neu gemacht werden:
