@@ -7,6 +7,7 @@ public class Player : Character
     [SerializeField] private bulletMode weaponMode;
     [SerializeField] private GameObject projectile;
     [SerializeField] public GameObject jumpBurst;
+    public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
 
     void Start(){
         maxHealth = 100;
@@ -23,6 +24,7 @@ public class Player : Character
         rigidbody = GetComponent<Rigidbody>();
         rigidbody.mass = mass;
         weaponMode = bulletMode.Blue;
+        setDirectionShot = false;
     }
 
     void FixedUpdate(){
@@ -99,8 +101,14 @@ public class Player : Character
         projTarget = new Vector3(projTarget.x, projTarget.y, 0f);
 
         GameObject projectileClone = (GameObject) Instantiate(projectile, fixedPos, Quaternion.identity);
-        projectileClone.GetComponent<Projectile>().setProjectileConfig(
-            projTarget, 15, 20, weaponMode);
+        if(setDirectionShot){
+            bulletMode cMode = bulletMode.Control;
+            projectileClone.GetComponent<Projectile>().setProjectileConfig(
+                projTarget, 15, 20, cMode);
+            setDirectionShot = false;
+        } else{
+            projectileClone.GetComponent<Projectile>().setProjectileConfig(
+                projTarget, 15, 20, weaponMode); }
         Destroy(projectileClone, 5);
     }
 

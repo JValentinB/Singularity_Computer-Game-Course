@@ -7313,7 +7313,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -132.93
+      value: -133.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9107,6 +9107,8 @@ MonoBehaviour:
   critChance: 0
   weaponMode: 0
   projectile: {fileID: 8792342904977857413, guid: f2e5134fd3a023d4cb48c13af2d37a05, type: 3}
+  jumpBurst: {fileID: 7004842315732285135, guid: b2c2dc83c9f715d44aa4338859562b86, type: 3}
+  setDirectionShot: 0
 --- !u!114 &815103050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14069,8 +14071,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: {x: 0, y: -1, z: 0}
-  active: 1
   mode: 2
+  active: 1
 --- !u!65 &1414891496
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17576,7 +17578,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1b8593aa4eb9d5d48b5b7d63287f2145, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.97
+      value: 14.13
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1b8593aa4eb9d5d48b5b7d63287f2145, type: 3}
       propertyPath: m_LocalPosition.y
@@ -19046,7 +19048,7 @@ GameObject:
   - component: {fileID: 1899877672}
   m_Layer: 0
   m_Name: Shifter_blue_startCliff
-  m_TagString: Untagged
+  m_TagString: Shifter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19079,8 +19081,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: {x: 1, y: 0, z: 0}
-  active: 0
   mode: 2
+  active: 0
 --- !u!199 &1899877673
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -19787,7 +19789,7 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: -2.63488, y: 1, z: 0.0000007748604}
+    m_Position: {x: -2.63488, y: -4.49, z: 0.0000007748604}
     m_Rotation: {x: -0, y: 90, z: 270}
     m_Scale: {x: 5.246585, y: 1.1313317, z: 1.1313317}
     placementMode: 0
@@ -25132,7 +25134,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3f5b0400ea03d3f40bf902203875de44, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 45.93
+      value: 45.41
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3f5b0400ea03d3f40bf902203875de44, type: 3}
       propertyPath: m_LocalPosition.z
