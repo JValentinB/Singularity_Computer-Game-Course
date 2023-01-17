@@ -5,7 +5,8 @@ using UnityEngine;
 public enum bulletMode{
     Red,
     Green,
-    Blue
+    Blue,
+    Control
 }
 
 public class Damageable : MonoBehaviour

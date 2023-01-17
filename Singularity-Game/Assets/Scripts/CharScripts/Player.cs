@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Player : Character
 {
-    private bulletMode weaponMode;
-    [SerializeField] GameObject projectile;
+    [SerializeField] private bulletMode weaponMode;
+    [SerializeField] private GameObject projectile;
+    [SerializeField] public GameObject jumpBurst;
+    public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
 
     void Start(){
         maxHealth = 100;
@@ -22,6 +24,7 @@ public class Player : Character
         rigidbody = GetComponent<Rigidbody>();
         rigidbody.mass = mass;
         weaponMode = bulletMode.Blue;
+        setDirectionShot = false;
     }
 
     void FixedUpdate(){
@@ -34,13 +37,13 @@ public class Player : Character
         ApplyGravity();
 
         //changeEquipment();
-        Attack();
-
-        if(Input.GetMouseButton(0)) FireProjectile();
+        
     }
 
     void Update(){
+        Attack(); 
         Jump();
+        if(Input.GetKeyDown(KeyCode.Space)) createBurst();
     }
 
     private void MovePlayer(){
@@ -95,17 +98,27 @@ public class Player : Character
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
         Vector3 fixedPos = new Vector3(transform.position.x, transform.position.y + 1.3f, 0);
         Vector3 projTarget = mousePos - fixedPos;
-
-        Quaternion projRot = Quaternion.FromToRotation(fixedPos, projTarget);
+        projTarget = new Vector3(projTarget.x, projTarget.y, 0f);
 
         GameObject projectileClone = (GameObject) Instantiate(projectile, fixedPos, Quaternion.identity);
-        projectileClone.GetComponent<Projectile>().setProjectileConfig(
-            projTarget, 50f, 20, weaponMode);
+        if(setDirectionShot){
+            bulletMode cMode = bulletMode.Control;
+            projectileClone.GetComponent<Projectile>().setProjectileConfig(
+                projTarget, 15, 20, cMode);
+            setDirectionShot = false;
+        } else{
+            projectileClone.GetComponent<Projectile>().setProjectileConfig(
+                projTarget, 15, 20, weaponMode); }
         Destroy(projectileClone, 5);
     }
 
     public void OnDeath(){
         //...
+    }
+
+    private void createBurst(){
+        GameObject burstClone = Instantiate(jumpBurst, transform.position, transform.rotation);
+        Destroy(burstClone, 1);
     }
 
     //FIXME Muss noch neu gemacht werden:
@@ -120,6 +133,7 @@ public class Player : Character
             last_Attack = Time.time;
             animator.SetLayerWeight(1, 1);
             animator.SetInteger("Attack", (animator.GetInteger("Attack") + 1) % 4);
+            FireProjectile();
         }
         else if (Time.time - last_Attack > 1)
         {
