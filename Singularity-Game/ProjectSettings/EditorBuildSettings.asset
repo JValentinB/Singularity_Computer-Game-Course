@@ -8,7 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Forest1.0.unity
     guid: 7be70e83c8f987d4f8a556f0939f356c
+  - enabled: 1
+    path: Assets/Scenes/Forest1.0_Valentin.unity
+    guid: b1f0ae16e60a851458a86a03ee0d8ac8
   m_configObjects: {}
