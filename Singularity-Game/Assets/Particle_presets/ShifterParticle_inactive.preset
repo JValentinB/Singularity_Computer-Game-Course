@@ -2318,7 +2318,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: ShapeModule.m_Position.y
-    value: 1
+    value: -4.49
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: ShapeModule.m_Position.z
