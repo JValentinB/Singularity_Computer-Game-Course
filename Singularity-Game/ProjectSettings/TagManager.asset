@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Enemy
   - Item
+  - Shifter
+  - m_Projectile
   layers:
   - Default
   - TransparentFX
