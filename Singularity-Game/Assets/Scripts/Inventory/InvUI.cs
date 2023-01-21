@@ -4,7 +4,7 @@ using UnityEngine.Events;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryUI : MonoBehaviour
+public class InvUI : MonoBehaviour
 {
     public GameObject inventoryUI; // Reference to the inventory UI game object
     public Transform itemsParent; // Reference to the parent object of all the inventory items
@@ -14,9 +14,17 @@ public class InventoryUI : MonoBehaviour
 
     private void Start()
     {
-        playerInventory = GameObject.FindWithTag("Player").GetComponent<InvManager>(); // Get the reference to the player's inventory
+        inventoryUI = GameObject.FindWithTag("InventoryUI");
+        playerInventory = gameObject.GetComponent<InvManager>(); // Get the reference to the player's inventory
         playerInventory.onInventoryChangedCallback += UpdateUI;
     }
+
+    void Update(){
+        if(Input.GetKey(KeyCode.I) || (inventoryUI.activeSelf && Input.GetKey(KeyCode.Escape))){
+            OpenCloseInventory();
+        }
+    }
+
     // call this method when the invnetory is updated
     private void UpdateUI()
     {
@@ -44,15 +52,20 @@ public class InventoryUI : MonoBehaviour
     {
         // Example usage: remove one of the item from the inventory when clicked
         int removed = playerInventory.RemoveItem(item, 1);
-        if(removed == -1)
+        if(removed == -1){
             Debug.Log("Item not found in inventory");
-        else if(removed > 0)
+        } else if(removed > 0){
             Debug.Log("Not enough items in inventory");
+        } else {
+            UpdateUI();
+        }
+            
     }
     // Method to open and close the inventory
     public void OpenCloseInventory()
     {
+        Debug.Log("Toggle Inv");
         inventoryUI.SetActive(!inventoryUI.activeSelf);
-        UpdateUI();
+        //UpdateUI();
     }
 }
