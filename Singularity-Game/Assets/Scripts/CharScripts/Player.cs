@@ -41,7 +41,8 @@ public class Player : Character
     }
 
     void Update(){
-        Attack(); 
+        Attack();
+        FireProjectile();
         Jump();
         if(Input.GetKeyDown(KeyCode.Space)) createBurst();
     }
@@ -95,6 +96,8 @@ public class Player : Character
     }
 
     private void FireProjectile(){
+        if(!Input.GetMouseButtonDown(1)) return;
+
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
         Vector3 fixedPos = new Vector3(transform.position.x, transform.position.y + 1.3f, 0);
         Vector3 projTarget = mousePos - fixedPos;
@@ -133,7 +136,6 @@ public class Player : Character
             last_Attack = Time.time;
             animator.SetLayerWeight(1, 1);
             animator.SetInteger("Attack", (animator.GetInteger("Attack") + 1) % 4);
-            FireProjectile();
         }
         else if (Time.time - last_Attack > 1)
         {
