@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using UnityEngine;
 
 public class WindUpstream : MonoBehaviour
@@ -20,24 +21,25 @@ public class WindUpstream : MonoBehaviour
     private void OnTriggerEnter(Collider col)
     {
         var damagbleObjectToShift = col.gameObject.GetComponent<Damageable>();
-        var player = col.gameObject.GetComponent<Damageable>().GetComponent<Character>();
 
         if (damagbleObjectToShift)
         {
-            damagbleObjectToShift.gravityStrength = 0.1f;
-            player.jumpForce = 3050f;
-
+            var rg = col.gameObject.GetComponent<Rigidbody>();
+            damagbleObjectToShift.gravityStrength = 5f;
+            damagbleObjectToShift.GetComponent<Character>().jumpForce = 3050f;
+            rg.velocity = new Vector3(rg.velocity.x, -10f ,rg.velocity.z); 
         }
     }
 
     private void OnTriggerExit(Collider col)
     {
         var damagbleObjectToShift = col.gameObject.GetComponent<Damageable>();
-        var player = col.gameObject.GetComponent<Damageable>().GetComponent<Character>();
+        
         if (damagbleObjectToShift)
         {
             damagbleObjectToShift.gravityStrength = 18f;
-            player.jumpForce = 1050f;
+            damagbleObjectToShift.GetComponent<Character>().jumpForce = 1050f;
         }
+
     }
 }

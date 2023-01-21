@@ -103,6 +103,7 @@ public class PlayerControl : MonoBehaviour
     void Update()
     {
         jump();
+
     }
 
     //=========================================================================================================================================
@@ -216,7 +217,7 @@ public class PlayerControl : MonoBehaviour
 
         LayerMask hitLayer = LayerMask.NameToLayer("Ground");
         int layerMask = (1 << hitLayer);
-        if (Physics.Raycast(ray1, out hit1, layerMask) && Physics.Raycast(ray2, out hit2, layerMask))
+        if (Physics.Raycast(ray1, out hit1, layerMask, 0) && Physics.Raycast(ray2, out hit2, layerMask, 0))
         {
             //print(hit1.collider.name + " " + hit1.distance);
             if (hit1.distance > falling_distance && hit2.distance > falling_distance)
@@ -226,6 +227,10 @@ public class PlayerControl : MonoBehaviour
                 // reset airjump number
                 jumpnumber = jumpboots ? 10 : 5;
             }
+        }
+        else
+        {
+            animator.SetBool("Falling", true);
         }
     }
 
