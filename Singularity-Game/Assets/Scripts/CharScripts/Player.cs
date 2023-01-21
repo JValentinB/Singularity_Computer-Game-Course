@@ -8,6 +8,9 @@ public class Player : Character
     [SerializeField] private GameObject projectile;
     [SerializeField] public GameObject jumpBurst;
     public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
+    public Vector3 respawnpoint = new Vector3(0, 0, 0);
+    private SceneControl scenecontrol;
+    private fade_to_black ftb;
 
     void Start(){
         maxHealth = 100;
@@ -22,9 +25,11 @@ public class Player : Character
         jumpForce = 1250f;
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
+        scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
         rigidbody.mass = mass;
         weaponMode = bulletMode.Blue;
         setDirectionShot = false;
+        
     }
 
     void FixedUpdate(){
@@ -35,9 +40,17 @@ public class Player : Character
         GroundCheck();
         RotateGravity();
         ApplyGravity();
-
+        if (currentHealth <= 0)
+        {
+            OnDeath();
+        }
         //changeEquipment();
-        
+        if (Input.GetKey(KeyCode.R))
+        {
+            scenecontrol.set_checkpoint();
+        }
+
+
     }
 
     void Update(){
@@ -114,6 +127,14 @@ public class Player : Character
 
     public void OnDeath(){
         //...
+        //GameObject blacksquare = GameObject.Find("/Canvas/BlackOutSquare");
+        //ftb = blacksquare.GetComponent<fade_to_black>();
+        
+        //ftb.FadeBlackOutSquare(blacksquare);
+        //scenecontrol.reset_on_death();
+            
+        //rigidbody.position = respawnpoint;
+        //currentHealth = maxHealth;
     }
 
     private void createBurst(){

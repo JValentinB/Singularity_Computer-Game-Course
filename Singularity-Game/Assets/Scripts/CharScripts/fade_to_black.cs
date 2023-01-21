@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class fade_to_black : MonoBehaviour
 {
-    public GameObject BlackOutSquare;
 
     // Update is called once per frame
     void Update()
@@ -16,12 +15,11 @@ public class fade_to_black : MonoBehaviour
  
     }
 
-    public IEnumerator FadeBlackOutSquare(bool fadeToBlack = true, float fadespeed = 1f)
+    public IEnumerator FadeBlackOutSquare(GameObject BlackOutSquare, bool fadeToBlack = true, float fadespeed = 1f)
     {
-        BlackOutSquare = GameObject.Find("BlackOutSquare");
+        BlackOutSquare = GameObject.Find("/Canvas/BlackOutSquare");
         Color objectColor = BlackOutSquare.GetComponent<Image>().color;
         float fadeAmount;
-
         while(BlackOutSquare.GetComponent<Image>().color.a < 1)
             {
                 fadeAmount = objectColor.a + (fadespeed * Time.deltaTime);
