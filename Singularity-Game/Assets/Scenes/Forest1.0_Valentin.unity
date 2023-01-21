@@ -11523,7 +11523,10 @@ MonoBehaviour:
   jumpForce: 0
   critMod: 0
   critChance: 0
+  weaponMode: 0
   projectile: {fileID: 0}
+  jumpBurst: {fileID: 0}
+  setDirectionShot: 0
 --- !u!114 &815103050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15168,8 +15171,9 @@ MonoBehaviour:
   gravitationalDirection: {x: 0, y: 0, z: 0}
   animator: {fileID: 0}
   rigidbody: {fileID: 0}
-  prop_break: {fileID: 190236077}
+  cratePiece: {fileID: 0}
   lootPrefab: {fileID: 0}
+  prop_break: {fileID: 190236077}
 --- !u!1 &1220195394
 GameObject:
   m_ObjectHideFlags: 0

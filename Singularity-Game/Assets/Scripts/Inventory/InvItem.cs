@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class InventoryItem : MonoBehaviour
+public class InvItem : MonoBehaviour
 { 
     public int id;
     public string itemName, description;
     public bool equiped;
     public Sprite icon;
 
-    public InventoryItem(int id, string itemName, string description, Sprite icon){
+    public InvItem(int id, string itemName, string description, Sprite icon){
         this.id = id;
         this.itemName = itemName;
         this.description = description;
         this.equiped = false;
         this.icon = icon;
     }
-    public InventoryItem(InventoryItem item){
+    public InvItem(InvItem item){
         this.id = item.id;
         this.itemName = item.itemName;
         this.description = item.description;
