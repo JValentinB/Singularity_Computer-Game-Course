@@ -31,7 +31,7 @@ public class PlayerControl : MonoBehaviour
     private int             jumpnumber;
     private bool            jumpboots;
     private Animator        animator;
-    private Rigidbody       rigidbody;
+    private Rigidbody       rb;
     private GameObject      gun;
     private GameObject      sword;
     private float           last_Attack; // Time since last Attack
@@ -57,11 +57,11 @@ public class PlayerControl : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        rigidbody = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         lastPosY = this.transform.position.y;
 
         airjumps = 0;
-        rigidbody.mass = START_MASS;
+        rb.mass = START_MASS;
         jumpforce = START_MASS * JUMPFACTOR;
         jumpnumber = jumpboots ? 10 : 5;
         direction = -1;
@@ -111,7 +111,7 @@ public class PlayerControl : MonoBehaviour
 
     void speedUpdate()
     {
-        float ratio_mass_speed = START_MASS / rigidbody.mass;
+        float ratio_mass_speed = START_MASS / rb.mass;
         walking_speed = WALK * ratio_mass_speed;
         running_speed = RUN * ratio_mass_speed;
         sprinting_speed = SPRINT * ratio_mass_speed;
@@ -145,7 +145,7 @@ public class PlayerControl : MonoBehaviour
 
         //float horizontalInput = Input.GetAxis("Horizontal");
         //Vector3 movement = new Vector3(0, 0, horizontalInput);
-        //rigidbody.AddForce(movement * speed * 1000);
+        //rb.AddForce(movement * speed * 1000);
 
         animator.SetFloat("Speed", velocity.magnitude);
     }
@@ -159,7 +159,7 @@ public class PlayerControl : MonoBehaviour
         {
             animator.SetTrigger("Jumping");
             animator.SetBool("Falling", true);
-            rigidbody.AddForce((reversed ? Vector3.down : Vector3.up) * jumpforce);
+            rb.AddForce((reversed ? Vector3.down : Vector3.up) * jumpforce);
             jumpnumber--;
         }
     }
@@ -196,12 +196,12 @@ public class PlayerControl : MonoBehaviour
                 gravityFields[i].transform.position.y + gravityFields[i].transform.localScale.y * 0.5f > player_y)
             {
 
-                rigidbody.mass = START_MASS * FIELDFACTORS[i];
-                Console.WriteLine(rigidbody.mass);
+                rb.mass = START_MASS * FIELDFACTORS[i];
+                Console.WriteLine(rb.mass);
                 return;
             }
         }
-        rigidbody.mass = START_MASS;
+        rb.mass = START_MASS;
         return;
     }
 
@@ -279,8 +279,8 @@ public class PlayerControl : MonoBehaviour
             }
         }
         else if(reversed){
-            rigidbody.AddForce(Physics.gravity*-1);
-            rigidbody.AddForce(Vector3.up*START_MASS*ReversedGravityStrength);
+            rb.AddForce(Physics.gravity*-1);
+            rb.AddForce(Vector3.up*START_MASS*ReversedGravityStrength);
         }
     }
     public void giveXp(int xp){

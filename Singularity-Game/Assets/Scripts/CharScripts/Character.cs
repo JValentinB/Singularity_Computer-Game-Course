@@ -11,7 +11,7 @@ public class Character : Damageable
     public double critChance;
 
     public void Jump(){
-        if (animator.GetBool("Jumping") && rigidbody.velocity.y < -0.2f) {
+        if (animator.GetBool("Jumping") && rb.velocity.y < -0.2f) {
             animator.SetBool("Falling", true);
             animator.SetBool("Jumping", false);
         }
@@ -19,8 +19,8 @@ public class Character : Damageable
         {
             animator.SetTrigger("Jumping");
             //animator.SetBool("Falling", true);
-            rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
-            rigidbody.AddForce((-1) * gravitationalDirection * jumpForce, ForceMode.Impulse);
+            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+            rb.AddForce((-1) * gravitationalDirection * jumpForce, ForceMode.Impulse);
             jumpNumber--;
         }
     }

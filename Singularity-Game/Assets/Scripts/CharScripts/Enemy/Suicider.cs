@@ -18,7 +18,7 @@ public class Suicider : Enemy
         currentHealth = maxHealth;
         direction = 1;
         animator = GetComponent<Animator>();
-        rigidbody = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         GetComponent<Rigidbody>().mass = 32.5f;
         gravitationalDirection = Vector3.down;
         //from Character

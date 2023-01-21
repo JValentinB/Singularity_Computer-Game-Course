@@ -9,7 +9,7 @@ public class Crate : Prop
 
     void Start(){
         //Components
-        rigidbody = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
 
         //Variables
         maxHealth = 1;

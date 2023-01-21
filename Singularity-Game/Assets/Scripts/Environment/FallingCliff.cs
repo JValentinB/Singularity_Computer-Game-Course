@@ -5,34 +5,64 @@ using UnityEngine;
 public class FallingCliff : MonoBehaviour
 {
     public float fallingDelay = 3f;
+    public float disableDelay = 5f;
     public float destroyingDelay = 20f;
     public Vector3 fallingForce = new Vector3(0, -50, 0);
     public float speedMultiplier = 1.0f;
-    private Rigidbody rb;
+
     private bool isFalling = false;
+    private bool playerOnCliff = false;
+    private Rigidbody[] childrenRigidbodies;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        childrenRigidbodies = GetComponentsInChildren<Rigidbody>(false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && !isFalling)
         {
-            isFalling = true;
+            playerOnCliff = true;
             Invoke("StartFalling", fallingDelay);
             Destroy(this.gameObject, destroyingDelay);
         }
-        if (!rb.isKinematic)
+        //if (!rb.isKinematic)
+        //{
+        //    rb.velocity *= speedMultiplier;
+        //}
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
         {
-            rb.velocity *= speedMultiplier;
+            playerOnCliff = false;
         }
     }
 
     private void StartFalling()
     {
-        rb.isKinematic = false;
-        rb.AddForce(fallingForce);
+        if (playerOnCliff)
+        {
+            isFalling = true;
+
+            for (int i = 0; i < childrenRigidbodies.Length; i++)
+            {
+                Rigidbody rb = childrenRigidbodies[i];
+                rb.isKinematic = false;
+                rb.AddForce(fallingForce);
+                Invoke("disableCollider", disableDelay);
+            }
+        }
+    }
+     void disableCollider()
+    {
+
+        for (int i = 0; i < childrenRigidbodies.Length; i++)
+        {
+            Rigidbody rb = childrenRigidbodies[i];
+            rb.GetComponent<MeshCollider>().enabled = false;
+        }
     }
 }

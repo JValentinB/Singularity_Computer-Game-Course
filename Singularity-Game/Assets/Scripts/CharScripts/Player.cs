@@ -21,8 +21,8 @@ public class Player : Character
         direction = 1;
         jumpForce = 1250f;
         animator = GetComponent<Animator>();
-        rigidbody = GetComponent<Rigidbody>();
-        rigidbody.mass = mass;
+        rb = GetComponent<Rigidbody>();
+        rb.mass = mass;
         weaponMode = bulletMode.Blue;
         setDirectionShot = false;
     }
@@ -84,7 +84,7 @@ public class Player : Character
         if (Physics.Raycast(ray1, out hit1, layerMask) && Physics.Raycast(ray2, out hit2, layerMask))
         {
             //print(hit1.collider.name + " " + hit1.distance);
-            if (hit1.distance > falling_distance && hit2.distance > falling_distance && rigidbody.velocity.y < -0.2f)
+            if (hit1.distance > falling_distance && hit2.distance > falling_distance && rb.velocity.y < -0.2f)
                 animator.SetBool("Falling", true);
             else {
                 animator.SetBool("Falling", false);
