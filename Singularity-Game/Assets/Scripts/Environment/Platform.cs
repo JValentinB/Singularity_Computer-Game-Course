@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
-    enum Movement
+    public enum Movement
     { Line, Circle }
     [SerializeField] Movement movement;
     public float speed = 1; // Speed at which the platform should move
@@ -12,18 +12,18 @@ public class Platform : MonoBehaviour
     [Header("Line")]
     public List<Vector3> waypoints; // List of waypoints for the platform to move between
     public List<float> waypointTime;
-    private int waypointIndex;
+    [HideInInspector] public int waypointIndex;
 
     [Header("Circle")]
     public Vector3 center;
     public float radius;
-    public bool direction;
-    public float directionChange = float.PositiveInfinity;
-    private float angle;
+    [HideInInspector] public bool direction;
+    [HideInInspector] public float directionChange = float.PositiveInfinity;
+    [HideInInspector] public float angle;
 
-    private LayerMask playerLayer = 1 << 3; // Layer mask for the "Player" layer
-    private Rigidbody rb;
-    private float timer;
+    [HideInInspector] public LayerMask playerLayer = 1 << 3; // Layer mask for the "Player" layer
+    [HideInInspector] public Rigidbody rb;
+    [HideInInspector] public float timer;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +32,11 @@ public class Platform : MonoBehaviour
         timer = 0f;
 
         if (waypoints.Count != 0)
-            transform.localPosition = waypoints[0];
+            transform.position = waypoints[0];
+            
+        //Making sure it doesn't get pushed away by the player if there are no waypoints
+        if(waypoints.Count == 0) rb.isKinematic = true;
+        else rb.isKinematic = false;
     }
 
     // Update is called once per frame
@@ -61,7 +65,7 @@ public class Platform : MonoBehaviour
         }
     }
 
-    private void moveInLine()
+    public void moveInLine()
     {
         // If the platform has reached the current waypoint, move to the next one
         if (Vector3.Distance(transform.localPosition, waypoints[waypointIndex]) < 0.1f){
@@ -76,7 +80,7 @@ public class Platform : MonoBehaviour
         rb.velocity = (waypoints[waypointIndex] - transform.localPosition).normalized * speed * Time.fixedDeltaTime * 50;
     }
 
-    private void moveInCircle()
+    public void moveInCircle()
     {
         // Calculate the new angle based on the elapsed time and speed
         int clockwise = direction ? 1 : -1;
