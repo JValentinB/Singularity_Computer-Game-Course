@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : Character
 {
-    [SerializeField] private bulletMode weaponMode;
+    [SerializeField] private int weaponMode;
     [SerializeField] private GameObject projectile;
     [SerializeField] public GameObject jumpBurst;
     public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
@@ -23,7 +23,7 @@ public class Player : Character
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         rb.mass = mass;
-        weaponMode = bulletMode.Blue;
+        weaponMode = 0;
         setDirectionShot = false;
     }
 
@@ -44,6 +44,7 @@ public class Player : Character
         Attack();
         FireProjectile();
         Jump();
+        ChangeBulletMode();
         if(Input.GetKeyDown(KeyCode.Space)) createBurst();
     }
 
@@ -95,6 +96,14 @@ public class Player : Character
         }
     }
 
+    private void ChangeBulletMode(){
+        if(Input.mouseScrollDelta.y > 0){
+            weaponMode = (weaponMode + 1) % 2;
+        } else if(Input.mouseScrollDelta.y < 0){
+            weaponMode = (weaponMode - 1) % 2;
+        }
+    }
+
     private void FireProjectile(){
         if(!Input.GetMouseButtonDown(1)) return;
 
@@ -105,9 +114,8 @@ public class Player : Character
 
         GameObject projectileClone = (GameObject) Instantiate(projectile, fixedPos, Quaternion.identity);
         if(setDirectionShot){
-            bulletMode cMode = bulletMode.Control;
             projectileClone.GetComponent<Projectile>().setProjectileConfig(
-                projTarget, 15, 20, cMode);
+                projTarget, 15, 20, 2);
             setDirectionShot = false;
         } else{
             projectileClone.GetComponent<Projectile>().setProjectileConfig(

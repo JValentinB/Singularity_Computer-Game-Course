@@ -157,7 +157,7 @@ public class PlatformMovable : MonoBehaviour
         return new Vector3(
             Mathf.Clamp(point.x, bottomLeft.x + 0.01f, topRight.x - 0.01f),
             Mathf.Clamp(point.y, bottomLeft.y + 0.01f, topRight.y - 0.01f),
-            transform.localPosition.z
+            0f //transform.localPosition.z
         );
     }
 

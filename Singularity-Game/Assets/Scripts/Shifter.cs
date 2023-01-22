@@ -5,7 +5,7 @@ using UnityEngine;
 public class Shifter : MonoBehaviour
 {
     [SerializeField] private Vector3 direction;
-    [SerializeField] public bulletMode mode;
+    [SerializeField] public int mode;
     private ParticleSystem particle;
     ParticleSystem.MainModule _particle;
     public bool active = false;

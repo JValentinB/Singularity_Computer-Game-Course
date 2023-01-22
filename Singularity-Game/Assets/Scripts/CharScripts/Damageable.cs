@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum bulletMode{
-    Red,
-    Green,
-    Blue,
-    Control
-}
+/*
+    weaponModes:
+    - Pull : violet
+    - Shift : Orange
+    - Control : ...
+*/
 
 public class Damageable : MonoBehaviour
 {

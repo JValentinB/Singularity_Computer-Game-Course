@@ -7,14 +7,14 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float speed;
     private Vector3 dir;
     private int dmg;
-    [SerializeField] public bulletMode mode;
+    [SerializeField] public int mode;
     public bool test;
 
     void Update(){
         Move();
     }
 
-    public void setProjectileConfig(Vector3 dir, float speed, int dmg, bulletMode mode){
+    public void setProjectileConfig(Vector3 dir, float speed, int dmg, int mode){
         this.dir = Vector3.Normalize(dir);
         this.speed = speed;
         this.dmg = dmg;
@@ -47,10 +47,10 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider col){
         var obj = col.gameObject;
-        if(obj.GetComponent<m_Projectile>()){
+        if(obj.GetComponent<m_Projectile>() && mode == 1){
             mProjCollision(obj);
             Destroy(gameObject);
-        } else if(mode == bulletMode.Control && obj.tag != "Player"){
+        } else if(mode == 2 && obj.tag != "Player"){
             controlShot();
             Destroy(gameObject);
         } else if(obj.GetComponent<Damageable>() && obj.tag != "Player"){

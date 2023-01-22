@@ -12,7 +12,7 @@ public class Platform : MonoBehaviour
     [Header("Line")]
     public List<Vector3> waypoints; // List of waypoints for the platform to move between
     public List<float> waypointTime;
-    [HideInInspector] public int waypointIndex;
+    [SerializeField] public int waypointIndex;
 
     [Header("Circle")]
     public Vector3 center;
@@ -32,7 +32,7 @@ public class Platform : MonoBehaviour
         timer = 0f;
 
         if (waypoints.Count != 0)
-            transform.position = waypoints[0];
+            transform.localPosition = waypoints[0];
             
         //Making sure it doesn't get pushed away by the player if there are no waypoints
         if(waypoints.Count == 0) rb.isKinematic = true;
@@ -42,6 +42,8 @@ public class Platform : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(waypoints.Count == 0) return;
+        
         if (movement == Movement.Line)
             moveInLine();
         else if (movement == Movement.Circle)
@@ -53,6 +55,8 @@ public class Platform : MonoBehaviour
             direction = !direction;
             timer = 0f;
         }
+
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
     }
 
     void OnTriggerEnter(Collider other)
@@ -68,7 +72,7 @@ public class Platform : MonoBehaviour
     public void moveInLine()
     {
         // If the platform has reached the current waypoint, move to the next one
-        if (Vector3.Distance(transform.localPosition, waypoints[waypointIndex]) < 0.1f){
+        if (Vector3.Distance(transform.localPosition, waypoints[waypointIndex]) < 0.2f){
             if(waypointTime.Count >= waypointIndex){
                 StartCoroutine(Wait(waypointTime[waypointIndex], waypointIndex));
             }
