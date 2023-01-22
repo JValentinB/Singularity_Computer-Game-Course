@@ -7,6 +7,7 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private Transform player;
     public float offset_x = 0;
     public float offset_y = 0;
+    // public float offset_z = 0;
     public bool overlayActive = true;
 
     private float zPosition;
@@ -22,7 +23,7 @@ public class CameraControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //this.transform.position = new Vector3(Mathf.Round(player.position.x * 1000) * 0.001f + offset_x, Mathf.Round(player.position.y * 1000) * 0.001f + offset_y, zPosition);
+        
         this.transform.position = new Vector3(player.position.x + offset_x, player.position.y + offset_y, zPosition);
 
         // If there is something between player and Camera, activate the Overlay Camera

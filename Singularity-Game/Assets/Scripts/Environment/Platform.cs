@@ -22,13 +22,13 @@ public class Platform : MonoBehaviour
     private float angle;
 
     private LayerMask playerLayer = 1 << 3; // Layer mask for the "Player" layer
-    private new Rigidbody rigidbody;
+    private Rigidbody rb;
     private float timer;
 
     // Start is called before the first frame update
     void Start()
     {
-        rigidbody = transform.GetComponent<Rigidbody>();
+        rb = transform.GetComponent<Rigidbody>();
         timer = 0f;
 
         if (waypoints.Count != 0)
@@ -57,7 +57,7 @@ public class Platform : MonoBehaviour
         // Check if the collider is on the "Characters" layer
         if (playerLayer == (playerLayer | (1 << other.gameObject.layer)))
         {
-            other_rigidbody.velocity += rigidbody.velocity;
+            other_rigidbody.velocity += rb.velocity;
         }
     }
 
@@ -73,7 +73,7 @@ public class Platform : MonoBehaviour
         // Move the platform towards the current waypoint
         //Vector3 targetdirection = Vector3.MoveTowards(transform.position, waypoints[waypointIndex],1).normalized;
 
-        rigidbody.velocity = (waypoints[waypointIndex] - transform.localPosition).normalized * speed * Time.fixedDeltaTime * 50;
+        rb.velocity = (waypoints[waypointIndex] - transform.localPosition).normalized * speed * Time.fixedDeltaTime * 50;
     }
 
     private void moveInCircle()
@@ -87,7 +87,7 @@ public class Platform : MonoBehaviour
 
         // Update the platform's position and rotation to match the new values
         //transform.position = newPosition;
-        rigidbody.velocity = (newPosition - transform.localPosition) * 5;
+        rb.velocity = (newPosition - transform.localPosition) * 5;
     }
 
     IEnumerator Wait(float waitTime, int index)

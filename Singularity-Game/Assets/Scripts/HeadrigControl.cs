@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HeadrigControl : MonoBehaviour
 {
-    [SerializeField] private Camera mainCamera;
+    private Camera mainCamera;
     GameObject player;
     Player playerValue;
     // Start is called before the first frame update
@@ -12,6 +12,7 @@ public class HeadrigControl : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player");
         playerValue = player.GetComponent<Player>();
+        mainCamera = Camera.main;
     }
 
     // Update is called once per frame
@@ -22,7 +23,9 @@ public class HeadrigControl : MonoBehaviour
 
     void HeadControl() 
     {
-        Vector3 position = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        var mousePos = Input.mousePosition;
+        mousePos.z = -mainCamera.transform.position.z;
+        Vector3 position = mainCamera.ScreenToWorldPoint(mousePos);
         //Debug.Log(playerValue.direction);
         transform.position = new Vector3(player.transform.position.x + (playerValue.direction * 5), position.y, 0);
     }
