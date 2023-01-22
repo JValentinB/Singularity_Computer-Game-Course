@@ -8,9 +8,10 @@ public class Player : Character
     [SerializeField] private GameObject projectile;
     [SerializeField] public GameObject jumpBurst;
     public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
-    public Vector3 respawnpoint = new Vector3(0, 0, 0);
+    //public Vector3 respawnpoint = new Vector3(-178, 80, 0);
     private SceneControl scenecontrol;
     private fade_to_black ftb;
+    [SerializeField] private static Vector3 latestCheckPointPos = new Vector3(-178, 80, 0);
 
     void Start(){
         maxHealth = 100;
@@ -29,6 +30,7 @@ public class Player : Character
         rigidbody.mass = mass;
         weaponMode = bulletMode.Blue;
         setDirectionShot = false;
+        transform.position = latestCheckPointPos;
         
     }
 
@@ -40,14 +42,10 @@ public class Player : Character
         GroundCheck();
         RotateGravity();
         ApplyGravity();
-        if (currentHealth <= 0)
-        {
-            OnDeath();
-        }
         //changeEquipment();
         if (Input.GetKey(KeyCode.R))
         {
-            scenecontrol.set_checkpoint();
+            Debug.Log(latestCheckPointPos);
         }
 
 
@@ -57,8 +55,13 @@ public class Player : Character
         Attack(); 
         Jump();
         if(Input.GetKeyDown(KeyCode.Space)) createBurst();
+        if (currentHealth <= 0)
+        {
+            OnDeath();
+        }
     }
 
+    
     private void MovePlayer(){
         float landing = (animator.GetCurrentAnimatorStateInfo(0).IsName("Landing")) ? 0.5f : 1;
         var velocity = direction * Vector3.forward * Input.GetAxis("Horizontal") * landing * currentSpeed;
@@ -125,16 +128,21 @@ public class Player : Character
         Destroy(projectileClone, 5);
     }
 
+
+    public void setCheckPoint(Vector3 pos)
+    {
+        latestCheckPointPos = pos;
+        latestCheckPointPos.z = 0;
+        Debug.Log(latestCheckPointPos);
+    }
+
     public void OnDeath(){
         //...
         //GameObject blacksquare = GameObject.Find("/Canvas/BlackOutSquare");
         //ftb = blacksquare.GetComponent<fade_to_black>();
         
         //ftb.FadeBlackOutSquare(blacksquare);
-        //scenecontrol.reset_on_death();
-            
-        //rigidbody.position = respawnpoint;
-        //currentHealth = maxHealth;
+        scenecontrol.reset_on_death();
     }
 
     private void createBurst(){
@@ -190,4 +198,5 @@ public class Player : Character
         EquipWeapon(animator.GetInteger("Equipment"));
     }
     //---------------------------------------
+
 }
