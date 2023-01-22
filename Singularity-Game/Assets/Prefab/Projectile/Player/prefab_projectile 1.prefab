@@ -63,6 +63,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   mode: 2
+  test: 0
 --- !u!198 &-6047080249484041264
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -146,7 +147,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.3
+      scalar: 2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
