@@ -23,7 +23,7 @@ public class SceneControl : MonoBehaviour
     public void reset_on_death()
     {
     
-     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+     SceneManager.LoadScene(checkpoint);
        
         
     }

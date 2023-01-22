@@ -9,7 +9,6 @@ public class Player : Character
     [SerializeField] public GameObject jumpBurst;
     public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
     public Vector3 respawnpoint = new Vector3(0, 0, 0);
-    public ParticleSystem particles_onDeath;
     private SceneControl scenecontrol;
     private fade_to_black ftb;
 
@@ -30,7 +29,7 @@ public class Player : Character
         rigidbody.mass = mass;
         weaponMode = bulletMode.Blue;
         setDirectionShot = false;
-        particles_onDeath.Stop();
+        
     }
 
     void FixedUpdate(){
@@ -46,6 +45,11 @@ public class Player : Character
             OnDeath();
         }
         //changeEquipment();
+        if (Input.GetKey(KeyCode.R))
+        {
+            scenecontrol.set_checkpoint();
+        }
+
 
     }
 
@@ -122,7 +126,11 @@ public class Player : Character
     }
 
     public void OnDeath(){
-        particles_onDeath.Play();
+        //...
+        //GameObject blacksquare = GameObject.Find("/Canvas/BlackOutSquare");
+        //ftb = blacksquare.GetComponent<fade_to_black>();
+        
+        //ftb.FadeBlackOutSquare(blacksquare);
         //scenecontrol.reset_on_death();
             
         //rigidbody.position = respawnpoint;
