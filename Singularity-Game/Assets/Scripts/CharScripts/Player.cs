@@ -12,6 +12,7 @@ public class Player : Character
     private SceneControl scenecontrol;
     private fade_to_black ftb;
     [SerializeField] private static Vector3 latestCheckPointPos = new Vector3(-178, 80, 0);
+    public ParticleSystem particles_onDeath = null;
 
     void Start(){
         maxHealth = 100;
@@ -31,6 +32,7 @@ public class Player : Character
         weaponMode = bulletMode.Blue;
         setDirectionShot = false;
         transform.position = latestCheckPointPos;
+        particles_onDeath.Stop();
         
     }
 
@@ -140,8 +142,9 @@ public class Player : Character
         //...
         //GameObject blacksquare = GameObject.Find("/Canvas/BlackOutSquare");
         //ftb = blacksquare.GetComponent<fade_to_black>();
-        
+
         //ftb.FadeBlackOutSquare(blacksquare);
+        particles_onDeath.Play();
         scenecontrol.reset_on_death();
     }
 
