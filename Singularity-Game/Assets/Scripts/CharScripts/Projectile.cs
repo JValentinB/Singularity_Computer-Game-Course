@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    private ParticleSystem ps;
+    private ParticleSystem.MainModule _ps;
     [SerializeField] private float speed;
     private Vector3 dir;
     private int dmg;
     [SerializeField] public int mode;
-    public bool test;
+
+    void Start(){
+        ps = GetComponent<ParticleSystem>();
+        _ps = ps.main;
+        ChangeColor();
+    }
 
     void Update(){
         Move();
@@ -19,6 +26,20 @@ public class Projectile : MonoBehaviour
         this.speed = speed;
         this.dmg = dmg;
         this.mode = mode;
+    }
+
+    private void ChangeColor(){
+        switch (mode){
+            case 0:
+                _ps.startColor = new Color(88f, 0f, 205f, 255f);
+                break;
+            case 1:
+                _ps.startColor = new Color(255f, 85f, 0f, 255f);
+                break;
+            case 2:
+                _ps.startColor = new Color(255f, 0f, 16f, 255f);
+                break;
+        }
     }
 
     private void mProjCollision(GameObject obj){
@@ -53,13 +74,13 @@ public class Projectile : MonoBehaviour
         } else if(mode == 2 && obj.tag != "Player"){
             controlShot();
             Destroy(gameObject);
-        } else if(obj.GetComponent<Damageable>() && obj.tag != "Player"){
+        } else if(obj.GetComponent<Damageable>() && obj.tag != "Player" && obj.tag != "FOV"){
             obj.GetComponent<Damageable>().ApplyDamage(dmg);
             Destroy(gameObject);
         } else if(obj.tag == "Shifter"){
-            obj.GetComponent<Shifter>().active = true;
+            if(obj.GetComponent<Shifter>().mode == mode) obj.GetComponent<Shifter>().active = true;
             Destroy(gameObject);
-        } else if(obj.tag != "Player"){
+        } else if(obj.tag != "Player" && obj.tag != "FOV"){
             Destroy(gameObject);
         }
     }

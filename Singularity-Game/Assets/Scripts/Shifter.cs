@@ -20,10 +20,19 @@ public class Shifter : MonoBehaviour
     }
 
     private void ChangeMode(){
-        if(active){
-            _particle.gravityModifier = -1.5f;
-        } else if(!active){
-            _particle.gravityModifier = 0.5f;
+        if(direction != Vector3.down){
+            if(active){
+                _particle.gravityModifier = -1.5f;
+            } else if(!active){
+                _particle.gravityModifier = 0.5f;
+            }
+        }
+        else {
+            if(active){
+                _particle.gravityModifier = 1.5f;
+            } else if(!active){
+                _particle.gravityModifier = -0.5f;
+            }
         }
     }
 

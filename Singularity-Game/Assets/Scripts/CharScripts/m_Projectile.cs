@@ -34,7 +34,7 @@ public class m_Projectile : MonoBehaviour
     private void createPieces(){
         Vector3 pos = transform.position;
         for(int i = 0; i < 5; i++){
-            Vector3 piecePos = new Vector3(pos.x+(Random.value%10)/10, pos.y+(Random.value%10)/10, pos.z+(Random.value%10)/10);
+            Vector3 piecePos = new Vector3(pos.x+Random.value, pos.y+Random.value, pos.z+Random.value);
             GameObject pieceClone = Instantiate(rockPiece, piecePos, transform.rotation);
             Destroy(pieceClone, 5);
         }
@@ -47,13 +47,14 @@ public class m_Projectile : MonoBehaviour
         transform.Rotate(1.5f, 1.5f, 1.5f, Space.Self);
     }
 
-    private void OnTriggerEnter(Collider other){
-        var col = other.gameObject;
-        if(col.GetComponent<Damageable>()){
-            col.GetComponent<Damageable>().ApplyDamage(dmg);
+    private void OnTriggerEnter(Collider col){
+        var obj = col.gameObject;
+        if(obj.GetComponent<Damageable>()){
+            obj.GetComponent<Damageable>().ApplyDamage(dmg);
             OnDeath();
-        } else if(freeze && !col.GetComponent<Projectile>()){
+        } else if(freeze && !obj.GetComponent<Projectile>()){
             OnDeath();
-        }
+        } else if(obj.tag != "FOV" && obj.tag != "Shifter" && !obj.GetComponent<Projectile>())
+            OnDeath();
     }
 }
