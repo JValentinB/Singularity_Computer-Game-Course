@@ -10,8 +10,9 @@ public class negaitveVelocity : MonoBehaviour
     void OnTriggerEnter(Collider col){
         var obj = col.GetComponent<Damageable>();
         if(obj){
-            var prevGravityStrength = obj.gravityStrength;
+            prevGravityStrength = obj.gravityStrength;
             obj.gravityStrength = upstreamStrength;
+            Debug.Log(prevGravityStrength);
         }
     }
 
@@ -19,6 +20,7 @@ public class negaitveVelocity : MonoBehaviour
         var obj = col.GetComponent<Damageable>();
         if(obj){
             obj.gravityStrength = prevGravityStrength;
+            Debug.Log(prevGravityStrength);
         }
     }
 }

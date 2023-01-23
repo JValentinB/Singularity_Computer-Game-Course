@@ -13,7 +13,7 @@ public class Damageable : MonoBehaviour
 {
     public int currentHealth, maxHealth, direction;
     public bool shift = false;
-    public float gravityStrength = 18f;
+    public float gravityStrength = 27f;
     public Quaternion targetRotation;
     public Vector3 targetDirection, gravitationalDirection;
     public Animator animator;

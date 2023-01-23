@@ -8,6 +8,7 @@ public class Platform : MonoBehaviour
     { Line, Circle }
     [SerializeField] Movement movement;
     public float speed = 1; // Speed at which the platform should move
+    public float zPosition;
 
     [Header("Line")]
     public List<Vector3> waypoints; // List of waypoints for the platform to move between
@@ -30,6 +31,7 @@ public class Platform : MonoBehaviour
     {
         rb = transform.GetComponent<Rigidbody>();
         timer = 0f;
+        zPosition = transform.localPosition.z;
 
         if (waypoints.Count != 0)
             transform.localPosition = waypoints[0];
@@ -56,7 +58,7 @@ public class Platform : MonoBehaviour
             timer = 0f;
         }
 
-        transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
+        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, zPosition);
     }
 
     void OnTriggerEnter(Collider other)
