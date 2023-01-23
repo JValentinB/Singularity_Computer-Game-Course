@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class Player : Character
@@ -8,6 +9,10 @@ public class Player : Character
     [SerializeField] private GameObject projectile;
     [SerializeField] public GameObject jumpBurst;
     public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
+    private SceneControl scenecontrol;
+    private fade_to_black ftb;
+    [SerializeField] private static Vector3 latestCheckPointPos = new Vector3(-178, 80, 0);
+    public ParticleSystem particles_onDeath = null;
 
     void Start(){
         maxHealth = 100;
@@ -25,6 +30,9 @@ public class Player : Character
         rb.mass = mass;
         weaponMode = 0;
         setDirectionShot = false;
+        transform.position = latestCheckPointPos;
+        particles_onDeath.Stop();
+        scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
     }
 
     void FixedUpdate(){
@@ -37,7 +45,10 @@ public class Player : Character
         ApplyGravity();
 
         //changeEquipment();
-        
+        if (currentHealth <= 0)
+        {
+            OnDeath();
+        }
     }
 
     void Update(){
@@ -122,9 +133,21 @@ public class Player : Character
                 projTarget, 15, weaponMode); }
         Destroy(projectileClone, 5);
     }
+    public void setCheckPoint(Vector3 pos)
+    {
+        latestCheckPointPos = pos;
+        latestCheckPointPos.z = 0;
+    }
 
-    public void OnDeath(){
+    public void OnDeath()
+    {
         //...
+        //GameObject blacksquare = GameObject.Find("/Canvas/BlackOutSquare");
+        //ftb = blacksquare.GetComponent<fade_to_black>();
+
+        //ftb.FadeBlackOutSquare(blacksquare);
+        particles_onDeath.Play();
+        scenecontrol.reset_on_death();
     }
 
     private void createBurst(){
