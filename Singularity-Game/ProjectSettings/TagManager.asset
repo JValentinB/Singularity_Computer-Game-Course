@@ -8,6 +8,7 @@ TagManager:
   - Item
   - Shifter
   - m_Projectile
+  - InventoryUI
   layers:
   - Default
   - TransparentFX
