@@ -15,6 +15,7 @@ public class Projectile : MonoBehaviour
         ps = GetComponent<ParticleSystem>();
         _ps = ps.main;
         ChangeColor();
+        Debug.Log(ps.startColor);
     }
 
     void Update(){
@@ -34,7 +35,7 @@ public class Projectile : MonoBehaviour
                 _ps.startColor = new Color(88f, 0f, 205f, 255f);
                 break;
             case 1:
-                _ps.startColor = new Color(255f, 85f, 0f, 255f);
+                _ps.startColor = new Color(255f, 128f, 0f, 255f);
                 break;
             case 2:
                 _ps.startColor = new Color(255f, 0f, 16f, 255f);

@@ -6,13 +6,14 @@ public class Shifter : MonoBehaviour
 {
     [SerializeField] private Vector3 direction;
     [SerializeField] public int mode;
-    private ParticleSystem particle;
-    ParticleSystem.MainModule _particle;
+    private ParticleSystem ps;
+    ParticleSystem.MainModule _ps;
     public bool active = false;
 
     void Start(){
-        particle = GetComponent<ParticleSystem>();
-        _particle = particle.main;
+        ps = GetComponent<ParticleSystem>();
+        _ps = ps.main;
+        _ps.startColor = new Color(255f, 128f, 0f, 255f);
     }
 
     void Update(){
@@ -22,16 +23,16 @@ public class Shifter : MonoBehaviour
     private void ChangeMode(){
         if(direction != Vector3.down){
             if(active){
-                _particle.gravityModifier = -1.5f;
+                _ps.gravityModifier = -1.5f;
             } else if(!active){
-                _particle.gravityModifier = 0.5f;
+                _ps.gravityModifier = 0.5f;
             }
         }
         else {
             if(active){
-                _particle.gravityModifier = 1.5f;
+                _ps.gravityModifier = 1.5f;
             } else if(!active){
-                _particle.gravityModifier = -0.5f;
+                _ps.gravityModifier = -0.5f;
             }
         }
     }
