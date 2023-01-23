@@ -22,10 +22,9 @@ public class Projectile : MonoBehaviour
         Move();
     }
 
-    public void setProjectileConfig(Vector3 dir, float speed, int dmg, int mode){
+    public void setProjectileConfig(Vector3 dir, float speed, int mode){
         this.dir = Vector3.Normalize(dir);
         this.speed = speed;
-        this.dmg = dmg;
         this.mode = mode;
     }
 
@@ -33,9 +32,11 @@ public class Projectile : MonoBehaviour
         switch (mode){
             case 0:
                 _ps.startColor = new Color(88f, 0f, 205f, 255f);
+                dmg = 0;
                 break;
             case 1:
                 _ps.startColor = new Color(255f, 128f, 0f, 255f);
+                dmg = 20;
                 break;
             case 2:
                 _ps.startColor = new Color(255f, 0f, 16f, 255f);

@@ -7,7 +7,7 @@ public class Shifter : MonoBehaviour
     [SerializeField] private Vector3 direction;
     [SerializeField] public int mode;
     private ParticleSystem ps;
-    ParticleSystem.MainModule _ps;
+    private ParticleSystem.MainModule _ps;
     public bool active = false;
 
     void Start(){

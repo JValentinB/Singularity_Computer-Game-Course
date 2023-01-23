@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class negaitveVelocity : MonoBehaviour
+public class negativeVelocity : MonoBehaviour
 {
     [SerializeField] private float upstreamStrength; //-25f reicht für ca. 45 auf der Y-Achse
     private float prevGravityStrength;

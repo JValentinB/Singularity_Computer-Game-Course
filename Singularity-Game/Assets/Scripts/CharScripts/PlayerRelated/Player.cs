@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : Character
 {
-    [SerializeField] private int weaponMode;
+    [SerializeField] public int weaponMode;
     [SerializeField] private GameObject projectile;
     [SerializeField] public GameObject jumpBurst;
     public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
@@ -115,11 +115,11 @@ public class Player : Character
         GameObject projectileClone = (GameObject) Instantiate(projectile, fixedPos, Quaternion.identity);
         if(setDirectionShot){
             projectileClone.GetComponent<Projectile>().setProjectileConfig(
-                projTarget, 15, 20, 2);
+                projTarget, 15, 2);
             setDirectionShot = false;
         } else{
             projectileClone.GetComponent<Projectile>().setProjectileConfig(
-                projTarget, 15, 20, weaponMode); }
+                projTarget, 15, weaponMode); }
         Destroy(projectileClone, 5);
     }
 
