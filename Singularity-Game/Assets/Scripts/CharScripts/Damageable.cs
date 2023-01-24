@@ -18,6 +18,7 @@ public class Damageable : MonoBehaviour
     public Vector3 targetDirection, gravitationalDirection;
     public Animator animator;
     public Rigidbody rb;
+    public InvManager inventory = new InvManager();
 
     
     public void ApplyDamage(int damage){

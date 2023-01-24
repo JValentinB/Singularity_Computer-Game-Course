@@ -13,6 +13,7 @@ public class Player : Character
     private fade_to_black ftb;
     [SerializeField] private static Vector3 latestCheckPointPos = new Vector3(-178, 80, 0);
     public ParticleSystem particles_onDeath = null;
+    private InvUI invUI;
 
     void Start(){
         maxHealth = 100;
@@ -33,6 +34,8 @@ public class Player : Character
         //transform.position = latestCheckPointPos;
         particles_onDeath.Stop();
         scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
+        inventory = new InvManager();
+        invUI = GetComponent<InvUI>();
     }
 
     void FixedUpdate(){
@@ -43,7 +46,6 @@ public class Player : Character
         GroundCheck();
         RotateGravity();
         ApplyGravity();
-
         //changeEquipment();
         if (currentHealth <= 0)
         {
@@ -57,6 +59,11 @@ public class Player : Character
         Jump();
         ChangeBulletMode();
         if(Input.GetKeyDown(KeyCode.Space)) createBurst();
+        if(Input.GetKeyDown(KeyCode.Space)){
+            GiveItem(inventory.GetItem(0), 2);
+            inventory.AddItem(inventory.GetItem(1), 20);
+        }
+
     }
 
     private void MovePlayer(){
@@ -82,6 +89,11 @@ public class Player : Character
 
     public void giveXp(int xp){
         GetComponent<XpManager>().GainXp(xp);
+    }
+
+    public void GiveItem(InvItem item, int amount){
+        inventory.AddItem(item, amount);
+        invUI.AddItemToUI(item);
     }
 
     private void GroundCheck()

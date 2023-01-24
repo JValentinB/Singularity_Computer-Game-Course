@@ -9,6 +9,7 @@ TagManager:
   - Shifter
   - m_Projectile
   - FOV
+  - InventoryUI
   layers:
   - Default
   - TransparentFX
