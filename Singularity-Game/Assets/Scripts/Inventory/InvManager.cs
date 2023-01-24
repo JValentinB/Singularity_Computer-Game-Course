@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Events;
 using System;
 using UnityEngine;
 
@@ -8,6 +7,7 @@ public class InvManager : InvDatabase
 {
     public List<(InvItem, int)> stackedInventoryItems = new List<(InvItem, int)>();
     public Action onInventoryChangedCallback;
+    public InvUI invUI;
 
     void Start(){
         stackedInventoryItems = new List<(InvItem, int)>();
@@ -16,16 +16,15 @@ public class InvManager : InvDatabase
     //Adds Item to the given Inventory
     public void AddItem(InvItem item, int amount)
     {
+        invUI = GameObject.FindWithTag("Player").GetComponent<InvUI>();
         int index = FindItemIndexInInventory(item);
         if(index >= 0){
             stackedInventoryItems[index] = (stackedInventoryItems[index].Item1,  stackedInventoryItems[index].Item2 + amount);
-            onInventoryChangedCallback.Invoke();
-            return;
         } else {
             stackedInventoryItems.Add((item, amount));
-            onInventoryChangedCallback.Invoke();
-            return;
         }
+        invUI.AddItemToList(item);
+        return;
     }
 
     //Returns the amount of Items which can't be removed
@@ -46,7 +45,20 @@ public class InvManager : InvDatabase
 
     public int FindItemIndexInInventory(InvItem item)
     {
-        return stackedInventoryItems.FindIndex(i => i.Item1.id == item.id);
+        int index = stackedInventoryItems.FindIndex(i => i.Item1.id == item.id);
+        Debug.Log(index);
+        foreach (var i in stackedInventoryItems)
+        {
+            Debug.Log(i.Item1.id == item.id);
+        }
+        return index;
+    }
+
+    //FIXME
+    public int GetItemCount(InvItem item){
+        var index = FindItemIndexInInventory(item);
+        if(index == -1) return 0;
+        return stackedInventoryItems[index].Item2;
     }
 
     public bool IsEmpty(){

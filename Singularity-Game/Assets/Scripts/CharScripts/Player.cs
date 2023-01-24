@@ -25,6 +25,7 @@ public class Player : Character
         rigidbody.mass = mass;
         weaponMode = bulletMode.Blue;
         setDirectionShot = false;
+        inventory = new InvManager();
     }
 
     void FixedUpdate(){
@@ -35,7 +36,6 @@ public class Player : Character
         GroundCheck();
         RotateGravity();
         ApplyGravity();
-
         //changeEquipment();
         
     }
@@ -43,7 +43,16 @@ public class Player : Character
     void Update(){
         Attack(); 
         Jump();
-        if(Input.GetKeyDown(KeyCode.Space)) createBurst();
+        if(Input.GetKeyDown(KeyCode.Space)){
+            inventory.AddItem(inventory.GetItem(0), 2);
+            Debug.Log("TEST ALL ITEMS IN INV:");
+            foreach (var entry in inventory.stackedInventoryItems){
+                if(entry.Item1 != null){
+                    Debug.Log(entry.Item2);
+                    Debug.Log(entry.Item1.itemName);
+                }
+            }
+        } 
     }
 
     private void MovePlayer(){

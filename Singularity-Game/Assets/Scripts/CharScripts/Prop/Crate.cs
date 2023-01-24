@@ -5,7 +5,6 @@ using Random = UnityEngine.Random;
 
 public class Crate : Prop
 {
-    private InvManager inventory = new InvManager();
 
     void Start(){
         //Components

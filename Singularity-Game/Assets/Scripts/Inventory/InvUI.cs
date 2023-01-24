@@ -6,85 +6,69 @@ using UnityEngine.UI;
 
 public class InvUI : MonoBehaviour
 {
-    public GameObject inventoryOverlay; // Reference to the inventory UI game object
-    public GameObject inventoryUI;
-    public Transform itemsParent; // Reference to the parent object of all the inventory items
-    public GameObject slotPrefab; // Reference to the prefab for the UI element of an inventory item
-
+    public GameObject inventoryUI, slotPrefab;
     private InvManager playerInventory; // Reference to the player's inventory
-
     public int slots;
-    public int rows;
-    public float slotSize, slotPadding;
-
-    public float inventoryHeight, inventoryWidth, xSlotPosition, ySlotPosition;
-    private RectTransform inventoryRect;
     private List<(GameObject, InvItem)> slotList;
 
     
 
     private void Start()
     {
-        inventoryOverlay = GameObject.FindWithTag("InventoryUI");
-        inventoryUI = inventoryOverlay.transform.Find("InventoryUI").gameObject;
-        playerInventory = gameObject.GetComponent<Player>().inventoryManager; // Get the reference to the player's inventory
-        slots = 50;
-        slotSize = 100;
-        rows = 5;
-        slotPadding = 10;
+        inventoryUI = GameObject.FindWithTag("InventoryUI");
+        playerInventory = gameObject.GetComponent<Player>().inventory; // Get the reference to the player's inventory
+        slots = 20;
         CreateLayout();
         UpdateInvUI();
+        OpenCloseInventory();
         //playerInventory.onInventoryChangedCallback += UpdateUI;
     }
 
     private void CreateLayout()
     {
         slotList = new List<(GameObject, InvItem)>();
-        int coulumns = slots / rows;
-        inventoryWidth = coulumns * (slotSize + slotPadding) + slotPadding;
-        inventoryHeight = rows * (slotSize + slotPadding) + slotPadding;
-        inventoryRect = inventoryUI.GetComponent<RectTransform>();
-        inventoryRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, inventoryWidth);
-        inventoryRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, inventoryHeight);
 
-        for(int y = 0; y < rows; y++){
-            for(int x = 0; x < coulumns; x++){
-                GameObject newSlot = (GameObject)Instantiate(slotPrefab);
-                newSlot.name = "Slot" + y + x;
-                newSlot.transform.SetParent(inventoryUI.transform);
-                RectTransform slotRect = newSlot.GetComponent<RectTransform>();
-                xSlotPosition = slotPadding * (x + 1) + (slotSize * x) - (inventoryWidth / 2);
-                ySlotPosition = - slotPadding * (y + 1) - (slotSize * y) + (inventoryHeight / 2);
-                slotRect.localPosition = inventoryRect.localPosition + new Vector3(xSlotPosition, ySlotPosition, 0);
-                slotRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, slotSize);
-                slotRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotSize);
-                slotRect.localScale = new Vector3(1,1,1);
-                slotList.Add((newSlot, null));
-            }
+        for(int i = 0; i < slots; i++){
+            GameObject newSlot = (GameObject)Instantiate(slotPrefab);
+            newSlot.name = "Slot" + i;
+            newSlot.transform.SetParent(inventoryUI.transform, false);
+            slotList.Add((newSlot, null));
         }
     }
 
     void Update(){
-        if(Input.GetKeyDown(KeyCode.I) || (inventoryOverlay.activeSelf && Input.GetKeyDown(KeyCode.Escape))){
+        if(Input.GetKeyDown(KeyCode.I) || (inventoryUI.activeSelf && Input.GetKeyDown(KeyCode.Escape))){
             OpenCloseInventory(); 
         }
-        
-        if(Input.GetKeyDown(KeyCode.R)){
-            Debug.Log(playerInventory.GetItem(0) != null);
-            Debug.Log("TEST");
-            slotList[0] = (slotList[0].Item1, playerInventory.GetItem(0));
-            //UpdateInvUI();
-        }
+        /* if(Input.GetKeyDown(KeyCode.Space)){
+            Debug.Log("TEST ALL ITEMS IN LIST:");
+            foreach (var entry in slotList){
+                if(entry.Item2 != null){
+                    Debug.Log(entry.Item2.itemName);
+                }
+            }
+        } */
     }
 
     public void UpdateInvUI(){
         foreach (var entry in slotList)
         {
-            if(entry.Item2){
-                var icon = entry.Item1.transform.Find("InventoryItemIcon").gameObject.GetComponent<Image>();
-                icon.sprite = entry.Item2.icon;
-                var itemName = entry.Item1.transform.Find("ItemName").gameObject.GetComponent<TextMesh>();
-                itemName.text = entry.Item2.itemName;
+            if(entry.Item2 != null){
+                if(playerInventory.GetItemCount(entry.Item2) >= 0)//>0
+                {
+                    if(entry.Item2.iconPath != null){
+                        Debug.Log("T3");
+                        var icon = entry.Item1.transform.Find("InventoryItemIcon").gameObject.GetComponent<Image>();
+                        icon.sprite = Resources.Load<Sprite>(entry.Item2.iconPath);
+                    }
+                    if(entry.Item2.itemName != null){
+                        Debug.Log("T4");
+                        var itemName = entry.Item1.transform.Find("ItemName").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
+                        itemName.text = entry.Item2.itemName;
+                    }
+                    var itemCount = entry.Item1.transform.Find("ItemCount").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
+                    itemCount.text = playerInventory.GetItemCount(entry.Item2).ToString();
+                }
                 foreach (Transform child in entry.Item1.transform)
                 {
                     child.gameObject.SetActive(true);
@@ -98,7 +82,22 @@ public class InvUI : MonoBehaviour
         }
     }
 
-    // Method to handle item interactions
+    public bool AddItemToList(InvItem item){
+        if(slotList.FindIndex(entry => (entry.Item2 != null && entry.Item2.id == item.id)) >= 0){
+            UpdateInvUI();
+            return true;
+        }
+        var firstEmptyIndex = slotList.FindIndex(entry => entry.Item2 == null);
+        if(firstEmptyIndex >= 0){
+            slotList[firstEmptyIndex] = (slotList[firstEmptyIndex].Item1, item);
+            UpdateInvUI();
+            return true;
+        }
+        Debug.Log("Das soll nicht passieren");
+        return false;
+    }
+
+    /* // Method to handle item interactions
     private void UseItem(InvItem item)
     {
         // Example usage: remove one of the item from the inventory when clicked
@@ -110,12 +109,11 @@ public class InvUI : MonoBehaviour
         } else {
             //UpdateUI();
         }   
-    }
+    } */
     // Method to open and close the inventory
     public void OpenCloseInventory()
     {
-        Debug.Log("Toggle Inv");
-        inventoryOverlay.SetActive(!inventoryOverlay.activeSelf);
+        inventoryUI.SetActive(!inventoryUI.activeSelf);
         //UpdateUI();
     }
 
