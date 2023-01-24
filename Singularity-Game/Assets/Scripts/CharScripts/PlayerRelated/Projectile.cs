@@ -31,15 +31,15 @@ public class Projectile : MonoBehaviour
     private void ChangeColor(){
         switch (mode){
             case 0:
-                _ps.startColor = new Color(88f, 0f, 205f, 255f);
+                _ps.startColor = new Color(0.5447297f, 0f, 1f, 1f);
                 dmg = 0;
                 break;
             case 1:
-                _ps.startColor = new Color(255f, 128f, 0f, 255f);
+                _ps.startColor = new Color(1, 0.3322569f, 0f, 1f);
                 dmg = 20;
                 break;
             case 2:
-                _ps.startColor = new Color(255f, 0f, 16f, 255f);
+                _ps.startColor = new Color(1f, 1f, 1f, 1f);
                 break;
         }
     }

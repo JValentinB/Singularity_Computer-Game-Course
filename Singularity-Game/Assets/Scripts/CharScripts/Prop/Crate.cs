@@ -28,7 +28,8 @@ public class Crate : Prop
         inventory.AddItem(inventory.GetItem(0), 69);
         inventory.AddItem(inventory.GetItem(1), 420);
 
-        GameObject lootObject = Instantiate(lootPrefab, transform.position, transform.rotation);
+        var fixedPos = new Vector3(transform.position.x, transform.position.y-1f, transform.position.z);
+        GameObject lootObject = Instantiate(lootPrefab, fixedPos, transform.rotation);
         lootObject.GetComponent<Loot>().inventory = inventory;
     }
 

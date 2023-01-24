@@ -13,7 +13,7 @@ public class Shifter : MonoBehaviour
     void Start(){
         ps = GetComponent<ParticleSystem>();
         _ps = ps.main;
-        _ps.startColor = new Color(255f, 128f, 0f, 255f);
+        _ps.startColor = new Color(1, 0.3322569f, 0f, 1f);
     }
 
     void Update(){

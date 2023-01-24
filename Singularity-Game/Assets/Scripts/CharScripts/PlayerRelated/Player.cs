@@ -30,7 +30,7 @@ public class Player : Character
         rb.mass = mass;
         weaponMode = 0;
         setDirectionShot = false;
-        transform.position = latestCheckPointPos;
+        //transform.position = latestCheckPointPos;
         particles_onDeath.Stop();
         scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
     }
@@ -141,12 +141,18 @@ public class Player : Character
 
     public void OnDeath()
     {
+        StartCoroutine(delayedDeath());
+    }
+
+    IEnumerator delayedDeath()
+    {
         //...
         //GameObject blacksquare = GameObject.Find("/Canvas/BlackOutSquare");
         //ftb = blacksquare.GetComponent<fade_to_black>();
 
         //ftb.FadeBlackOutSquare(blacksquare);
         particles_onDeath.Play();
+        yield return new WaitForSeconds(2);
         scenecontrol.reset_on_death();
     }
 

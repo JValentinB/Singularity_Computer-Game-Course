@@ -5,18 +5,7 @@ using UnityEngine;
 
 public class WindUpstream : MonoBehaviour
 {
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    private float prevGravityStrength;
     //Function will be called on leaving collider range
     private void OnTriggerEnter(Collider col)
     {
@@ -24,6 +13,7 @@ public class WindUpstream : MonoBehaviour
 
         if (damagbleObjectToShift)
         {
+            prevGravityStrength = damagbleObjectToShift.gravityStrength;
             var rg = col.gameObject.GetComponent<Rigidbody>();
             damagbleObjectToShift.gravityStrength = 5f;
             damagbleObjectToShift.GetComponent<Character>().jumpForce = 3050f;
@@ -37,7 +27,7 @@ public class WindUpstream : MonoBehaviour
         
         if (damagbleObjectToShift)
         {
-            damagbleObjectToShift.gravityStrength = 18f;
+            damagbleObjectToShift.gravityStrength = prevGravityStrength;
             damagbleObjectToShift.GetComponent<Character>().jumpForce = 1050f;
         }
 

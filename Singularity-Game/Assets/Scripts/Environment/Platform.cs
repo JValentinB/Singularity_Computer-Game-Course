@@ -35,6 +35,8 @@ public class Platform : MonoBehaviour
 
         if (waypoints.Count != 0)
             transform.localPosition = waypoints[0];
+
+        if(waypoints.Count != waypointTime.Count) waypointTime = new List<float> (new float[waypoints.Count]);
             
         //Making sure it doesn't get pushed away by the player if there are no waypoints
         if(waypoints.Count == 0) rb.isKinematic = true;
