@@ -9,6 +9,7 @@ TagManager:
   - Shifter
   - m_Projectile
   - FOV
+  - Staffstone
   layers:
   - Default
   - TransparentFX
