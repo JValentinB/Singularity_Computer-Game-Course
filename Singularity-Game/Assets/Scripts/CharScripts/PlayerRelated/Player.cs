@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
+//using System.Diagnostics;
 using UnityEngine;
 
 public class Player : Character
@@ -131,11 +131,11 @@ public class Player : Character
         if(!Input.GetMouseButtonDown(1)) return;
 
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
-        Vector3 fixedPos = new Vector3(transform.position.x, transform.position.y + 1.3f, 0);
-        Vector3 projTarget = mousePos - fixedPos;
+        Vector3 staffStonePos = GameObject.FindWithTag("Staffstone").transform.position;
+        Vector3 projTarget = mousePos - staffStonePos;
         projTarget = new Vector3(projTarget.x, projTarget.y, 0f);
 
-        GameObject projectileClone = (GameObject) Instantiate(projectile, fixedPos, Quaternion.identity);
+        GameObject projectileClone = (GameObject) Instantiate(projectile, staffStonePos, Quaternion.identity);
         if(setDirectionShot){
             projectileClone.GetComponent<Projectile>().setProjectileConfig(
                 projTarget, 15, 2);

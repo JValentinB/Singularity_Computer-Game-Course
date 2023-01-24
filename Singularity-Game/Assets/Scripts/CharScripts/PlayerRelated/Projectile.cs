@@ -32,7 +32,7 @@ public class Projectile : MonoBehaviour
         switch (mode){
             case 0:
                 _ps.startColor = new Color(0.5447297f, 0f, 1f, 1f);
-                dmg = 0;
+                dmg = 20;
                 break;
             case 1:
                 _ps.startColor = new Color(1, 0.3322569f, 0f, 1f);

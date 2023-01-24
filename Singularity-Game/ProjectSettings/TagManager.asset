@@ -10,6 +10,7 @@ TagManager:
   - m_Projectile
   - FOV
   - InventoryUI
+  - Staffstone
   layers:
   - Default
   - TransparentFX
