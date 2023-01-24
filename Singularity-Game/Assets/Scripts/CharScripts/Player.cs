@@ -78,8 +78,8 @@ public class Player : Character
     }
 
     public void GiveItem(InvItem item, int amount){
-        inventory.AddItem(item, amount);
-        invUI.AddItemToUI(item);
+        bool isSpace = invUI.AddItemToPlayerInventory(item, amount);
+        //if(!isSpace) inventoryFull();
     }
 
     private void GroundCheck()

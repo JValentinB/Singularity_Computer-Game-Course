@@ -23,6 +23,12 @@ public class InvUI : MonoBehaviour
         OpenCloseInventory();
     }
 
+    void Update(){
+        if(Input.GetKeyDown(KeyCode.I) || (inventoryUI.activeSelf && Input.GetKeyDown(KeyCode.Escape))){
+            OpenCloseInventory(); 
+        }
+    }
+
     private void CreateLayout()
     {
         slotList = new List<(GameObject, InvItem)>();
@@ -35,11 +41,6 @@ public class InvUI : MonoBehaviour
         }
     }
 
-    void Update(){
-        if(Input.GetKeyDown(KeyCode.I) || (inventoryUI.activeSelf && Input.GetKeyDown(KeyCode.Escape))){
-            OpenCloseInventory(); 
-        }
-    }
     
     private void UpdateList(){
         foreach (var inventoryEntry in playerInventory.stackedInventoryItems)
@@ -54,7 +55,7 @@ public class InvUI : MonoBehaviour
                 }
             }
             if(!found){
-                AddItemToUI(inventoryEntry.Item1);
+                AddItemToPlayerInventory(inventoryEntry.Item1, 0);
             }
         }
     }
@@ -86,13 +87,15 @@ public class InvUI : MonoBehaviour
         }
     }
 
-    public bool AddItemToUI(InvItem item){
+    public bool AddItemToPlayerInventory(InvItem item, int amount){
         if(slotList.FindIndex(entry => (entry.Item2 != null && entry.Item2.id == item.id)) >= 0){
+            playerInventory.AddItem(item, amount);
             UpdateInvUI();
             return true;
         }
         var firstEmptyIndex = slotList.FindIndex(entry => entry.Item2 == null);
         if(firstEmptyIndex >= 0){
+            playerInventory.AddItem(item, amount);
             slotList[firstEmptyIndex] = (slotList[firstEmptyIndex].Item1, item);
             UpdateInvUI();
             return true;
@@ -100,7 +103,7 @@ public class InvUI : MonoBehaviour
         return false;
     }
 
-    // Method to open and close the inventory
+     // Method to open and close the inventory
     public void OpenCloseInventory()
     {
         inventoryUI.SetActive(!inventoryUI.activeSelf);
