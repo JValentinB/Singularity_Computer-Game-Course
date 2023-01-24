@@ -11,7 +11,7 @@ public class Player : Character
     public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
     private SceneControl scenecontrol;
     private fade_to_black ftb;
-    [SerializeField] private static Vector3 latestCheckPointPos = new Vector3(-178, 80, 0);
+    [SerializeField] private static Vector3 latestCheckPointPos;
     public ParticleSystem particles_onDeath = null;
     private InvUI invUI;
 
@@ -31,7 +31,7 @@ public class Player : Character
         rb.mass = mass;
         weaponMode = 0;
         setDirectionShot = false;
-        //transform.position = latestCheckPointPos;
+        latestCheckPointPos = new Vector3(-200.71f, 77.35f, 0f);
         particles_onDeath.Stop();
         scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
         inventory = new InvManager();
@@ -106,6 +106,8 @@ public class Player : Character
 
         LayerMask hitLayer = LayerMask.NameToLayer("Ground");
         int layerMask = (1 << hitLayer);
+        /* Debug.DrawRay(transform.position + new Vector3( 0.5f, 1, 0), new Vector3(0, -5, 0), Color.green);
+        Debug.DrawRay(transform.position + new Vector3(-0.5f, 1, 0), new Vector3(0, -5, 0), Color.red); */
         if (Physics.Raycast(ray1, out hit1, layerMask) && Physics.Raycast(ray2, out hit2, layerMask))
         {
             //print(hit1.collider.name + " " + hit1.distance);
