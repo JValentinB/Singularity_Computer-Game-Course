@@ -21,6 +21,8 @@ public class Crate : Prop
         ApplyGravity();
         RotateGravity();
         OnDeath();
+
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
     }
 
     public override void createLoot(){

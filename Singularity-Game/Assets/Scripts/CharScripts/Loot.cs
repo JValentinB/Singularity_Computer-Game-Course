@@ -8,10 +8,10 @@ public class Loot : MonoBehaviour
 
     private void OnTriggerEnter(Collider col){
         if(col.tag == "Player"){
-            InvManager playerInventory = col.gameObject.GetComponent<InvManager>();
+            var player = col.gameObject.GetComponent<Player>();
             
             foreach(var item in inventory.stackedInventoryItems){
-                playerInventory.AddItem(item.Item1, item.Item2);
+                player.GiveItem(item.Item1, item.Item2);
                 Debug.Log("Added Item: " + item.Item1.itemName + ", " + item.Item2 + "x");
             }
 

@@ -253,7 +253,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 120
+  m_Constraints: 8
   m_CollisionDetection: 0
 --- !u!65 &1053948156498556689
 BoxCollider:
@@ -284,7 +284,7 @@ MonoBehaviour:
   maxHealth: 0
   direction: 0
   shift: 0
-  gravityStrength: 18
+  gravityStrength: 27
   targetRotation: {x: 0, y: 0, z: 0, w: 0}
   targetDirection: {x: 0, y: 0, z: 0}
   gravitationalDirection: {x: 0, y: 0, z: 0}
