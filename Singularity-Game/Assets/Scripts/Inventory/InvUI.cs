@@ -21,7 +21,6 @@ public class InvUI : MonoBehaviour
         CreateLayout();
         UpdateInvUI();
         OpenCloseInventory();
-        //playerInventory.onInventoryChangedCallback += UpdateUI;
     }
 
     private void CreateLayout()
@@ -40,35 +39,40 @@ public class InvUI : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.I) || (inventoryUI.activeSelf && Input.GetKeyDown(KeyCode.Escape))){
             OpenCloseInventory(); 
         }
-        /* if(Input.GetKeyDown(KeyCode.Space)){
-            Debug.Log("TEST ALL ITEMS IN LIST:");
-            foreach (var entry in slotList){
-                if(entry.Item2 != null){
-                    Debug.Log(entry.Item2.itemName);
+    }
+    
+    private void UpdateList(){
+        foreach (var inventoryEntry in playerInventory.stackedInventoryItems)
+        {
+            bool found = false;
+            foreach (var listEntry in slotList)
+            {
+                if(listEntry.Item2 != null && listEntry.Item2.id == inventoryEntry.Item1.id)
+                {
+                    found = true;
+                    break;
                 }
             }
-        } */
+            if(!found){
+                AddItemToUI(inventoryEntry.Item1);
+            }
+        }
     }
 
     public void UpdateInvUI(){
         foreach (var entry in slotList)
         {
             if(entry.Item2 != null){
-                if(playerInventory.GetItemCount(entry.Item2) >= 0)//>0
-                {
-                    if(entry.Item2.iconPath != null){
-                        Debug.Log("T3");
-                        var icon = entry.Item1.transform.Find("InventoryItemIcon").gameObject.GetComponent<Image>();
-                        icon.sprite = Resources.Load<Sprite>(entry.Item2.iconPath);
-                    }
-                    if(entry.Item2.itemName != null){
-                        Debug.Log("T4");
-                        var itemName = entry.Item1.transform.Find("ItemName").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
-                        itemName.text = entry.Item2.itemName;
-                    }
-                    var itemCount = entry.Item1.transform.Find("ItemCount").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
-                    itemCount.text = playerInventory.GetItemCount(entry.Item2).ToString();
+                if(entry.Item2.iconPath != null){
+                    var icon = entry.Item1.transform.Find("InventoryItemIcon").gameObject.GetComponent<Image>();
+                    icon.sprite = Resources.Load<Sprite>(entry.Item2.iconPath);
                 }
+                if(entry.Item2.itemName != null){
+                    var itemName = entry.Item1.transform.Find("ItemName").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
+                    itemName.text = entry.Item2.itemName;
+                }
+                var itemCount = entry.Item1.transform.Find("ItemCount").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
+                itemCount.text = playerInventory.GetItemCount(entry.Item2).ToString();
                 foreach (Transform child in entry.Item1.transform)
                 {
                     child.gameObject.SetActive(true);
@@ -82,7 +86,7 @@ public class InvUI : MonoBehaviour
         }
     }
 
-    public bool AddItemToList(InvItem item){
+    public bool AddItemToUI(InvItem item){
         if(slotList.FindIndex(entry => (entry.Item2 != null && entry.Item2.id == item.id)) >= 0){
             UpdateInvUI();
             return true;
@@ -93,28 +97,15 @@ public class InvUI : MonoBehaviour
             UpdateInvUI();
             return true;
         }
-        Debug.Log("Das soll nicht passieren");
         return false;
     }
 
-    /* // Method to handle item interactions
-    private void UseItem(InvItem item)
-    {
-        // Example usage: remove one of the item from the inventory when clicked
-        int removed = playerInventory.RemoveItem(item, 1);
-        if(removed == -1){
-            Debug.Log("Item not found in inventory");
-        } else if(removed > 0){
-            Debug.Log("Not enough items in inventory");
-        } else {
-            //UpdateUI();
-        }   
-    } */
     // Method to open and close the inventory
     public void OpenCloseInventory()
     {
         inventoryUI.SetActive(!inventoryUI.activeSelf);
-        //UpdateUI();
+        UpdateList();
+        UpdateInvUI();
     }
 
     

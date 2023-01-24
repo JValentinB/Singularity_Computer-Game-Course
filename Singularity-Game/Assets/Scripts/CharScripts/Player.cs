@@ -8,6 +8,7 @@ public class Player : Character
     [SerializeField] private GameObject projectile;
     [SerializeField] public GameObject jumpBurst;
     public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
+    private InvUI invUI;
 
     void Start(){
         maxHealth = 100;
@@ -26,6 +27,7 @@ public class Player : Character
         weaponMode = bulletMode.Blue;
         setDirectionShot = false;
         inventory = new InvManager();
+        invUI = GetComponent<InvUI>();
     }
 
     void FixedUpdate(){
@@ -37,22 +39,17 @@ public class Player : Character
         RotateGravity();
         ApplyGravity();
         //changeEquipment();
-        
+
     }
 
     void Update(){
         Attack(); 
         Jump();
         if(Input.GetKeyDown(KeyCode.Space)){
-            inventory.AddItem(inventory.GetItem(0), 2);
-            Debug.Log("TEST ALL ITEMS IN INV:");
-            foreach (var entry in inventory.stackedInventoryItems){
-                if(entry.Item1 != null){
-                    Debug.Log(entry.Item2);
-                    Debug.Log(entry.Item1.itemName);
-                }
-            }
-        } 
+            GiveItem(inventory.GetItem(0), 2);
+            inventory.AddItem(inventory.GetItem(1), 20);
+        }
+
     }
 
     private void MovePlayer(){
@@ -78,6 +75,11 @@ public class Player : Character
 
     public void giveXp(int xp){
         GetComponent<XpManager>().GainXp(xp);
+    }
+
+    public void GiveItem(InvItem item, int amount){
+        inventory.AddItem(item, amount);
+        invUI.AddItemToUI(item);
     }
 
     private void GroundCheck()

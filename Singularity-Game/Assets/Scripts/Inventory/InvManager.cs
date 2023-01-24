@@ -7,7 +7,6 @@ public class InvManager : InvDatabase
 {
     public List<(InvItem, int)> stackedInventoryItems = new List<(InvItem, int)>();
     public Action onInventoryChangedCallback;
-    public InvUI invUI;
 
     void Start(){
         stackedInventoryItems = new List<(InvItem, int)>();
@@ -16,14 +15,12 @@ public class InvManager : InvDatabase
     //Adds Item to the given Inventory
     public void AddItem(InvItem item, int amount)
     {
-        invUI = GameObject.FindWithTag("Player").GetComponent<InvUI>();
         int index = FindItemIndexInInventory(item);
         if(index >= 0){
             stackedInventoryItems[index] = (stackedInventoryItems[index].Item1,  stackedInventoryItems[index].Item2 + amount);
         } else {
             stackedInventoryItems.Add((item, amount));
         }
-        invUI.AddItemToList(item);
         return;
     }
 
