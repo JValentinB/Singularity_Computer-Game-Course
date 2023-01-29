@@ -8,22 +8,34 @@ public class InstablePlatform : Platform
     private bool isBroken = false;
 
     [Header("Instable")]
-    public float shakeDuration = 1f;
+    public float breakingThreshold = 100;
     public float breakDuration = 0.5f;
     public float fixDuration = 5f;
+    public float flashDuration = 0.1f;
+
+    private Light crystalLight;
+    private float intensity;
+    private float threshold = 0f;
+    int shakingHash = Animator.StringToHash("Base Layer.Shaking");
 
     void Start()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        crystalLight = transform.Find("Crystal").GetComponent<Light>();
+        intensity = crystalLight.intensity;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (isShaking && !isBroken)
         {
-            shakeDuration -= Time.deltaTime;
-            if (shakeDuration <= 0f)
+            threshold += 1;
+            crystalLight.intensity += 1;
+            Debug.Log(threshold);
+            animator.SetFloat("ShakingMultiplier", (1 / breakingThreshold) * threshold);
+
+            if (threshold > breakingThreshold)
             {
                 isBroken = true;
                 animator.SetBool("isBroken", true);
@@ -31,6 +43,10 @@ public class InstablePlatform : Platform
                 animator.SetBool("isShaking", false);
                 StartCoroutine(Break());
             }
+        }
+        else if(!isBroken && crystalLight.intensity > 1){
+            threshold -= 0.1f;
+            crystalLight.intensity -= 0.1f;
         }
     }
 
@@ -40,17 +56,27 @@ public class InstablePlatform : Platform
         if (playerLayer == (playerLayer | (1 << other.gameObject.layer)))
         {
             other_rigidbody.velocity += rb.velocity;
-            if (!isShaking)
-            {
-                isShaking = true;
-                animator.SetBool("isShaking", true);
-            }
+
+            isShaking = true;
+            animator.SetBool("isShaking", true);
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        Rigidbody other_rigidbody = other.GetComponent<Rigidbody>();
+        if (playerLayer == (playerLayer | (1 << other.gameObject.layer)))
+        {
+            other_rigidbody.velocity += rb.velocity;
+
+            isShaking = false;
+            animator.SetBool("isShaking", false);
         }
     }
 
     IEnumerator Break()
     {
-        animator.SetBool("isBroken", true);
+        yield return new WaitForSeconds(0.1f);
         foreach (Collider collider in GetComponents<Collider>())
         {
             if (!collider.isTrigger)
@@ -59,15 +85,20 @@ public class InstablePlatform : Platform
                 break;
             }
         }
+
+        StartCoroutine(TransitionLight(crystalLight.intensity, crystalLight.intensity * 10, 0.1f));
+
         yield return new WaitForSeconds(breakDuration);
         StartCoroutine(Fix());
     }
 
     IEnumerator Fix()
     {
-        yield return new WaitForSeconds(fixDuration);
+        isBroken = false;
         animator.SetBool("isBroken", false);
-    
+        threshold = 0f;
+        yield return new WaitForSeconds(fixDuration);
+        StartCoroutine(TransitionLight(crystalLight.intensity, intensity, 1f));
         foreach (Collider collider in GetComponents<Collider>())
         {
             if (!collider.isTrigger)
@@ -77,7 +108,16 @@ public class InstablePlatform : Platform
             }
         }
         // isShaking = false;
-        isBroken = false;
-        shakeDuration = 1f;
+    }
+
+    IEnumerator TransitionLight(float current, float target, float transitionTime)
+    {
+        float t = 0f;
+        while (t < transitionTime)
+        {
+            t += Time.deltaTime;
+            crystalLight.intensity = Mathf.Lerp(current, target, t / transitionTime);
+            yield return null;
+        }
     }
 }
