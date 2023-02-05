@@ -32,7 +32,6 @@ public class InstablePlatform : Platform
         {
             threshold += 1;
             crystalLight.intensity += 1;
-            Debug.Log(threshold);
             animator.SetFloat("ShakingMultiplier", (1 / breakingThreshold) * threshold);
 
             if (threshold > breakingThreshold)

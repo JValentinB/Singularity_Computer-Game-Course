@@ -15,7 +15,7 @@ public class Projectile : MonoBehaviour
         ps = GetComponent<ParticleSystem>();
         _ps = ps.main;
         ChangeColor();
-        Debug.Log(ps.startColor);
+        // Debug.Log(ps.startColor);
     }
 
     void Update(){
