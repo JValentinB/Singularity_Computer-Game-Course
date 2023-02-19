@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7285062826758017889
+--- !u!114 &-4579154959704914315
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13,19 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 0
---- !u!114 &-6952935737695594554
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 5
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -33,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Water
-  m_Shader: {fileID: -6465566751694194690, guid: 76f598a2b89e72743aa2446c8f32b984, type: 3}
+  m_Name: Foliage04
+  m_Shader: {fileID: -6465566751694194690, guid: be8dfdb5843eae048b187fc4f1edd734, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 0
@@ -66,6 +53,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Foliage_Alpha:
+        m_Texture: {fileID: 2800000, guid: 2c099c7f419032940a364cefa077b9da, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Leave_Alpha:
+        m_Texture: {fileID: 2800000, guid: c428649c954830c4582db1803261da9c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -82,12 +77,8 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _RefractionNormal:
-        m_Texture: {fileID: 2800000, guid: 57b7dfdda6b07934cac2468983c46b84, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_3bea2bcde76b4f44988371ccfb721c73_Texture_1:
-        m_Texture: {fileID: 2800000, guid: 57b7dfdda6b07934cac2468983c46b84, type: 3}
+    - _SampleTexture2D_84f10ca29b534e40983dfa094c4da1c1_Texture_1:
+        m_Texture: {fileID: 2800000, guid: c428649c954830c4582db1803261da9c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -104,66 +95,60 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 1
-    - _Ambient_Occlusion: 1
-    - _BUILTIN_AlphaClip: 0
+    - _BUILTIN_AlphaClip: 1
     - _BUILTIN_Blend: 0
-    - _BUILTIN_CullMode: 0
+    - _BUILTIN_CullMode: 2
     - _BUILTIN_DstBlend: 10
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
     - _BUILTIN_SrcBlend: 5
     - _BUILTIN_Surface: 1
-    - _BUILTIN_ZTest: 6
-    - _BUILTIN_ZWrite: 0
-    - _BUILTIN_ZWriteControl: 0
+    - _BUILTIN_ZTest: 4
+    - _BUILTIN_ZWrite: 1
+    - _BUILTIN_ZWriteControl: 1
+    - _BillBoardSize: 0.72
+    - _Billboard_Size: -1
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _DecalMeshBiasType: 0
-    - _DecalMeshDepthBias: 0
-    - _DecalMeshViewBias: 0
-    - _Depth: 0.58
     - _DetailNormalMapScale: 1
-    - _DrawOrder: 0
     - _DstBlend: 0
+    - _EffectBlend: 0
+    - _Effect_Blend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _High_Frequenzy: 197.2
+    - _Inflate: 0.24
     - _Metallic: 0
     - _Mode: 0
-    - _Normal_Strength: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _RefractionScale: 7.29
-    - _RefractionSpeed: 0.98
-    - _RefractionStrength: 4.79
-    - _Refraction_Scale: 31.36
-    - _Refraction_Speed: -3.4
-    - _Refraction_Strength: 2.3
+    - _Size_Randomness: 0.457
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
-    - _Somethin: 0
     - _SpecularHighlights: 1
-    - _Speed: 0.41
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WaterDepth: 3.7
-    - _Water_Depth: 10.3
-    - _WaveScale: 0.33
-    - _Wave_Amplitude: 1
-    - _Wave_Frequency: 71.7
-    - _Wave_Speed: 2.9
+    - _Wind: 0.229
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.078497685, g: 0.30066326, b: 0.7924528, a: 1}
-    - _DeepWater: {r: 0.23762906, g: 0.28280956, b: 0.5660378, a: 0.8862745}
-    - _Deep_Water: {r: 0.16113387, g: 0.21739729, b: 0.4811321, a: 0.35686275}
+    - _Base_Color: {r: 0.5779082, g: 0.6509434, b: 0.003070495, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _RefractionScale: {r: 1, g: 1, b: 0, a: 0}
-    - _Refraction_Scale_Vector: {r: 1, g: 1, b: 0, a: 0}
-    - _ShallowWater: {r: 0.149, g: 0.7176471, b: 0.53863907, a: 0.54509807}
-    - _Shallow_Water: {r: 0.2783019, g: 0.78773564, b: 1, a: 0.21960784}
+    - _Offset: {r: -0.37, g: 0, b: 0, a: 0}
+    - _Pivot_Point: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
+--- !u!114 &1439813657853913789
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5

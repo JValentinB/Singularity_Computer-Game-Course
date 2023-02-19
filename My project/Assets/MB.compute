@@ -1,0 +1,38 @@
+#pragma kernel CSMain
+
+struct PixelData
+{
+    float4 color;
+};
+
+RWTexture2D<float4> Out;
+double2 Offset;
+float Zoom;
+int MAX_ITER;
+
+[numthreads(16, 16, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    float2 UV = float2(id.x, id.y) / Out.texelSize.xy;
+    float4 color = float4(0, 0, 0, 1);
+
+    float2 c = (UV - 0.5) * float2(2.0, 2.0) * 1 / Zoom + Offset;
+    float2 z = float2(0, 0);
+
+    for (int i = 0; i < MAX_ITER; i++)
+    {
+        float2 zNew = float2(z.x * z.x - z.y * z.y, 2 * z.x * z.y) + c;
+        // float2 zNew = float2(sin(z.x)  + sin(z.y), 2 * z.x * z.y) + c;
+        if (length(zNew) > 2.0)
+        {
+            float t = float(i) / float(MAX_ITER);
+            color.r = pow(t, 0.5);
+            color.g = t * t;
+            color.b = t;
+            break;
+        }
+        z = zNew;
+    }
+
+    Out[id.xy] = color;
+}

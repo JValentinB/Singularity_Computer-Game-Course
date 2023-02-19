@@ -3,29 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using PathCreation;
 
+// This script is possible thanks to Sebastian Lague: https://www.youtube.com/watch?v=saAQNRSYU9k
 public class LaserBeam : MonoBehaviour
 {
-    private PathCreator pathCreator;
     public float colliderWidth = 1f;
+    public float anchorDistance = 4f;
+    [Range(0f, 1f)]
+    public float bendingAmount = 0.5f;
+    public float maxDistance = 100f;
 
-
-
+    private PathCreator pathCreator;
     private BezierPath bezierPath;
     private VertexPath path;
 
-    private bool pathChanged;
-    private bool meshChanged;
     private MeshCollider meshCollider;
     private MeshFilter meshFilter;
-    // private Mesh mesh;
+
+    private bool inCollider = true;
     private float thickness = 2f;
     LayerMask benderLayer = 1 << 8; // Layer mask for the "LaserBender" layer
 
-    int[] closestAnchors;
-    float[] anchorDistances;
-    Vector3 closestPoint;
-    Vector3 endPoint;
-    Vector3 startDirection;
+    List<Vector3> anchorPositions = new List<Vector3>();
+    List<Vector3> anchorDirections = new List<Vector3>();
+    List<Collider> colliders = new List<Collider>();
+    Vector3 startingPosition;
+    Vector3 startingDirection;
 
     float timer;
     // Start is called before the first frame update
@@ -35,192 +37,197 @@ public class LaserBeam : MonoBehaviour
         meshCollider = GetComponent<MeshCollider>();
         meshFilter = GetComponent<MeshFilter>();
 
-        endPoint = pathCreator.bezierPath[pathCreator.bezierPath.NumPoints - 1];
-        startDirection = Vector3.Normalize(pathCreator.bezierPath[3] - pathCreator.bezierPath[0]); 
-        // bezierPath = createPath();
-        // bezierPath.ControlPointMode = BezierPath.ControlMode.Automatic; 
+        increaseLength();
+        addAnchors(0);
+        startingPosition = pathCreator.bezierPath[0];
+        startingDirection = pathCreator.bezierPath[3] - pathCreator.bezierPath[0];
 
-        // pathCreator.bezierPath = bezierPath;
         createMeshFromPath();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (pathChanged)
+        if (colliders.Count > 0)
         {
+            bendPath();
+            colliders.Clear();
+
+            for (int anchor = 0; anchor < pathCreator.bezierPath.NumPoints; anchor += 3)
+            {
+                pathCreator.bezierPath.MovePoint(anchor, anchorPositions[anchor / 3]);
+            }
+
             createMeshFromPath();
-            meshChanged = true;
-            pathChanged = false;
+        }
+        else if (!inCollider)
+        {
+            resetPath(0);
+            createMeshFromPath();
+            inCollider = true;
         }
     }
 
+
+    // Funcionally OnTriggerStay because the Collider Mesh changes every frame
     void OnTriggerEnter(Collider other)
     {
-
         if (benderLayer == (benderLayer | (1 << other.gameObject.layer)))
         {
-            closestAnchors = closestAnchorPoint(other.transform.position - transform.position);
-            int closestSegment = closestSegmentToPoint(other.transform.position - transform.position);
+            colliders.Add(other);
+        }
+        else
+        {
+            Debug.Log(other.name);
+        }
+    }
 
-            if (closestAnchorDistance(closestPoint) > 2f)
+
+    void increaseLength()
+    {
+        Vector3 origin = pathCreator.bezierPath[pathCreator.bezierPath.NumPoints - 4];
+        Vector3 direction = Vector3.Normalize(pathCreator.bezierPath[pathCreator.bezierPath.NumPoints - 1] - origin);
+
+        Ray ray = new Ray(origin, direction);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, maxDistance))
+        {
+            pathCreator.bezierPath.MovePoint(pathCreator.bezierPath.NumPoints - 1, hit.transform.position - transform.position);
+        }
+        else
+        {
+            pathCreator.bezierPath.MovePoint(pathCreator.bezierPath.NumPoints - 1, origin + maxDistance * direction);
+        }
+    }
+
+    void addAnchors(int index)
+    {
+        int anchor = index;
+        float distance = Vector3.Distance(pathCreator.bezierPath[pathCreator.bezierPath.NumPoints - 1],
+                                          pathCreator.bezierPath[pathCreator.bezierPath.NumPoints - 4]);
+        Vector3 direction = Vector3.Normalize(pathCreator.bezierPath[pathCreator.bezierPath.NumPoints - 1] - pathCreator.bezierPath[anchor]);
+
+        while (distance > anchorDistance)
+        {
+            Vector3 anchorPosition = pathCreator.bezierPath[anchor] + anchorDistance * direction;
+
+            pathCreator.bezierPath.SplitSegment(anchorPosition, anchor / 3, 0.5f);
+
+            distance = Vector3.Distance(pathCreator.bezierPath[pathCreator.bezierPath.NumPoints - 1],
+                                          pathCreator.bezierPath[pathCreator.bezierPath.NumPoints - 4]);
+            anchor += 3;
+        }
+        for (int i = 0; i < pathCreator.bezierPath.NumAnchorPoints; i++)
+        {
+            anchorPositions.Add(pathCreator.bezierPath[i * 3]);
+            anchorDirections.Add(anchorDistance * direction);
+        }
+    }
+
+    void bendPath()
+    {
+        inCollider = false;
+
+        for (int anchor = 0; anchor < pathCreator.bezierPath.NumPoints - 2; anchor += 3)
+        {
+            foreach (Collider other in colliders)
             {
-                Debug.Log("Added");
-                addAnchor(closestPoint, closestSegment);
-                pathChanged = true;
-                bendPath(other.transform.position - transform.position, closestAnchors[0] + 3);
-                if (closestAnchorDistance(other.transform.position - transform.position) <= colliderWidth){
-                    bendPath(other.transform.position - transform.position, closestAnchors[0] + 3);
+                Vector3 benderPosition = other.transform.position - transform.position;
+                float distance = Vector3.Distance(benderPosition, pathCreator.bezierPath[anchor]);
+
+                if (distance < colliderWidth)
+                {
+                    Vector3 directionToBender = benderPosition - pathCreator.bezierPath[anchor];
+                    inCollider = true;
+
+                    float t = distance / colliderWidth;
+                    Vector3 straightLineDirection = getStraightLineDirection(anchor + 3);
+                    Vector3 interpolationPosition = Vector3.Lerp(directionToBender, straightLineDirection, bendingAmount);
+                    Vector3 newDirection = Vector3.Lerp(interpolationPosition, straightLineDirection, t);
+
+                    for (int j = anchor; j < pathCreator.bezierPath.NumPoints; j += 3)
+                    {
+                        anchorDirections[j / 3] = newDirection;
+                    }
+                    updatePositions(anchor);
                 }
             }
-            else if (closestAnchorDistance(other.transform.position - transform.position) <= colliderWidth){
-                pathChanged = true;
-                bendPath(other.transform.position - transform.position, closestAnchors[0]);
-            }
-            pathChanged = true;
+
         }
     }
 
-    void OnTriggerExit(Collider other)
+    void resetPath(int index)
     {
-        if (benderLayer == (benderLayer | (1 << other.gameObject.layer)))
+        for (int anchor = index; anchor < pathCreator.bezierPath.NumPoints; anchor += 3)
         {
-            meshChanged = false;
-        }
-    }
-
-    // BezierPath createPath(){
-    //     Vector3 start = transform.position;
-    //     Vector3 end = Vector3.zero;
-
-    //     Ray ray = new Ray(transform.position, transform.right);
-    //     RaycastHit hit;
-    //     if( Physics.Raycast(ray, out hit, 100)){
-    //         end = hit.transform.position;
-    //     }
-    //     Vector3[] points = {start, end};
-    //     return new BezierPath(points, false, PathSpace.xy);
-    // }
-
-
-    void addAnchor(Vector3 anchorPosition, int closestSegment)
-    {
-        // int segment = Mathf.Min(closestPoints[0], closestPoints[1]);
-        // Debug.Log(segment);
-        if (closestSegment != pathCreator.bezierPath.NumAnchorPoints - 2)
-        {
-            deleteSegments(closestSegment);
-        }
-
-        if(closestSegment == pathCreator.bezierPath.NumSegments) closestSegment--;
-        pathCreator.bezierPath.SplitSegment(anchorPosition, closestSegment, 0.5f);
-    }
-
-    void bendPath(Vector3 benderPosition, int anchorIndex)
-    {
-        
-        float t = Vector3.Distance(benderPosition, pathCreator.bezierPath[anchorIndex]) / colliderWidth;
-        float direction = Vector3.Dot(benderPosition - pathCreator.bezierPath[anchorIndex], pathCreator.path.GetNormal(pathCreator.path.GetClosestDistanceAlongPath(benderPosition + transform.position)));
-
-        for (int i = anchorIndex; i < pathCreator.bezierPath.NumPoints - 2; i += 3)
-        {
-            Vector3 anchorPosition = pathCreator.bezierPath[i];
-            Vector3 nextAnchorPosition = getFollowingPosition(i);
-
-            float x = Mathf.Lerp(benderPosition.x, nextAnchorPosition.x, t);
-            float y = Mathf.Lerp(benderPosition.y - 100 * Mathf.Sign(direction), nextAnchorPosition.y, t);
-            Vector3 newPosition = new Vector3(x, y, 0);
-            
-            pathCreator.bezierPath.MovePoint(i + 3, newPosition);
-        }
-
-    }
-
-    Vector3 getFollowingPosition(int anchorIndex){
-        float distanceToNext = Vector3.Distance(pathCreator.bezierPath[anchorIndex], pathCreator.bezierPath[anchorIndex + 3]);
-        if(anchorIndex == 0){
-            return pathCreator.bezierPath[anchorIndex] + startDirection * distanceToNext;
-        }
-        return pathCreator.bezierPath[anchorIndex] + Vector3.Normalize(pathCreator.bezierPath[anchorIndex] - pathCreator.bezierPath[anchorIndex - 3]) * distanceToNext;
-    }
-
-    // return an array with the sorted anchor point indices, from closest to most distant
-    int[] closestAnchorPoint(Vector3 point)
-    {
-        int numberPoints = pathCreator.bezierPath.NumAnchorPoints;
-        float[] distances = new float[numberPoints];
-        int[] closestPoints = new int[numberPoints];
-
-        for (int i = 0; i < numberPoints; i++)
-            closestPoints[i] = i * 3;
-        
-        for (int i = 0; i < pathCreator.bezierPath.NumPoints; i += 3)
-        {
-            float distance = Vector3.Distance(point, pathCreator.bezierPath[i]);
-            distances[i / 3] = distance;
-        }
-
-        anchorDistances = distances;
-
-        System.Array.Sort(closestPoints, (x, y) => distances[x / 3].CompareTo(distances[y / 3]));
-        return closestPoints;
-    }
-
-    int closestSegmentToPoint(Vector3 point)
-    {
-        float minDist = float.MaxValue;
-        int segment = 0;
-
-        for (int i = 0; i < pathCreator.bezierPath.NumPoints - 1; i += 3)
-        {
-            Vector3 closestPosition = closestPointOnPath(pathCreator.bezierPath[i], pathCreator.bezierPath[i + 3], point);
-            float dist = Vector3.Distance(point, closestPosition);
-
-            if (dist < minDist)
+            anchorDirections[anchor / 3] = startingDirection;
+            if (anchor == 0)
             {
-                minDist = dist;
-                closestPoint = closestPosition;
-                segment = i;
+                anchorPositions[anchor] = startingPosition;
+                continue;
             }
+
+            pathCreator.bezierPath.MovePoint(anchor, pathCreator.bezierPath[anchor - 3] + anchorDirections[(anchor - 3) / 3]);
+            anchorPositions[anchor / 3] = pathCreator.bezierPath[anchor];
         }
-        return segment / 3;
     }
 
-    // Gives back the distance to the closest anchor
-    float closestAnchorDistance(Vector3 point)
+    void updatePositions(int index)
     {
-        float minDist = float.MaxValue;
-
-        for (int i = 0; i < pathCreator.bezierPath.NumPoints - 1; i += 3)
+        for (int anchor = index + 3; anchor < pathCreator.bezierPath.NumPoints; anchor += 3)
         {
-            float dist = Vector3.Distance(point, pathCreator.bezierPath[i]);
-
-            if (dist < minDist)
-            {
-                minDist = dist;
-            }
+            anchorPositions[anchor / 3] = anchorPositions[(anchor - 3) / 3] + anchorDirections[(anchor - 3) / 3];
         }
-        return minDist;
     }
 
-    Vector3 closestPointOnPath(Vector3 a, Vector3 b, Vector3 point)
+    Vector3 getStraightLineDirection(int index)
     {
-        float t = Vector3.Dot(Vector3.Normalize(point - a), Vector3.Normalize(b - a)) * Vector3.Distance(point, a);
-        t /= Vector3.Distance(a, b);
-        if (t < 0) return a;
-        if (t > 1) return b;
-
-        return a + t * (b - a);
+        Vector3 direction = new Vector3(0, 0, 0);
+        if (index >= 6)
+        {
+            direction = anchorDistance * Vector3.Normalize(pathCreator.bezierPath[index - 3] - pathCreator.bezierPath[index - 6]);
+        }
+        // cases for indices 0 and 3 missing
+        return direction;
     }
 
-    // Delete all segments that are higher when index i
-    void deleteSegments(int i)
+    Vector3 getStraightLinePosition(int index)
     {
-        for (int j = pathCreator.bezierPath.NumAnchorPoints - 1; j > i; j--)
+        Vector3 position = pathCreator.bezierPath[index];
+        if (index >= 6)
+        {
+            Vector3 direction = Vector3.Normalize(pathCreator.bezierPath[index - 3] - pathCreator.bezierPath[index - 6]);
+
+            position = pathCreator.bezierPath[index - 3] + anchorDistance * direction;
+        }
+        // cases for indices 0 and 3 missing
+        return position;
+    }
+
+    // Delete all segments that are higher than anchor index
+    void deleteSegments(int anchor)
+    {
+        for (int j = pathCreator.bezierPath.NumAnchorPoints - 1; j > anchor; j--)
         {
             pathCreator.bezierPath.DeleteSegment(j);
         }
-        // closestSegment = 
+    }
+
+    void stopPathAtCollision(Vector3 colliderPosition)
+    {   // Find the closest Anchor
+        int closestAnchor = 0;
+        float minDistance = Vector3.Distance(colliderPosition, pathCreator.bezierPath[0]);
+        for (int anchor = 0; anchor < pathCreator.bezierPath.NumPoints; anchor += 3)
+        {
+            float distance = Vector3.Distance(colliderPosition, pathCreator.bezierPath[anchor]);
+
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closestAnchor = anchor;
+            }
+        }
+        
     }
 
     // Credit to Sebastian Lague on YouTube
@@ -330,4 +337,147 @@ public class LaserBeam : MonoBehaviour
             Debug.Log(i + ": " + array[i]);
         }
     }
+
+    // OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD
+    // OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD
+    // OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD
+    // OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD
+    // OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD _ _ _ OLD
+
+    // void OnTriggerEnter(Collider other)
+    // {
+
+    //     if (benderLayer == (benderLayer | (1 << other.gameObject.layer)))
+    //     {
+    //         closestAnchors = closestAnchorPoint(other.transform.position - transform.position);
+    //         int closestSegment = closestSegmentToPoint(other.transform.position - transform.position);
+
+    //         if (closestAnchorDistance(closestPoint) > 2f)
+    //         {
+    //             Debug.Log("Added");
+    //             addAnchor(closestPoint, closestSegment);
+    //             pathChanged = true;
+    //             bendPath(other.transform.position - transform.position, closestAnchors[0] + 3);
+    //             if (closestAnchorDistance(other.transform.position - transform.position) <= colliderWidth){
+    //                 bendPath(other.transform.position - transform.position, closestAnchors[0] + 3);
+    //             }
+    //         }
+    //         else if (closestAnchorDistance(other.transform.position - transform.position) <= colliderWidth){
+    //             pathChanged = true;
+    //             bendPath(other.transform.position - transform.position, closestAnchors[0]);
+    //         }
+    //         pathChanged = true;
+    //     }
+    // }
+    // void addAnchor(Vector3 anchorPosition, int closestSegment)
+    // {
+    //     // int segment = Mathf.Min(closestPoints[0], closestPoints[1]);
+    //     // Debug.Log(segment);
+    //     if (closestSegment != pathCreator.bezierPath.NumAnchorPoints - 2)
+    //     {
+    //         deleteSegments(closestSegment);
+    //     }
+
+    //     if (closestSegment == pathCreator.bezierPath.NumSegments) closestSegment--;
+    //     pathCreator.bezierPath.SplitSegment(anchorPosition, closestSegment, 0.5f);
+    // }
+
+    // void bendPath(Vector3 benderPosition, int anchorIndex)
+    // {
+
+    //     float t = Vector3.Distance(benderPosition, pathCreator.bezierPath[anchorIndex]) / colliderWidth;
+    //     float direction = Vector3.Dot(benderPosition - pathCreator.bezierPath[anchorIndex], pathCreator.path.GetNormal(pathCreator.path.GetClosestDistanceAlongPath(benderPosition + transform.position)));
+
+    //     for (int i = anchorIndex; i < pathCreator.bezierPath.NumPoints - 2; i += 3)
+    //     {
+    //         Vector3 anchorPosition = pathCreator.bezierPath[i];
+    //         Vector3 nextAnchorPosition = getFollowingPosition(i);
+
+    //         float x = Mathf.Lerp(benderPosition.x, nextAnchorPosition.x, t);
+    //         float y = Mathf.Lerp(benderPosition.y - 100 * Mathf.Sign(direction), nextAnchorPosition.y, t);
+    //         Vector3 newPosition = new Vector3(x, y, 0);
+
+    //         pathCreator.bezierPath.MovePoint(i + 3, newPosition);
+    //     }
+
+    // }
+
+    // Vector3 getFollowingPosition(int anchorIndex)
+    // {
+    //     float distanceToNext = Vector3.Distance(pathCreator.bezierPath[anchorIndex], pathCreator.bezierPath[anchorIndex + 3]);
+    //     if (anchorIndex == 0)
+    //     {
+    //         return pathCreator.bezierPath[anchorIndex] + startDirection * distanceToNext;
+    //     }
+    //     return pathCreator.bezierPath[anchorIndex] + Vector3.Normalize(pathCreator.bezierPath[anchorIndex] - pathCreator.bezierPath[anchorIndex - 3]) * distanceToNext;
+    // }
+
+    // // return an array with the sorted anchor point indices, from closest to most distant
+    // int[] closestAnchorPoint(Vector3 point)
+    // {
+    //     int numberPoints = pathCreator.bezierPath.NumAnchorPoints;
+    //     float[] distances = new float[numberPoints];
+    //     int[] closestPoints = new int[numberPoints];
+
+    //     for (int i = 0; i < numberPoints; i++)
+    //         closestPoints[i] = i * 3;
+
+    //     for (int i = 0; i < pathCreator.bezierPath.NumPoints; i += 3)
+    //     {
+    //         float distance = Vector3.Distance(point, pathCreator.bezierPath[i]);
+    //         distances[i / 3] = distance;
+    //     }
+
+    //     anchorDistances = distances;
+
+    //     System.Array.Sort(closestPoints, (x, y) => distances[x / 3].CompareTo(distances[y / 3]));
+    //     return closestPoints;
+    // }
+
+    // int closestSegmentToPoint(Vector3 point)
+    // {
+    //     float minDist = float.MaxValue;
+    //     int segment = 0;
+
+    //     for (int i = 0; i < pathCreator.bezierPath.NumPoints - 1; i += 3)
+    //     {
+    //         Vector3 closestPosition = closestPointOnPath(pathCreator.bezierPath[i], pathCreator.bezierPath[i + 3], point);
+    //         float dist = Vector3.Distance(point, closestPosition);
+
+    //         if (dist < minDist)
+    //         {
+    //             minDist = dist;
+    //             closestPoint = closestPosition;
+    //             segment = i;
+    //         }
+    //     }
+    //     return segment / 3;
+    // }
+
+    // // Gives back the distance to the closest anchor
+    // float closestAnchorDistance(Vector3 point)
+    // {
+    //     float minDist = float.MaxValue;
+
+    //     for (int i = 0; i < pathCreator.bezierPath.NumPoints - 1; i += 3)
+    //     {
+    //         float dist = Vector3.Distance(point, pathCreator.bezierPath[i]);
+
+    //         if (dist < minDist)
+    //         {
+    //             minDist = dist;
+    //         }
+    //     }
+    //     return minDist;
+    // }
+
+    // Vector3 closestPointOnPath(Vector3 a, Vector3 b, Vector3 point)
+    // {
+    //     float t = Vector3.Dot(Vector3.Normalize(point - a), Vector3.Normalize(b - a)) * Vector3.Distance(point, a);
+    //     t /= Vector3.Distance(a, b);
+    //     if (t < 0) return a;
+    //     if (t > 1) return b;
+
+    //     return a + t * (b - a);
+    // }
 }
