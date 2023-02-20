@@ -22,8 +22,8 @@ public class ChangeShader : MonoBehaviour
     }
 
     private void ChangeMaterial(){
+        if(weaponMaterials.Count == 0 || currentMode < 0) return;
         currentMode = GameObject.FindWithTag("Player").GetComponent<Player>().weaponMode;
-        if(currentMode < 0) return;
         rend.material = weaponMaterials[currentMode];
     }
 }
