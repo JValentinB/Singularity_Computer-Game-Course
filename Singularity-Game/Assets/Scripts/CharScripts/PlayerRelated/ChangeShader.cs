@@ -5,14 +5,14 @@ using UnityEngine;
 public class ChangeShader : MonoBehaviour
 {
     private Renderer rend;
-    [SerializeField] private Material weaponMode0;
-    [SerializeField] private Material weaponMode1;
-    private int mode;
+    [Header("Add a new Material here. Order matters!")]
+    [SerializeField] private List<Material> weaponMaterials;
+    private int currentMode;
 
     void Start()
     {
         rend = GetComponent<Renderer>();
-        mode = 0;
+        currentMode = 0;
     }
 
     // Update is called once per frame
@@ -22,14 +22,8 @@ public class ChangeShader : MonoBehaviour
     }
 
     private void ChangeMaterial(){
-        mode = GameObject.FindWithTag("Player").GetComponent<Player>().weaponMode;
-        switch (mode){
-            case 0:
-                rend.material = weaponMode0;
-                break;
-            case 1:
-                rend.material = weaponMode0;
-                break;
-        }
+        currentMode = GameObject.FindWithTag("Player").GetComponent<Player>().weaponMode;
+        if(currentMode < 0) return;
+        rend.material = weaponMaterials[currentMode];
     }
 }
