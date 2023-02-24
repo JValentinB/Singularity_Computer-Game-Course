@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 //using System.Diagnostics;
 using UnityEngine;
+using static System.Net.Mime.MediaTypeNames;
 
 public class Player : Character
 {
@@ -12,9 +14,8 @@ public class Player : Character
     private SceneControl scenecontrol;
     private fade_to_black ftb;
     [SerializeField] private static Vector3 latestCheckPointPos;
-    public ParticleSystem particles_onDeath = null;
     private InvUI invUI;
-
+    
     void Start(){
         maxHealth = 100;
         currentHealth = maxHealth;
@@ -32,10 +33,13 @@ public class Player : Character
         weaponMode = 0;
         setDirectionShot = false;
         latestCheckPointPos = new Vector3(-200.71f, 77.35f, 0f);
-        particles_onDeath.Stop();
         scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
         inventory = new InvManager();
         invUI = GetComponent<InvUI>();
+        fade_to_black fadeout_control = GameObject.Find("Canvas/black_screen").GetComponent<fade_to_black>();
+        StartCoroutine(fadeout_control.FadeBlackOutSquare(false));
+
+
     }
 
     void FixedUpdate(){
@@ -65,6 +69,8 @@ public class Player : Character
         }
 
     }
+
+
 
     private void MovePlayer(){
         float landing = (animator.GetCurrentAnimatorStateInfo(0).IsName("Landing")) ? 0.5f : 1;
@@ -160,14 +166,11 @@ public class Player : Character
 
     IEnumerator delayedDeath()
     {
-        //...
-        //GameObject blacksquare = GameObject.Find("/Canvas/BlackOutSquare");
-        //ftb = blacksquare.GetComponent<fade_to_black>();
-
-        //ftb.FadeBlackOutSquare(blacksquare);
-        particles_onDeath.Play();
+        fade_to_black fadeout_control = GameObject.Find("Canvas/black_screen").GetComponent<fade_to_black>();
+        StartCoroutine(fadeout_control.FadeBlackOutSquare());
         yield return new WaitForSeconds(2);
         scenecontrol.reset_on_death();
+        
     }
 
     private void createBurst(){

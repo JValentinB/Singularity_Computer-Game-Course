@@ -8,19 +8,29 @@ using UnityEngine.UI;
 
 public class fade_to_black : MonoBehaviour
 {
-
+    public GameObject BlackOutSquare;
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
- 
-    }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            StartCoroutine(FadeBlackOutSquare());
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            StartCoroutine(FadeBlackOutSquare(false));
+        }
+    }*/
 
-    public IEnumerator FadeBlackOutSquare(GameObject BlackOutSquare, bool fadeToBlack = true, float fadespeed = 1f)
+    public IEnumerator FadeBlackOutSquare(bool fadeToBlack = true, float fadespeed = 1f)
     {
-        BlackOutSquare = GameObject.Find("/Canvas/BlackOutSquare");
+        BlackOutSquare = GameObject.Find("/Canvas/black_screen");
         Color objectColor = BlackOutSquare.GetComponent<Image>().color;
         float fadeAmount;
-        while(BlackOutSquare.GetComponent<Image>().color.a < 1)
+        if (fadeToBlack)
+        {
+            objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, 0f);
+            while (BlackOutSquare.GetComponent<Image>().color.a < 1)
             {
                 fadeAmount = objectColor.a + (fadespeed * Time.deltaTime);
 
@@ -28,15 +38,18 @@ public class fade_to_black : MonoBehaviour
                 BlackOutSquare.GetComponent<Image>().color = objectColor;
                 yield return null;
             }
-        //yield return new WaitForSeconds(1);
-        while (BlackOutSquare.GetComponent<Image>().color.a > 0)
+        }
+        else
+        {
+            objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, 1f);
+            while (BlackOutSquare.GetComponent<Image>().color.a > 0)
             {
-                fadeAmount = objectColor.a - (fadespeed/2 * Time.deltaTime);
+                fadeAmount = objectColor.a - (fadespeed / 2 * Time.deltaTime);
 
                 objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
                 BlackOutSquare.GetComponent<Image>().color = objectColor;
                 yield return null;
             }
-        
+        }
     }
 }
