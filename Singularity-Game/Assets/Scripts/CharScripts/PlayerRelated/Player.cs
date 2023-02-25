@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 //using System.Diagnostics;
 using UnityEngine;
-using static System.Net.Mime.MediaTypeNames;
+using UnityEngine.UI;
 
 public class Player : Character
 {
@@ -12,10 +12,10 @@ public class Player : Character
     [SerializeField] public GameObject jumpBurst;
     public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
     private SceneControl scenecontrol;
-    private fade_to_black ftb;
     [SerializeField] private static Vector3 latestCheckPointPos;
     private InvUI invUI;
-    
+    public GameObject BlackOutSquare;
+
     void Start(){
         maxHealth = 100;
         currentHealth = maxHealth;
@@ -36,8 +36,9 @@ public class Player : Character
         scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
         inventory = new InvManager();
         invUI = GetComponent<InvUI>();
-        fade_to_black fadeout_control = GameObject.Find("Canvas/black_screen").GetComponent<fade_to_black>();
-        StartCoroutine(fadeout_control.FadeBlackOutSquare(false));
+        BlackOutSquare = GameObject.Find("/Canvas/black_screen");
+        BlackOutSquare.GetComponent<Image>().color = new Color(0f, 0f, 0f, 255f);
+        StartCoroutine(FadeBlackOutSquare(false));
 
 
     }
@@ -166,8 +167,7 @@ public class Player : Character
 
     IEnumerator delayedDeath()
     {
-        fade_to_black fadeout_control = GameObject.Find("Canvas/black_screen").GetComponent<fade_to_black>();
-        StartCoroutine(fadeout_control.FadeBlackOutSquare());
+        StartCoroutine(FadeBlackOutSquare());
         yield return new WaitForSeconds(2);
         scenecontrol.reset_on_death();
         
@@ -223,6 +223,38 @@ public class Player : Character
         }
         // Show equipped Weapon
         EquipWeapon(animator.GetInteger("Equipment"));
+    }
+
+
+    private IEnumerator FadeBlackOutSquare(bool fadeToBlack = true, float fadespeed = 1f)
+    {
+        
+        Color objectColor = BlackOutSquare.GetComponent<Image>().color;
+        float fadeAmount;
+        if (fadeToBlack)
+        {
+            objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, 0f);
+            while (BlackOutSquare.GetComponent<Image>().color.a < 1)
+            {
+                fadeAmount = objectColor.a + (fadespeed * Time.deltaTime);
+
+                objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
+                BlackOutSquare.GetComponent<Image>().color = objectColor;
+                yield return null;
+            }
+        }
+        else
+        {
+            objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, 1f);
+            while (BlackOutSquare.GetComponent<Image>().color.a > 0)
+            {
+                fadeAmount = objectColor.a - (fadespeed / 2 * Time.deltaTime);
+
+                objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
+                BlackOutSquare.GetComponent<Image>().color = objectColor;
+                yield return null;
+            }
+        }
     }
     //---------------------------------------
 }
