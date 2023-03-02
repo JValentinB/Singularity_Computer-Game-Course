@@ -8,7 +8,9 @@ public class Checkpoint : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
-            collision.GetComponent<Player>().setCheckPoint(transform.position); 
+            Debug.Log("checkpoint");
+            collision.GetComponent<Player>().setCheckPoint(transform.position);
+            collision.GetComponent<Player>().setFirstTime();
         }
     }
 }
