@@ -37388,8 +37388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af7f565e039c89b47a46ef622e6c78e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponMode0: {fileID: 2100000, guid: bd72591916fca704981cfd937781f621, type: 2}
-  weaponMode1: {fileID: 2100000, guid: 03b2114390be185479163b7b267f2a38, type: 2}
+  weaponMaterials: []
 --- !u!1 &788904355
 GameObject:
   m_ObjectHideFlags: 0
@@ -71741,7 +71740,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4690097107140181477, guid: 9b24c9ab2ab2ebe49bf44e1158cca06e, type: 3}
 --- !u!23 &1606114032
@@ -84329,6 +84328,7 @@ GameObject:
   - component: {fileID: 1852441055}
   - component: {fileID: 1852441056}
   - component: {fileID: 1852441057}
+  - component: {fileID: 1852441058}
   m_Layer: 9
   m_Name: LaserBender
   m_TagString: Untagged
@@ -84449,6 +84449,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1852441058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852441050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9594d9760f10e2e4589a7b2f819f87ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bendingAmount: 0.05
+  bendingDistance: 1
 --- !u!1 &1854448124
 GameObject:
   m_ObjectHideFlags: 0
@@ -88324,11 +88338,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1946387950}
+  - component: {fileID: 1946387954}
+  - component: {fileID: 1946387955}
   - component: {fileID: 1946387953}
   - component: {fileID: 1946387952}
   - component: {fileID: 1946387951}
-  - component: {fileID: 1946387954}
-  - component: {fileID: 1946387955}
+  - component: {fileID: 1946387956}
   m_Layer: 0
   m_Name: LaserBeam
   m_TagString: Untagged
@@ -88427,10 +88442,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f00843879656a14dbd7c1e276364d51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  laserWidth: 0.1
+  laserDamage: 1
   colliderWidth: 5
   anchorDistance: 3
-  bendingAmount: 0.05
-  maxDistance: 100
+  maxLength: 100
 --- !u!114 &1946387955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88446,10 +88462,10 @@ MonoBehaviour:
   editorData:
     _bezierPath:
       points:
-      - {x: -21.210022, y: 10.361557, z: 0}
-      - {x: -13.129372, y: 10.450951, z: 0}
-      - {x: 3.031929, y: 10.629738, z: 0}
-      - {x: 11.112579, y: 10.719131, z: 0}
+      - {x: -25.16919, y: 2.1368866, z: 0}
+      - {x: -24.765594, y: 7.566902, z: 0}
+      - {x: -23.958405, y: 18.426933, z: 0}
+      - {x: -23.55481, y: 23.856949, z: 0}
       isClosed: 0
       space: 1
       controlMode: 3
@@ -88469,7 +88485,7 @@ MonoBehaviour:
     showTransformTool: 1
     showPathBounds: 0
     showPerSegmentBounds: 0
-    displayAnchorPoints: 0
+    displayAnchorPoints: 1
     displayControlPoints: 1
     bezierHandleScale: 10
     globalDisplaySettingsFoldout: 0
@@ -88484,6 +88500,22 @@ MonoBehaviour:
     showNormalsHelpInfo: 0
     tabIndex: 0
   initialized: 1
+--- !u!54 &1946387956
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946387949}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1947093802
 GameObject:
   m_ObjectHideFlags: 0
