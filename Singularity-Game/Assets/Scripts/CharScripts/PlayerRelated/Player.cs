@@ -15,6 +15,7 @@ public class Player : Character
     [SerializeField] private static Vector3 latestCheckPointPos;
     private InvUI invUI;
     public GameObject BlackOutSquare;
+    private static bool notFirstTime = false;
 
     void Start(){
         maxHealth = 100;
@@ -32,14 +33,13 @@ public class Player : Character
         rb.mass = mass;
         weaponMode = 0;
         setDirectionShot = false;
-        latestCheckPointPos = new Vector3(-200.71f, 77.35f, 0f);
         scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
         inventory = new InvManager();
         invUI = GetComponent<InvUI>();
         BlackOutSquare = GameObject.Find("/Canvas/black_screen");
         BlackOutSquare.GetComponent<Image>().color = new Color(0f, 0f, 0f, 255f);
         StartCoroutine(FadeBlackOutSquare(false));
-
+        checkForStart();
 
     }
 
@@ -158,6 +158,21 @@ public class Player : Character
     {
         latestCheckPointPos = pos;
         latestCheckPointPos.z = 0;
+    }
+
+
+    public void setFirstTime()
+    {
+        notFirstTime = true;
+    }
+
+    public void checkForStart()
+    {
+        if (notFirstTime) { 
+            transform.position = latestCheckPointPos;
+        } else {
+            latestCheckPointPos = new Vector3(-200.71f, 77.35f, 0f);
+        }
     }
 
     public void OnDeath()
