@@ -59,11 +59,6 @@ public class Player : Character
         Jump();
         ChangeBulletMode();
         if(Input.GetKeyDown(KeyCode.Space)) createBurst();
-        if(Input.GetKeyDown(KeyCode.Space)){
-            GiveItem(inventory.GetItem(0), 2);
-            inventory.AddItem(inventory.GetItem(1), 20);
-        }
-
     }
 
     private void MovePlayer(){

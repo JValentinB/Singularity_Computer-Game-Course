@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Events;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,16 +16,9 @@ public class InvUI : MonoBehaviour
     {
         inventoryUI = GameObject.FindWithTag("InventoryUI");
         playerInventory = gameObject.GetComponent<Player>().inventory; // Get the reference to the player's inventory
-        slots = 20;
+        slots = 16;
         CreateLayout();
         UpdateInvUI();
-        OpenCloseInventory();
-    }
-
-    void Update(){
-        if(Input.GetKeyDown(KeyCode.I) || (inventoryUI.activeSelf && Input.GetKeyDown(KeyCode.Escape))){
-            OpenCloseInventory(); 
-        }
     }
 
     private void CreateLayout()
@@ -41,25 +33,6 @@ public class InvUI : MonoBehaviour
         }
     }
 
-    
-    private void UpdateList(){
-        foreach (var inventoryEntry in playerInventory.stackedInventoryItems)
-        {
-            bool found = false;
-            foreach (var listEntry in slotList)
-            {
-                if(listEntry.Item2 != null && listEntry.Item2.id == inventoryEntry.Item1.id)
-                {
-                    found = true;
-                    break;
-                }
-            }
-            if(!found){
-                AddItemToPlayerInventory(inventoryEntry.Item1, 0);
-            }
-        }
-    }
-
     public void UpdateInvUI(){
         foreach (var entry in slotList)
         {
@@ -67,10 +40,6 @@ public class InvUI : MonoBehaviour
                 if(entry.Item2.iconPath != null){
                     var icon = entry.Item1.transform.Find("InventoryItemIcon").gameObject.GetComponent<Image>();
                     icon.sprite = Resources.Load<Sprite>(entry.Item2.iconPath);
-                }
-                if(entry.Item2.itemName != null){
-                    var itemName = entry.Item1.transform.Find("ItemName").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
-                    itemName.text = entry.Item2.itemName;
                 }
                 var itemCount = entry.Item1.transform.Find("ItemCount").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
                 itemCount.text = playerInventory.GetItemCount(entry.Item2).ToString();
@@ -102,14 +71,4 @@ public class InvUI : MonoBehaviour
         }
         return false;
     }
-
-     // Method to open and close the inventory
-    public void OpenCloseInventory()
-    {
-        inventoryUI.SetActive(!inventoryUI.activeSelf);
-        UpdateList();
-        UpdateInvUI();
-    }
-
-    
 }
