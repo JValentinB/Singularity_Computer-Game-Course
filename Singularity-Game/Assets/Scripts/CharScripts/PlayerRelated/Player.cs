@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 //using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : Character
 {
@@ -10,10 +12,10 @@ public class Player : Character
     [SerializeField] public GameObject jumpBurst;
     public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
     private SceneControl scenecontrol;
-    private fade_to_black ftb;
     [SerializeField] private static Vector3 latestCheckPointPos;
-    public ParticleSystem particles_onDeath = null;
     private InvUI invUI;
+    public GameObject BlackOutSquare;
+    private static bool notFirstTime = false;
 
     void Start(){
         maxHealth = 100;
@@ -31,11 +33,14 @@ public class Player : Character
         rb.mass = mass;
         weaponMode = 0;
         setDirectionShot = false;
-        latestCheckPointPos = new Vector3(-200.71f, 77.35f, 0f);
-        particles_onDeath.Stop();
         scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
         inventory = new InvManager();
         invUI = GetComponent<InvUI>();
+        BlackOutSquare = GameObject.Find("/Canvas/black_screen");
+        BlackOutSquare.GetComponent<Image>().color = new Color(0f, 0f, 0f, 255f);
+        StartCoroutine(FadeBlackOutSquare(false));
+        checkForStart();
+
     }
 
     void FixedUpdate(){
@@ -60,6 +65,8 @@ public class Player : Character
         ChangeBulletMode();
         if(Input.GetKeyDown(KeyCode.Space)) createBurst();
     }
+
+
 
     private void MovePlayer(){
         float landing = (animator.GetCurrentAnimatorStateInfo(0).IsName("Landing")) ? 0.5f : 1;
@@ -148,6 +155,21 @@ public class Player : Character
         latestCheckPointPos.z = 0;
     }
 
+
+    public void setFirstTime()
+    {
+        notFirstTime = true;
+    }
+
+    public void checkForStart()
+    {
+        if (notFirstTime) { 
+            transform.position = latestCheckPointPos;
+        } else {
+            latestCheckPointPos = new Vector3(-200.71f, 77.35f, 0f);
+        }
+    }
+
     public void OnDeath()
     {
         StartCoroutine(delayedDeath());
@@ -155,14 +177,10 @@ public class Player : Character
 
     IEnumerator delayedDeath()
     {
-        //...
-        //GameObject blacksquare = GameObject.Find("/Canvas/BlackOutSquare");
-        //ftb = blacksquare.GetComponent<fade_to_black>();
-
-        //ftb.FadeBlackOutSquare(blacksquare);
-        particles_onDeath.Play();
+        StartCoroutine(FadeBlackOutSquare());
         yield return new WaitForSeconds(2);
         scenecontrol.reset_on_death();
+        
     }
 
     private void createBurst(){
@@ -215,6 +233,38 @@ public class Player : Character
         }
         // Show equipped Weapon
         EquipWeapon(animator.GetInteger("Equipment"));
+    }
+
+
+    private IEnumerator FadeBlackOutSquare(bool fadeToBlack = true, float fadespeed = 1f)
+    {
+        
+        Color objectColor = BlackOutSquare.GetComponent<Image>().color;
+        float fadeAmount;
+        if (fadeToBlack)
+        {
+            objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, 0f);
+            while (BlackOutSquare.GetComponent<Image>().color.a < 1)
+            {
+                fadeAmount = objectColor.a + (fadespeed * Time.deltaTime);
+
+                objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
+                BlackOutSquare.GetComponent<Image>().color = objectColor;
+                yield return null;
+            }
+        }
+        else
+        {
+            objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, 1f);
+            while (BlackOutSquare.GetComponent<Image>().color.a > 0)
+            {
+                fadeAmount = objectColor.a - (fadespeed / 2 * Time.deltaTime);
+
+                objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
+                BlackOutSquare.GetComponent<Image>().color = objectColor;
+                yield return null;
+            }
+        }
     }
     //---------------------------------------
 }

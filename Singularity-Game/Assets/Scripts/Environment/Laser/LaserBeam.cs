@@ -39,12 +39,15 @@ public class LaserBeam : MonoBehaviour
         collisionDetector = gameObject.AddComponent<MeshCollider>();
         meshFilter = GetComponent<MeshFilter>();
 
+        bezierPath = pathCreator.bezierPath;
+
         increaseLength();
         addAnchors(0);
         startingPosition = pathCreator.bezierPath[0];
         startingDirection = pathCreator.bezierPath[3] - pathCreator.bezierPath[0];
 
         createColliderFromPath();
+        // Destroy(pathCreator);
     }
 
     void Update()
@@ -55,11 +58,12 @@ public class LaserBeam : MonoBehaviour
             benders.Clear();
 
             OnCollisionCutLaser();
-            for (int anchor = 0; anchor < pathCreator.bezierPath.NumPoints; anchor += 3)
+            for (int anchor = 0; anchor < bezierPath.NumPoints; anchor += 3)
             {
-                pathCreator.bezierPath.MovePoint(anchor, anchorPositions[anchor / 3]);
+                bezierPath.MovePoint(anchor, anchorPositions[anchor / 3]);
             }
             createColliderFromPath();
+            pathCreator.bezierPath = bezierPath;
         }
         else if (!inCollider)
         {
@@ -68,6 +72,7 @@ public class LaserBeam : MonoBehaviour
             createColliderFromPath();
             inCollider = true;
         }
+        
     }
 
 
@@ -82,8 +87,8 @@ public class LaserBeam : MonoBehaviour
         }
         else if (damageable != null)
         {
-            
-            damageable.ApplyDamage(1);
+
+            // damageable.ApplyDamage(1);
         }
         else
         {
@@ -94,12 +99,12 @@ public class LaserBeam : MonoBehaviour
     void OnCollisionCutLaser()
     {
         // Find hit point
-        Vector3 nextPoint = anchorPositions[0] + transform.position;
+        Vector3 nextPoint = anchorPositions[3] + transform.position;
         RaycastHit hit;
         bool isHitting = false;
         Vector3 hitPoint = Vector3.zero;
         string hitName = "";
-        for (int anchor = 0; anchor < pathCreator.bezierPath.NumPoints - 2; anchor += 3)
+        for (int anchor = 3; anchor < bezierPath.NumPoints - 2; anchor += 3)
         {
             Vector3 point = nextPoint;
             nextPoint = anchorPositions[(anchor + 3) / 3] + transform.position;
@@ -107,7 +112,10 @@ public class LaserBeam : MonoBehaviour
 
             if (Physics.Raycast(point, direction, out hit, anchorDistance))
             {
-                if (hit.transform.GetComponent<LaserBender>() != null) continue;
+                if (hit.transform.GetComponent<Damageable>() != null)
+                    hit.transform.GetComponent<Damageable>().ApplyDamage(laserDamage);
+                if (hit.transform.GetComponent<LaserBender>() != null) 
+                    continue;
 
                 isHitting = true;
                 hitPoint = hit.point;
@@ -117,10 +125,11 @@ public class LaserBeam : MonoBehaviour
         }
         if (!isHitting) return;
 
+
         // Find closest anchor
         int closestAnchor = 0;
         float minDistance = Vector3.Distance(hitPoint, anchorPositions[0] + transform.position);
-        for (int anchor = 3; anchor < pathCreator.bezierPath.NumPoints; anchor += 3)
+        for (int anchor = 3; anchor < bezierPath.NumPoints; anchor += 3)
         {
             float distance = Vector3.Distance(hitPoint, anchorPositions[anchor / 3] + transform.position);
 
@@ -131,7 +140,7 @@ public class LaserBeam : MonoBehaviour
             }
         }
 
-        for (int anchor = closestAnchor; anchor < pathCreator.bezierPath.NumPoints; anchor += 3)
+        for (int anchor = closestAnchor; anchor < bezierPath.NumPoints; anchor += 3)
         {
             anchorPositions[anchor / 3] = hitPoint - transform.position;
         }
@@ -139,43 +148,32 @@ public class LaserBeam : MonoBehaviour
 
     void increaseLength()
     {
-        Vector3 origin = pathCreator.bezierPath[pathCreator.bezierPath.NumPoints - 4];
-        Vector3 direction = Vector3.Normalize(pathCreator.bezierPath[pathCreator.bezierPath.NumPoints - 1] - origin);
+        Vector3 origin = bezierPath[bezierPath.NumPoints - 4];
+        Vector3 direction = Vector3.Normalize(bezierPath[bezierPath.NumPoints - 1] - origin);
 
-        pathCreator.bezierPath.MovePoint(pathCreator.bezierPath.NumPoints - 1, origin + maxLength * direction);
-
-        // Ray ray = new Ray(origin, direction);
-        // RaycastHit hit;
-        // if (Physics.Raycast(ray, out hit, maxDistance))
-        // {
-        //     pathCreator.bezierPath.MovePoint(pathCreator.bezierPath.NumPoints - 1, hit.transform.position - transform.position);
-        // }
-        // else
-        // {
-        //     pathCreator.bezierPath.MovePoint(pathCreator.bezierPath.NumPoints - 1, origin + maxDistance * direction);
-        // }
+        bezierPath.MovePoint(bezierPath.NumPoints - 1, origin + maxLength * direction);
     }
 
     void addAnchors(int index)
     {
         int anchor = index;
-        float distance = Vector3.Distance(pathCreator.bezierPath[pathCreator.bezierPath.NumPoints - 1],
-                                          pathCreator.bezierPath[pathCreator.bezierPath.NumPoints - 4]);
-        Vector3 direction = Vector3.Normalize(pathCreator.bezierPath[pathCreator.bezierPath.NumPoints - 1] - pathCreator.bezierPath[anchor]);
+        float distance = Vector3.Distance(bezierPath[bezierPath.NumPoints - 1],
+                                          bezierPath[bezierPath.NumPoints - 4]);
+        Vector3 direction = Vector3.Normalize(bezierPath[bezierPath.NumPoints - 1] - bezierPath[anchor]);
 
         while (distance > anchorDistance)
         {
-            Vector3 anchorPosition = pathCreator.bezierPath[anchor] + anchorDistance * direction;
+            Vector3 anchorPosition = bezierPath[anchor] + anchorDistance * direction;
 
-            pathCreator.bezierPath.SplitSegment(anchorPosition, anchor / 3, 0.5f);
+            bezierPath.SplitSegment(anchorPosition, anchor / 3, 0.5f);
 
-            distance = Vector3.Distance(pathCreator.bezierPath[pathCreator.bezierPath.NumPoints - 1],
-                                          pathCreator.bezierPath[pathCreator.bezierPath.NumPoints - 4]);
+            distance = Vector3.Distance(bezierPath[bezierPath.NumPoints - 1],
+                                          bezierPath[bezierPath.NumPoints - 4]);
             anchor += 3;
         }
-        for (int i = 0; i < pathCreator.bezierPath.NumAnchorPoints; i++)
+        for (int i = 0; i < bezierPath.NumAnchorPoints; i++)
         {
-            anchorPositions.Add(pathCreator.bezierPath[i * 3]);
+            anchorPositions.Add(bezierPath[i * 3]);
             anchorDirections.Add(anchorDistance * direction);
         }
     }
@@ -184,16 +182,16 @@ public class LaserBeam : MonoBehaviour
     {
         inCollider = false;
 
-        for (int anchor = 0; anchor < pathCreator.bezierPath.NumPoints - 2; anchor += 3)
+        for (int anchor = 3; anchor < bezierPath.NumPoints - 2; anchor += 3)
         {
             foreach (LaserBender bender in benders)
             {
                 Vector3 benderPosition = bender.transform.position - transform.position;
-                float distance = Vector3.Distance(benderPosition, pathCreator.bezierPath[anchor]);
+                float distance = Vector3.Distance(benderPosition, bezierPath[anchor]);
 
                 if (distance < (colliderWidth * bender.bendingDistance))
                 {
-                    Vector3 directionToBender = benderPosition - pathCreator.bezierPath[anchor];
+                    Vector3 directionToBender = benderPosition - bezierPath[anchor];
                     inCollider = true;
 
                     float t = distance / (colliderWidth * bender.bendingDistance);
@@ -201,7 +199,7 @@ public class LaserBeam : MonoBehaviour
                     Vector3 interpolationPosition = Vector3.Lerp(directionToBender, straightLineDirection, bender.bendingAmount);
                     Vector3 newDirection = Vector3.Lerp(interpolationPosition, straightLineDirection, t);
 
-                    for (int j = anchor; j < pathCreator.bezierPath.NumPoints; j += 3)
+                    for (int j = anchor; j < bezierPath.NumPoints; j += 3)
                     {
                         anchorDirections[j / 3] = newDirection;
                     }
@@ -214,7 +212,7 @@ public class LaserBeam : MonoBehaviour
 
     void resetPath(int index)
     {
-        for (int anchor = index; anchor < pathCreator.bezierPath.NumPoints; anchor += 3)
+        for (int anchor = index; anchor < bezierPath.NumPoints; anchor += 3)
         {
             anchorDirections[anchor / 3] = startingDirection;
             if (anchor == 0)
@@ -223,14 +221,14 @@ public class LaserBeam : MonoBehaviour
                 continue;
             }
 
-            pathCreator.bezierPath.MovePoint(anchor, pathCreator.bezierPath[anchor - 3] + anchorDirections[(anchor - 3) / 3]);
-            anchorPositions[anchor / 3] = pathCreator.bezierPath[anchor];
+            bezierPath.MovePoint(anchor, bezierPath[anchor - 3] + anchorDirections[(anchor - 3) / 3]);
+            anchorPositions[anchor / 3] = bezierPath[anchor];
         }
     }
 
     void updatePositions(int index)
     {
-        for (int anchor = index + 3; anchor < pathCreator.bezierPath.NumPoints; anchor += 3)
+        for (int anchor = index + 3; anchor < bezierPath.NumPoints; anchor += 3)
         {
             anchorPositions[anchor / 3] = anchorPositions[(anchor - 3) / 3] + anchorDirections[(anchor - 3) / 3];
         }
@@ -241,7 +239,7 @@ public class LaserBeam : MonoBehaviour
         Vector3 direction = new Vector3(0, 0, 0);
         if (index >= 6)
         {
-            direction = anchorDistance * Vector3.Normalize(pathCreator.bezierPath[index - 3] - pathCreator.bezierPath[index - 6]);
+            direction = anchorDistance * Vector3.Normalize(bezierPath[index - 3] - bezierPath[index - 6]);
         }
         // cases for indices 0 and 3 missing
         return direction;
@@ -249,12 +247,12 @@ public class LaserBeam : MonoBehaviour
 
     Vector3 getStraightLinePosition(int index)
     {
-        Vector3 position = pathCreator.bezierPath[index];
+        Vector3 position = bezierPath[index];
         if (index >= 6)
         {
-            Vector3 direction = Vector3.Normalize(pathCreator.bezierPath[index - 3] - pathCreator.bezierPath[index - 6]);
+            Vector3 direction = Vector3.Normalize(bezierPath[index - 3] - bezierPath[index - 6]);
 
-            position = pathCreator.bezierPath[index - 3] + anchorDistance * direction;
+            position = bezierPath[index - 3] + anchorDistance * direction;
         }
         // cases for indices 0 and 3 missing
         return position;
@@ -263,15 +261,17 @@ public class LaserBeam : MonoBehaviour
     // Delete all segments that are higher than anchor index
     void deleteSegments(int anchor)
     {
-        for (int j = pathCreator.bezierPath.NumAnchorPoints - 1; j > anchor; j--)
+        for (int j = bezierPath.NumAnchorPoints - 1; j > anchor; j--)
         {
-            pathCreator.bezierPath.DeleteSegment(j);
+            bezierPath.DeleteSegment(j);
         }
     }
 
     // Credit to Sebastian Lague on YouTube
     void createColliderFromPath()
     {
+        // path = new VertexPath (bezierPath, transform);
+        
         path = pathCreator.path;
         Vector3[] verts = new Vector3[path.NumPoints * 8];
         Vector2[] uvs = new Vector2[verts.Length];

@@ -77,9 +77,6 @@ public class PlatformMovable : MonoBehaviour
             rb.AddForce(-rb.velocity * friction);
         }
 
-        transform.localPosition = new Vector3(Mathf.Clamp(transform.localPosition.x, bottomLeft.x, topRight.x),
-                                              Mathf.Clamp(transform.localPosition.y, bottomLeft.y, topRight.y),
-                                              transform.localPosition.z);
         if (lastPosition == transform.position)
         {
             rb.velocity = Vector3.zero;
@@ -135,6 +132,7 @@ public class PlatformMovable : MonoBehaviour
             rb.velocity = Vector3.zero;
     }
 
+    // Puts object back into bounding box
     void boundingBox()
     {
         float x = inXaxisBounds(transform.localPosition.x) ? 1f : 0f;
