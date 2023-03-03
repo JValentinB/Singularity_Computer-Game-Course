@@ -9,6 +9,8 @@ public class Player : Character
 {
     [SerializeField] public int weaponMode;
     [SerializeField] private GameObject projectile;
+    [SerializeField] private GameObject projectile_blackhole;
+
     [SerializeField] public GameObject jumpBurst;
     public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
     private SceneControl scenecontrol;
@@ -124,11 +126,27 @@ public class Player : Character
     }
 
     private void ChangeBulletMode(){
+        /*
         if(Input.mouseScrollDelta.y > 0){
-            weaponMode = (weaponMode + 1) % 2;
+            weaponMode = (weaponMode + 1) % 3;
         } else if(Input.mouseScrollDelta.y < 0){
-            weaponMode = (weaponMode - 1) % 2;
+            weaponMode = (weaponMode - 1) % 3;
+        }*/
+        
+        if (Input.GetKey(KeyCode.Keypad0))
+        {
+            weaponMode = 0;
         }
+        else if (Input.GetKey(KeyCode.Keypad1))
+        {
+            weaponMode = 1;
+        }
+        else if (Input.GetKey(KeyCode.Keypad2))
+        {
+            weaponMode = 2;
+        }
+        
+
     }
 
     private void FireProjectile(){
@@ -139,15 +157,22 @@ public class Player : Character
         Vector3 projTarget = mousePos - staffStonePos;
         projTarget = new Vector3(projTarget.x, projTarget.y, 0f);
 
-        GameObject projectileClone = (GameObject) Instantiate(projectile, staffStonePos, Quaternion.identity);
+        GameObject projectileClone = (GameObject) Instantiate(/*weaponMode == 2 ? projectile_blackhole : */projectile, staffStonePos, Quaternion.identity);
         if(setDirectionShot){
             projectileClone.GetComponent<Projectile>().setProjectileConfig(
-                projTarget, 15, 2);
+                projTarget, 15, 3);
             setDirectionShot = false;
         } else{
             projectileClone.GetComponent<Projectile>().setProjectileConfig(
-                projTarget, 15, weaponMode); }
-        Destroy(projectileClone, 5);
+                projTarget, weaponMode == 2 ? 2 : 15, weaponMode); }
+        if (weaponMode != 2)
+        {
+            Destroy(projectileClone, 5);
+        }
+        else if(weaponMode == 2)
+        {
+            Destroy(projectileClone, 30);
+        }
     }
     public void setCheckPoint(Vector3 pos)
     {
