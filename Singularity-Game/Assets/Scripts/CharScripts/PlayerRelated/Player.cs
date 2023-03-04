@@ -161,6 +161,10 @@ public class Player : Character
         latestCheckPointPos.z = 0;
     }
 
+    public Vector3 getCheckPoint(){
+        return latestCheckPointPos;
+    }
+
     public void setFirstTime()
     {
         notFirstTime = true;
@@ -173,8 +177,6 @@ public class Player : Character
         } else {
             latestCheckPointPos = new Vector3(-200.71f, 77.35f, 0f);
         }
-    public Vector3 getCheckPoint(){
-        return latestCheckPointPos;
     }
 
     public void OnDeath()
