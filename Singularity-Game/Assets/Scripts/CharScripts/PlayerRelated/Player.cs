@@ -139,7 +139,8 @@ public class Player : Character
     private void FireProjectile(){
         if(!Input.GetMouseButtonDown(1)) return;
 
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
+        //Do not use nearClipPlane from main camera, it's somehow synced to the overlayy camera. 72.8 is the correct nearClipPlane
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 72.8f));
         Vector3 staffStonePos = GameObject.FindWithTag("Staffstone").transform.position;
         Vector3 projTarget = mousePos - staffStonePos;
         projTarget = new Vector3(projTarget.x, projTarget.y, 0f);
