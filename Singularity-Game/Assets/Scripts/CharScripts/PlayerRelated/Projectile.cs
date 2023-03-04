@@ -81,6 +81,10 @@ public class Projectile : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider col){
+        if (mode == 2)
+        {
+            return;
+        }
         var obj = col.gameObject;
         if(obj.GetComponent<m_Projectile>() && mode == 1){
             mProjCollision(obj);
@@ -88,13 +92,13 @@ public class Projectile : MonoBehaviour
         } else if(mode == 3 && obj.tag != "Player"){
             controlShot();
             Destroy(gameObject);
-        } else if(mode != 2 && obj.GetComponent<Damageable>() && obj.tag != "Player" && obj.tag != "FOV"){
+        } else if(obj.GetComponent<Damageable>() && obj.tag != "Player" && obj.tag != "FOV"){
             obj.GetComponent<Damageable>().ApplyDamage(dmg);
             Destroy(gameObject);
-        } else if(mode != 2 && obj.tag == "Shifter"){
+        } else if(obj.tag == "Shifter"){
             if(obj.GetComponent<Shifter>().mode == mode) obj.GetComponent<Shifter>().active = true;
             Destroy(gameObject);
-        } else if(mode != 2 && obj.tag != "Player" && obj.tag != "FOV"){
+        } else if(obj.tag != "Player" && obj.tag != "FOV"){
             Destroy(gameObject);
         }
     }

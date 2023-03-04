@@ -126,13 +126,19 @@ public class Player : Character
     }
 
     private void ChangeBulletMode(){
-        /*
-        if(Input.mouseScrollDelta.y > 0){
+        float scroll_delta = Input.mouseScrollDelta.y;
+        if(scroll_delta == 0)
+        {
+            return;
+        }
+
+        if(scroll_delta > 0){
             weaponMode = (weaponMode + 1) % 3;
-        } else if(Input.mouseScrollDelta.y < 0){
+        } else if(scroll_delta < 0){
             weaponMode = (weaponMode - 1) % 3;
-        }*/
+        }
         
+        /*
         if (Input.GetKey(KeyCode.Keypad0))
         {
             weaponMode = 0;
@@ -145,7 +151,7 @@ public class Player : Character
         {
             weaponMode = 2;
         }
-        
+        */
 
     }
 
@@ -169,7 +175,7 @@ public class Player : Character
         {
             Destroy(projectileClone, 5);
         }
-        else if(weaponMode == 2)
+        else 
         {
             Destroy(projectileClone, 30);
         }
