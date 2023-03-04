@@ -37388,8 +37388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af7f565e039c89b47a46ef622e6c78e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponMode0: {fileID: 2100000, guid: bd72591916fca704981cfd937781f621, type: 2}
-  weaponMode1: {fileID: 2100000, guid: 03b2114390be185479163b7b267f2a38, type: 2}
+  weaponMaterials: []
 --- !u!1 &788904355
 GameObject:
   m_ObjectHideFlags: 0
@@ -40778,6 +40777,8 @@ MonoBehaviour:
   critMod: 0
   critChance: 0
   weaponMode: 0
+  weaponModes: 0
+  doubleJump: 0
   projectile: {fileID: 8792342904977857413, guid: f2e5134fd3a023d4cb48c13af2d37a05, type: 3}
   jumpBurst: {fileID: 7004842315732285135, guid: b2c2dc83c9f715d44aa4338859562b86, type: 3}
   setDirectionShot: 0
