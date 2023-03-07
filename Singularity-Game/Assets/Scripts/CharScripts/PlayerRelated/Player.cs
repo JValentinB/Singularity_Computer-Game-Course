@@ -130,13 +130,7 @@ public class Player : Character
     }
 
     private void ChangeBulletMode(){
-        if(Input.mouseScrollDelta.y > 0){
-            weaponMode = (weaponMode + 1) % weaponModes;
-        } else if(Input.mouseScrollDelta.y < 0){
-            weaponMode = (weaponMode - 1) % weaponModes;
-            if(weaponMode < 0) weaponMode = weaponModes - 1;
-        }
-
+        float scroll_delta = Input.mouseScrollDelta.y;
         if(scroll_delta > 0){
             weaponMode = (weaponMode + 1) % 3;
         } else if(scroll_delta < 0){
