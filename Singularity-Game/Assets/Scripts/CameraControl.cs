@@ -25,13 +25,13 @@ public class CameraControl : MonoBehaviour
     {
         
         this.transform.position = new Vector3(player.position.x + offset_x, player.position.y + offset_y, zPosition);
-
-        // If there is something between player and Camera, activate the Overlay Camera
-        if (checkSpace() && overlayActive)
-        {
-            overlayCamera.enabled = true;
-        }
-        else overlayCamera.enabled = false;
+        overlayCamera.fieldOfView = this.GetComponent<Camera>().fieldOfView;
+        // // If there is something between player and Camera, activate the Overlay Camera
+        // if (checkSpace() && overlayActive)
+        // {
+        //     overlayCamera.enabled = true;
+        // }
+        // else overlayCamera.enabled = false;
     }
 
     // Checks whether there is a mesh between the Camera and the player

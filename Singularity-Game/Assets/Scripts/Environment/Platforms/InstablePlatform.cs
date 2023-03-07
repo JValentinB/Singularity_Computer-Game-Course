@@ -11,6 +11,7 @@ public class InstablePlatform : Platform
     public float breakingThreshold = 100;
     public float breakDuration = 0.5f;
     public float fixDuration = 5f;
+    public float maxIntensity = 50f;
     public float flashDuration = 0.1f;
 
     private Light crystalLight;
@@ -31,7 +32,8 @@ public class InstablePlatform : Platform
         if (isShaking && !isBroken)
         {
             threshold += 1;
-            crystalLight.intensity += 1;
+            crystalLight.intensity = Mathf.Clamp(crystalLight.intensity + 1, 0, maxIntensity);
+            
             animator.SetFloat("ShakingMultiplier", (1 / breakingThreshold) * threshold);
 
             if (threshold > breakingThreshold)

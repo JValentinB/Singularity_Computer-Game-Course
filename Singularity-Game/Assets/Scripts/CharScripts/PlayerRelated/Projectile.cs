@@ -15,8 +15,6 @@ public class Projectile : MonoBehaviour
         ps = GetComponent<ParticleSystem>();
         _ps = ps.main;
         ChangeColor();
-        // Debug.Log(ps.startColor);
-
     }
 
     void Update(){
@@ -61,7 +59,7 @@ public class Projectile : MonoBehaviour
         if(!m_Proj.freeze){
             m_Proj.freeze = true;
             GameObject.FindWithTag("Player").GetComponent<Player>().setDirectionShot = true;
-        } else if(m_Proj.freeze){ 
+        } else if(m_Proj.freeze){
             m_Proj.OnDeath();
         }
     }
