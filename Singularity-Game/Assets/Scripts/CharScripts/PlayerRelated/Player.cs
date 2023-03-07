@@ -7,7 +7,8 @@ using UnityEngine.UI;
 
 public class Player : Character
 {
-    [SerializeField] public int weaponMode;
+    [SerializeField] public int weaponMode, weaponModes;
+    [SerializeField] public bool doubleJump;
     [SerializeField] private GameObject projectile;
     [SerializeField] public GameObject jumpBurst;
     public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
@@ -32,6 +33,8 @@ public class Player : Character
         rb = GetComponent<Rigidbody>();
         rb.mass = mass;
         weaponMode = 0;
+        weaponModes = 2;
+        doubleJump = true;
         setDirectionShot = false;
         scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
         inventory = new InvManager();
@@ -63,6 +66,7 @@ public class Player : Character
         FireProjectile();
         Jump();
         ChangeBulletMode();
+        SaveAndLoadGame();
         if(Input.GetKeyDown(KeyCode.Space)) createBurst();
     }
 
@@ -125,16 +129,18 @@ public class Player : Character
 
     private void ChangeBulletMode(){
         if(Input.mouseScrollDelta.y > 0){
-            weaponMode = (weaponMode + 1) % 2;
+            weaponMode = (weaponMode + 1) % weaponModes;
         } else if(Input.mouseScrollDelta.y < 0){
-            weaponMode = (weaponMode - 1) % 2;
+            weaponMode = (weaponMode - 1) % weaponModes;
+            if(weaponMode < 0) weaponMode = weaponModes - 1;
         }
     }
 
     private void FireProjectile(){
         if(!Input.GetMouseButtonDown(1)) return;
 
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
+        //Do not use nearClipPlane from main camera, it's somehow synced to the overlayy camera. 72.8 is the correct nearClipPlane
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 72.8f));
         Vector3 staffStonePos = GameObject.FindWithTag("Staffstone").transform.position;
         Vector3 projTarget = mousePos - staffStonePos;
         projTarget = new Vector3(projTarget.x, projTarget.y, 0f);
@@ -149,12 +155,16 @@ public class Player : Character
                 projTarget, 15, weaponMode); }
         Destroy(projectileClone, 5);
     }
+
     public void setCheckPoint(Vector3 pos)
     {
         latestCheckPointPos = pos;
         latestCheckPointPos.z = 0;
     }
 
+    public Vector3 getCheckPoint(){
+        return latestCheckPointPos;
+    }
 
     public void setFirstTime()
     {
@@ -186,6 +196,15 @@ public class Player : Character
     private void createBurst(){
         GameObject burstClone = Instantiate(jumpBurst, transform.position, transform.rotation);
         Destroy(burstClone, 1);
+    }
+
+    private void SaveAndLoadGame(){
+        if(Input.GetKeyDown(KeyCode.K)){
+            SaveSystem.SaveGame(this);
+        } 
+        if(Input.GetKeyDown(KeyCode.L)){
+            SaveSystem.LoadGame();
+        } 
     }
 
     //FIXME Muss noch neu gemacht werden:
