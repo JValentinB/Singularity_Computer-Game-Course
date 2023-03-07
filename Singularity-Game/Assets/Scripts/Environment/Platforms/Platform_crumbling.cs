@@ -59,7 +59,7 @@ public class Platform_crumbling : Platform
             if(ttlCounter >= ttl) OnDeath();
 
             ttlCounter += Time.deltaTime;
-            Debug.Log(ttlCounter);
+            // Debug.Log(ttlCounter);
         }
     }
 

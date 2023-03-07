@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Glow05
-  m_Shader: {fileID: -6465566751694194690, guid: 56a0030edea4dc34e9c9c71b0e7b1026, type: 3}
+  m_Name: Laser
+  m_Shader: {fileID: -6465566751694194690, guid: a72717854b7f5f043905914d325bea53, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -93,7 +93,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Glow_Power: -0.42
+    - _Glow_Power: -0.4
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -109,11 +109,11 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Base_Color: {r: 1, g: 0, b: 0.061853886, a: 0}
+    - _Base_Color: {r: 1, g: 0, b: 0.061853886, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Glow_Color: {r: 1, g: 0, b: 0.019607844, a: 1}
-    - _Glow_Color_2: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 0}
+    - _Glow_Color: {r: 2, g: 0.007843138, b: 0, a: 0}
+    - _Glow_Color_2: {r: 1, g: 0.003921569, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &1080691356673425169
