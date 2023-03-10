@@ -7,12 +7,14 @@ using TMPro;
 public class WeaponWheelController : MonoBehaviour
 {
     [SerializeField] private GameObject weaponWheelUi;
+    [SerializeField] private int activeModes;
     private CanvasGroup weaponWheelUiCanvasGroup;
     private Animator anim;
     
     // Start is called before the first frame update
     void Start()
     {
+        activeModes = 0;
         weaponWheelUiCanvasGroup = weaponWheelUi.GetComponent<CanvasGroup>();
         anim = GetComponent<Animator>();
     }
@@ -21,15 +23,21 @@ public class WeaponWheelController : MonoBehaviour
     void Update()
     {
         Activate();
+        ActivatedMode();
     }
 
     public void Selected(){
-        anim.SetBool("selected", true);
+        activeModes++;
     }
 
     public void Deselected(){
-        anim.SetBool("selected", false);
+        activeModes--;
     }
+
+    private void ActivatedMode(){
+        anim.SetBool("selected", activeModes > 0);
+    }
+    
 
     public void Activate(){
         anim.SetBool("active", weaponWheelUiCanvasGroup.alpha == 1);

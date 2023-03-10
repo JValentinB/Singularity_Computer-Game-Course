@@ -14,6 +14,8 @@ public class WeaponWheelButtonController : MonoBehaviour
     public int id;
     private Animator anim;
     public float alphaThreshhold = 0.1f;
+    private bool selected = false;
+    private bool deselected = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,11 +32,13 @@ public class WeaponWheelButtonController : MonoBehaviour
 
     public void Selected(){
         anim.SetBool("selected", true);
-        uiManager.modeId = id;        
+        selected = true;
+        uiManager.modeId = id;
     }
 
     public void Deselected(){
         anim.SetBool("selected", false);
+        deselected = true;
         uiManager.modeId = 0;
     }
 
@@ -51,14 +55,14 @@ public class WeaponWheelButtonController : MonoBehaviour
     }
 
     public void ActivateUpper(){
-        if(anim.GetCurrentAnimatorStateInfo(0).IsName("SelectedIdle")){
-            Debug.Log("move upper part");
+        if(selected){
             upperPartBackgroundController.Selected();
             upperPartForegroundController.Selected();
-        } else {
-            Debug.Log("dont move upper part");
+            selected = false;
+        } else if(deselected){
             upperPartBackgroundController.Deselected();
             upperPartForegroundController.Deselected();
+            deselected = false;
         }
     }
 }

@@ -30,7 +30,7 @@ public class UIManager : MonoBehaviour
             invUI.blocksRaycasts = invUI.blocksRaycasts == true ? false : true;
         }
     }
-
+    
     public void UpdateWeaponWheel(){
         OpenCloseWeaponWheel();
         ChangeMode();
@@ -42,14 +42,17 @@ public class UIManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Tab))
         {
             weaponWheelUI.blocksRaycasts = true;
+            weaponWheelUI.interactable = true;
             weaponWheelUI.alpha = 1;
         }
         if(Input.GetKeyUp(KeyCode.Tab))
         {
             weaponWheelUI.blocksRaycasts = false;
+            weaponWheelUI.interactable = false;
             weaponWheelUI.alpha = 0;
         }
     }
+    
 
     public void ChangeMode(){
         if(weaponWheelUI.alpha == 1){
