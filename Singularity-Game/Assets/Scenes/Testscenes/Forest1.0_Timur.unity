@@ -26371,7 +26371,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2976067585968413693, guid: 7d8486b24abfd04458adb2177dcf080b, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2976067585968413693, guid: 7d8486b24abfd04458adb2177dcf080b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -36401,7 +36401,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1763928267754351517, guid: 64d17645bf4d4fe4db825907254ba95a, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1763928267754351517, guid: 64d17645bf4d4fe4db825907254ba95a, type: 3}
       propertyPath: m_LocalScale.x
@@ -38808,7 +38808,7 @@ Transform:
   - {fileID: 442192153}
   - {fileID: 2053132714}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &805506277
 GameObject:
@@ -39141,11 +39141,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 72.77
+      value: 78.83
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -16.35
+      value: -15.92
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.z
@@ -53860,7 +53860,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1256137613
 GameObject:
@@ -55934,7 +55934,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -88026,7 +88026,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 1ae8f3050e4566a4a936babd1aef0a6c, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1ae8f3050e4566a4a936babd1aef0a6c, type: 3}
       propertyPath: m_LocalScale.x
@@ -92948,6 +92948,8 @@ MonoBehaviour:
   sightRange: 0
   attackRange: 0
   rootSpike: {fileID: 442192152}
+  rootSlash: {fileID: 1380830384260249715, guid: d376262c4ace3294ea39a7c1baab35a0, type: 3}
+  rootSweep: {fileID: 690836675426868732, guid: 1d56b5314f86d9740968da250b83c56e, type: 3}
 --- !u!23 &2053132716
 MeshRenderer:
   m_ObjectHideFlags: 0

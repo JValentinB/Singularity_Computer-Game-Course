@@ -13,7 +13,7 @@ public class rootSpike : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        ps = GetComponent<ParticleSystem>();
+        ps = GetComponentInChildren<ParticleSystem>();
         dmg = 30;
         startRumble = true;
         growBackCD = 3f;

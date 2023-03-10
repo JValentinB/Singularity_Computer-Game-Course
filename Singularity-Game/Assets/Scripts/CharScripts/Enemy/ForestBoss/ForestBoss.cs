@@ -7,6 +7,8 @@ public class ForestBoss : Enemy
     private float rangeClose, rangeFar;
     private float[] rootSpikePos;
     [SerializeField] private GameObject rootSpike;
+    [SerializeField] private GameObject rootSlash;
+    [SerializeField] private GameObject rootSweep;
     
     void Start()
     {
@@ -37,7 +39,7 @@ public class ForestBoss : Enemy
         rootSpikePos[0] = 10f;
         rootSpikePos[1] = 20f;
         rootSpikePos[2] = 30f;
-        RootSpikes();
+        BranchSlash();
     }
 
     // Update is called once per frame
@@ -64,6 +66,8 @@ public class ForestBoss : Enemy
     private void BranchSlash(){
         //Branch slashing downwards from above
         //Back off to avoid
+        var spawnPos = new Vector3(transform.position.x, transform.position.y + 2.2f, transform.position.z);
+        GameObject rootSlashObject = Instantiate(rootSlash, spawnPos, Quaternion.identity);
     }
 
     //Mid range attack
@@ -80,6 +84,8 @@ public class ForestBoss : Enemy
     //Mid range attack
     private void BranchSweep(){
         //Branch sweep at ground level, jump or back off to avoid
+        var spawnPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        GameObject rootSweepObject = Instantiate(rootSweep, spawnPos, Quaternion.identity);
     }
 
     //Far range attack
