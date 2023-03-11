@@ -130,14 +130,14 @@ public class Player : Character
     }
 
     private void ChangeBulletMode(){
-        float scroll_delta = Input.mouseScrollDelta.y;
+        /*float scroll_delta = Input.mouseScrollDelta.y;
         if(scroll_delta > 0){
             weaponMode = (weaponMode + 1) % 3;
         } else if(scroll_delta < 0){
             weaponMode = (weaponMode - 1) % 3;
         }
-
-        /*
+        */
+        
         if (Input.GetKey(KeyCode.Keypad0))
         {
             weaponMode = 0;
@@ -150,7 +150,7 @@ public class Player : Character
         {
             weaponMode = 2;
         }
-        */
+        
 
     }
 
@@ -163,7 +163,7 @@ public class Player : Character
         Vector3 projTarget = mousePos - staffStonePos;
         projTarget = new Vector3(projTarget.x, projTarget.y, 0f);
 
-        GameObject projectileClone = (GameObject) Instantiate(/*weaponMode == 2 ? projectile_blackhole : */projectile, staffStonePos, Quaternion.identity);
+        GameObject projectileClone = (GameObject) Instantiate(weaponMode == 2 ? projectile_blackhole : projectile, staffStonePos, Quaternion.identity);
         if(setDirectionShot){
             projectileClone.GetComponent<Projectile>().setProjectileConfig(
                 projTarget, 15, 3);
