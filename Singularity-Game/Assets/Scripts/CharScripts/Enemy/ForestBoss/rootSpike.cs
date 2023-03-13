@@ -12,11 +12,11 @@ public class rootSpike : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         ps = GetComponentInChildren<ParticleSystem>();
         dmg = 30;
         startRumble = true;
-        growBackCD = 3f;
+        growBackCD = 1f;
     }
 
     void Update()
@@ -35,15 +35,18 @@ public class rootSpike : MonoBehaviour
 
     private void GrowRootSpike(){
         if(ps.isEmitting){ return; }
-        //animator.SetBool("growRoot", true);
+        animator.SetBool("grow", true);
     }
 
     private void growBackCount(){
-        if(/*animator.GetBool("growRoot") &&*/growBackCounter < growBackCD){
-            growBackCounter += Time.deltaTime;
-            return;
+        if(animator.GetBool("grow")){
+            growBackCD -= Time.deltaTime;
         }
-        //reverse growth of root
-
+        if(0f >= growBackCD){
+            animator.SetBool("grow", false);
+            animator.SetBool("recede", true);
+            Destroy(gameObject, 1f);
+        }
+        Debug.Log(growBackCD);
     }
 }
