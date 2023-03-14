@@ -11,6 +11,8 @@ TagManager:
   - FOV
   - InventoryUI
   - Staffstone
+  - Spaceship
+  - SpaceCamera
   layers:
   - Default
   - TransparentFX

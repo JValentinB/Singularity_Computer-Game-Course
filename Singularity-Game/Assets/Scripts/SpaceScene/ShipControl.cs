@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class ShipControl : MonoBehaviour
 {
-    [SerializeField] private float SpaceShipSpeed;
+    [SerializeField] public float SpaceShipSpeed;
     private float defaultXRotation;
     private float defaultYRotation;
     private float defaultZRotation;
+    public bool lockPlayerControl;
     
     void Start()
     {
+        lockPlayerControl = true;
         SpaceShipSpeed = 5f;
         defaultXRotation = 0f;
         defaultYRotation = 180f;
@@ -20,6 +22,7 @@ public class ShipControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(lockPlayerControl) return;
         MoveSpaceShip();
         AdjustShipRotation();
     }
