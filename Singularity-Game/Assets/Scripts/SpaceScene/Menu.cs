@@ -37,7 +37,7 @@ public class Menu : MonoBehaviour
 
     private void MoveTitleToCenter(){
         if(transform.position.y < targetY + targetInterval && transform.position.y > targetY - targetInterval) return;
-        transform.Translate(0f, -0.01f, 0f);
+        transform.Translate(0f, -0.005f, 0f);
     }
 
     private void ActivateMenuButtons(){
