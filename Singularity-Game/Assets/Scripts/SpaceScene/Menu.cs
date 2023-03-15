@@ -14,6 +14,7 @@ public class Menu : MonoBehaviour
     private GameObject Spaceship;
     private ShipControl ShipScript;
     private CameraControlSpace SpaceCameraScript;
+    private AudioSource ThrusterAudio;
 
     void Start()
     {
@@ -24,6 +25,7 @@ public class Menu : MonoBehaviour
         Spaceship = GameObject.FindWithTag("Spaceship");
         ShipScript = Spaceship.GetComponent<ShipControl>();
         SpaceCameraScript = GameObject.FindWithTag("SpaceCamera").GetComponent<CameraControlSpace>();
+        ThrusterAudio = GameObject.FindWithTag("SpaceShipThruster").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -64,6 +66,8 @@ public class Menu : MonoBehaviour
 
     private void StartNewGame(){
         if(!newGame) return;
+        if(!ThrusterAudio.isPlaying) ThrusterAudio.Play();
+        
         if(Spaceship.transform.position.y <= 0 && ShipScript.lockPlayerControl){
             Spaceship.transform.Translate(Vector3.down * ShipScript.SpaceShipSpeed * Time.deltaTime);
             return;
