@@ -89,9 +89,9 @@ public class ShipControl : MonoBehaviour
                 rollCounter = 0f;
                 return;
             }
-            transform.Rotate(0f, 4f * rollDirection, 0f);
+            transform.Rotate(0f, 1000f * rollDirection * Time.deltaTime, 0f);
             transform.Translate(Vector3.right * SpaceShipSpeed * rollDirection * 0.005f, Space.World);
-            rollCounter += 4f;
+            rollCounter += 1000f * Time.deltaTime;
         }
     }
 }
