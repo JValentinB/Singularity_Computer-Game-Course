@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class FallingCliff : MonoBehaviour
 {
+    enum TriggerEvent
+    { StandingOnCliff, PullOut }
+    [SerializeField] TriggerEvent triggerEvent;
     public float fallingDelay = 3f;
     public float disableDelay = 5f;
     public float destroyingDelay = 20f;
@@ -21,16 +24,12 @@ public class FallingCliff : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && !isFalling)
+        if (triggerEvent == TriggerEvent.StandingOnCliff && other.CompareTag("Player") && !isFalling)
         {
             playerOnCliff = true;
             Invoke("StartFalling", fallingDelay);
             Destroy(this.gameObject, destroyingDelay);
         }
-        //if (!rb.isKinematic)
-        //{
-        //    rb.velocity *= speedMultiplier;
-        //}
     }
 
     private void OnTriggerExit(Collider other)
@@ -41,9 +40,16 @@ public class FallingCliff : MonoBehaviour
         }
     }
 
+    public void pullOut(){
+        if(triggerEvent == TriggerEvent.PullOut && !isFalling){
+            Invoke("StartFalling", fallingDelay);
+            Destroy(this.gameObject, destroyingDelay);
+        }
+    }
+
     private void StartFalling()
     {
-        if (playerOnCliff)
+        if (playerOnCliff || triggerEvent == TriggerEvent.PullOut)
         {
             isFalling = true;
 

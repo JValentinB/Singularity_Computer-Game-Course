@@ -12,7 +12,6 @@ public class negativeVelocity : MonoBehaviour
         if(obj){
             prevGravityStrength = obj.gravityStrength;
             obj.gravityStrength = upstreamStrength;
-            Debug.Log(prevGravityStrength);
         }
     }
 
@@ -20,7 +19,6 @@ public class negativeVelocity : MonoBehaviour
         var obj = col.GetComponent<Damageable>();
         if(obj){
             obj.gravityStrength = prevGravityStrength;
-            Debug.Log(prevGravityStrength);
         }
     }
 }

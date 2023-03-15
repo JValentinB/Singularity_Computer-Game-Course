@@ -4,13 +4,47 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-   private void OnTriggerEnter(Collider collision)
+    public GameObject bonfireParticles;
+
+
+    private bool isCurrentCheckpoint = false;
+    private Checkpoint[] checkpoints;
+
+    void Start(){
+        checkpoints = FindObjectsOfType<Checkpoint>();
+
+        
+    }
+
+    private void OnTriggerEnter(Collider collision)
     {
-        if(collision.tag == "Player")
+        if (collision.tag == "Player" && !isCurrentCheckpoint)
         {
             Debug.Log("checkpoint");
             collision.GetComponent<Player>().setCheckPoint(transform.position);
             collision.GetComponent<Player>().setFirstTime();
+
+            foreach (Checkpoint checkpoint in checkpoints)
+            {
+                checkpoint.isCurrentCheckpoint = false;
+            }
+            isCurrentCheckpoint = true;
+            StartCoroutine(activationAnimation(collision.transform));
         }
+    }
+
+    IEnumerator activationAnimation(Transform player){
+        GameObject particleObject = (GameObject)Instantiate(bonfireParticles, player.position, Quaternion.identity);
+
+        var shape = particleObject  .GetComponent<ParticleSystem>().shape;
+        var character = GameObject.Find("Character");
+        Debug.Log(character);
+        shape.skinnedMeshRenderer = character.GetComponent<SkinnedMeshRenderer>();
+
+        yield return new WaitForSeconds(1f);
+        var forces = particleObject.GetComponent<ParticleSystem>().externalForces;
+        forces.enabled = true;
+
+        Destroy(particleObject, 3f);
     }
 }

@@ -43,6 +43,10 @@ public class Shifter : MonoBehaviour
         var ObjectToShift = col.gameObject;
         if(ObjectToShift.GetComponent<Damageable>() && active){
             ObjectToShift.GetComponent<Damageable>().ShiftGravity(direction);
+
+            if(ObjectToShift.GetComponent<Player>()){
+                StartCoroutine(Camera.main.GetComponent<CameraControl>().turnCamera(direction, 0.75f));
+            }
         }
     }
 }

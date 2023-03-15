@@ -83,6 +83,7 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _Color_Speed: 0
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
@@ -92,7 +93,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Glow_Power: -0.52
+    - _Glow_Power: -0.4
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -111,7 +112,9 @@ Material:
     - _Base_Color: {r: 0.83683777, g: 0, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Glow_Color: {r: 0.02929957, g: 0, b: 3.811765, a: 0}
+    - _Glow_Color: {r: 0.009978442, g: 0, b: 0.95294124, a: 0}
+    - _Glow_Color_2: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 0}
+    - _Glow_MinMax: {r: 0.5, g: 0.9, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &1080691356673425169
