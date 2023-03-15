@@ -54,6 +54,20 @@ public class AudioManager : MonoBehaviour
         sound.source.Stop();
     }
 
+    // Decrease volume over time and stop playing when volume is 0
+    public IEnumerator fadeOut(Sound[] soundCategory, string name, float fadeTime){
+        float startVolume = getSourceVolume(soundCategory, name);
+        float time = 0f;
+        while (time < fadeTime)
+        {
+            time += Time.deltaTime;
+            float volume = startVolume - startVolume * (time / fadeTime);
+            setSourceVolume(soundCategory, name, volume);
+            yield return null;
+        }
+        Stop(soundCategory, name);
+    }
+
     public IEnumerator LoopSoundWithGap(Sound[] soundCategory, string nameSound1, float loopGap, string nameSound2 = "")
     {
         bool switchSound = false;
@@ -88,7 +102,6 @@ public class AudioManager : MonoBehaviour
 
     public float getSourceVolume(Sound[] soundCategory, string name)
     {
-        Debug.Log(soundCategory);
         Sound sound = Array.Find(soundCategory, Sound => Sound.soundName == name);
         return sound.source.volume;
     }

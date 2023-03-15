@@ -8146,6 +8146,7 @@ MonoBehaviour:
   offset_y: 1.18
   rotateOnShift: 1
   followPlayer: 1
+  smoothTime: 0.1
   overlayActive: 0
 --- !u!95 &79893489
 Animator:
@@ -10516,12 +10517,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 142279755}
-  m_LocalRotation: {x: 0.12554283, y: -0.99168915, z: 0.024829626, w: 0.013231976}
-  m_LocalPosition: {x: 0.066, y: -0.0128, z: -0.0294}
-  m_LocalScale: {x: 0.1375975, y: 0.13759752, z: 0.15717547}
+  m_LocalRotation: {x: 0.12554282, y: -0.9916892, z: 0.024829637, w: 0.013231981}
+  m_LocalPosition: {x: 0.06600011, y: -0.012799864, z: -0.029399958}
+  m_LocalScale: {x: 0.13759746, y: 0.13759752, z: 0.15717544}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 844399369}
+  m_Father: {fileID: 1780647884}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -97.152, y: -103.427, z: 131.313}
 --- !u!23 &142279757
@@ -12867,6 +12868,8 @@ MonoBehaviour:
   color: 0
   backToMainColor: 1
   areaColor: {r: 0.6313726, g: 0.6039216, b: 0.5686275, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 1
   backToMainFov: 1
   areaFov: 18
@@ -15791,6 +15794,8 @@ MonoBehaviour:
   color: 0
   backToMainColor: 1
   areaColor: {r: 0.6313726, g: 0.6039216, b: 0.5686275, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 1
   backToMainFov: 1
   areaFov: 22
@@ -20051,6 +20056,8 @@ MonoBehaviour:
   color: 1
   backToMainColor: 1
   areaColor: {r: 0, g: 0, b: 0, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 0
   backToMainFov: 1
   areaFov: 0
@@ -40906,11 +40913,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -384.8
+      value: -288.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 126.9
+      value: 106.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.z
@@ -43128,6 +43135,8 @@ MonoBehaviour:
   color: 0
   backToMainColor: 0
   areaColor: {r: 0.6313726, g: 0.6039216, b: 0.5686275, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 0
   backToMainFov: 1
   areaFov: 18
@@ -43352,122 +43361,6 @@ Transform:
   m_Father: {fileID: 730238549}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &844399368
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 844399369}
-  - component: {fileID: 844399375}
-  - component: {fileID: 844399374}
-  - component: {fileID: 844399373}
-  - component: {fileID: 844399372}
-  m_Layer: 0
-  m_Name: FallingCliff
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &844399369
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 844399368}
-  m_LocalRotation: {x: 0.23232071, y: -0.6691855, z: 0.64864576, w: 0.27834606}
-  m_LocalPosition: {x: 1.7, y: -4.87, z: -6.05}
-  m_LocalScale: {x: 100, y: 100, z: 100}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 142279756}
-  m_Father: {fileID: 1780647884}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 94.08499, y: 87.132, z: -135.231}
---- !u!64 &844399372
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 844399368}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2008884378623889461, guid: 9b24c9ab2ab2ebe49bf44e1158cca06e, type: 3}
---- !u!54 &844399373
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 844399368}
-  serializedVersion: 2
-  m_Mass: 10000
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 8
-  m_CollisionDetection: 0
---- !u!23 &844399374
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 844399368}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 8f27136f00d9e304e9d2228753a634b7, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &844399375
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 844399368}
-  m_Mesh: {fileID: -2008884378623889461, guid: 9b24c9ab2ab2ebe49bf44e1158cca06e, type: 3}
 --- !u!1 &846217487
 GameObject:
   m_ObjectHideFlags: 0
@@ -52878,6 +52771,8 @@ MonoBehaviour:
   color: 1
   backToMainColor: 0
   areaColor: {r: 0.6313726, g: 0.6039216, b: 0.5686275, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 1
   backToMainFov: 1
   areaFov: 18
@@ -64725,11 +64620,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerEvent: 1
+  healtPoints: 100
+  damageTakenPerFrame: 10
   fallingDelay: 2
   disableDelay: 5
   destroyingDelay: 10
   fallingForce: {x: 0, y: -50, z: 0}
-  speedMultiplier: 1
 --- !u!1001 &1490246119
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -66633,6 +66529,8 @@ MonoBehaviour:
   color: 1
   backToMainColor: 1
   areaColor: {r: 0.34553593, g: 0.1966892, b: 0.49056602, a: 0}
+  intensity: 0
+  areaIntensity: 1.3
   fov: 0
   backToMainFov: 1
   areaFov: 0
@@ -79364,10 +79262,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1780647884}
+  - component: {fileID: 1780647887}
+  - component: {fileID: 1780647889}
   - component: {fileID: 1780647885}
-  - component: {fileID: 1780647886}
+  - component: {fileID: 1780647888}
+  - component: {fileID: 1780647890}
   m_Layer: 0
-  m_Name: FallingCliffParent
+  m_Name: FallingCliff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79380,12 +79281,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1780647883}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -251, y: 83.09, z: -59.7}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.23232101, y: 0.66918534, z: -0.64864576, w: -0.27834594}
+  m_LocalPosition: {x: -249.9, y: 79.41, z: -59.7}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 844399369}
+  - {fileID: 142279756}
   m_Father: {fileID: 2125130102}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -79402,24 +79303,92 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerEvent: 0
+  healtPoints: 100
+  damageTakenPerFrame: 10
   fallingDelay: 3
   disableDelay: 5
   destroyingDelay: 10
   fallingForce: {x: 0, y: -100000, z: 0}
-  speedMultiplier: 1
---- !u!65 &1780647886
-BoxCollider:
+--- !u!33 &1780647887
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780647883}
+  m_Mesh: {fileID: -2008884378623889461, guid: 9b24c9ab2ab2ebe49bf44e1158cca06e, type: 3}
+--- !u!64 &1780647888
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1780647883}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2008884378623889461, guid: 9b24c9ab2ab2ebe49bf44e1158cca06e, type: 3}
+--- !u!23 &1780647889
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780647883}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 8f27136f00d9e304e9d2228753a634b7, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!54 &1780647890
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780647883}
   serializedVersion: 2
-  m_Size: {x: 9.297699, y: 1.4749374, z: 7.8908143}
-  m_Center: {x: 0.6485443, y: -2.0824776, z: 0.17677855}
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1780856464
 GameObject:
   m_ObjectHideFlags: 0
@@ -84054,6 +84023,8 @@ MonoBehaviour:
   color: 0
   backToMainColor: 1
   areaColor: {r: 0.6313726, g: 0.6039216, b: 0.5686275, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 1
   backToMainFov: 1
   areaFov: 25
@@ -85929,7 +85900,7 @@ GameObject:
   - component: {fileID: 1931079783}
   - component: {fileID: 1931079782}
   m_Layer: 0
-  m_Name: FlyingIslandsMusic
+  m_Name: FlyingIslands
   m_TagString: FOV
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85979,6 +85950,8 @@ MonoBehaviour:
   color: 1
   backToMainColor: 1
   areaColor: {r: 0.8301887, g: 0.51593727, b: 0.28586686, a: 0}
+  intensity: 1
+  areaIntensity: 2.3
   fov: 0
   backToMainFov: 1
   areaFov: 18
@@ -91093,6 +91066,8 @@ MonoBehaviour:
   color: 0
   backToMainColor: 0
   areaColor: {r: 0.6313726, g: 0.6039216, b: 0.5686275, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 0
   backToMainFov: 1
   areaFov: 18
@@ -96886,6 +96861,8 @@ MonoBehaviour:
   color: 0
   backToMainColor: 1
   areaColor: {r: 0.6313726, g: 0.6039216, b: 0.5686275, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 1
   backToMainFov: 1
   areaFov: 45
@@ -98189,6 +98166,8 @@ MonoBehaviour:
   color: 0
   backToMainColor: 1
   areaColor: {r: 0.6313726, g: 0.6039216, b: 0.5686275, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 1
   backToMainFov: 1
   areaFov: 30

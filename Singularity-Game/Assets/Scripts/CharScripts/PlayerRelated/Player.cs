@@ -32,7 +32,7 @@ public class Player : Character
         gravitationalDirection = Vector3.down;
         targetDirection = Vector3.down;
         direction = 1;
-        jumpForce = 1200f;
+        jumpForce = 1250f;
         jumpNumber = 5;
         doubleJump = true;
         jumpsRemaining = jumpNumber;
@@ -102,19 +102,34 @@ public class Player : Character
     private void Turn()
     {
         int shiftInversion = targetDirection == Vector3.up ? -1 : 1;
-        // turn around
-        if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1 * shiftInversion;
-        if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1 * shiftInversion;
+        if (animator.GetBool("Casting"))
+        {
+            // check if the player casted the spell on the right or the left
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+            Vector3 playerToMouse = Vector3.Normalize(mousePos- transform.position);
+            float dot = Vector3.Dot(Camera.main.transform.right, playerToMouse);
+            if (dot > 0)
+                direction = 1 * shiftInversion;
+            else
+                direction = -1 * shiftInversion;
+        }
+        else
+        {
+            // turn around
+            if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1 * shiftInversion;
+            if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1 * shiftInversion;
+        }
     }
 
-    public void Jump(){
+    public void Jump()
+    {
         if (Input.GetKeyDown(KeyCode.Space) && jumpsRemaining > 0)
         {
             createBurst();
             StartCoroutine(playAnimationForTime("Jumping", 0.5f));
 
             // factorwise multiply the velocity with another vector
-            rb.velocity = Vector3.Scale(rb.velocity, new Vector3(1, 0.1f, 1)); 
+            rb.velocity = Vector3.Scale(rb.velocity, new Vector3(1, 0.1f, 1));
             rb.AddForce((-1) * gravitationalDirection * jumpForce, ForceMode.Impulse);
             jumpsRemaining--;
         }
@@ -146,7 +161,7 @@ public class Player : Character
         if (Physics.Raycast(ray1, out hit1, layerMask, 5) && Physics.Raycast(ray2, out hit2, layerMask, 5))
         {
             if (hit1.distance > falling_distance && hit2.distance > falling_distance)
-            { 
+            {
                 if (checkFallingSpeed(0.2f) || checkFallingSpeed(-2f))
                 {
                     animator.SetBool("Falling", true);
@@ -155,7 +170,7 @@ public class Player : Character
             }
             else
             {
-                if(animator.GetBool("Falling")) StartCoroutine(playAnimationForTime("Landing", 0.5f));
+                if (animator.GetBool("Falling")) StartCoroutine(playAnimationForTime("Landing", 0.5f));
                 animator.SetBool("Falling", false);
                 // reset airjump number
                 jumpsRemaining = jumpNumber;
@@ -195,10 +210,10 @@ public class Player : Character
             {
                 StartCoroutine(castingAnimation());
             }
-            yield return new WaitForSeconds(0.75f);
+            yield return new WaitForSeconds(0.5f);
 
             //Do not use nearClipPlane from main camera, it's somehow synced to the overlayy camera. 72.8 is the correct nearClipPlane
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 72.8f));
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
             Vector3 staffStonePos = GameObject.FindWithTag("Staffstone").transform.position;
             Vector3 projTarget = mousePos - staffStonePos;
             projTarget = new Vector3(projTarget.x, projTarget.y, 0f);
@@ -226,7 +241,7 @@ public class Player : Character
     {
         animator.SetLayerWeight(3, 1);
         animator.SetBool("Casting", true);
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(2f);
         animator.SetLayerWeight(3, 0);
         animator.SetBool("Casting", false);
     }
