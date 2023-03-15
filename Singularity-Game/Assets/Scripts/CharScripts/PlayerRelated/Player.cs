@@ -222,7 +222,7 @@ public class Player : Character
             Vector3 projTarget = mousePos - staffStonePos;
             projTarget = new Vector3(projTarget.x, projTarget.y, 0f);
 
-            GameObject projectileClone = (GameObject)Instantiate(projectile, staffStonePos, Quaternion.identity);
+            GameObject projectileClone = (GameObject)Instantiate(weaponMode == 2 ? projectile_blackhole : projectile, staffStonePos, Quaternion.identity);
             var shape = projectileClone.GetComponent<ParticleSystem>().shape;
             shape.position = Vector3.zero;
 
@@ -235,7 +235,7 @@ public class Player : Character
             else
             {
                 projectileClone.GetComponent<Projectile>().setProjectileConfig(
-                    projTarget, 20, weaponMode);
+                    projTarget, weaponMode == 2 ? 2 : 20, weaponMode);
             }
             if (weaponMode != 2)
             {
