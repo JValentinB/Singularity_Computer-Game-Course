@@ -19,12 +19,16 @@ public class InstablePlatform : Platform
     private float threshold = 0f;
     int shakingHash = Animator.StringToHash("Base Layer.Shaking");
 
+    private AudioManager audioManager;
+
     void Start()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         crystalLight = transform.Find("Crystal").GetComponent<Light>();
         intensity = crystalLight.intensity;
+
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     void FixedUpdate()
@@ -33,7 +37,7 @@ public class InstablePlatform : Platform
         {
             threshold += 1;
             crystalLight.intensity = Mathf.Clamp(crystalLight.intensity + 1, 0, maxIntensity);
-            
+
             animator.SetFloat("ShakingMultiplier", (1 / breakingThreshold) * threshold);
 
             if (threshold > breakingThreshold)
@@ -42,10 +46,13 @@ public class InstablePlatform : Platform
                 animator.SetBool("isBroken", true);
                 isShaking = false;
                 animator.SetBool("isShaking", false);
+                audioManager.Stop(audioManager.environmentSounds, "InstablePlatformShaking");
+                audioManager.Play(audioManager.environmentSounds, "InstablePlatformBreaking");
                 StartCoroutine(Break());
             }
         }
-        else if(!isBroken && crystalLight.intensity > 1){
+        else if (!isBroken && crystalLight.intensity > 1)
+        {
             threshold -= 0.1f;
             crystalLight.intensity -= 0.1f;
         }
@@ -58,8 +65,12 @@ public class InstablePlatform : Platform
         {
             other_rigidbody.velocity += rb.velocity;
 
-            isShaking = true;
-            animator.SetBool("isShaking", true);
+            if (!isBroken)
+            {
+                isShaking = true;
+                animator.SetBool("isShaking", true);
+                audioManager.Play(audioManager.environmentSounds, "InstablePlatformShaking");
+            }
         }
     }
 
@@ -72,6 +83,7 @@ public class InstablePlatform : Platform
 
             isShaking = false;
             animator.SetBool("isShaking", false);
+            audioManager.Stop(audioManager.environmentSounds, "InstablePlatformShaking");
         }
     }
 
@@ -99,6 +111,8 @@ public class InstablePlatform : Platform
         animator.SetBool("isBroken", false);
         threshold = 0f;
         yield return new WaitForSeconds(fixDuration);
+
+        audioManager.Play(audioManager.environmentSounds, "InstablePlatformBreaking");
         StartCoroutine(TransitionLight(crystalLight.intensity, intensity, 1f));
         foreach (Collider collider in GetComponents<Collider>())
         {

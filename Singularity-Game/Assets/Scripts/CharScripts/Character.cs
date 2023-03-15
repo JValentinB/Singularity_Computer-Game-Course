@@ -10,20 +10,8 @@ public class Character : Damageable
     public float currentSpeed, walkSpeed, runSpeed, sprintSpeed, mass, jumpForce, critMod;
     public double critChance;
 
-    public void Jump(){
-        if (animator.GetBool("Jumping") && rb.velocity.y < -0.2f) {
-            animator.SetBool("Falling", true);
-            animator.SetBool("Jumping", false);
-        }
-        if (Input.GetKeyDown(KeyCode.Space) && jumpNumber > 0)
-        {
-            animator.SetTrigger("Jumping");
-            //animator.SetBool("Falling", true);
-            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-            rb.AddForce((-1) * gravitationalDirection * jumpForce, ForceMode.Impulse);
-            jumpNumber--;
-        }
-    }
+    [HideInInspector]public int jumpsRemaining;
+    [HideInInspector]public bool isGrounded;
 
     public void ChangeLineOfSight(){
         if(!shift){
@@ -40,5 +28,11 @@ public class Character : Damageable
             return critMod;
         }
         return 1;
+    }
+
+    public IEnumerator playAnimationForTime(string animationName, float time){
+        animator.SetBool(animationName, true);
+        yield return new WaitForSeconds(time);
+        animator.SetBool(animationName, false);
     }
 }

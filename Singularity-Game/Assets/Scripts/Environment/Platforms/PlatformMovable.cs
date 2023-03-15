@@ -9,6 +9,7 @@ public class PlatformMovable : MonoBehaviour
     [SerializeField] Control control;
     public float force = 10f; // Adjustable variable for move speed
     public float friction = 5f;
+    [Header("Bounding Box: Be Careful to set the corners correctly!")]
     public bool isLimited = true;
     public Vector3 bottomLeft;
     public Vector3 topRight;
@@ -45,7 +46,7 @@ public class PlatformMovable : MonoBehaviour
 
     void mouseMovingPlatform()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && !isHeld)
         {
             // Check if the mouse is over the platform
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -54,14 +55,24 @@ public class PlatformMovable : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 1000, platformLayer) && hit.collider.gameObject == gameObject)
             {
                 // Start holding the platform
+                rb.isKinematic = false;
                 isHeld = true;
                 offset = transform.position - ray.origin;
+
+                castingAnimation();
             }
         }
         else if (Input.GetMouseButtonUp(1))
         {
             // Stop holding the platform
+            rb.isKinematic = true;
             isHeld = false;
+
+            GameObject player = GameObject.FindWithTag("Player");
+            Animator animator = player.GetComponent<Animator>();
+            player.GetComponent<Player>().controllingPlatform = false;
+            animator.SetBool("Controlling", false);
+            animator.SetLayerWeight(4, 0);
         }
 
         if (isHeld)
@@ -128,7 +139,7 @@ public class PlatformMovable : MonoBehaviour
             float distanceFriction = Vector3.Distance(transform.position, activeCrystal.transform.position);
             rb.AddForce(-rb.velocity * friction * (1 / distanceFriction));
         }
-        if(!platformActive)
+        if (!platformActive)
             rb.velocity = Vector3.zero;
     }
 
@@ -137,8 +148,8 @@ public class PlatformMovable : MonoBehaviour
     {
         float x = inXaxisBounds(transform.localPosition.x) ? 1f : 0f;
         float y = inYaxisBounds(transform.localPosition.y) ? 1f : 0f;
-        rb.velocity = Vector3.Scale(rb.velocity, new Vector3(x,y,1));
-        
+        rb.velocity = Vector3.Scale(rb.velocity, new Vector3(x, y, 1));
+
         transform.localPosition = ClosestPointInBoundingBox(transform.localPosition);
     }
 
@@ -146,7 +157,8 @@ public class PlatformMovable : MonoBehaviour
     {
         return x > bottomLeft.x && x < topRight.x;
     }
-    private bool inYaxisBounds(float y){
+    private bool inYaxisBounds(float y)
+    {
         return y > bottomLeft.y && y < topRight.y;
     }
 
@@ -155,7 +167,7 @@ public class PlatformMovable : MonoBehaviour
         return new Vector3(
             Mathf.Clamp(point.x, bottomLeft.x + 0.01f, topRight.x - 0.01f),
             Mathf.Clamp(point.y, bottomLeft.y + 0.01f, topRight.y - 0.01f),
-            0f //transform.localPosition.z
+            transform.localPosition.z
         );
     }
 
@@ -167,5 +179,14 @@ public class PlatformMovable : MonoBehaviour
         {
             other_rigidbody.velocity += GetComponent<Rigidbody>().velocity;
         }
+    }
+
+    void castingAnimation()
+    {
+        GameObject player = GameObject.FindWithTag("Player");
+        Animator animator = player.GetComponent<Animator>();
+        player.GetComponent<Player>().controllingPlatform = true;
+        animator.SetBool("Controlling", true);
+        animator.SetLayerWeight(4, 1);       
     }
 }

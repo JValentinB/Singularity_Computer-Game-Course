@@ -6,18 +6,20 @@ using UnityEngine;
 public class WindUpstream : MonoBehaviour
 {
     private float prevGravityStrength;
+    private float prevJumpForce;
     //Function will be called on leaving collider range
     private void OnTriggerEnter(Collider col)
     {
-        var damagbleObjectToShift = col.gameObject.GetComponent<Damageable>();
+        var damageableObjectToShift = col.gameObject.GetComponent<Damageable>();
 
-        if (damagbleObjectToShift)
+        if (damageableObjectToShift)
         {
-            prevGravityStrength = damagbleObjectToShift.gravityStrength;
-            var rg = col.gameObject.GetComponent<Rigidbody>();
-            damagbleObjectToShift.gravityStrength = 5f;
-            damagbleObjectToShift.GetComponent<Character>().jumpForce = 3050f;
-            rg.velocity = new Vector3(rg.velocity.x, -10f ,rg.velocity.z); 
+            prevGravityStrength = damageableObjectToShift.gravityStrength;
+            prevJumpForce = damageableObjectToShift.GetComponent<Character>().jumpForce;
+            var rb = col.gameObject.GetComponent<Rigidbody>();
+            damageableObjectToShift.gravityStrength = 5f;
+            damageableObjectToShift.GetComponent<Character>().jumpForce = 3050f;
+            rb.velocity = new Vector3(rb.velocity.x, -10f ,rb.velocity.z); 
         }
     }
 
@@ -28,7 +30,7 @@ public class WindUpstream : MonoBehaviour
         if (damagbleObjectToShift)
         {
             damagbleObjectToShift.gravityStrength = prevGravityStrength;
-            damagbleObjectToShift.GetComponent<Character>().jumpForce = 1050f;
+            damagbleObjectToShift.GetComponent<Character>().jumpForce = prevJumpForce;
         }
 
     }

@@ -6,7 +6,7 @@ public class Projectile : MonoBehaviour
 {
     private ParticleSystem ps;
     private ParticleSystem.MainModule _ps;
-    [SerializeField] private float speed;
+    [SerializeField] private float projectileSpeed;
     private Vector3 dir;
     private int dmg;
     [SerializeField] public int mode;
@@ -23,7 +23,7 @@ public class Projectile : MonoBehaviour
 
     public void setProjectileConfig(Vector3 dir, float speed, int mode){
         this.dir = Vector3.Normalize(dir);
-        this.speed = speed;
+        this.projectileSpeed = speed;
         this.mode = mode;
         if(mode == 2)
         {
@@ -74,7 +74,7 @@ public class Projectile : MonoBehaviour
     }
 
     private void Move(){
-        transform.Translate(dir * speed * Time.deltaTime);
+        transform.Translate(dir * projectileSpeed * Time.deltaTime);
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
 

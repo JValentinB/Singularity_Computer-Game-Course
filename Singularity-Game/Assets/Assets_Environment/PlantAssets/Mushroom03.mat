@@ -314,9 +314,9 @@ Material:
     - _Ap_RimLightColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor: {r: 0.9339623, g: 0.9295568, b: 0.9295568, a: 1}
     - _Color: {r: 0.9339623, g: 0.9295568, b: 0.9295568, a: 1}
-    - _ColorShift: {r: 0.31229973, g: 0.3624846, b: 0.5471698, a: 1}
+    - _ColorShift: {r: 0.9254902, g: 1.0588236, b: 1.6078432, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Emissive_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Emissive_Color: {r: 3.9999995, g: 3.9999995, b: 3.9999995, a: 1}
     - _HighColor: {r: 0.990566, g: 0.9485137, b: 0.9485137, a: 1}
     - _MatCapColor: {r: 1, g: 1, b: 1, a: 1}
     - _Outline_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}

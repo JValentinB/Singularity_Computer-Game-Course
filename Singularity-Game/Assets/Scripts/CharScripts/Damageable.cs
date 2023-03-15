@@ -20,9 +20,10 @@ public class Damageable : MonoBehaviour
     public Rigidbody rb;
     public InvManager inventory = new InvManager();
 
-    
     public void ApplyDamage(int damage){
         currentHealth -= damage;
+
+        StartCoroutine(damageAnimation());
     }
 
     public void ApplyGravity()
@@ -58,5 +59,13 @@ public class Damageable : MonoBehaviour
         while (counter < time) {
             counter += Time.deltaTime;
         }
+    }
+
+    IEnumerator damageAnimation(){
+        animator.SetTrigger("TakingDamage");
+        animator.SetLayerWeight(2, 1);
+        yield return new WaitForSeconds(1f);
+        animator.ResetTrigger("TakingDamage");
+        animator.SetLayerWeight(2, 0);
     }
 }
