@@ -43,7 +43,7 @@ public class Player : Character
         rb = GetComponent<Rigidbody>();
         rb.mass = mass;
         weaponMode = 0;
-        weaponModes = 2;
+        weaponModes = 3;
         setDirectionShot = false;
 
         scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
@@ -70,6 +70,7 @@ public class Player : Character
         killOnHighSpeed();
         if (currentHealth <= 0)
             OnDeath();
+        
     }
 
     void Update()
@@ -178,7 +179,7 @@ public class Player : Character
 
     private void ChangeBulletMode()
     {
-      /*
+      
         if (Input.mouseScrollDelta.y > 0)
         {
             weaponMode = (weaponMode + 1) % weaponModes;
@@ -188,8 +189,8 @@ public class Player : Character
             weaponMode = (weaponMode - 1) % weaponModes;
             if (weaponMode < 0) weaponMode = weaponModes - 1;
         }
-        */
-
+        
+        /*
         if (Input.GetKey(KeyCode.Keypad0))
         {
             weaponMode = 0;
@@ -202,12 +203,12 @@ public class Player : Character
         {
             weaponMode = 2;
         }
-
+        */
 
     }
 
     private IEnumerator FireProjectile()
-    {
+    {   
         if (Input.GetMouseButtonDown(1))
         {
             if (!animator.GetBool("Casting"))
@@ -216,6 +217,7 @@ public class Player : Character
             }
             yield return new WaitForSeconds(0.75f);
 
+            
             //Do not use nearClipPlane from main camera, it's somehow synced to the overlayy camera. 72.8 is the correct nearClipPlane
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 72.8f));
             Vector3 staffStonePos = GameObject.FindWithTag("Staffstone").transform.position;

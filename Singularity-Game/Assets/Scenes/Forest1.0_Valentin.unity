@@ -1151,6 +1151,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crate (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: prop
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738281, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -12867,6 +12871,8 @@ MonoBehaviour:
   color: 0
   backToMainColor: 1
   areaColor: {r: 0.6313726, g: 0.6039216, b: 0.5686275, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 1
   backToMainFov: 1
   areaFov: 18
@@ -15791,6 +15797,8 @@ MonoBehaviour:
   color: 0
   backToMainColor: 1
   areaColor: {r: 0.6313726, g: 0.6039216, b: 0.5686275, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 1
   backToMainFov: 1
   areaFov: 22
@@ -18859,6 +18867,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crate (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: prop
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738281, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -20051,6 +20063,8 @@ MonoBehaviour:
   color: 1
   backToMainColor: 1
   areaColor: {r: 0, g: 0, b: 0, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 0
   backToMainFov: 1
   areaFov: 0
@@ -21538,6 +21552,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crate (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: prop
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738281, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -21699,6 +21717,7 @@ GameObject:
   - component: {fileID: 449877679}
   - component: {fileID: 449877682}
   - component: {fileID: 449877681}
+  - component: {fileID: 449877683}
   m_Layer: 5
   m_Name: InventoryUI
   m_TagString: InventoryUI
@@ -21802,6 +21821,21 @@ MonoBehaviour:
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 1
   m_ConstraintCount: 4
+--- !u!114 &449877683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449877677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f51f19d8d1e29844940b0d387543e0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryUI: {fileID: 449877677}
+  slotPrefab: {fileID: 3379250271476889922, guid: 2861c560693672842a675f59fd493bf2, type: 3}
+  slots: 5
 --- !u!1 &451372987
 GameObject:
   m_ObjectHideFlags: 0
@@ -29249,6 +29283,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crate (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: prop
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738281, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -36686,6 +36724,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crate (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: prop
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738281, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -37783,7 +37825,7 @@ ParticleSystemForceField:
   m_Parameters:
     m_Shape: 0
     m_StartRange: 0
-    m_EndRange: 0.05
+    m_EndRange: 0.049999997
     m_Length: 1
     m_GravityFocus: 0
     m_RotationRandomness: {x: 0, y: 0}
@@ -40906,15 +40948,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -384.8
+      value: -125.03
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 126.9
+      value: 68.85
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalRotation.w
@@ -42708,6 +42750,7 @@ MonoBehaviour:
   weaponModes: 0
   doubleJump: 0
   projectile: {fileID: 8792342904977857413, guid: f2e5134fd3a023d4cb48c13af2d37a05, type: 3}
+  projectile_blackhole: {fileID: 8792342904977857413, guid: be320ca49994fd54281ec6f5e6608e62, type: 3}
   jumpBurst: {fileID: 7004842315732285135, guid: b2c2dc83c9f715d44aa4338859562b86, type: 3}
   setDirectionShot: 0
   BlackOutSquare: {fileID: 0}
@@ -43128,6 +43171,8 @@ MonoBehaviour:
   color: 0
   backToMainColor: 0
   areaColor: {r: 0.6313726, g: 0.6039216, b: 0.5686275, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 0
   backToMainFov: 1
   areaFov: 18
@@ -44005,6 +44050,10 @@ PrefabInstance:
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: prop
       objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738281, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_RootOrder
@@ -46759,6 +46808,10 @@ PrefabInstance:
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: prop
       objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738281, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_RootOrder
@@ -52878,6 +52931,8 @@ MonoBehaviour:
   color: 1
   backToMainColor: 0
   areaColor: {r: 0.6313726, g: 0.6039216, b: 0.5686275, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 1
   backToMainFov: 1
   areaFov: 18
@@ -58233,6 +58288,10 @@ PrefabInstance:
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: prop
       objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738281, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_RootOrder
@@ -66633,6 +66692,8 @@ MonoBehaviour:
   color: 1
   backToMainColor: 1
   areaColor: {r: 0.34553593, g: 0.1966892, b: 0.49056602, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 0
   backToMainFov: 1
   areaFov: 0
@@ -77231,6 +77292,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crate (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: prop
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738281, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -78548,6 +78613,10 @@ PrefabInstance:
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: prop
       objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738281, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_RootOrder
@@ -84054,6 +84123,8 @@ MonoBehaviour:
   color: 0
   backToMainColor: 1
   areaColor: {r: 0.6313726, g: 0.6039216, b: 0.5686275, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 1
   backToMainFov: 1
   areaFov: 25
@@ -84780,6 +84851,10 @@ PrefabInstance:
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate
+      objectReference: {fileID: 0}
+    - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: prop
       objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738281, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_RootOrder
@@ -85979,6 +86054,8 @@ MonoBehaviour:
   color: 1
   backToMainColor: 1
   areaColor: {r: 0.8301887, g: 0.51593727, b: 0.28586686, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 0
   backToMainFov: 1
   areaFov: 18
@@ -91093,6 +91170,8 @@ MonoBehaviour:
   color: 0
   backToMainColor: 0
   areaColor: {r: 0.6313726, g: 0.6039216, b: 0.5686275, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 0
   backToMainFov: 1
   areaFov: 18
@@ -96886,6 +96965,8 @@ MonoBehaviour:
   color: 0
   backToMainColor: 1
   areaColor: {r: 0.6313726, g: 0.6039216, b: 0.5686275, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 1
   backToMainFov: 1
   areaFov: 45
@@ -98189,6 +98270,8 @@ MonoBehaviour:
   color: 0
   backToMainColor: 1
   areaColor: {r: 0.6313726, g: 0.6039216, b: 0.5686275, a: 0}
+  intensity: 0
+  areaIntensity: 1.58
   fov: 1
   backToMainFov: 1
   areaFov: 30
@@ -98287,6 +98370,10 @@ PrefabInstance:
     - target: {fileID: 2584831509396990031, guid: 7062e5bbe71da6141899655a459bb890, type: 3}
       propertyPath: m_Name
       value: suicider_lowPoly
+      objectReference: {fileID: 0}
+    - target: {fileID: 2584831509396990031, guid: 7062e5bbe71da6141899655a459bb890, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 2924237196014154485, guid: 7062e5bbe71da6141899655a459bb890, type: 3}
       propertyPath: m_RootOrder

@@ -104,7 +104,7 @@ public class Projectile : MonoBehaviour
     private void OnTriggerStay(Collider col)
     {
         var obj = col.gameObject;
-        if (mode == 2 && obj.tag != "Player")
+        if (mode == 2 && obj.tag != "Player" && obj.tag != "Untagged")
         {
             var obj_rb = obj.GetComponent<Rigidbody>();
             Vector3 obj_pos = obj.GetComponent<Transform>().position;

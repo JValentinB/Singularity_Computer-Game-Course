@@ -11,6 +11,7 @@ TagManager:
   - FOV
   - InventoryUI
   - Staffstone
+  - prop
   layers:
   - Default
   - TransparentFX
