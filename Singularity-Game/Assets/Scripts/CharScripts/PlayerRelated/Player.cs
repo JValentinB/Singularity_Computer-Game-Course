@@ -51,7 +51,7 @@ public class Player : Character
         BlackOutSquare.GetComponent<Image>().color = new Color(0f, 0f, 0f, 255f);
         StartCoroutine(FadeBlackOutSquare(false));
         checkForStart();
-
+        CheckLoading();
     }
 
     void FixedUpdate()
@@ -354,6 +354,12 @@ public class Player : Character
         }
     }
 
+    private void CheckLoading(){
+        if(SaveSystem.couldNotLoadGame){
+            SaveSystem.couldNotLoadGame = false;
+            SaveSystem.LoadGame();
+        }
+    }
 
     //FIXME Muss noch neu gemacht werden:
     //---------------------------------------

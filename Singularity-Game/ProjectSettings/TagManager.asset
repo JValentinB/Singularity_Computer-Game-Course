@@ -11,6 +11,14 @@ TagManager:
   - FOV
   - InventoryUI
   - Staffstone
+  - Spaceship
+  - SpaceCamera
+  - SpaceShipThruster
+  - GameTitle
+  - MenuUI
+  - OptionsUI
+  - ParentUI
+  - PixelizationValue
   layers:
   - Default
   - TransparentFX
