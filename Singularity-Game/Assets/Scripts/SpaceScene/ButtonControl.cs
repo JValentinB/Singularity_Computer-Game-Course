@@ -41,12 +41,11 @@ public class ButtonControl : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         OptionPixelizationDown.onClick.AddListener(DecPixelization);
         ResetRenderScale();
         UpdatePixelizationValue();
-        specialMessagePosY = SpecialMessageField.rectTransform.position.y;
     }
 
     void Update(){
         FadeUI();
-        SpecialMessage();
+        ShowSpecialMessage();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -90,7 +89,13 @@ public class ButtonControl : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         }    
     }
 
-    private void SpecialMessage(){
+    private void SpecialMessage(string msg){
+        specialMessageCD = 3f;
+        specialMessage = msg;
+        showSpecial = true;
+    }
+
+    private void ShowSpecialMessage(){
         var specialMessagePos = SpecialMessageField.rectTransform.pivot;
         SpecialMessageField.text = specialMessage;
 
@@ -122,9 +127,7 @@ public class ButtonControl : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         ButtonSound.Play();
         SaveSystem.LoadGame();
         if(SceneManager.GetActiveScene().name != "Forest1.0_Valentin"){
-            specialMessageCD = 3f;
-            specialMessage = "No savegame found!";
-            showSpecial = true;
+            SpecialMessage("No savegame found!");
         }
     }
 
