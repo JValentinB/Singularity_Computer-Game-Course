@@ -79,7 +79,7 @@ public class Projectile : MonoBehaviour
             obj.GetComponent<Damageable>().ApplyDamage(dmg);
             Destroy(gameObject);
         } else if(obj.tag == "Shifter"){
-            if(obj.GetComponent<Shifter>().mode == mode) obj.GetComponent<Shifter>().active = true;
+            if(obj.GetComponent<Shifter>().mode == mode) obj.GetComponent<Shifter>().ToggleShifter();
             Destroy(gameObject);
         } else if(obj.tag != "Player" && obj.tag != "FOV"){
             Destroy(gameObject);

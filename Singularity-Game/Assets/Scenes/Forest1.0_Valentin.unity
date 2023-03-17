@@ -40913,11 +40913,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -288.5
+      value: -86.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 106.4
+      value: 64.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.z
@@ -64625,7 +64625,7 @@ MonoBehaviour:
   fallingDelay: 2
   disableDelay: 5
   destroyingDelay: 10
-  fallingForce: {x: 0, y: -50, z: 0}
+  maxRumblingVolume: 1
 --- !u!1001 &1490246119
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -79308,7 +79308,7 @@ MonoBehaviour:
   fallingDelay: 3
   disableDelay: 5
   destroyingDelay: 10
-  fallingForce: {x: 0, y: -100000, z: 0}
+  maxRumblingVolume: 1
 --- !u!33 &1780647887
 MeshFilter:
   m_ObjectHideFlags: 0
