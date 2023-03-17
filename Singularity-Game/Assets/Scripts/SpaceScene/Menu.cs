@@ -7,10 +7,10 @@ public class Menu : MonoBehaviour
 {
     [SerializeField] private float targetY;
     private float targetInterval;
-    private bool newGame;
+    private bool newGame, activatedButtons;
     private TextMeshPro TMP;
     private Color currentColor;
-    private bool fadeOut;
+    public bool fadeOut;
     private GameObject Spaceship;
     private ShipControl ShipScript;
     private CameraControlSpace SpaceCameraScript;
@@ -43,13 +43,12 @@ public class Menu : MonoBehaviour
     }
 
     private void ActivateMenuButtons(){
-        //Leave button objects deactivated at start
-        //Activate here when Title is in Targetposition
+        if(activatedButtons) return;
+        var parentUI = GameObject.FindWithTag("ParentUI").GetComponent<ButtonControl>();
+
         if(transform.position.y < targetY + targetInterval && transform.position.y > targetY - targetInterval){
-            //Buttons slowly fading in
-            if(Input.GetKey(KeyCode.Space)){
-                fadeOut = true;
-            }
+            parentUI.fadeInUI = true;
+            activatedButtons = true;
         }
     }
 

@@ -6,6 +6,8 @@ public class CameraControlSpace : MonoBehaviour
 {
     [SerializeField] private Transform player;
     [SerializeField] public bool followPlayer;
+    private Vector3 velocity = Vector3.zero;
+    private float smoothTime = 0.1f;
     public float offset_x = 0;
     public float offset_y = 0;
 
@@ -21,6 +23,7 @@ public class CameraControlSpace : MonoBehaviour
     void Update()
     {
         if(!followPlayer) return;
-        this.transform.position = new Vector3(player.position.x + offset_x, player.position.y + offset_y, zPosition);
+        Vector3 targetPosition = new Vector3(player.position.x + offset_x, player.position.y + offset_y, zPosition);
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
     }
 }
