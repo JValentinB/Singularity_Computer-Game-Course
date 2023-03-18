@@ -16,7 +16,7 @@ public class rootSpike : MonoBehaviour
         ps = GetComponentInChildren<ParticleSystem>();
         dmg = 30;
         startRumble = true;
-        growBackCD = 1f;
+        growBackCD = 0.5f;
     }
 
     void Update()
@@ -47,6 +47,5 @@ public class rootSpike : MonoBehaviour
             animator.SetBool("recede", true);
             Destroy(gameObject, 1f);
         }
-        Debug.Log(growBackCD);
     }
 }
