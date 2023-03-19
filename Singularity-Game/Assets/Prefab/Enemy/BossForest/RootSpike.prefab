@@ -4929,6 +4929,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: rootSpike
       objectReference: {fileID: 0}
+    - target: {fileID: 928911833541816158, guid: efc9c8e662ba3994a85d259e79f48b66, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8a280c5f1285dcc43bb360de49234ed9, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efc9c8e662ba3994a85d259e79f48b66, type: 3}
 --- !u!1 &6663673508865960945 stripped
@@ -4944,7 +4948,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6663673508865960945}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.00015
   m_Height: 0.008
