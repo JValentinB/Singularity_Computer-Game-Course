@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class ForestBoss : Enemy
 {
-    private float rangeClose, rangeFar;
-    [SerializeField] private float slashCD, sweepCD, spikeCD, projectileCD, spikePause;
+    private float rangeClose, rangeFar, sideRadius;
+    [SerializeField] private float spikeCD, projectileCD, spikePause;
     [SerializeField] private int remainingSpikes;
-    private float branchCounter, spikeCounter, projectileCounter, nextSpike;
+    private float spikeCounter, projectileCounter, nextSpike;
     private float[] rootSpikePos = new float[10];
     [SerializeField] private GameObject rootSpike;
-    [SerializeField] private GameObject rootSlash;
-    [SerializeField] private GameObject rootSweep;
     [SerializeField] private GameObject manipulatableProjectile;
+    [SerializeField] private Player playerScript; 
 
     [SerializeField] public float disToPlayer;
+
+    //Positions of each side, has to be the middle and below the ground
+    [SerializeField] private Vector3 bottomSideMidPos, topSideMidPos, rightSideMidPos, leftSideMidPos;
     
     void Start()
     {
@@ -41,14 +43,16 @@ public class ForestBoss : Enemy
         //from ForestBoss
         rangeClose = 10f;
         rangeFar = 20f;
-        rootSpikePos[0] = 10f;
-        rootSpikePos[1] = 20f;
-        rootSpikePos[2] = 30f;
 
-        slashCD = 3f;
-        sweepCD = 2f;
         spikeCD = 2f;
         projectileCD = 5f;
+
+        playerScript = playerObject.GetComponent<Player>();
+        bottomSideMidPos = transform.position;//Vector3.down;
+        topSideMidPos = Vector3.up;
+        rightSideMidPos = Vector3.right;
+        leftSideMidPos = Vector3.left;
+        sideRadius = 60f;
     }
 
     // Update is called once per frame
@@ -64,55 +68,8 @@ public class ForestBoss : Enemy
 
     private void ChooseAttack(){
         var rand = Random.Range(0f, 1f);
-        if(DistanceToPlayer() < rangeClose){
-            //Randomize all possible close+ range attacks
-            if(rand < 0.25f)        BranchSlash();
-            else if(rand < 0.5f)    BranchSweep();
-            else if(rand < 0.75f)   RootSpikes();
-            else                    ThrowProjectile();
-        } else if(DistanceToPlayer() < rangeFar){
-            //Randomize all possible mid+ range attacks
-            if(rand < 0.25f)        ThrowProjectile();
-            else if(rand < 0.6f)    BranchSweep();
-            else                    RootSpikes();
-        } else {
-            //Randomize all possible far range attacks
-            if(rand < 0.5f)         ThrowProjectile();
-            else                    RootSpikes();
-        }
-    }
-
-    //ALL SPAWN POSITIONS HAVE TO BE SET MANUALLY; SINCE THEY SPAWN RELATIVE TO BOSS POSITION
-
-    //Close range attack (maybe)
-    private void BranchSlash(){
-        if(branchCounter >= 0f){
-            branchCounter -= Time.deltaTime;
-            //Debug.Log("Remaining cooldown: " + branchCounter);
-            return;
-        }
-
-        //Branch slashing downwards from above
-        //Back off to avoid
-        var spawnPos = new Vector3(transform.position.x, transform.position.y + 2.2f, transform.position.z);
-        GameObject rootSlashObject = Instantiate(rootSlash, spawnPos, Quaternion.identity);
-        branchCounter = slashCD;
-        Debug.Log("BRANCH SLASH!");
-    }
-
-    //Mid range attack
-    private void BranchSweep(){
-        if(branchCounter >= 0f){
-            branchCounter -= Time.deltaTime;
-            //Debug.Log("Remaining cooldown: " + branchCounter);
-            return;
-        }       
-
-        //Branch sweep at ground level, jump or back off to avoid
-        var spawnPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        GameObject rootSweepObject = Instantiate(rootSweep, spawnPos, Quaternion.identity);
-        branchCounter = sweepCD;
-        Debug.Log("BRANCH SWEEP!");
+        if(rand < 0.5f)         ThrowProjectile();
+        else                    RootSpikes();
     }
 
     //Mid range attack (adjustable)
@@ -137,8 +94,22 @@ public class ForestBoss : Enemy
             spikePause -= Time.deltaTime;
             return;
         }
-        var spawnPos = new Vector3(playerObject.transform.position.x + Random.Range(-30f, 30f), transform.position.y, transform.position.z);
-        GameObject rootSpikeObject = Instantiate(rootSpike, spawnPos, Quaternion.identity);
+
+        var spawnPos = transform.position;
+        if(playerScript.gravitationalDirection == Vector3.right){
+            spawnPos = new Vector3(rightSideMidPos.x, rightSideMidPos.y + Random.Range(-sideRadius, sideRadius), rightSideMidPos.z);
+            GameObject rootSpikeObject = Instantiate(rootSpike, spawnPos, Quaternion.Euler(0f, 0f, 90f));
+        } else if(playerScript.gravitationalDirection == Vector3.left){
+            spawnPos = new Vector3(leftSideMidPos.x, leftSideMidPos.y + Random.Range(-sideRadius, sideRadius), leftSideMidPos.z);
+            GameObject rootSpikeObject = Instantiate(rootSpike, spawnPos, Quaternion.Euler(0f, 0f, -90f));
+        } else if(playerScript.gravitationalDirection == Vector3.up){
+            spawnPos = new Vector3(topSideMidPos.x + Random.Range(-sideRadius, sideRadius), topSideMidPos.y, topSideMidPos.z);
+            GameObject rootSpikeObject = Instantiate(rootSpike, spawnPos, Quaternion.Euler(0f, 0f, 180f));
+        } else {
+            spawnPos = new Vector3(bottomSideMidPos.x + Random.Range(-sideRadius, sideRadius), bottomSideMidPos.y, bottomSideMidPos.z);
+            GameObject rootSpikeObject = Instantiate(rootSpike, spawnPos, Quaternion.identity);
+        }
+        
         remainingSpikes--;
         spikePause = 0.05f;
     }
@@ -153,7 +124,7 @@ public class ForestBoss : Enemy
 
         //Projectile shouldn't spawn directly under player
         var spawnPosX = transform.position.x - Random.Range(5f, 40f);
-        while(spawnPosX - 5f <= playerObject.transform.position.x && playerObject.transform.position.x <= spawnPosX + 5f){
+        while(playerObject.transform.position.x - 5f <= spawnPosX && spawnPosX <= playerObject.transform.position.x + 5f){
             spawnPosX = transform.position.x - Random.Range(5f, 40f);
         }
         
@@ -162,4 +133,39 @@ public class ForestBoss : Enemy
         projectileCounter = projectileCD;
         Debug.Log("PROJECTILE!");
     }
+
+
+    //-----------Unused attacks-----------------
+
+    //Close range attack (maybe)
+    /* private void BranchSlash(){
+        if(branchCounter >= 0f){
+            branchCounter -= Time.deltaTime;
+            //Debug.Log("Remaining cooldown: " + branchCounter);
+            return;
+        }
+
+        //Branch slashing downwards from above
+        //Back off to avoid
+        var spawnPos = new Vector3(transform.position.x, transform.position.y + 2.2f, transform.position.z);
+        GameObject rootSlashObject = Instantiate(rootSlash, spawnPos, Quaternion.identity);
+        branchCounter = slashCD;
+        Debug.Log("BRANCH SLASH!");
+    } */
+
+    //Mid range attack
+    /* private void BranchSweep(){
+        if(branchCounter >= 0f){
+            branchCounter -= Time.deltaTime;
+            //Debug.Log("Remaining cooldown: " + branchCounter);
+            return;
+        }       
+
+        //Branch sweep at ground level, jump or back off to avoid
+        var spawnPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        GameObject rootSweepObject = Instantiate(rootSweep, spawnPos, Quaternion.identity);
+        branchCounter = sweepCD;
+        Debug.Log("BRANCH SWEEP!");
+    } */
+    
 }
