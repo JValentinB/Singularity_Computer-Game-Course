@@ -8,7 +8,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private CanvasGroup invUI;
     [SerializeField] private CanvasGroup weaponWheelUI;
+    [SerializeField] private GameObject activeModeDisplay;
     public int modeId;
+    public Sprite modeImage;
 
     void Start(){
         invUI.blocksRaycasts = false;
@@ -33,7 +35,7 @@ public class UIManager : MonoBehaviour
     
     public void UpdateWeaponWheel(){
         OpenCloseWeaponWheel();
-        ChangeMode();
+        UpdateWeapoonMode();
     }
 
     public void OpenCloseWeaponWheel()
@@ -54,7 +56,8 @@ public class UIManager : MonoBehaviour
     }
     
 
-    public void ChangeMode(){
+    public void UpdateWeapoonMode(){
+        activeModeDisplay.GetComponent<Image>().sprite = modeImage;
         if(weaponWheelUI.alpha == 1){
             switch (modeId)
             {

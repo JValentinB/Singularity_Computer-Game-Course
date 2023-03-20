@@ -22,24 +22,14 @@ public class WeaponWheelController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Activate();
-        ActivatedMode();
+        ActivateAnimation();
     }
 
     public void Selected(){
-        activeModes++;
+        anim.SetBool("selected", true);
     }
 
-    public void Deselected(){
-        activeModes--;
-    }
-
-    private void ActivatedMode(){
-        anim.SetBool("selected", activeModes > 0);
-    }
-    
-
-    public void Activate(){
+    public void ActivateAnimation(){
         anim.SetBool("active", weaponWheelUiCanvasGroup.alpha == 1);
     }
 }
