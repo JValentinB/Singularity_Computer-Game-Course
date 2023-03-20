@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
 
     [SerializeField] private CanvasGroup invUI;
+    [SerializeField] private Player player;
     [SerializeField] private CanvasGroup weaponWheelUI;
     [SerializeField] private GameObject activeModeDisplay;
     public int modeId;
@@ -57,22 +58,11 @@ public class UIManager : MonoBehaviour
     
 
     public void UpdateWeapoonMode(){
-        activeModeDisplay.GetComponent<Image>().sprite = modeImage;
-        if(weaponWheelUI.alpha == 1){
-            switch (modeId)
-            {
-                case 0:
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-            }
+        if(modeImage){
+            activeModeDisplay.GetComponent<Image>().sprite = modeImage;
+            activeModeDisplay.GetComponent<Image>().preserveAspect = true;
         }
+        player.ChangeBulletMode(modeId);
     }
 
 }

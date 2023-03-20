@@ -10504,7 +10504,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -46635,6 +46635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invUI: {fileID: 449877683}
+  player: {fileID: 815103049}
   weaponWheelUI: {fileID: 714235738}
   activeModeDisplay: {fileID: 133832713}
   modeId: 0
@@ -46819,7 +46820,7 @@ MonoBehaviour:
   animOtherStone1: {fileID: 1490341624}
   animOtherStone2: {fileID: 769577508}
   animOtherStone3: {fileID: 2104739582}
-  id: 1
+  id: 0
   alphaThreshhold: 0.1
 --- !u!114 &979364576
 MonoBehaviour:
@@ -64347,7 +64348,7 @@ MonoBehaviour:
   animOtherStone1: {fileID: 979364574}
   animOtherStone2: {fileID: 769577508}
   animOtherStone3: {fileID: 2104739582}
-  id: 2
+  id: 1
   alphaThreshhold: 0.1
 --- !u!1 &1490874366
 GameObject:
@@ -101940,7 +101941,7 @@ MonoBehaviour:
   animOtherStone1: {fileID: 1490341624}
   animOtherStone2: {fileID: 979364574}
   animOtherStone3: {fileID: 769577508}
-  id: 4
+  id: 3
   alphaThreshhold: 0.1
 --- !u!1 &2109382717
 GameObject:

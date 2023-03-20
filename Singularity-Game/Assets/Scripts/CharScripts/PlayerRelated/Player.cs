@@ -57,7 +57,6 @@ public class Player : Character
         Attack();
         FireProjectile();
         Jump();
-        ChangeBulletMode();
         if(Input.GetKeyDown(KeyCode.Space)) createBurst();
     }
 
@@ -116,12 +115,8 @@ public class Player : Character
         }
     }
 
-    private void ChangeBulletMode(){
-        if(Input.mouseScrollDelta.y > 0){
-            weaponMode = (weaponMode + 1) % 2;
-        } else if(Input.mouseScrollDelta.y < 0){
-            weaponMode = (weaponMode - 1) % 2;
-        }
+    public void ChangeBulletMode(int modeId){
+        weaponMode = modeId;
     }
 
     private void FireProjectile(){
