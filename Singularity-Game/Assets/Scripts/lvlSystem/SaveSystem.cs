@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class SaveSystem
 {
+    public static bool couldNotLoadGame;
+
     public static void SaveGame(Player player){
         SaveData saveData = new SaveData(player);
 
@@ -31,6 +34,13 @@ public class SaveSystem
     public static void LoadGame(){
         SaveData saveData = ReadSaveFile();
         if(saveData == null){ return; }
+
+        SceneManager.LoadScene("Forest1.0_Valentin");
+
+        if(SceneManager.GetActiveScene().name != "Forest1.0_Valentin"){
+            couldNotLoadGame = true;
+            return;
+        }
 
         var player = GameObject.FindWithTag("Player").GetComponent<Player>();
 

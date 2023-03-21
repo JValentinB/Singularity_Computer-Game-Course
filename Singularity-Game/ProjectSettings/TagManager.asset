@@ -12,6 +12,15 @@ TagManager:
   - InventoryUI
   - Staffstone
   - TreeBoss
+  - Spaceship
+  - SpaceCamera
+  - SpaceShipThruster
+  - GameTitle
+  - MenuUI
+  - OptionsUI
+  - ParentUI
+  - PixelizationValue
+  - Prop
   layers:
   - Default
   - TransparentFX
