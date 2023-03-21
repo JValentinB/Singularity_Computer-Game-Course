@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LaserBender : MonoBehaviour
-{
+{   
+    [Header("Time until the bender is moving back to initial position")]
+    public float timeUntilReset = 10f;
     [Range(0f, 1f)]
     public float bendingAmount = 0.05f;
     [Range(0f, 1f)]
@@ -13,8 +15,11 @@ public class LaserBender : MonoBehaviour
 
     private SphereCollider triggerCollider;
     private Rigidbody rb;
-    private Vector3 lastPosition;
+    private LaserBeam laserBeam;
 
+    private Vector3 initialPosition;
+    Coroutine timerCoroutine;
+    bool timerTicking = false;
 
     void Start()
     {
@@ -22,19 +27,17 @@ public class LaserBender : MonoBehaviour
         triggerCollider = colliders[0].isTrigger ? colliders[0] : colliders[1];
         radius = triggerCollider.radius;
 
-        lastPosition = transform.position;
+        initialPosition = transform.position;
         rb = GetComponent<Rigidbody>();
     }
 
-    // void Update()
-    // {
-    //     if (lastPosition != transform.position)
-    //     {
-    //         isMoving = true;
-    //         lastPosition = transform.position;
-    //     }
-    //     else isMoving = false;
-    // }
+    void Update()
+    {
+        if(!timerTicking && IsMoving())
+        {
+            timerCoroutine = StartCoroutine(Timer());
+        }
+    }
 
 
     void OnTriggerEnter(Collider other)
@@ -42,11 +45,37 @@ public class LaserBender : MonoBehaviour
         LaserBeam beam = other.GetComponent<LaserBeam>();
 
         if (beam != null)
-        {
+        {   
+            laserBeam = beam;
             if (!beam.benders.Contains(this))
                 beam.benders.Add(this);
 
             beam.beamInteraction = true;
         }
+        else
+            laserBeam = null;
+    }
+
+    // check if the bender is moving
+    bool IsMoving()
+    {
+        if (rb.velocity.magnitude > 0.01f)
+            return true;
+        else
+            return false;
+    }
+
+    IEnumerator Timer()
+    {
+        timerTicking = true;
+        Debug.Log("Timer started");
+        yield return new WaitForSeconds(timeUntilReset);
+        Debug.Log("Timer ended");
+        // move back to initial position with high velocity
+        transform.position = initialPosition;
+        timerTicking = false;
+
+        if(laserBeam != null)
+            laserBeam.benderReset = true;
     }
 }

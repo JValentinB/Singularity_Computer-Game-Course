@@ -30,6 +30,7 @@ public class LaserBeam : MonoBehaviour
 
     List<Vector3> anchorPositions = new List<Vector3>();
     List<Vector3> anchorPositionsAtStart = new List<Vector3>();
+    List<Vector3> anchorPositionsBeforeLastHit = new List<Vector3>();
     List<Vector3> anchorDirections = new List<Vector3>();
 
     [HideInInspector] public List<LaserBender> benders = new List<LaserBender>();
@@ -38,10 +39,17 @@ public class LaserBeam : MonoBehaviour
     List<Vector3> prevObjects = new List<Vector3>();
 
     [HideInInspector] public bool beamInteraction = false;
+    [HideInInspector] public bool benderReset = false;
     bool trigger = false;
+    bool hittedDamageable = false;
     bool noChange = true;
     bool willClear = false;
     bool isBenderMoving = false;
+
+    public bool isActive = false;
+    [HideInInspector] public bool becameActive = false;
+    private bool becameInactive = false;
+    private LaserEmitter laserEmitter;
 
     Vector3 startingPosition;
     Vector3 startingDirection;
@@ -62,13 +70,36 @@ public class LaserBeam : MonoBehaviour
         startingDirection = pathCreator.bezierPath[3] - pathCreator.bezierPath[0];
         lastAnchor = bezierPath.NumAnchorPoints - 1;
 
+        // Find the LaserEmitter in other children of same parent
+        laserEmitter = transform.parent.GetComponentInChildren<LaserEmitter>();
+        isActive = laserEmitter.IsEmitting();
+        if(!isActive)
+            return;
+
         Mesh mesh = createMeshFromPath(laserWidth);
         meshFilter.sharedMesh = mesh;
         meshCollider.sharedMesh = mesh;
     }
 
-    void FixedUpdate()
+    void Update()
     {
+        if(becameInactive){
+            becameInactive = false;
+            resetPath();
+            meshFilter.sharedMesh = null;
+            meshCollider.sharedMesh = null;
+        }
+
+        if(!isActive)
+            return;
+        if(becameActive)
+        {
+            becameActive = false;
+            Mesh mesh = createMeshFromPath(laserWidth);
+            meshFilter.sharedMesh = mesh;
+            meshCollider.sharedMesh = mesh;
+        }
+        
         if (beamInteraction && benders.Count > 0)
         {
             bendPath();
@@ -83,12 +114,16 @@ public class LaserBeam : MonoBehaviour
         }
         else if (!noChange)
         {
-            copyList(anchorPositions, anchorPositionsAtStart);
+            copyList(anchorPositions, anchorPositionsBeforeLastHit);
+        }
+        else if(benderReset)
+        {
+            resetPath();
         }
 
-        if (beamInteraction || !noChange || trigger)
+        if (beamInteraction || !noChange || trigger || benderReset)
         {
-            for (int anchor = 0; anchor < bezierPath.NumPoints; anchor += 3)
+            for (int anchor = 3; anchor < bezierPath.NumPoints; anchor += 3)
             {
                 bezierPath.MovePoint(anchor, anchorPositions[anchor / 3]);
             }
@@ -98,20 +133,31 @@ public class LaserBeam : MonoBehaviour
             meshFilter.sharedMesh = mesh;
             meshCollider.sharedMesh = mesh;
 
-            noChange = trigger ? false : true;
+            noChange = hittedDamageable ? false : true;
             beamInteraction = false;
+            benderReset = false;
             trigger = false;
+            hittedDamageable = false;
         }
 
     }
 
     void OnTriggerEnter(Collider other)
     {
-        LaserBender bender = other.GetComponent<LaserBender>();
+        if(!isActive)
+            return;
+
         Damageable damageable = other.GetComponent<Damageable>();
         if (damageable != null)
         {
             trigger = true;
+        }
+        LaserEmitter otherEmitter = other.GetComponent<LaserEmitter>();
+        if(otherEmitter != null && otherEmitter != laserEmitter)
+        {
+            otherEmitter.startEmitting();
+            laserEmitter.stopEmitting();
+            becameInactive = true;
         }
     }
 
@@ -136,6 +182,8 @@ public class LaserBeam : MonoBehaviour
                 // Apply Damage
                 if (hit.transform.GetComponent<Damageable>() != null)
                 {
+                    hittedDamageable = true;
+                    copyList(anchorPositionsBeforeLastHit, anchorPositions);
                     hit.transform.GetComponent<Damageable>().ApplyDamage(laserDamage);
                     invertVelocity(hit.rigidbody);
                 }
@@ -307,6 +355,12 @@ public class LaserBeam : MonoBehaviour
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, 2f);
     }
 
+    void resetPath(){
+        for(int i = 3; i < bezierPath.NumPoints; i += 3){
+            bezierPath.MovePoint(i, anchorPositionsAtStart[i / 3]);
+        }
+        copyList(anchorPositions, anchorPositionsAtStart);
+    }
     // Credit to Sebastian Lague on YouTube
     Mesh createMeshFromPath(float width, bool lengthOffset = false)
     {

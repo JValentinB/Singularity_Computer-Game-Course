@@ -10,38 +10,79 @@ public class PlatformMovable : MonoBehaviour
     public float force = 10f; // Adjustable variable for move speed
     public float friction = 5f;
     [Header("Bounding Box: Be Careful to set the corners correctly!")]
-    public bool isLimited = true;
+    public bool boundingBoxLimit = false;
     public Vector3 bottomLeft;
     public Vector3 topRight;
-
+    [Header("Sphere")]
+    public bool sphereLimit = false;
+    private Vector3 center;
+    public float radius = 10f;
+    [Header("")]
+    public ParticleSystem activeParticles;
+    public ParticleSystem pullingParticles;
+    public ParticleSystem borderParticles;
     public GameObject crystalPrefab; // The prefab of the crystal that will be placed
+    [Range(0f, 1f)]
+    public float maxVolume = 0.5f;
+    private ObjectSounds objectSounds;
 
     private bool isHeld = false; // Whether the platform is currently being held
     private Rigidbody rb; // The Rigidbody component of the platform
     private Vector3 offset; // The offset between the mouse position and the platform's position when the platform is being held
     private Camera mainCamera;
-    private LayerMask playerLayer = 1 << 3; // Layer mask for the "Player" layer
+    private Player player;
     private Vector3 lastPosition;
 
-    // crystal Movement
+    private bool onBorder;
+    private Vector3 borderDirection;
+
     private bool platformActive;
     private GameObject activeCrystal;
+    private Coroutine pullingCoroutine;
+    private Coroutine castingCoroutine;
+    private Coroutine borderCoroutine;
+    private bool borderTimeOut = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         mainCamera = Camera.main;
-        gameObject.layer = LayerMask.NameToLayer("Movable Platform");
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        center = transform.localPosition;
+        objectSounds = GetComponent<ObjectSounds>();
+
+        // float pitchRatio = force / rb.mass;
+        // Debug.Log(transform.name + " pitch ratio: " + pitchRatio);
+        // foreach (Sound sound in objectSounds.sounds)
+        // {
+        //     sound.source.pitch = sound.source.pitch * pitchRatio; // Mathf.Clamp(sound.source.pitch * pitchRatio, 0.2f, 1.2f);
+        // }
     }
 
     void Update()
     {
+        if (player.weaponMode != 0) return;
+
         if (control == Control.Mouse)
             mouseMovingPlatform();
         if (control == Control.Crystal)
             crystalMovingPlatform();
-        if (isLimited)
+
+        // Limit the platform's movement
+        if (boundingBoxLimit)
             boundingBox();
+        if (sphereLimit)
+            sphere();
+
+        if (onBorder)
+        {
+            if (!borderTimeOut)
+            {
+                StartCoroutine(borderParticleTimeOut());
+                particlesForBorder();
+            }
+            onBorder = false;
+        }
     }
 
     void mouseMovingPlatform()
@@ -52,27 +93,40 @@ public class PlatformMovable : MonoBehaviour
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             LayerMask platformLayer = 1 << LayerMask.NameToLayer("Movable Platform");
-            if (Physics.Raycast(ray, out hit, 1000, platformLayer) && hit.collider.gameObject == gameObject)
+            if (Physics.Raycast(ray, out hit, 200, platformLayer) && hit.collider.gameObject == gameObject)
             {
                 // Start holding the platform
                 rb.isKinematic = false;
                 isHeld = true;
                 offset = transform.position - ray.origin;
 
-                castingAnimation();
+                if (castingCoroutine != null)
+                    StopCoroutine(castingCoroutine);
+                castingCoroutine = StartCoroutine(fadeInOutCastingAnimation(1f, 0.25f));
+
+                objectSounds.Play("Activation");
+                if (pullingCoroutine != null)
+                    StopCoroutine(pullingCoroutine);
+                pullingCoroutine = StartCoroutine(objectSounds.fadeInOut("Pulling", maxVolume, 1f));
+
+                StartCoroutine(particlesForActivePlatform());
+                StartCoroutine(particlesForPullingPlatform());
             }
         }
-        else if (Input.GetMouseButtonUp(1))
+        else if (Input.GetMouseButtonUp(1) && isHeld)
         {
             // Stop holding the platform
-            rb.isKinematic = true;
+            // rb.isKinematic = true;
             isHeld = false;
 
-            GameObject player = GameObject.FindWithTag("Player");
-            Animator animator = player.GetComponent<Animator>();
-            player.GetComponent<Player>().controllingPlatform = false;
-            animator.SetBool("Controlling", false);
-            animator.SetLayerWeight(4, 0);
+            if (castingCoroutine != null)
+                StopCoroutine(castingCoroutine);
+            castingCoroutine = StartCoroutine(fadeInOutCastingAnimation(0f, 0.5f));
+
+            if (pullingCoroutine != null)
+                StopCoroutine(pullingCoroutine);
+            pullingCoroutine = StartCoroutine(objectSounds.fadeInOut("Pulling", 0f, 1f));
+            return;
         }
 
         if (isHeld)
@@ -81,6 +135,7 @@ public class PlatformMovable : MonoBehaviour
             var mousePos = Input.mousePosition;
             mousePos.z = -mainCamera.transform.position.z;
             Vector3 moveDirection = mainCamera.ScreenToWorldPoint(mousePos) - transform.position;
+            moveDirection.y *= 1.5f;
             moveDirection.z = 0;
 
             rb.AddForce(moveDirection * force);
@@ -148,9 +203,33 @@ public class PlatformMovable : MonoBehaviour
     {
         float x = inXaxisBounds(transform.localPosition.x) ? 1f : 0f;
         float y = inYaxisBounds(transform.localPosition.y) ? 1f : 0f;
-        rb.velocity = Vector3.Scale(rb.velocity, new Vector3(x, y, 1));
 
-        transform.localPosition = ClosestPointInBoundingBox(transform.localPosition);
+        if (x == 0f || y == 0f)
+        {
+            rb.velocity = Vector3.Scale(rb.velocity, new Vector3(x, y, 1));
+            x = transform.localPosition.x < bottomLeft.x ? -1f : (transform.localPosition.x > topRight.x ? 1f : 0f);
+            y = transform.localPosition.y < bottomLeft.y ? -1f : (transform.localPosition.y > topRight.y ? 1f : 0f);
+
+            transform.localPosition = ClosestPointInBoundingBox(transform.localPosition);
+
+            onBorder = true;
+            borderDirection = (new Vector3(x, y, 0)).normalized;
+        }
+    }
+
+    // Puts object back into sphere
+    void sphere()
+    {
+        float distance = Vector3.Distance(transform.localPosition, center);
+        if (distance > radius)
+        {
+            Vector3 direction = (transform.localPosition - center).normalized;
+            transform.localPosition = center + direction * radius;
+            rb.velocity = Vector3.zero;
+
+            onBorder = true;
+            borderDirection = direction.normalized;
+        }
     }
 
     private bool inXaxisBounds(float x)
@@ -171,22 +250,84 @@ public class PlatformMovable : MonoBehaviour
         );
     }
 
-    void OnTriggerEnter(Collider other)
+    // void OnCollisionStay(Collision other)
+    // {
+    //     Rigidbody other_rigidbody = other.rigidbody;
+    //     // Check if the collider is on the "Characters" layer
+    //     if (other.gameObject.tag == "Player")
+    //     {
+    //         other_rigidbody.velocity += GetComponent<Rigidbody>().velocity;
+    //     }
+    // }
+
+
+    // Animations and Particle Effects
+    IEnumerator fadeInOutCastingAnimation(float target, float duration)
     {
-        Rigidbody other_rigidbody = other.GetComponent<Rigidbody>();
-        // Check if the collider is on the "Characters" layer
-        if (playerLayer == (playerLayer | (1 << other.gameObject.layer)))
+        Animator animator = player.GetComponent<Animator>();
+
+        float start = animator.GetLayerWeight(3);
+        float counter = 0f;
+        while (counter < duration)
         {
-            other_rigidbody.velocity += GetComponent<Rigidbody>().velocity;
+            counter += Time.deltaTime;
+            float weight = Mathf.Lerp(start, target, counter / duration);
+            animator.SetLayerWeight(3, weight);
+            yield return null;
         }
+        animator.SetLayerWeight(3, target);
     }
 
-    void castingAnimation()
+    IEnumerator particlesForActivePlatform()
     {
-        GameObject player = GameObject.FindWithTag("Player");
-        Animator animator = player.GetComponent<Animator>();
-        player.GetComponent<Player>().controllingPlatform = true;
-        animator.SetBool("Controlling", true);
-        animator.SetLayerWeight(4, 1);       
+        ParticleSystem particleObject = Instantiate(activeParticles, transform.position, Quaternion.identity);
+
+        var shape = particleObject.shape;
+        shape.meshRenderer = GetComponent<MeshRenderer>();
+
+        while (isHeld)
+        {
+            // shape.position = particleObject.transform.position - transform.position;
+            yield return null;
+        }
+        particleObject.GetComponent<ParticleSystem>().Stop();
+        Destroy(particleObject, 2f);
+    }
+
+    IEnumerator particlesForPullingPlatform()
+    {
+        Vector3 staffPosition = player.getStaffStonePos();
+        ParticleSystem particleObject = Instantiate(pullingParticles, staffPosition, Quaternion.identity);
+
+        while (isHeld)
+        {
+            particleObject.transform.position = player.getStaffStonePos();
+            yield return null;
+        }
+        particleObject.GetComponent<ParticleSystem>().Stop();
+        Destroy(particleObject, 2f);
+    }
+
+    void particlesForBorder()
+    {
+        // Find point on mesh that is in borderDirection from transform.position
+        Vector3 borderPoint = transform.position;
+        Collider[] colliders = GetComponents<Collider>();
+        foreach(Collider collider in colliders){
+            if(!collider.isTrigger)
+                borderPoint = collider.ClosestPoint(transform.position + borderDirection * 10f);
+        }
+        
+        Quaternion rotation = Quaternion.LookRotation(borderDirection, Vector3.forward);
+        ParticleSystem particleObject = Instantiate(borderParticles, borderPoint, rotation);
+
+        Destroy(particleObject, 2f);
+    }
+
+    IEnumerator borderParticleTimeOut()
+    {
+        borderTimeOut = true;
+        yield return new WaitForSeconds(0.25f);
+        borderTimeOut = false;
     }
 }

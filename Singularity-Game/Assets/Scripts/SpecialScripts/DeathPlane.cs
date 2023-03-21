@@ -4,9 +4,33 @@ using UnityEngine;
 
 public class DeathPlane : MonoBehaviour
 {
-    void OnTriggerEnter(Collider col){
-        if(col.GetComponent<Damageable>()){
-            col.GetComponent<Damageable>().ApplyDamage(99999);
+    public int damage = 99999;
+    public float damageInterval = 1f;
+
+    private Coroutine damageCoroutine;
+    private bool damageTimeOut = false;
+
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.GetComponent<Damageable>() && !damageTimeOut)
+        {
+            damageCoroutine = StartCoroutine(makeDamage(col.GetComponent<Damageable>()));
         }
+    }
+
+    void OnTriggerStay(Collider col)
+    {
+        if (col.GetComponent<Damageable>() && !damageTimeOut)
+        {
+            damageCoroutine = StartCoroutine(makeDamage(col.GetComponent<Damageable>()));
+        }
+    }
+
+    IEnumerator makeDamage(Damageable damageable)
+    {
+        damageTimeOut = true;
+        damageable.ApplyDamage(damage);
+        yield return new WaitForSeconds(damageInterval);
+        damageTimeOut = false;
     }
 }

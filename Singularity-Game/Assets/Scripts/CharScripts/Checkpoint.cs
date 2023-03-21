@@ -20,7 +20,6 @@ public class Checkpoint : MonoBehaviour
     {
         if (collision.tag == "Player" && !isCurrentCheckpoint)
         {
-            Debug.Log("checkpoint");
             collision.GetComponent<Player>().setCheckPoint(transform.position);
             collision.GetComponent<Player>().setFirstTime();
 
@@ -38,7 +37,6 @@ public class Checkpoint : MonoBehaviour
 
         var shape = particleObject  .GetComponent<ParticleSystem>().shape;
         var character = GameObject.Find("Character");
-        Debug.Log(character);
         shape.skinnedMeshRenderer = character.GetComponent<SkinnedMeshRenderer>();
 
         yield return new WaitForSeconds(1f);

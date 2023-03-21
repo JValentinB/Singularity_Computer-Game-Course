@@ -10,7 +10,7 @@ public class FallingCliff : MonoBehaviour
     enum TriggerEvent
     { StandingOnCliff, PullOut }
     [SerializeField] TriggerEvent triggerEvent;
-    public int healtPoints = 100;
+    public int healthPoints = 100;
     public int damageTakenPerFrame = 2;
     public float fallingDelay = 5f;
     public float disableDelay = 5f;
@@ -19,12 +19,12 @@ public class FallingCliff : MonoBehaviour
     public float maxRumblingVolume = 1f;
 
     private bool isFalling = false;
-    private bool playerOnCliff = false;
     private List<Rigidbody> rigidbodies = new List<Rigidbody>();
     private float maxHealth;
 
     private AudioManager audioManager;
     private Coroutine rumblingCoroutine;
+    private bool isRumbling = false;
     private Coroutine fadeOutCoroutine;
 
     private void Start()
@@ -42,12 +42,12 @@ public class FallingCliff : MonoBehaviour
                 rigidbodies.Add(rb);
             }
         }
-        maxHealth = (float)healtPoints;
+        maxHealth = (float)healthPoints;
     }
 
     private void Update()
     {
-        if (healtPoints <= 0 && !isFalling)
+        if (healthPoints <= 0 && !isFalling)
         {
             StartFalling();
             Destroy(this.gameObject, destroyingDelay);
@@ -57,15 +57,15 @@ public class FallingCliff : MonoBehaviour
     private void OnCollisionStay(Collision other)
     {
         if (!isFalling && triggerEvent == TriggerEvent.StandingOnCliff && other.collider.CompareTag("Player"))
-        {   
-            healtPoints -= damageTakenPerFrame;
-            if (rumblingCoroutine == null)
-            {   
-                Debug.Log("Rumbling");
-                if(fadeOutCoroutine != null)
-                    StopCoroutine(fadeOutCoroutine);
+        {
+            healthPoints -= damageTakenPerFrame;
+
+            Debug.Log("Rumbling");
+            if (fadeOutCoroutine != null)
+                StopCoroutine(fadeOutCoroutine);
+            if (!isRumbling)
                 rumblingCoroutine = StartCoroutine(playSoundWithIncreasingVolume());
-            }
+
         }
     }
     private void OnCollisionExit(Collision other)
@@ -73,6 +73,7 @@ public class FallingCliff : MonoBehaviour
         if (!isFalling && triggerEvent == TriggerEvent.StandingOnCliff && other.collider.CompareTag("Player"))
         {
             StopCoroutine(rumblingCoroutine);
+            isRumbling = false;
             fadeOutCoroutine = StartCoroutine(audioManager.fadeOut(audioManager.environmentSounds, "CliffRumbling", 4f));
         }
     }
@@ -88,7 +89,7 @@ public class FallingCliff : MonoBehaviour
     }
 
     private void StartFalling()
-    {   
+    {
         audioManager.Play(audioManager.environmentSounds, "CliffBreaking");
 
         isFalling = true;
@@ -110,18 +111,21 @@ public class FallingCliff : MonoBehaviour
     }
 
     // play sound and depending on health points increase volume
-    IEnumerator playSoundWithIncreasingVolume(){
-        float volume = audioManager.getSourceVolume(audioManager.environmentSounds, "CliffRumbling");;
+    IEnumerator playSoundWithIncreasingVolume()
+    {   
+        isRumbling = true;
+        float volume = audioManager.getSourceVolume(audioManager.environmentSounds, "CliffRumbling");
         audioManager.Play(audioManager.environmentSounds, "CliffRumbling");
         audioManager.setSourceVolume(audioManager.environmentSounds, "CliffRumbling", volume);
         while (volume < maxRumblingVolume)
         {
             // When health points are 0, volume is 1
-            volume = maxRumblingVolume - maxRumblingVolume * ((float)healtPoints / maxHealth);
+            volume = maxRumblingVolume - maxRumblingVolume * ((float)healthPoints / maxHealth);
             audioManager.setSourceVolume(audioManager.environmentSounds, "CliffRumbling", volume);
             yield return null;
         }
         audioManager.setSourceVolume(audioManager.environmentSounds, "CliffRumbling", 0);
         audioManager.Stop(audioManager.environmentSounds, "CliffRumbling");
+        isRumbling = false;
     }
 }

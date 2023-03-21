@@ -11,6 +11,7 @@ TagManager:
   - FOV
   - InventoryUI
   - Staffstone
+  - TreeBoss
   layers:
   - Default
   - TransparentFX

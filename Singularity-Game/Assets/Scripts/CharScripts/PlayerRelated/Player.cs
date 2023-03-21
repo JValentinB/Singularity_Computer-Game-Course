@@ -20,6 +20,8 @@ public class Player : Character
     private static bool notFirstTime = false;
     [HideInInspector] public bool controllingPlatform = false;
 
+    private Coroutine castingCoroutine;
+
     void Start()
     {
         maxHealth = 100;
@@ -73,8 +75,7 @@ public class Player : Character
     void Update()
     {
         Attack();
-        if (!controllingPlatform)
-            StartCoroutine(FireProjectile());
+        StartCoroutine(FireProjectile());
         Jump();
         ChangeBulletMode();
         SaveAndLoadGame();
@@ -102,11 +103,11 @@ public class Player : Character
     private void Turn()
     {
         int shiftInversion = targetDirection == Vector3.up ? -1 : 1;
-        if (animator.GetBool("Casting"))
+        if (castingCoroutine != null)
         {
             // check if the player casted the spell on the right or the left
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
-            Vector3 playerToMouse = Vector3.Normalize(mousePos- transform.position);
+            Vector3 playerToMouse = Vector3.Normalize(mousePos - transform.position);
             float dot = Vector3.Dot(Camera.main.transform.right, playerToMouse);
             if (dot > 0)
                 direction = 1 * shiftInversion;
@@ -158,7 +159,7 @@ public class Player : Character
         int layerMask = (1 << hitLayer);
         // Debug.DrawRay(transform.position + new Vector3( 0.5f, 1, 0), new Vector3(0, -5, 0), Color.green, 0.1f);
         // Debug.DrawRay(transform.position + new Vector3(-0.5f, 1, 0), new Vector3(0, -5, 0), Color.red);
-        if (Physics.Raycast(ray1, out hit1, layerMask, 5) && Physics.Raycast(ray2, out hit2, layerMask, 5))
+        if (Physics.Raycast(ray1, out hit1, 5) && Physics.Raycast(ray2, out hit2, 5))
         {
             if (hit1.distance > falling_distance && hit2.distance > falling_distance)
             {
@@ -204,17 +205,17 @@ public class Player : Character
 
     private IEnumerator FireProjectile()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && weaponMode != 0)
         {
-            if (!animator.GetBool("Casting"))
-            {
-                StartCoroutine(castingAnimation());
-            }
-            yield return new WaitForSeconds(0.5f);
+            if (castingCoroutine != null) 
+                StopCoroutine(castingCoroutine);
+            castingCoroutine = StartCoroutine(fadeInOutCastingAnimation(1f, 0.3f));
+            yield return new WaitForSeconds(0.4f);
+            castingCoroutine = StartCoroutine(fadeInOutCastingAnimation(0f, 0.5f));
 
             //Do not use nearClipPlane from main camera, it's somehow synced to the overlayy camera. 72.8 is the correct nearClipPlane
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
-            Vector3 staffStonePos = GameObject.FindWithTag("Staffstone").transform.position;
+            Vector3 staffStonePos = getStaffStonePos();
             Vector3 projTarget = mousePos - staffStonePos;
             projTarget = new Vector3(projTarget.x, projTarget.y, 0f);
 
@@ -237,13 +238,18 @@ public class Player : Character
         }
     }
 
-    IEnumerator castingAnimation()
+    IEnumerator fadeInOutCastingAnimation(float target, float duration)
     {
-        animator.SetLayerWeight(3, 1);
-        animator.SetBool("Casting", true);
-        yield return new WaitForSeconds(2f);
-        animator.SetLayerWeight(3, 0);
-        animator.SetBool("Casting", false);
+        float start = animator.GetLayerWeight(3);
+        float counter = 0f;
+        while (counter < duration)
+        {
+            counter += Time.deltaTime;
+            float weight = Mathf.Lerp(start, target, counter / duration);
+            animator.SetLayerWeight(3, weight);
+            yield return null;
+        }
+        animator.SetLayerWeight(3, target);
     }
 
     // IEnumerator to put the origin of the projectile always at the staffstone
@@ -271,6 +277,11 @@ public class Player : Character
     public Vector3 getCheckPoint()
     {
         return latestCheckPointPos;
+    }
+
+    public Vector3 getStaffStonePos()
+    {
+        return GameObject.FindWithTag("Staffstone").transform.position;
     }
 
     public void setFirstTime()
