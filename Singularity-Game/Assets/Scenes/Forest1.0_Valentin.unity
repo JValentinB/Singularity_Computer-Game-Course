@@ -1665,7 +1665,7 @@ MonoBehaviour:
   weaponWheelUi: {fileID: 946462799}
   upperPartBackgroundController: {fileID: 208406280}
   upperPartForegroundController: {fileID: 1942546198}
-  uiManager: {fileID: 0}
+  uiManager: {fileID: 1038774457}
   image: {fileID: 689948331}
   animOtherStone1: {fileID: 815831307}
   animOtherStone2: {fileID: 654473659}
@@ -17726,6 +17726,43 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 332489625}
   m_Mesh: {fileID: 573421025984519078, guid: ea700c3ed41464b4c8ee5a5d629392f0, type: 3}
+--- !u!1 &335081694
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 335081695}
+  m_Layer: 5
+  m_Name: kek
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &335081695
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335081694}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 871545750}
+  m_Father: {fileID: 730238549}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &339297292
 GameObject:
   m_ObjectHideFlags: 0
@@ -29897,7 +29934,7 @@ MonoBehaviour:
   weaponWheelUi: {fileID: 946462799}
   upperPartBackgroundController: {fileID: 208406280}
   upperPartForegroundController: {fileID: 1942546198}
-  uiManager: {fileID: 0}
+  uiManager: {fileID: 1038774457}
   image: {fileID: 1887418628}
   animOtherStone1: {fileID: 815831307}
   animOtherStone2: {fileID: 1893079336}
@@ -37906,6 +37943,7 @@ RectTransform:
   - {fileID: 843670447}
   - {fileID: 449877678}
   - {fileID: 677001132}
+  - {fileID: 335081695}
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -43872,7 +43910,7 @@ MonoBehaviour:
   weaponWheelUi: {fileID: 946462799}
   upperPartBackgroundController: {fileID: 208406280}
   upperPartForegroundController: {fileID: 1942546198}
-  uiManager: {fileID: 0}
+  uiManager: {fileID: 1038774457}
   image: {fileID: 941057559}
   animOtherStone1: {fileID: 654473659}
   animOtherStone2: {fileID: 1893079336}
@@ -45804,6 +45842,82 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 869540349}
   m_Mesh: {fileID: 7748261661402301914, guid: 9b24c9ab2ab2ebe49bf44e1158cca06e, type: 3}
+--- !u!1 &871545749
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 871545750}
+  - component: {fileID: 871545752}
+  - component: {fileID: 871545751}
+  m_Layer: 5
+  m_Name: kekimage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &871545750
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871545749}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 335081695}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &871545751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871545749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 62ce01ddca719d34ea9648c586a7cc94, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &871545752
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871545749}
+  m_CullTransparentMesh: 1
 --- !u!1 &875170234
 GameObject:
   m_ObjectHideFlags: 0
@@ -51523,7 +51637,7 @@ MonoBehaviour:
   invUI: {fileID: 449877683}
   player: {fileID: 815103049}
   weaponWheelUI: {fileID: 946462805}
-  activeModeDisplay: {fileID: 0}
+  activeModeDisplay: {fileID: 871545749}
   modeId: 0
   modeImage: {fileID: 0}
 --- !u!1 &1046980375
@@ -87610,7 +87724,7 @@ MonoBehaviour:
   weaponWheelUi: {fileID: 946462799}
   upperPartBackgroundController: {fileID: 208406280}
   upperPartForegroundController: {fileID: 1942546198}
-  uiManager: {fileID: 0}
+  uiManager: {fileID: 1038774457}
   image: {fileID: 1628255823}
   animOtherStone1: {fileID: 815831307}
   animOtherStone2: {fileID: 654473659}
