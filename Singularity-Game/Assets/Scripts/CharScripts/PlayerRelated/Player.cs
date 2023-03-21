@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-//using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -208,9 +207,17 @@ public class Player : Character
     }
 
     private IEnumerator FireProjectile()
-    {   
+    {
+        
+        // use ammo on respective weaponmode
+        
+        
         if (Input.GetMouseButtonDown(1))
         {
+            int res = inventory.RemoveItem(inventory.GetItem(weaponMode), 1);
+            //Debug.Log(res);
+            if (res == -1) yield break;
+
             if (!animator.GetBool("Casting"))
             {
                 StartCoroutine(castingAnimation());

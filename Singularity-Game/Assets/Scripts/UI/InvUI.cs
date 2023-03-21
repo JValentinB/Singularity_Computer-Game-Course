@@ -21,6 +21,11 @@ public class InvUI : MonoBehaviour
         UpdateInvUI();
     }
 
+    private void Update()
+    {
+        UpdateInvUI();
+    }
+
     private void CreateLayout()
     {
         slotList = new List<(GameObject, InvItem)>();
