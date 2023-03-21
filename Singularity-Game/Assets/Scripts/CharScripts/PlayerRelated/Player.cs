@@ -48,7 +48,7 @@ public class Player : Character
         scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
         inventory = new InvManager();
         invUI = GetComponent<InvUI>();
-        BlackOutSquare = GameObject.Find("/Canvas/black_screen");
+        BlackOutSquare = GameObject.Find("/UI/black_screen");
         BlackOutSquare.GetComponent<Image>().color = new Color(0f, 0f, 0f, 255f);
         StartCoroutine(FadeBlackOutSquare(false));
         checkForStart();
