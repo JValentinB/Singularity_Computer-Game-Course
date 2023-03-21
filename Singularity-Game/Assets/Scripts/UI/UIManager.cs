@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviour
     
     public void UpdateWeaponWheel(){
         OpenCloseWeaponWheel();
-        UpdateWeapoonMode();
+        UpdateWeaponMode();
     }
 
     public void OpenCloseWeaponWheel()
@@ -57,7 +57,7 @@ public class UIManager : MonoBehaviour
     }
     
 
-    public void UpdateWeapoonMode(){
+    public void UpdateWeaponMode(){
         if(modeImage){
             activeModeDisplay.GetComponent<Image>().sprite = modeImage;
             activeModeDisplay.GetComponent<Image>().preserveAspect = true;
@@ -65,4 +65,7 @@ public class UIManager : MonoBehaviour
         player.ChangeBulletMode(modeId);
     }
 
+    public void UpdateAvailableModes(){
+        
+    }
 }
