@@ -25,6 +25,14 @@ public class Projectile : MonoBehaviour
         this.dir = Vector3.Normalize(dir);
         this.projectileSpeed = speed;
         this.mode = mode;
+        if(mode == 2)
+        {
+            GetComponent<SphereCollider>().radius = 30f;
+        }
+        else
+        {
+            GetComponent<SphereCollider>().radius = 1.25f;
+        }
     }
 
     private void ChangeColor(){
@@ -38,6 +46,9 @@ public class Projectile : MonoBehaviour
                 dmg = 20;
                 break;
             case 2:
+                _ps.startColor = new Color(0f, 0f, 0f, 1f);
+                break;
+            case 3:
                 _ps.startColor = new Color(1f, 1f, 1f, 1f);
                 break;
         }
@@ -48,7 +59,7 @@ public class Projectile : MonoBehaviour
         if(!m_Proj.freeze){
             m_Proj.freeze = true;
             GameObject.FindWithTag("Player").GetComponent<Player>().setDirectionShot = true;
-        } else if(m_Proj.freeze){ 
+        } else if(m_Proj.freeze){
             m_Proj.OnDeath();
         }
     }
@@ -68,11 +79,15 @@ public class Projectile : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider col){
+        if (mode == 2)
+        {
+            return;
+        }
         var obj = col.gameObject;
         if(obj.GetComponent<m_Projectile>() && mode == 1){
             mProjCollision(obj);
             Destroy(gameObject);
-        } else if(mode == 2 && obj.tag != "Player"){
+        } else if(mode == 3 && obj.tag != "Player"){
             controlShot();
             Destroy(gameObject);
         } else if(obj.GetComponent<Damageable>() && obj.tag != "Player" && obj.tag != "FOV"){
@@ -84,5 +99,19 @@ public class Projectile : MonoBehaviour
         } else if(obj.tag != "Player" && obj.tag != "FOV"){
             Destroy(gameObject);
         }
+    }
+
+    private void OnTriggerStay(Collider col)
+    {
+        var obj = col.gameObject;
+        if (mode == 2 && obj.tag != "Player" && obj.tag != "Untagged")
+        {
+            var obj_rb = obj.GetComponent<Rigidbody>();
+            Vector3 obj_pos = obj.GetComponent<Transform>().position;
+            Vector3 projectile_pos = GetComponent<Transform>().position;
+
+            obj_rb.AddForce((projectile_pos - obj_pos) * 81f, ForceMode.Acceleration);
+        }
+
     }
 }

@@ -25,9 +25,13 @@ public class Crate : Prop
         transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
     }
 
-    public override void createLoot(){
-        inventory.AddItem(inventory.GetItem(0), 69);
-        inventory.AddItem(inventory.GetItem(1), 420);
+    public override void createLoot()
+    {
+        
+
+        inventory.AddItem(inventory.GetItem(0), 3);
+        inventory.AddItem(inventory.GetItem(1), 3);
+        inventory.AddItem(inventory.GetItem(2), 3);
 
         var fixedPos = new Vector3(transform.position.x, transform.position.y-1f, transform.position.z);
         GameObject lootObject = Instantiate(lootPrefab, fixedPos, transform.rotation);

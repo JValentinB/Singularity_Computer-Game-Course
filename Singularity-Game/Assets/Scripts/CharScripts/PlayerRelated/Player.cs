@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-//using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +9,8 @@ public class Player : Character
     [SerializeField] public int weaponMode, weaponModes;
     [SerializeField] public bool doubleJump;
     [SerializeField] private GameObject projectile;
+    [SerializeField] private GameObject projectile_blackhole;
+
     [SerializeField] public GameObject jumpBurst;
     public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
     private SceneControl scenecontrol;
@@ -41,13 +42,13 @@ public class Player : Character
         rb = GetComponent<Rigidbody>();
         rb.mass = mass;
         weaponMode = 0;
-        weaponModes = 2;
+        weaponModes = 3;
         setDirectionShot = false;
 
         scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
         inventory = new InvManager();
         invUI = GetComponent<InvUI>();
-        BlackOutSquare = GameObject.Find("/Canvas/black_screen");
+        BlackOutSquare = GameObject.Find("/UI/black_screen");
         BlackOutSquare.GetComponent<Image>().color = new Color(0f, 0f, 0f, 255f);
         StartCoroutine(FadeBlackOutSquare(false));
         checkForStart();
@@ -68,6 +69,7 @@ public class Player : Character
         killOnHighSpeed();
         if (currentHealth <= 0)
             OnDeath();
+
     }
 
     void Update()
@@ -194,13 +196,22 @@ public class Player : Character
 
     private IEnumerator FireProjectile()
     {
+
+        // use ammo on respective weaponmode
+
+
         if (Input.GetMouseButtonDown(1))
         {
+            int res = inventory.RemoveItem(inventory.GetItem(weaponMode), 1);
+            //Debug.Log(res);
+            if (res == -1) yield break;
+
             if (!animator.GetBool("Casting"))
             {
                 StartCoroutine(castingAnimation());
             }
             yield return new WaitForSeconds(0.5f);
+
 
             //Do not use nearClipPlane from main camera, it's somehow synced to the overlayy camera. 72.8 is the correct nearClipPlane
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
@@ -208,7 +219,7 @@ public class Player : Character
             Vector3 projTarget = mousePos - staffStonePos;
             projTarget = new Vector3(projTarget.x, projTarget.y, 0f);
 
-            GameObject projectileClone = (GameObject)Instantiate(projectile, staffStonePos, Quaternion.identity);
+            GameObject projectileClone = (GameObject)Instantiate(weaponMode == 2 ? projectile_blackhole : projectile, staffStonePos, Quaternion.identity);
             var shape = projectileClone.GetComponent<ParticleSystem>().shape;
             shape.position = Vector3.zero;
 
@@ -221,9 +232,16 @@ public class Player : Character
             else
             {
                 projectileClone.GetComponent<Projectile>().setProjectileConfig(
-                    projTarget, 20, weaponMode);
+                    projTarget, weaponMode == 2 ? 2 : 20, weaponMode);
             }
-            Destroy(projectileClone, 5);
+            if (weaponMode != 2)
+            {
+              Destroy(projectileClone, 5);
+            }
+            else
+            {
+              Destroy(projectileClone, 30);
+            }
         }
     }
 
@@ -270,8 +288,7 @@ public class Player : Character
 
     public void checkForStart()
     {
-        if (notFirstTime)
-        {
+        if (notFirstTime) {
             transform.position = latestCheckPointPos;
         }
         else
@@ -338,8 +355,7 @@ public class Player : Character
         {
             SaveSystem.SaveGame(this);
         }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
+        if(Input.GetKeyDown(KeyCode.L)){
             SaveSystem.LoadGame();
         }
     }

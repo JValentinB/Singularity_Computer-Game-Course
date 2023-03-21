@@ -19,6 +19,7 @@ TagManager:
   - OptionsUI
   - ParentUI
   - PixelizationValue
+  - Prop
   layers:
   - Default
   - TransparentFX
