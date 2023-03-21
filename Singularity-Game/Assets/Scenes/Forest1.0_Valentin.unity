@@ -1147,6 +1147,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 773193803}
     m_Modifications:
+    - target: {fileID: 171428785097666546, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: Prop
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate (6)
@@ -19004,6 +19008,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 773193803}
     m_Modifications:
+    - target: {fileID: 171428785097666546, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: Prop
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate (9)
@@ -21782,6 +21790,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 773193803}
     m_Modifications:
+    - target: {fileID: 171428785097666546, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: Prop
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate (1)
@@ -30003,6 +30015,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 773193803}
     m_Modifications:
+    - target: {fileID: 171428785097666546, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: Prop
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate (8)
@@ -37498,6 +37514,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 773193803}
     m_Modifications:
+    - target: {fileID: 171428785097666546, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: Prop
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate (5)
@@ -43583,6 +43603,7 @@ MonoBehaviour:
   weaponModes: 0
   doubleJump: 0
   projectile: {fileID: 8792342904977857413, guid: f2e5134fd3a023d4cb48c13af2d37a05, type: 3}
+  projectile_blackhole: {fileID: 8792342904977857413, guid: be320ca49994fd54281ec6f5e6608e62, type: 3}
   jumpBurst: {fileID: 7004842315732285135, guid: b2c2dc83c9f715d44aa4338859562b86, type: 3}
   setDirectionShot: 0
   BlackOutSquare: {fileID: 0}
@@ -44778,6 +44799,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 773193803}
     m_Modifications:
+    - target: {fileID: 171428785097666546, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: Prop
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate (7)
@@ -47532,6 +47557,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 773193803}
     m_Modifications:
+    - target: {fileID: 171428785097666546, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: Prop
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate (4)
@@ -59116,6 +59145,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 773193803}
     m_Modifications:
+    - target: {fileID: 171428785097666546, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: Prop
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate (10)
@@ -78116,6 +78149,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 773193803}
     m_Modifications:
+    - target: {fileID: 171428785097666546, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: Prop
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate (3)
@@ -79434,6 +79471,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 773193803}
     m_Modifications:
+    - target: {fileID: 171428785097666546, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: Prop
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate (2)
@@ -85739,6 +85780,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 773193803}
     m_Modifications:
+    - target: {fileID: 171428785097666546, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_TagString
+      value: Prop
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate
@@ -99724,6 +99769,10 @@ PrefabInstance:
     - target: {fileID: 2584831509396990031, guid: 7062e5bbe71da6141899655a459bb890, type: 3}
       propertyPath: m_Name
       value: suicider_lowPoly
+      objectReference: {fileID: 0}
+    - target: {fileID: 2584831509396990031, guid: 7062e5bbe71da6141899655a459bb890, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 2924237196014154485, guid: 7062e5bbe71da6141899655a459bb890, type: 3}
       propertyPath: m_RootOrder
