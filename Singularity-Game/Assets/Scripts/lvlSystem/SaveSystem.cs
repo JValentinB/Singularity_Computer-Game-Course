@@ -49,7 +49,7 @@ public class SaveSystem
         GameObject.Find("Main Camera").GetComponent<SceneControl>().reset_on_death();
 
         player.currentHealth = saveData.health;
-        player.weaponModes = saveData.weaponModes;
+        player.unlockedWeaponModes = saveData.unlockedWeaponModes;
         player.doubleJump = saveData.doubleJumpBoots;
 
         //Not checking if inventory is empty. Should be empty since we reload scene

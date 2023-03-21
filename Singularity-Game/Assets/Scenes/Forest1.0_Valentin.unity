@@ -43663,7 +43663,7 @@ MonoBehaviour:
   jumpsRemaining: 0
   isGrounded: 0
   weaponMode: 0
-  weaponModes: 0
+  unlockedWeaponModes: 01010100
   doubleJump: 0
   projectile: {fileID: 8792342904977857413, guid: f2e5134fd3a023d4cb48c13af2d37a05, type: 3}
   projectile_blackhole: {fileID: 8792342904977857413, guid: be320ca49994fd54281ec6f5e6608e62, type: 3}
@@ -51680,6 +51680,7 @@ MonoBehaviour:
   activeModeDisplay: {fileID: 871545749}
   modeId: 0
   modeImage: {fileID: 0}
+  unlockedWeaponModes: 
 --- !u!1 &1046980375
 GameObject:
   m_ObjectHideFlags: 0

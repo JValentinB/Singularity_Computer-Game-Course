@@ -7,7 +7,7 @@ public class SaveData
 {
     //Stat based
     public int health;
-    public int weaponModes;
+    public List<bool> unlockedWeaponModes;
     public bool doubleJumpBoots;
     public List<int> invItemID = new List<int>();
     public List<int> invItemAmount = new List<int>();
@@ -15,7 +15,7 @@ public class SaveData
 
     public SaveData(Player player){
         health = player.currentHealth;
-        weaponModes = player.weaponModes;
+        unlockedWeaponModes = player.unlockedWeaponModes;
         doubleJumpBoots = player.doubleJump;
 
         lastCheckpoint = new float[3];
