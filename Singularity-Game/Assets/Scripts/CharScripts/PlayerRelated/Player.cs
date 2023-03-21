@@ -33,7 +33,7 @@ public class Player : Character
         gravitationalDirection = Vector3.down;
         targetDirection = Vector3.down;
         direction = 1;
-        jumpForce = 1200f;
+        jumpForce = 1250f;
         jumpNumber = 5;
         doubleJump = true;
         jumpsRemaining = jumpNumber;
@@ -52,7 +52,7 @@ public class Player : Character
         BlackOutSquare.GetComponent<Image>().color = new Color(0f, 0f, 0f, 255f);
         StartCoroutine(FadeBlackOutSquare(false));
         checkForStart();
-
+        CheckLoading();
     }
 
     void FixedUpdate()
@@ -69,7 +69,7 @@ public class Player : Character
         killOnHighSpeed();
         if (currentHealth <= 0)
             OnDeath();
-        
+
     }
 
     void Update()
@@ -78,7 +78,6 @@ public class Player : Character
         if (!controllingPlatform)
             StartCoroutine(FireProjectile());
         Jump();
-        ChangeBulletMode();
         SaveAndLoadGame();
     }
 
@@ -104,12 +103,27 @@ public class Player : Character
     private void Turn()
     {
         int shiftInversion = targetDirection == Vector3.up ? -1 : 1;
-        // turn around
-        if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1 * shiftInversion;
-        if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1 * shiftInversion;
+        if (animator.GetBool("Casting"))
+        {
+            // check if the player casted the spell on the right or the left
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+            Vector3 playerToMouse = Vector3.Normalize(mousePos- transform.position);
+            float dot = Vector3.Dot(Camera.main.transform.right, playerToMouse);
+            if (dot > 0)
+                direction = 1 * shiftInversion;
+            else
+                direction = -1 * shiftInversion;
+        }
+        else
+        {
+            // turn around
+            if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1 * shiftInversion;
+            if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1 * shiftInversion;
+        }
     }
 
-    public void Jump(){
+    public void Jump()
+    {
         if (Input.GetKeyDown(KeyCode.Space) && jumpsRemaining > 0)
         {
             createBurst();
@@ -157,7 +171,7 @@ public class Player : Character
             }
             else
             {
-                if(animator.GetBool("Falling")) StartCoroutine(playAnimationForTime("Landing", 0.5f));
+                if (animator.GetBool("Falling")) StartCoroutine(playAnimationForTime("Landing", 0.5f));
                 animator.SetBool("Falling", false);
                 // reset airjump number
                 jumpsRemaining = jumpNumber;
@@ -176,42 +190,16 @@ public class Player : Character
 
     }
 
-    private void ChangeBulletMode()
-    {
-      
-        if (Input.mouseScrollDelta.y > 0)
-        {
-            weaponMode = (weaponMode + 1) % weaponModes;
-        }
-        else if (Input.mouseScrollDelta.y < 0)
-        {
-            weaponMode = (weaponMode - 1) % weaponModes;
-            if (weaponMode < 0) weaponMode = weaponModes - 1;
-        }
-        
-        /*
-        if (Input.GetKey(KeyCode.Keypad0))
-        {
-            weaponMode = 0;
-        }
-        else if (Input.GetKey(KeyCode.Keypad1))
-        {
-            weaponMode = 1;
-        }
-        else if (Input.GetKey(KeyCode.Keypad2))
-        {
-            weaponMode = 2;
-        }
-        */
-
+    public void ChangeBulletMode(int modeId){
+        weaponMode = modeId;
     }
 
     private IEnumerator FireProjectile()
     {
-        
+
         // use ammo on respective weaponmode
-        
-        
+
+
         if (Input.GetMouseButtonDown(1))
         {
             int res = inventory.RemoveItem(inventory.GetItem(weaponMode), 1);
@@ -222,11 +210,11 @@ public class Player : Character
             {
                 StartCoroutine(castingAnimation());
             }
-            yield return new WaitForSeconds(0.75f);
+            yield return new WaitForSeconds(0.5f);
 
-            
+
             //Do not use nearClipPlane from main camera, it's somehow synced to the overlayy camera. 72.8 is the correct nearClipPlane
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 72.8f));
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
             Vector3 staffStonePos = GameObject.FindWithTag("Staffstone").transform.position;
             Vector3 projTarget = mousePos - staffStonePos;
             projTarget = new Vector3(projTarget.x, projTarget.y, 0f);
@@ -261,7 +249,7 @@ public class Player : Character
     {
         animator.SetLayerWeight(3, 1);
         animator.SetBool("Casting", true);
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(2f);
         animator.SetLayerWeight(3, 0);
         animator.SetBool("Casting", false);
     }
@@ -372,6 +360,12 @@ public class Player : Character
         }
     }
 
+    private void CheckLoading(){
+        if(SaveSystem.couldNotLoadGame){
+            SaveSystem.couldNotLoadGame = false;
+            SaveSystem.LoadGame();
+        }
+    }
 
     //FIXME Muss noch neu gemacht werden:
     //---------------------------------------

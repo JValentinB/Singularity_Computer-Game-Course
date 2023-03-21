@@ -19,24 +19,9 @@ public class PullScenario : MonoBehaviour
 
     void Update()
     {
-        // if (pulledOut) PullOut();
         if(rb.velocity != Vector3.zero){
             Debug.Log("pulled out");
             fallingCliff.pullOut();
         }
     }
-
-    // void OnTriggerEnter(Collider col)
-    // {
-    //     var proj = col.GetComponent<Projectile>();
-    //     if (proj)
-    //     {
-    //         if (proj.mode == 0) pulledOut = true;
-    //     }
-    // }
-
-    // private void PullOut()
-    // {
-    //     transform.Translate((transform.right).normalized * Time.deltaTime * 5f);
-    // }
 }

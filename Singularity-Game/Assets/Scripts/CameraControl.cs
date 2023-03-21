@@ -8,10 +8,12 @@ public class CameraControl : MonoBehaviour
     public float offset_y = 0;
     public bool rotateOnShift = true;
     public bool followPlayer = true;
+    public float smoothTime = 0.3f;
     // public float offset_z = 0;
     public bool overlayActive = true;
 
     private Transform player;
+    private Vector3 velocity = Vector3.zero;
     private float zPosition;
     private Vector3 downDirection;
     private Camera overlayCamera;
@@ -22,15 +24,19 @@ public class CameraControl : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         zPosition = this.transform.position.z;
         overlayCamera = transform.GetChild(0).GetComponent<Camera>();
-
+        this.transform.position = new Vector3(player.position.x + offset_x, player.position.y + offset_y, zPosition);  
+        
         downDirection = Vector3.down;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (followPlayer)
-            this.transform.position = new Vector3(player.position.x + offset_x, player.position.y + offset_y, zPosition);   
+        {
+            Vector3 targetPosition = new Vector3(player.position.x + offset_x, player.position.y + offset_y, zPosition);
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+        }
 
         if (overlayActive)
         {
@@ -66,17 +72,19 @@ public class CameraControl : MonoBehaviour
     }
 
     // turn Camera in direction of gravity by lerp
-    public IEnumerator turnCamera(Vector3 direction, float time){
-        if(!rotateOnShift) yield break;
-        
+    public IEnumerator turnCamera(Vector3 direction, float time)
+    {
+        if (!rotateOnShift) yield break;
+
         float elapsedTime = 0;
         Vector3 startRotation = transform.rotation.eulerAngles;
         Vector3 endRotation = new Vector3(startRotation.x, 0, 0);
-        if(direction == Vector3.left) endRotation = new Vector3(0, 0, -90);
-        else if(direction == Vector3.up) endRotation = new Vector3(0, 0, 180);
-        else if(direction == Vector3.right) endRotation = new Vector3(0, 0, 90);
+        if (direction == Vector3.left) endRotation = new Vector3(0, 0, -90);
+        else if (direction == Vector3.up) endRotation = new Vector3(0, 0, 180);
+        else if (direction == Vector3.right) endRotation = new Vector3(0, 0, 90);
 
-        while(elapsedTime < time){
+        while (elapsedTime < time)
+        {
             transform.rotation = Quaternion.Euler(Vector3.Lerp(startRotation, endRotation, (elapsedTime / time)));
             elapsedTime += Time.deltaTime;
             yield return null;
