@@ -192,15 +192,6 @@ public class Player : Character
 
     public void ChangeBulletMode(int modeId){
         weaponMode = modeId;
-        /*if (Input.mouseScrollDelta.y > 0)
-        {
-            weaponMode = (weaponMode + 1) % weaponModes;
-        }
-        else if (Input.mouseScrollDelta.y < 0)
-        {
-            weaponMode = (weaponMode - 1) % weaponModes;
-            if (weaponMode < 0) weaponMode = weaponModes - 1;
-        }*/
     }
 
     private IEnumerator FireProjectile()
