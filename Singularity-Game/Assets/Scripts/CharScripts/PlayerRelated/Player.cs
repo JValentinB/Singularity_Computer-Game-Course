@@ -366,6 +366,7 @@ public class Player : Character
         if(Input.GetKeyDown(KeyCode.L)){
             SaveSystem.LoadGame();
         }
+        Debug.Log(currentHealth);
     }
 
     private void CheckLoading(){

@@ -48,6 +48,10 @@ public class SaveSystem
 
         GameObject.Find("Main Camera").GetComponent<SceneControl>().reset_on_death();
 
+        if(!GameObject.FindWithTag("Player")){
+            Debug.Log("Player doesnt exist!");
+            return;
+        }
         player.currentHealth = saveData.health;
         player.unlockedWeaponModes = saveData.unlockedWeaponModes;
         player.doubleJump = saveData.doubleJumpBoots;
