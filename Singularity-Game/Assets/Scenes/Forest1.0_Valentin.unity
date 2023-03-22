@@ -28736,6 +28736,8 @@ GameObject:
   - component: {fileID: 617673222}
   - component: {fileID: 617673224}
   - component: {fileID: 617673225}
+  - component: {fileID: 617673226}
+  - component: {fileID: 617673227}
   m_Layer: 0
   m_Name: GraviCrystal (1)
   m_TagString: Untagged
@@ -28854,6 +28856,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &617673226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 617673220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85dcd9282bf4d1547b21cf32de2721b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crystalModeId: 0
+  player: {fileID: 815103049}
+--- !u!136 &617673227
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 617673220}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.02
+  m_Height: 0.09
+  m_Direction: 2
+  m_Center: {x: -0.00051129324, y: 0.00015773342, z: 0.0014408061}
 --- !u!1 &619546429
 GameObject:
   m_ObjectHideFlags: 0
@@ -41864,11 +41894,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -86.7
+      value: -147.89
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 64.7
+      value: -144.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.z
@@ -43663,7 +43693,7 @@ MonoBehaviour:
   jumpsRemaining: 0
   isGrounded: 0
   weaponMode: 0
-  unlockedWeaponModes: 01010100
+  unlockedWeaponModes: 00000000
   doubleJump: 0
   projectile: {fileID: 8792342904977857413, guid: f2e5134fd3a023d4cb48c13af2d37a05, type: 3}
   projectile_blackhole: {fileID: 8792342904977857413, guid: be320ca49994fd54281ec6f5e6608e62, type: 3}
@@ -48825,7 +48855,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 946462799}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 1
