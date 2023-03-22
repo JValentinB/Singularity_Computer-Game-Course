@@ -12,12 +12,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject activeModeDisplay;
     public int modeId;
     public Sprite modeImage;
+    public List<bool> unlockedWeaponModes;
 
     void Start(){
         invUI.blocksRaycasts = false;
         invUI.alpha = 0;
         weaponWheelUI.blocksRaycasts = false;
         weaponWheelUI.alpha = 0;
+        unlockedWeaponModes = player.unlockedWeaponModes;
     }
 
     void Update(){
@@ -63,9 +65,5 @@ public class UIManager : MonoBehaviour
             activeModeDisplay.GetComponent<Image>().preserveAspect = true;
         }
         player.ChangeBulletMode(modeId);
-    }
-
-    public void UpdateAvailableModes(){
-        
     }
 }

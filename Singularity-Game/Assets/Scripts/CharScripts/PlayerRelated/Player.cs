@@ -6,11 +6,12 @@ using UnityEngine.UI;
 
 public class Player : Character
 {
-    [SerializeField] public int weaponMode, weaponModes;
+    [SerializeField] public int weaponMode;
+    public List<bool> unlockedWeaponModes = new List<bool>(){false, false, false, false};
+
     [SerializeField] public bool doubleJump;
     [SerializeField] private GameObject projectile;
     [SerializeField] private GameObject projectile_blackhole;
-
     [SerializeField] public GameObject jumpBurst;
     public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
     private SceneControl scenecontrol;
@@ -44,7 +45,6 @@ public class Player : Character
         rb = GetComponent<Rigidbody>();
         rb.mass = mass;
         weaponMode = 0;
-        weaponModes = 3;
         setDirectionShot = false;
 
         scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
@@ -81,8 +81,6 @@ public class Player : Character
         Jump();
         SaveAndLoadGame();
     }
-
-
 
     private void MovePlayer()
     {
