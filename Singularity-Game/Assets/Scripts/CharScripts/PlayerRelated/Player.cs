@@ -387,7 +387,6 @@ public class Player : Character
             last_Attack = Time.time;
             animator.SetLayerWeight(1, 1);
             animator.SetInteger("Attack", (animator.GetInteger("Attack") + 1) % 4);
-            //GameObject.FindWithTag("StaffStone").GetComponent<StaffStoneControl>().meleeAttack = true;
         }
         else if (Time.time - last_Attack > 1)
         {
