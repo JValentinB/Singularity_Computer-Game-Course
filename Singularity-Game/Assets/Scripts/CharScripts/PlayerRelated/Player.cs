@@ -18,6 +18,7 @@ public class Player : Character
     [SerializeField] private static Vector3 latestCheckPointPos;
     private InvUI invUI;
     public GameObject BlackOutSquare;
+    public int meleeDamage;
 
     private static bool notFirstTime = false;
     [HideInInspector] public bool controllingPlatform = false;
@@ -46,6 +47,7 @@ public class Player : Character
         rb.mass = mass;
         weaponMode = 0;
         setDirectionShot = false;
+        meleeDamage = 15;
 
         scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
         inventory = new InvManager();
@@ -385,6 +387,7 @@ public class Player : Character
             last_Attack = Time.time;
             animator.SetLayerWeight(1, 1);
             animator.SetInteger("Attack", (animator.GetInteger("Attack") + 1) % 4);
+            //GameObject.FindWithTag("StaffStone").GetComponent<StaffStoneControl>().meleeAttack = true;
         }
         else if (Time.time - last_Attack > 1)
         {
