@@ -9225,10 +9225,6 @@ MonoBehaviour:
   followPlayer: 1
   smoothTime: 0.1
   overlayActive: 0
-  bottom: 0
-  top: 0
-  left: 0
-  right: 0
 --- !u!95 &79893489
 Animator:
   serializedVersion: 4
@@ -49089,10 +49085,10 @@ MonoBehaviour:
   jumpsRemaining: 0
   isGrounded: 0
   weaponMode: 0
-  unlockedWeaponModes: 00000000
+  unlockedWeaponModes: 01010101
   doubleJump: 0
   projectile: {fileID: 8792342904977857413, guid: f2e5134fd3a023d4cb48c13af2d37a05, type: 3}
-  projectile_blackhole: {fileID: 0}
+  projectile_blackhole: {fileID: 8792342904977857413, guid: be320ca49994fd54281ec6f5e6608e62, type: 3}
   jumpBurst: {fileID: 7004842315732285135, guid: b2c2dc83c9f715d44aa4338859562b86, type: 3}
   setDirectionShot: 0
   BlackOutSquare: {fileID: 0}
