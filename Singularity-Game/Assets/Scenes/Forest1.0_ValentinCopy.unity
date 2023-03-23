@@ -20480,7 +20480,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1114191542}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &332489627
 MeshRenderer:
@@ -44413,7 +44413,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: bd72591916fca704981cfd937781f621, type: 2}
   - {fileID: 2100000, guid: fe8d5cbd6c7dcee40a78d7f8e4a86849, type: 2}
   - {fileID: 2100000, guid: 962f9e4848b17da4c85088bf5c7c2a1d, type: 2}
-  meleeAttack: 0
 --- !u!1 &788904355
 GameObject:
   m_ObjectHideFlags: 0
@@ -46072,11 +46071,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -81.5
+      value: -426
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 60.6
+      value: 134
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.z
@@ -47871,14 +47870,13 @@ MonoBehaviour:
   jumpsRemaining: 0
   isGrounded: 0
   weaponMode: 0
-  unlockedWeaponModes: 00000000
+  weaponModes: 0
   doubleJump: 0
   projectile: {fileID: 8792342904977857413, guid: f2e5134fd3a023d4cb48c13af2d37a05, type: 3}
   projectile_blackhole: {fileID: 0}
   jumpBurst: {fileID: 7004842315732285135, guid: b2c2dc83c9f715d44aa4338859562b86, type: 3}
   setDirectionShot: 0
   BlackOutSquare: {fileID: 677001131}
-  meleeDamage: 0
   controllingPlatform: 0
 --- !u!114 &815103050
 MonoBehaviour:
@@ -67679,7 +67677,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -508491778111569354, guid: ea700c3ed41464b4c8ee5a5d629392f0, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -508491778111569354, guid: ea700c3ed41464b4c8ee5a5d629392f0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -67856,7 +67854,7 @@ PrefabInstance:
     - target: {fileID: 2651584033608890421, guid: ea700c3ed41464b4c8ee5a5d629392f0, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: f1e674e8912dfbd4aad58bea2d780a50, type: 2}
+      objectReference: {fileID: 2100000, guid: 06051771f9f7ec54d804824c7088be8f, type: 2}
     - target: {fileID: 2684895860038491089, guid: ea700c3ed41464b4c8ee5a5d629392f0, type: 3}
       propertyPath: m_Enabled
       value: 0
