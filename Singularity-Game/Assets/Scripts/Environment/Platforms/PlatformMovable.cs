@@ -31,7 +31,6 @@ public class PlatformMovable : MonoBehaviour
     private Vector3 offset; // The offset between the mouse position and the platform's position when the platform is being held
     private Camera mainCamera;
     private Player player;
-    private Vector3 mousePosAtStart;
     private Vector3 lastPosition;
 
     private bool onBorder;
@@ -90,10 +89,6 @@ public class PlatformMovable : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1) && !isHeld)
         {
-            var mousePos = Input.mousePosition;
-            mousePos.z = -mainCamera.transform.position.z;
-            mousePosAtStart = mainCamera.ScreenToWorldPoint(mousePos) - transform.position;
-
             // Check if the mouse is over the platform
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -139,12 +134,12 @@ public class PlatformMovable : MonoBehaviour
             // Update the platform's position based on the mouse position
             var mousePos = Input.mousePosition;
             mousePos.z = -mainCamera.transform.position.z;
-            Vector3 moveDirection = mainCamera.ScreenToWorldPoint(mousePos) - (mousePosAtStart + transform.position);
-            moveDirection.y *= 2f;
+            Vector3 moveDirection = mainCamera.ScreenToWorldPoint(mousePos) - transform.position;
+            moveDirection.y *= 1.5f;
             moveDirection.z = 0;
 
-            
             rb.AddForce(moveDirection * force);
+
             rb.AddForce(-rb.velocity * friction);
         }
 

@@ -12,11 +12,6 @@ public class CameraControl : MonoBehaviour
     // public float offset_z = 0;
     public bool overlayActive = true;
 
-    [HideInInspector] public float bottom;
-    [HideInInspector] public float top;
-    [HideInInspector] public float left;
-    [HideInInspector] public float right;
-
     private Transform player;
     private Vector3 velocity = Vector3.zero;
     private float zPosition;
@@ -96,19 +91,4 @@ public class CameraControl : MonoBehaviour
         }
         transform.rotation = Quaternion.Euler(endRotation);
     }
-
-    // calculate the boundaries of the Camera with perspective projection at distance from camera
-    public void calculateBoundaries()
-    {
-        float distance = Vector3.Distance(transform.position, player.position);
-
-        Vector3 bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, distance));
-        Vector3 topRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, distance));
-
-        bottom = bottomLeft.y;
-        top = topRight.y;
-        left = bottomLeft.x;
-        right = topRight.x;
-    }
-    
 }
