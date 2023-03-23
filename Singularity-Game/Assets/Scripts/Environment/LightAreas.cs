@@ -160,8 +160,10 @@ public class LightAreas : MonoBehaviour
         {
             t += Time.deltaTime;
             mainCamera.fieldOfView = Mathf.Lerp(currentFov, targetFov, t / transitionTime);
+            mainCamera.GetComponent<CameraControl>().calculateBoundaries();
             yield return null;
         }
+        mainCamera.GetComponent<CameraControl>().calculateBoundaries();
     }
 
     IEnumerator TransitionVignette(Vignette mainVignette, float currentIntensity, float targetIntensity)

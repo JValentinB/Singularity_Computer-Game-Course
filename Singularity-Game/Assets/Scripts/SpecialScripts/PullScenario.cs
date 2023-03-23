@@ -20,7 +20,6 @@ public class PullScenario : MonoBehaviour
     void Update()
     {
         if(rb.velocity != Vector3.zero){
-            Debug.Log("pulled out");
             fallingCliff.pullOut();
         }
     }
