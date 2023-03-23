@@ -8,8 +8,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: FS000_Day_06_Sunless
-  m_Shader: {fileID: 103, guid: 0000000000000000f000000000000000, type: 0}
-  m_ValidKeywords: []
+  m_Shader: {fileID: 4800000, guid: 82881a2d011b0964696411c822cdd00b, type: 3}
+  m_ValidKeywords:
+  - _ENABLEROTATION_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
@@ -45,7 +46,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Tex:
-        m_Texture: {fileID: 8900000, guid: 5a80706490c0b9e458216d2d0bb6c8f5, type: 3}
+        m_Texture: {fileID: 8900000, guid: 7ec588c9040b23f45b6992f2df265e67, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _UpTex:
@@ -54,9 +55,24 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _CubemapPosition: -0.2
+    - _Cubemapp: 1
+    - _EnableFog: 0
+    - _EnableRotation: 1
     - _Exposure: 1
-    - _Rotation: 94
+    - _FogFill: 0.5
+    - _FogHeight: 1
+    - _FogIntensity: 1
+    - _FogMessage: 0
+    - _FogPosition: 0
+    - _FogSmoothness: 0.01
+    - _Fogg: 1
+    - _Rotation: 72
+    - _RotationSpeed: 0
+    - _Rotationn: 1
+    - _SkyboxExtended: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Tint: {r: 0.735849, g: 0.4516468, b: 0.32280168, a: 0.5}
+    - _TintColor: {r: 0.29236382, g: 0.62193483, b: 0.8490566, a: 1}
   m_BuildTextureStacks: []

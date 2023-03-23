@@ -14,11 +14,11 @@ public class Damageable : MonoBehaviour
     public int currentHealth, maxHealth, direction;
     public bool shift = false;
     public float gravityStrength = 27f;
-    public Quaternion targetRotation;
-    public Vector3 targetDirection, gravitationalDirection;
-    public Animator animator;
-    public Rigidbody rb;
-    public InvManager inventory = new InvManager();
+    [HideInInspector]public Quaternion targetRotation;
+    [HideInInspector]public Vector3 targetDirection, gravitationalDirection;
+    [HideInInspector]public Animator animator;
+    [HideInInspector]public Rigidbody rb;
+    [HideInInspector]public InvManager inventory = new InvManager();
 
     public void ApplyDamage(int damage){
         currentHealth -= damage;
