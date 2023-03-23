@@ -13,7 +13,7 @@ public class Player : Character
     [SerializeField] private GameObject projectile;
     [SerializeField] private GameObject projectile_blackhole;
     [SerializeField] public GameObject jumpBurst;
-    [HideInInspector]public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
+    public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
     private SceneControl scenecontrol;
     [SerializeField] private static Vector3 latestCheckPointPos;
     private InvUI invUI;
@@ -148,61 +148,21 @@ public class Player : Character
         //if(!isSpace) inventoryFull();
     }
 
-    // private void GroundCheck()
-    // {
-    //     float falling_distance = 1.7f;
-    //     Ray ray1 = new Ray(transform.position + new Vector3(0.5f, 1, 0), targetDirection);
-    //     Ray ray2 = new Ray(transform.position + new Vector3(-0.5f, 1, 0), targetDirection);
-    //     RaycastHit hit1 = new RaycastHit();
-    //     RaycastHit hit2 = new RaycastHit();
-    //     hit1.distance = Mathf.Infinity;
-    //     hit2.distance = Mathf.Infinity;
-
-    //     LayerMask hitLayer = LayerMask.NameToLayer("Ground");
-    //     int layerMask = (1 << hitLayer);
-    //     // Debug.DrawRay(transform.position + new Vector3( 0.5f, 1, 0), new Vector3(0, -5, 0), Color.green, 0.1f);
-    //     // Debug.DrawRay(transform.position + new Vector3(-0.5f, 1, 0), new Vector3(0, -5, 0), Color.red);
-    //     if (Physics.Raycast(ray1, out hit1, 5) || Physics.Raycast(ray2, out hit2, 5))
-    //     {
-    //         Debug.Log("hit1: " + hit1.distance + " hit2: " + hit2.distance);
-    //         if (hit1.distance > falling_distance && hit2.distance > falling_distance)
-    //         {
-    //             if (checkFallingSpeed(0.2f) || checkFallingSpeed(-2f))
-    //             {
-    //                 animator.SetBool("Falling", true);
-    //             }
-    //             isGrounded = false;
-    //         }
-    //         else
-    //         {
-    //             if (animator.GetBool("Falling")) StartCoroutine(playAnimationForTime("Landing", 0.5f));
-    //             animator.SetBool("Falling", false);
-    //             // reset airjump number
-    //             jumpsRemaining = jumpNumber;
-    //             isGrounded = true;
-    //         }
-    //     }
-    //     else
-    //     {
-    //         // if (checkFallingSpeed(0.2f))
-    //         // {
-    //         //     animator.SetBool("Falling", true);
-    //         // }
-    //         animator.SetBool("Landing", false);
-    //         isGrounded = false;
-    //     }
-
-    // }
     private void GroundCheck()
     {
-        float falling_distance = 1.7f;
-        RaycastHit hit = new RaycastHit();
+        float falling_distance = 1.4f;
+        Ray ray1 = new Ray(transform.position + new Vector3(0.5f, 1, 0), targetDirection);
+        Ray ray2 = new Ray(transform.position + new Vector3(-0.5f, 1, 0), targetDirection);
+        RaycastHit hit1;
+        RaycastHit hit2;
 
-        Vector3 castOrigin = transform.position + new Vector3(0, 1, 0);
-        
-        if (Physics.SphereCast(castOrigin, 1f, targetDirection, out hit, 3))
+        LayerMask hitLayer = LayerMask.NameToLayer("Ground");
+        int layerMask = (1 << hitLayer);
+        // Debug.DrawRay(transform.position + new Vector3( 0.5f, 1, 0), new Vector3(0, -5, 0), Color.green, 0.1f);
+        // Debug.DrawRay(transform.position + new Vector3(-0.5f, 1, 0), new Vector3(0, -5, 0), Color.red);
+        if (Physics.Raycast(ray1, out hit1, 5) && Physics.Raycast(ray2, out hit2, 5))
         {
-            if (hit.distance > falling_distance)
+            if (hit1.distance > falling_distance && hit2.distance > falling_distance)
             {
                 if (checkFallingSpeed(0.2f) || checkFallingSpeed(-2f))
                 {
@@ -387,6 +347,7 @@ public class Player : Character
         yield return new WaitForSeconds(2);
         animator.SetBool("Dead", false);
         scenecontrol.reset_on_death();
+
     }
 
 
