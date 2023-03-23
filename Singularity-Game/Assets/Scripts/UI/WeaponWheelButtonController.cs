@@ -18,6 +18,7 @@ public class WeaponWheelButtonController : MonoBehaviour
     private Animator anim;
     public float alphaThreshhold = 0.1f;
     private bool selected = false;
+    private bool unlocked = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +30,7 @@ public class WeaponWheelButtonController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        unlocked = uiManager.unlockedWeaponModes[id];
         ActivateAnimation();
         ActivateUpperAnimation();
     }
@@ -57,7 +59,7 @@ public class WeaponWheelButtonController : MonoBehaviour
     }
 
     public void ActivateAnimation(){
-        var isActive = weaponWheelUiCanvasGroup.alpha == 1;
+        var isActive = weaponWheelUiCanvasGroup.alpha == 1 && unlocked;
         anim.SetBool("active", isActive);
     }
 

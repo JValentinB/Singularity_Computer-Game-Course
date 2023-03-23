@@ -10,13 +10,30 @@ public class m_Projectile : MonoBehaviour
     private Vector3 dir;
     private int dmg;
 
+    //Move up, then move to player part
+    private Vector3 startPosition;
+    private bool init;
+    private float MoveUpAmount;
+    private float WaitBeforeMovingAmount;
+    private bool waitBeforeAttack;
+    private float counter;
+
     void Start(){
+        startPosition = transform.position;
+        init = true;
+        MoveUpAmount = 8f;
+        WaitBeforeMovingAmount = 0.5f;
+        waitBeforeAttack = false;
+        counter = 0f;
+
         this.speed = 15f;
-        this.dmg = 100;
-        this.dir = new Vector3(0f, -0.1f, 0f);
+        this.dmg = 50;
+        this.dir = new Vector3(0f, 0.5f, 0f);
     }
 
     void Update(){
+        MovedUp();
+        WaitCounter();
         Move();
     }
 
@@ -40,8 +57,25 @@ public class m_Projectile : MonoBehaviour
         }
     }
 
+    private void MovedUp(){
+        if(init){
+            if(transform.position.y - startPosition.y < MoveUpAmount) return;
+
+            init = false;
+            setDir(GameObject.FindWithTag("Staffstone").transform.position);
+            waitBeforeAttack = true;
+        }
+    }
+
+    private void WaitCounter(){
+        if(!waitBeforeAttack) return;
+
+        if(counter >= WaitBeforeMovingAmount) waitBeforeAttack = false;
+        counter += Time.deltaTime;
+    }
+
     private void Move(){
-        if(freeze) return;
+        if(freeze || waitBeforeAttack) return;
         transform.Translate(dir * speed * Time.deltaTime, Space.World);
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
         transform.Rotate(1.5f, 1.5f, 1.5f, Space.Self);
