@@ -9,7 +9,9 @@ public class Tree_enemy : Enemy
     [SerializeField] private bool attacking;
     [SerializeField] private bool triggered;
     [SerializeField] private GameObject[] rocks;
-    private bool active_rock = false;
+    [SerializeField] private float cool_time = 3.0f;
+    private float cool_down = 0.0f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +22,7 @@ public class Tree_enemy : Enemy
         direction = 1;
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        GetComponent<Rigidbody>().mass = 32.5f;
+        GetComponent<Rigidbody>().mass = 80.0f;
         gravitationalDirection = Vector3.down;
         //from Character
         jumpNumber = 0;
@@ -31,13 +33,13 @@ public class Tree_enemy : Enemy
         critMod = 1.3f;
         //from Enemy
         xp = 100;
-        sightRange = 7.5f;
-        attackRange = 3;
+        sightRange = 15;
+        attackRange = 7;
         playerObject = GameObject.FindWithTag("Player");
         //from Tree_enemy
         attacking = false;
         triggered = false;
-        
+
     }
 
     // Update is called once per frame
@@ -46,7 +48,8 @@ public class Tree_enemy : Enemy
         ChangeLineOfSight();
         RotateGravity();
         ApplyGravity();
-        MoveEnemy();    
+        MoveEnemy();
+        
     }
 
     void Update()
@@ -61,13 +64,22 @@ public class Tree_enemy : Enemy
     {
         if (attacking)
         {
-            if (!active_rock)
+            if (cool_down <= 0)
             {
                 Instantiate(rocks[Random.Range(0, rocks.Length)], transform);
-                active_rock = true;
+                cool_down = cool_time;
             }
-            
-            
+            else
+            {
+                cool_down -= 1.0f * Time.deltaTime;
+                if(cool_down < 0)
+                {
+                    cool_down = 0;
+                }
+            }
+
         }
     }
 }
+
+
