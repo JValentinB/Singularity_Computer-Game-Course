@@ -20,7 +20,10 @@ public class AttackSlice : StateMachineBehaviour
         if (stateInfo.normalizedTime >= sliceStart && stateInfo.normalizedTime < sliceStop)
         {
             var velocity = Vector3.forward * sliceForce + player.rb.velocity;
+            //Translate causes clipping since it ignores collider
             player.transform.Translate(velocity * Time.deltaTime);
+            //AddForce doesnt work properly? Somehow too much groundfriction
+            //player.rb.AddForce(velocity, ForceMode.VelocityChange);
         }
         if (stateInfo.normalizedTime >= sliceStop)
         {
