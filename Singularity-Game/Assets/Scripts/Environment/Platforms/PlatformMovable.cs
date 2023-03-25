@@ -32,6 +32,7 @@ public class PlatformMovable : MonoBehaviour
     private Camera mainCamera;
     private Player player;
     private Vector3 lastPosition;
+    private Vector3 mousePosAtStart;
 
     private bool onBorder;
     private Vector3 borderDirection;
@@ -61,13 +62,6 @@ public class PlatformMovable : MonoBehaviour
 
     void Update()
     {
-        if (player.weaponMode != 0) return;
-
-        if (control == Control.Mouse)
-            mouseMovingPlatform();
-        if (control == Control.Crystal)
-            crystalMovingPlatform();
-
         // Limit the platform's movement
         if (boundingBoxLimit)
             boundingBox();
@@ -83,6 +77,20 @@ public class PlatformMovable : MonoBehaviour
             }
             onBorder = false;
         }
+
+        if (lastPosition == transform.position)
+        {
+            rb.velocity = Vector3.zero;
+        }
+        lastPosition = transform.position;
+
+        if (player.unlockedWeaponModes[0] && player.weaponMode == 0)
+        {
+            if (control == Control.Mouse)
+                mouseMovingPlatform();
+            if (control == Control.Crystal)
+                crystalMovingPlatform();
+        }
     }
 
     void mouseMovingPlatform()
@@ -95,6 +103,10 @@ public class PlatformMovable : MonoBehaviour
             LayerMask platformLayer = 1 << LayerMask.NameToLayer("Movable Platform");
             if (Physics.Raycast(ray, out hit, 200, platformLayer) && hit.collider.gameObject == gameObject)
             {
+                var mousePos = Input.mousePosition;
+                mousePos.z = -mainCamera.transform.position.z;
+                mousePosAtStart = mainCamera.ScreenToWorldPoint(mousePos) - transform.position;
+
                 // Start holding the platform
                 rb.isKinematic = false;
                 isHeld = true;
@@ -134,20 +146,14 @@ public class PlatformMovable : MonoBehaviour
             // Update the platform's position based on the mouse position
             var mousePos = Input.mousePosition;
             mousePos.z = -mainCamera.transform.position.z;
-            Vector3 moveDirection = mainCamera.ScreenToWorldPoint(mousePos) - transform.position;
-            moveDirection.y *= 1.5f;
+            Vector3 moveDirection = mainCamera.ScreenToWorldPoint(mousePos) - (mousePosAtStart + transform.position);
+            moveDirection.y *= 2f;
             moveDirection.z = 0;
 
             rb.AddForce(moveDirection * force);
 
             rb.AddForce(-rb.velocity * friction);
         }
-
-        if (lastPosition == transform.position)
-        {
-            rb.velocity = Vector3.zero;
-        }
-        lastPosition = transform.position;
     }
 
     void crystalMovingPlatform()
@@ -313,11 +319,15 @@ public class PlatformMovable : MonoBehaviour
         // Find point on mesh that is in borderDirection from transform.position
         Vector3 borderPoint = transform.position;
         Collider[] colliders = GetComponents<Collider>();
-        foreach(Collider collider in colliders){
-            if(!collider.isTrigger)
+        foreach (Collider collider in colliders)
+        {
+            if (!collider.isTrigger)
                 borderPoint = collider.ClosestPoint(transform.position + borderDirection * 10f);
         }
-        
+
+        if(borderDirection == Vector3.zero)
+            return;
+
         Quaternion rotation = Quaternion.LookRotation(borderDirection, Vector3.forward);
         ParticleSystem particleObject = Instantiate(borderParticles, borderPoint, rotation);
 

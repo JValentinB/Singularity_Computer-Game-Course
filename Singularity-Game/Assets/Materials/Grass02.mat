@@ -21,22 +21,15 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Grass02
-  m_Shader: {fileID: 4800000, guid: 766736548846cdf459a9766614dcccab, type: 3}
-  m_ValidKeywords:
-  - _EMISSIVE_SIMPLE
-  - _IS_ANGELRING_OFF
-  - _IS_CLIPPING_TRANSMODE
-  - _IS_OUTLINE_CLIPPING_YES
-  - _OUTLINE_NML
-  m_InvalidKeywords:
-  - _
+  m_Shader: {fileID: -6465566751694194690, guid: 2c6d3cce5c8a67e40b5ab3eaa6d6c1be, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap:
     IgnoreProjection: False
-    RenderType: TransparentCutout
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -91,6 +84,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Foliage_Alpha:
         m_Texture: {fileID: 2800000, guid: 505f661f1bb2d6d4a8f1ac1e0bf4d877, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Foliage_Texture:
+        m_Texture: {fileID: 2800000, guid: 28485266ea39c1943a81366d8ed8e5bf, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HighColor_Tex:
@@ -208,6 +205,7 @@ Material:
     - _Base_Speed: 0
     - _BillBoardSize: 0.32
     - _Billboard_Size: 0.37
+    - _Blue_Amount: 0
     - _BlurLevelMatcap: 0
     - _BlurLevelSGM: 0
     - _BumpScale: 1
@@ -216,6 +214,7 @@ Material:
     - _ClippingMode: 2
     - _Clipping_Level: 0
     - _ColorShift_Speed: 0
+    - _Coloring_Amount: 1
     - _CullMode: 0
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -228,6 +227,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _Green_Amount: 0.278
     - _HighColor_Power: 0
     - _Inflate: 0.01
     - _Inverse_Clipping: 0
@@ -277,6 +277,7 @@ Material:
     - _Parallax: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Red_Amount: 0.339
     - _RimLight: 0
     - _RimLight_FeatherOff: 0
     - _RimLight_InsideMask: 0.0001
@@ -344,6 +345,7 @@ Material:
     - _Pivot_Point: {r: -13.8, g: -1.2, b: 0, a: 0}
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Texture_Color: {r: 0, g: 0.17178921, b: 0.6784314, a: 0}
     - _ViewShift: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &2240072493156157849
