@@ -22851,6 +22851,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 773193803}
     m_Modifications:
+    - target: {fileID: 171428785097666546, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate (9)
@@ -34515,6 +34519,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 773193803}
     m_Modifications:
+    - target: {fileID: 171428785097666546, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate (8)
@@ -49456,6 +49464,7 @@ MonoBehaviour:
   setDirectionShot: 0
   BlackOutSquare: {fileID: 0}
   meleeDamage: 0
+  infinite_ammo: 0
   controllingPlatform: 0
 --- !u!114 &815103050
 MonoBehaviour:
@@ -68270,6 +68279,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 773193803}
     m_Modifications:
+    - target: {fileID: 171428785097666546, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate (10)
@@ -89379,6 +89392,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 773193803}
     m_Modifications:
+    - target: {fileID: 171428785097666546, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate (3)
@@ -91228,6 +91245,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 773193803}
     m_Modifications:
+    - target: {fileID: 171428785097666546, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate (2)
@@ -97576,6 +97597,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 773193803}
     m_Modifications:
+    - target: {fileID: 171428785097666546, guid: da71b36421f43214fb795da8b2299502, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1053948157750738280, guid: da71b36421f43214fb795da8b2299502, type: 3}
       propertyPath: m_Name
       value: Crate
@@ -112909,6 +112934,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: suicider_lowPoly
       objectReference: {fileID: 0}
+    - target: {fileID: 2584831509396990031, guid: 7062e5bbe71da6141899655a459bb890, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2924237196014154485, guid: 7062e5bbe71da6141899655a459bb890, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -112953,9 +112982,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3061489744980726133, guid: 7062e5bbe71da6141899655a459bb890, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3395225119660250387, guid: 7062e5bbe71da6141899655a459bb890, type: 3}
       propertyPath: gravityStrength
       value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 4337734696798536053, guid: 7062e5bbe71da6141899655a459bb890, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6429185969166578733, guid: 7062e5bbe71da6141899655a459bb890, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7062e5bbe71da6141899655a459bb890, type: 3}
