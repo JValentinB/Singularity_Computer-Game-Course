@@ -97,6 +97,8 @@ MonoBehaviour:
   jumpForce: 0
   critMod: 0
   critChance: 0
+  jumpsRemaining: 0
+  isGrounded: 0
   playerObject: {fileID: 0}
   xp: 0
   sightRange: 0
