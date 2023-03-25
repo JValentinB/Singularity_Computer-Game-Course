@@ -93,7 +93,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Glow_Power: -0.42
+    - _Glow_Power: -0.35
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -109,10 +109,10 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Base_Color: {r: 0.8006408, g: 0.9811321, b: 0.97376305, a: 1}
+    - _Base_Color: {r: 0.76561946, g: 0.8773585, b: 0.8725003, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Glow_Color: {r: 0.39190885, g: 0.6576861, b: 0.6126391, a: 1}
+    - _Glow_Color: {r: 0.10608758, g: 0.1509434, b: 0.14302766, a: 1}
     - _Glow_Color_2: {r: 1.0592737, g: 0.06100529, b: 0.016637806, a: 0}
     - _Glow_MinMax: {r: 0.6, g: 0.8, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
