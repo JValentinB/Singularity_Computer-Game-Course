@@ -10,24 +10,33 @@ using UnityEngine.SceneManagement;
 
 public class ButtonControl : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] public Button NewGameButton, LoadGameButton, OptionsButton;
-    [SerializeField] public Button OptionBack, OptionPixelizationUp, OptionPixelizationDown;
+    [SerializeField] public Button NewGameButton, LoadGameButton, OptionsButton, 
+    OptionBack, OptionPixelizationUp, OptionPixelizationDown, 
+    OptionResolutionUp, OptionResolutionDown,
+    OptionFullScreenUp, OptionFullScreenDown;
+    [SerializeField] public TMP_Text SpecialMessageField, PixelizationValue, ResolutionValue, FullScreenValue;
     private CanvasGroup ParentUI, MenuUI, OptionsUI;
-    [SerializeField] public TMP_Text SpecialMessageField;
-    private TMP_Text PixelizationValue;
     private AudioSource ButtonSound;
     [SerializeField] public bool fadeOutUI, fadeInUI;
     private float alphaOffset = 0.01f;
     private string specialMessage = "";
     private float specialMessagePosY, specialMessageCD;
     private bool showSpecial;
+    [SerializeField] private bool fullScreen;
+    [SerializeField] private List<Vector2> resolutions = new List<Vector2>(){
+        new Vector2(640, 480),
+        new Vector2(1280, 720),
+        new Vector2(1600, 900),
+        new Vector2(1920, 1080),
+        new Vector2(2560, 1440),
+        new Vector2(3840, 2160)
+    };
 
     void Start()
     {
         ParentUI = GetComponent<CanvasGroup>();
         MenuUI = GameObject.FindWithTag("MenuUI").GetComponent<CanvasGroup>();
         OptionsUI = GameObject.FindWithTag("OptionsUI").GetComponent<CanvasGroup>();
-        PixelizationValue = GameObject.FindWithTag("PixelizationValue").GetComponent<TMP_Text>();
         ButtonSound = GetComponent<AudioSource>();
 
         ParentUI.alpha = 0f;
@@ -39,13 +48,19 @@ public class ButtonControl : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         OptionBack.onClick.AddListener(ShowMenu);
         OptionPixelizationUp.onClick.AddListener(IncPixelization);
         OptionPixelizationDown.onClick.AddListener(DecPixelization);
+        OptionResolutionUp.onClick.AddListener(IncResolution);
+        OptionResolutionDown.onClick.AddListener(DecResolution);
+        OptionFullScreenUp.onClick.AddListener(IncFullScreen);
+        OptionFullScreenDown.onClick.AddListener(DecFullScreen);
         ResetRenderScale();
         UpdatePixelizationValue();
+        UpdateFullScreenValue();
     }
 
     void Update(){
         FadeUI();
         ShowSpecialMessage();
+        UpdateResolutionValue();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -160,5 +175,74 @@ public class ButtonControl : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         var urpAsset = (UniversalRenderPipelineAsset)GraphicsSettings.renderPipelineAsset;
         var pixelValue = Mathf.Round((1f - urpAsset.renderScale)*10);
         PixelizationValue.text = pixelValue.ToString("F0");
+    }
+
+    //Returns index of resolution list >= current window width
+    private int getResolutionIndex(){
+        var currentWidth = Screen.width;
+        for(int i = 0; i < resolutions.Count; i++){
+            if(resolutions[i].x == currentWidth) return i;
+        }
+        return -1;
+    }
+
+    private void IncResolution(){
+        ButtonSound.Play();
+        var resolutionIndex = getResolutionIndex();
+
+        if(resolutionIndex == -1){ 
+            Screen.SetResolution((int) resolutions[0].x, (int) resolutions[0].y, fullScreen);
+            UpdateResolutionValue();
+            return;
+        }
+        if(resolutionIndex == resolutions.Count) return;
+
+        Screen.SetResolution((int) resolutions[resolutionIndex+1].x, (int) resolutions[resolutionIndex+1].y, fullScreen);
+
+        UpdateResolutionValue();
+    }
+
+    private void DecResolution(){
+        ButtonSound.Play();
+        var resolutionIndex = getResolutionIndex();
+
+        if(resolutionIndex == -1){ 
+            Screen.SetResolution((int) resolutions[0].x, (int) resolutions[0].y, fullScreen);
+            UpdateResolutionValue();
+            return;
+        }
+        if(resolutionIndex == 0) return;
+
+        Screen.SetResolution((int) resolutions[resolutionIndex-1].x, (int) resolutions[resolutionIndex-1].y, fullScreen);
+
+        UpdateResolutionValue();
+    }
+
+    private void UpdateResolutionValue(){
+        ResolutionValue.text = Screen.width + " x " + Screen.height;
+    }
+
+    private void IncFullScreen(){
+        ButtonSound.Play();
+        if(fullScreen) return;
+
+        fullScreen = true;
+        Screen.SetResolution(Screen.width, Screen.height, fullScreen);
+
+        UpdateFullScreenValue();
+    }
+
+    private void DecFullScreen(){
+        ButtonSound.Play();
+        if(!fullScreen) return;
+
+        fullScreen = false;
+        Screen.SetResolution(Screen.width, Screen.height, fullScreen);
+
+        UpdateFullScreenValue();
+    }
+
+    private void UpdateFullScreenValue(){
+        FullScreenValue.text = fullScreen ? "Yes" : "No";
     }
 }
