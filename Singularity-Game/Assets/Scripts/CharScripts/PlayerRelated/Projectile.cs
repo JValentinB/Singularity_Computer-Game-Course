@@ -10,6 +10,10 @@ public class Projectile : MonoBehaviour
     private Vector3 dir;
     private int dmg;
     [SerializeField] public int mode;
+    [SerializeField] private List<string> ignoreCollisionWithTag = new List<string>(){
+        "Player",
+        "FOV"
+    };
 
     void Start(){
         ps = GetComponent<ParticleSystem>();
@@ -94,9 +98,9 @@ public class Projectile : MonoBehaviour
             obj.GetComponent<Damageable>().ApplyDamage(dmg);
             Destroy(gameObject);
         } else if(obj.tag == "Shifter"){
-            if(obj.GetComponent<Shifter>().mode == mode) obj.GetComponent<Shifter>().ToggleShifter();
+            obj.GetComponent<Shifter>().ToggleShifter();
             Destroy(gameObject);
-        } else if(obj.tag != "Player" && obj.tag != "FOV"){
+        }  else if(!ignoreCollisionWithTag.Contains(obj.tag) && !obj.GetComponent<ShifterField>()){
             Destroy(gameObject);
         }
     }
@@ -112,6 +116,5 @@ public class Projectile : MonoBehaviour
 
             obj_rb.AddForce((projectile_pos - obj_pos) * 81f, ForceMode.Acceleration);
         }
-
     }
 }
