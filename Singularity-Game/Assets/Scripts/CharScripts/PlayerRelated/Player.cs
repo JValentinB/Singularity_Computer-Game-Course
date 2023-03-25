@@ -19,6 +19,7 @@ public class Player : Character
     private InvUI invUI;
     public GameObject BlackOutSquare;
     public int meleeDamage;
+    public bool infinite_ammo = false;
 
     private static bool notFirstTime = false;
     [HideInInspector] public bool controllingPlatform = false;
@@ -52,7 +53,7 @@ public class Player : Character
         scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
         inventory = new InvManager();
         invUI = GetComponent<InvUI>();
-        BlackOutSquare = GameObject.Find("/Canvas/black_screen");
+        BlackOutSquare = GameObject.Find("/UI/black_screen");
         BlackOutSquare.GetComponent<Image>().color = new Color(0f, 0f, 0f, 255f);
         StartCoroutine(FadeBlackOutSquare(false));
         checkForStart();
@@ -199,11 +200,15 @@ public class Player : Character
     {
         if (Input.GetMouseButtonDown(1) && weaponMode != 0)
         {
-            // use ammo on respective weaponmode
-            int res = inventory.RemoveItem(inventory.GetItem(weaponMode), 1);
-            //Debug.Log(res);
-            if (res == -1) yield break;
+            if (!infinite_ammo)
+            {
+                // use ammo on respective weaponmode
+                int res = inventory.RemoveItem(inventory.GetItem(weaponMode), 1);
+                //Debug.Log(res);
+                if (res == -1) yield break;
+            }
 
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
             if (castingCoroutine != null) 
                 StopCoroutine(castingCoroutine);
             castingCoroutine = StartCoroutine(fadeInOutCastingAnimation(1f, 0.3f));
@@ -212,9 +217,10 @@ public class Player : Character
 
 
             //Do not use nearClipPlane from main camera, it's somehow synced to the overlayy camera. 72.8 is the correct nearClipPlane
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+            
             Vector3 staffStonePos = getStaffStonePos();
             Vector3 projTarget = mousePos - staffStonePos;
+            projTarget = projTarget.normalized;
             projTarget = new Vector3(projTarget.x, projTarget.y, 0f);
 
             GameObject projectileClone = (GameObject)Instantiate(weaponMode == 2 ? projectile_blackhole : projectile, staffStonePos, Quaternion.identity);

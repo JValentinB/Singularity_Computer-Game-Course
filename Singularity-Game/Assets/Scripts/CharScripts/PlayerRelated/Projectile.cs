@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -10,15 +12,26 @@ public class Projectile : MonoBehaviour
     private Vector3 dir;
     private int dmg;
     [SerializeField] public int mode;
+    private bool foundhit = false;
+    private Vector3 stop_pos;
 
     void Start(){
         ps = GetComponent<ParticleSystem>();
         _ps = ps.main;
         ChangeColor();
+        if (mode == 2) { findcollision(); }
     }
 
     void Update(){
-        Move();
+        if(mode != 2)
+        {
+            Move();
+        }
+        else
+        {
+            if (foundhit && (stop_pos - transform.position).magnitude < 1) { }
+            else Move();
+        }
     }
 
     public void setProjectileConfig(Vector3 dir, float speed, int mode){
@@ -78,13 +91,33 @@ public class Projectile : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
 
-    private void OnTriggerEnter(Collider col){
-        if (mode == 2)
+    //sets stop-position if raycast hit
+    private void findcollision()
+    {
+        if (mode != 2) return;
+        Ray ray = new Ray(transform.position, dir);
+        RaycastHit hit;
+        LayerMask hitLayer = LayerMask.NameToLayer("Ground");
+        int layerMask = (1 << hitLayer);
+        if(Physics.Raycast(ray, out hit, 60))
         {
+            if (hit.collider.gameObject.GetComponent<Damageable>() == null)
+            {
+                stop_pos = hit.point;
+                Debug.Log(stop_pos);
+                foundhit = true;
+            }
+        }
+        else foundhit = false;
+    }
+
+    private void OnTriggerEnter(Collider col){
+        
+        if (mode == 2) {
             return;
         }
         var obj = col.gameObject;
-        if(obj.GetComponent<m_Projectile>() && mode == 1){
+        if (obj.GetComponent<m_Projectile>() && mode == 1){
             mProjCollision(obj);
             Destroy(gameObject);
         } else if(mode == 3 && obj.tag != "Player"){
@@ -104,14 +137,14 @@ public class Projectile : MonoBehaviour
     private void OnTriggerStay(Collider col)
     {
         var obj = col.gameObject;
-        if (mode == 2 && obj.tag != "Player" && obj.tag != "Untagged")
+        Vector3 projectile_pos = GetComponent<Transform>().position;
+        bool has_damageable = obj.GetComponent<Damageable>() != null;
+        if (mode == 2 && obj.tag != "Player" && has_damageable)
         {
             var obj_rb = obj.GetComponent<Rigidbody>();
             Vector3 obj_pos = obj.GetComponent<Transform>().position;
-            Vector3 projectile_pos = GetComponent<Transform>().position;
 
             obj_rb.AddForce((projectile_pos - obj_pos) * 81f, ForceMode.Acceleration);
         }
-
     }
 }
