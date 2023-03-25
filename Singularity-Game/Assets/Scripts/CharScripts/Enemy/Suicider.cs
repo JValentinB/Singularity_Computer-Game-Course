@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class Suicider : Enemy
 {
+    [SerializeField] private GameObject explosionEffect;
+    [SerializeField] private AudioClip explosionClip, inflateClip;
     private float explForce, explRadius, explUplift, cooldown, done;
     private bool attacking;
     public bool triggered;
@@ -34,6 +36,7 @@ public class Suicider : Enemy
         attackRange = 3;
         playerObject = GameObject.FindWithTag("Player");
         //from Suicider
+        explosionEffect.GetComponent<AudioSource>().clip = inflateClip;
         explForce = 50000f;
         explRadius = 3f;
         explUplift = 55f;
@@ -51,13 +54,14 @@ public class Suicider : Enemy
     }
 
     void Update(){
-        attacking = InRange(attackRange);
         BoomAttack();
         OnDeath();
     }
 
     public void BoomAttack(){
-        if(attacking || done >= 1.4f || triggered){
+        explosionEffect.transform.position = transform.position;
+        
+        if(InRange(attackRange) || done >= 1.4f || triggered){
             if(done >= cooldown) {
                 //Speichernutzung? OverlapSphereNoAlloc...?
                 var hitColliders = Physics.OverlapSphere(transform.position, attackRange);
@@ -80,12 +84,17 @@ public class Suicider : Enemy
                         }
                     }
                 }
+                explosionEffect.GetComponent<ParticleSystem>().Play(true);
+                explosionEffect.GetComponent<AudioSource>().clip = explosionClip;
+                explosionEffect.GetComponent<AudioSource>().Play();
                 currentHealth = 0;
             }
+            if(!explosionEffect.GetComponent<AudioSource>().isPlaying) explosionEffect.GetComponent<AudioSource>().Play();
             done += Time.deltaTime;
             transform.localScale = new Vector3(0.3f, 0.3f, 0.3f)*(Mathf.Max(done, 1f));
         }
         else {
+            if(explosionEffect.GetComponent<AudioSource>().isPlaying) explosionEffect.GetComponent<AudioSource>().Stop();
             done = 0;
             transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         }
