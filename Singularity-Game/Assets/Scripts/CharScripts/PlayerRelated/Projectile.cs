@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Security.Cryptography;
 using UnityEngine;
 
@@ -97,18 +98,15 @@ public class Projectile : MonoBehaviour
         if (mode != 2) return;
         Ray ray = new Ray(transform.position, dir);
         RaycastHit hit;
-        LayerMask hitLayer = LayerMask.NameToLayer("Ground");
+        LayerMask hitLayer = LayerMask.NameToLayer("Default");
         int layerMask = (1 << hitLayer);
-        if(Physics.Raycast(ray, out hit, 60))
+        if(Physics.Raycast(ray, out hit, 60, layerMask))
         {
-            if (hit.collider.gameObject.GetComponent<Damageable>() == null)
-            {
-                stop_pos = hit.point;
-                Debug.Log(stop_pos);
-                foundhit = true;
-            }
+            stop_pos = hit.point;
+            Debug.Log(stop_pos);
+            foundhit = true;
+            
         }
-        else foundhit = false;
     }
 
     private void OnTriggerEnter(Collider col){
