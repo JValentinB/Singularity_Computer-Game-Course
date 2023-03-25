@@ -11,7 +11,6 @@ public class Suicider : Enemy
     [SerializeField] private GameObject explosionEffect;
     [SerializeField] private AudioClip explosionClip, inflateClip;
     private float explForce, explRadius, explUplift, cooldown, done;
-    private bool attacking;
     public bool triggered;
 
     void Start(){
@@ -40,7 +39,6 @@ public class Suicider : Enemy
         explForce = 50000f;
         explRadius = 3f;
         explUplift = 55f;
-        attacking = false;
         triggered = false;
         cooldown = 2f;
         done = 0f;

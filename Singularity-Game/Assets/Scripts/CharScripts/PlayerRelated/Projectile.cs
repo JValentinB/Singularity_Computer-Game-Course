@@ -15,6 +15,10 @@ public class Projectile : MonoBehaviour
     [SerializeField] public int mode;
     private bool foundhit = false;
     private Vector3 stop_pos;
+    [SerializeField] private List<string> ignoreCollisionWithTag = new List<string>(){
+        "Player",
+        "FOV"
+    };
 
     void Start(){
         ps = GetComponent<ParticleSystem>();
@@ -125,9 +129,9 @@ public class Projectile : MonoBehaviour
             obj.GetComponent<Damageable>().ApplyDamage(dmg);
             Destroy(gameObject);
         } else if(obj.tag == "Shifter"){
-            if(obj.GetComponent<Shifter>().mode == mode) obj.GetComponent<Shifter>().ToggleShifter();
+            obj.GetComponent<Shifter>().ToggleShifter();
             Destroy(gameObject);
-        } else if(obj.tag != "Player" && obj.tag != "FOV"){
+        }  else if(!ignoreCollisionWithTag.Contains(obj.tag) && !obj.GetComponent<ShifterField>()){
             Destroy(gameObject);
         }
     }
