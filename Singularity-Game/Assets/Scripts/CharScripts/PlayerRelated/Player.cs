@@ -57,7 +57,6 @@ public class Player : Character
         BlackOutSquare.GetComponent<Image>().color = new Color(0f, 0f, 0f, 255f);
         StartCoroutine(FadeBlackOutSquare(false));
         checkForStart();
-        CheckLoading();
     }
 
     void FixedUpdate()
@@ -364,22 +363,15 @@ public class Player : Character
 
     private void SaveAndLoadGame()
     {
+        if(SaveSystem.couldNotLoadGame && SaveSystem.loadingDelay <= 0f) SaveSystem.loadingDelay -= Time.deltaTime;
+        else if(SaveSystem.couldNotLoadGame) SaveSystem.LoadGameNoReset();
+
         if (Input.GetKeyDown(KeyCode.K))
         {
             SaveSystem.SaveGame(this);
         }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            SaveSystem.LoadGame();
-        }
-    }
-
-    private void CheckLoading()
-    {
-        if (SaveSystem.couldNotLoadGame)
-        {
-            SaveSystem.couldNotLoadGame = false;
-            SaveSystem.LoadGame();
+        if(Input.GetKeyDown(KeyCode.L)){
+            SaveSystem.LoadGame(); 
         }
     }
 
