@@ -5,18 +5,19 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-
-    [SerializeField] private CanvasGroup invUI;
     [SerializeField] private Player player;
+    [SerializeField] private CanvasGroup inventoryUI;
     [SerializeField] private CanvasGroup weaponWheelUI;
+    [SerializeField] private CanvasGroup gameUI;
     [SerializeField] private GameObject activeModeDisplay;
     public int modeId;
     public Sprite modeImage;
     public List<bool> unlockedWeaponModes;
 
     void Start(){
-        invUI.blocksRaycasts = false;
-        invUI.alpha = 0;
+        modeId = 0;
+        inventoryUI.blocksRaycasts = false;
+        inventoryUI.alpha = 0;
         weaponWheelUI.blocksRaycasts = false;
         weaponWheelUI.alpha = 0;
         unlockedWeaponModes = player.unlockedWeaponModes;
@@ -24,21 +25,17 @@ public class UIManager : MonoBehaviour
 
     void Update(){
         OpenCloseInventory();
-        UpdateWeaponWheel();
+        OpenCloseWeaponWheel();
+        UpdateWeaponMode();
     }
 
     public void OpenCloseInventory()
     {
-        if(Input.GetKeyDown(KeyCode.I) || (invUI.alpha == 1 && Input.GetKeyDown(KeyCode.Escape)))
+        if(Input.GetKeyDown(KeyCode.I) || (inventoryUI.alpha == 1 && Input.GetKeyDown(KeyCode.Escape)))
         {
-            invUI.alpha = invUI.alpha == 1 ? 0 : 1;
-            invUI.blocksRaycasts = invUI.blocksRaycasts == true ? false : true;
+            inventoryUI.alpha = inventoryUI.alpha == 1 ? 0 : 1;
+            inventoryUI.blocksRaycasts = inventoryUI.blocksRaycasts == true ? false : true;
         }
-    }
-    
-    public void UpdateWeaponWheel(){
-        OpenCloseWeaponWheel();
-        UpdateWeaponMode();
     }
 
     public void OpenCloseWeaponWheel()
@@ -48,22 +45,25 @@ public class UIManager : MonoBehaviour
         {
             weaponWheelUI.blocksRaycasts = true;
             weaponWheelUI.interactable = true;
+            gameUI.alpha = 0;
             weaponWheelUI.alpha = 1;
         }
         if(Input.GetKeyUp(KeyCode.Tab))
         {
             weaponWheelUI.blocksRaycasts = false;
             weaponWheelUI.interactable = false;
+            gameUI.alpha = 1;
             weaponWheelUI.alpha = 0;
         }
     }
     
 
     public void UpdateWeaponMode(){
-        if(modeImage){
+        if(modeImage && player.weaponMode != modeId){
+            activeModeDisplay.GetComponent<Image>().color = Color.white;
             activeModeDisplay.GetComponent<Image>().sprite = modeImage;
             activeModeDisplay.GetComponent<Image>().preserveAspect = true;
+            player.ChangeBulletMode(modeId);
         }
-        player.ChangeBulletMode(modeId);
     }
 }

@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class InvUI : MonoBehaviour
 {
-    public GameObject inventoryUI, slotPrefab;
-    private InvManager playerInventory; // Reference to the player's inventory
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject slotPrefab;
+    private InvManager playerInventory;
     public int slots;
     private List<(GameObject, InvItem)> slotList;
 
@@ -14,9 +15,8 @@ public class InvUI : MonoBehaviour
 
     private void Start()
     {
-        inventoryUI = GameObject.FindWithTag("InventoryUI");
-        playerInventory = gameObject.GetComponent<Player>().inventory; // Get the reference to the player's inventory
-        slots = 16;
+        playerInventory = player.GetComponent<Player>().inventory;
+        slots = 4;
         CreateLayout();
         UpdateInvUI();
     }
@@ -29,16 +29,16 @@ public class InvUI : MonoBehaviour
     private void CreateLayout()
     {
         slotList = new List<(GameObject, InvItem)>();
-
+        var invUiTransform = gameObject.transform;
         for(int i = 0; i < slots; i++){
             GameObject newSlot = (GameObject)Instantiate(slotPrefab);
             newSlot.name = "Slot" + i;
-            newSlot.transform.SetParent(inventoryUI.transform, false);
+            newSlot.transform.SetParent(invUiTransform, false);
             slotList.Add((newSlot, null));
         }
     }
 
-    public void UpdateInvUI(){
+    private void UpdateInvUI(){
         foreach (var entry in slotList)
         {
             if(entry.Item2 != null){

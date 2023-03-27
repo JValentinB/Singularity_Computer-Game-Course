@@ -14,11 +14,13 @@ public class Player : Character
     [SerializeField] private GameObject projectile;
     [SerializeField] private GameObject projectile_blackhole;
     [SerializeField] public GameObject jumpBurst;
+    [SerializeField] private XpManager xpManager;
+    [SerializeField] private InvUI invUi;
     [HideInInspector] public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
     private SceneControl scenecontrol;
     private static Vector3 latestCheckPointPos;
-    private InvUI invUI;
     public GameObject BlackOutSquare;
+    public InvManager inventory;
     public int meleeDamage;
     public bool infinite_ammo = false;
 
@@ -52,8 +54,7 @@ public class Player : Character
 
         scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
         inventory = new InvManager();
-        invUI = GetComponent<InvUI>();
-        BlackOutSquare = GameObject.Find("/UI/black_screen");
+        BlackOutSquare = GameObject.Find("/UI_Ingame/black_screen");
         BlackOutSquare.GetComponent<Image>().color = new Color(0f, 0f, 0f, 255f);
         StartCoroutine(FadeBlackOutSquare(false));
         checkForStart();
@@ -141,13 +142,12 @@ public class Player : Character
 
     public void giveXp(int xp)
     {
-        GetComponent<XpManager>().GainXp(xp);
+        xpManager.GainXp(xp);
     }
 
     public void GiveItem(InvItem item, int amount)
     {
-        bool isSpace = invUI.AddItemToPlayerInventory(item, amount);
-        //if(!isSpace) inventoryFull();
+        bool isSpace = invUi.AddItemToPlayerInventory(item, amount);
     }
 
     private void GroundCheck()
