@@ -33,8 +33,6 @@ public class WeaponWheelInfoController : MonoBehaviour
             canvasGroup.alpha = 1;
         } else {
             canvasGroup.alpha = 0;
-            infoHeader.GetComponent<TMPro.TextMeshProUGUI>().text = "";
-            infoDescription.GetComponent<TMPro.TextMeshProUGUI>().text = "Hover over a crystal for more information.";
         }
     }
 }

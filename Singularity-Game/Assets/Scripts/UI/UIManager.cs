@@ -6,21 +6,23 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private Player player;
-    [SerializeField] private CanvasGroup inventoryUI;
     [SerializeField] private CanvasGroup weaponWheelUI;
     [SerializeField] private CanvasGroup gameUI;
+    [SerializeField] private GameObject inventoryUI;
     [SerializeField] private GameObject activeModeDisplay;
+    private Animator inventoryAnimator;
     public int modeId;
     public Sprite modeImage;
     public List<bool> unlockedWeaponModes;
 
     void Start(){
         modeId = 0;
-        inventoryUI.blocksRaycasts = false;
-        inventoryUI.alpha = 0;
+        unlockedWeaponModes = player.unlockedWeaponModes;
+
+        inventoryAnimator = inventoryUI.GetComponent<Animator>();
+
         weaponWheelUI.blocksRaycasts = false;
         weaponWheelUI.alpha = 0;
-        unlockedWeaponModes = player.unlockedWeaponModes;
     }
 
     void Update(){
@@ -31,10 +33,9 @@ public class UIManager : MonoBehaviour
 
     public void OpenCloseInventory()
     {
-        if(Input.GetKeyDown(KeyCode.I) || (inventoryUI.alpha == 1 && Input.GetKeyDown(KeyCode.Escape)))
+        if(Input.GetKeyDown(KeyCode.I) || (inventoryAnimator.GetBool("active") && Input.GetKeyDown(KeyCode.Escape)))
         {
-            inventoryUI.alpha = inventoryUI.alpha == 1 ? 0 : 1;
-            inventoryUI.blocksRaycasts = inventoryUI.blocksRaycasts == true ? false : true;
+            inventoryAnimator.SetBool("active", !inventoryAnimator.GetBool("active"));
         }
     }
 

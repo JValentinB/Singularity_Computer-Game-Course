@@ -6,18 +6,15 @@ using UnityEngine.UI;
 public class InvUI : MonoBehaviour
 {
     [SerializeField] private GameObject player;
-    [SerializeField] private GameObject slotPrefab;
     private InvManager playerInventory;
     public int slots;
     private List<(GameObject, InvItem)> slotList;
-
-    
 
     private void Start()
     {
         playerInventory = player.GetComponent<Player>().inventory;
         slots = 4;
-        CreateLayout();
+        CeateSlotList();
         UpdateInvUI();
     }
 
@@ -26,15 +23,12 @@ public class InvUI : MonoBehaviour
         UpdateInvUI();
     }
 
-    private void CreateLayout()
+    private void CeateSlotList()
     {
         slotList = new List<(GameObject, InvItem)>();
         var invUiTransform = gameObject.transform;
-        for(int i = 0; i < slots; i++){
-            GameObject newSlot = (GameObject)Instantiate(slotPrefab);
-            newSlot.name = "Slot" + i;
-            newSlot.transform.SetParent(invUiTransform, false);
-            slotList.Add((newSlot, null));
+        foreach(Transform slot in invUiTransform){
+            slotList.Add((slot.gameObject, null));
         }
     }
 
@@ -75,5 +69,15 @@ public class InvUI : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public int GetItemIdInSlot(GameObject slot){
+        foreach ((GameObject, InvItem) entry in slotList)
+        {
+            if(GameObject.ReferenceEquals(slot, entry.Item1)){
+                return entry.Item2.id;
+            }
+        }
+        return -1;
     }
 }
