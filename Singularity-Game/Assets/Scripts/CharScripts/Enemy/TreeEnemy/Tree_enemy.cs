@@ -7,10 +7,15 @@ public class Tree_enemy : Enemy
 {
 
     [SerializeField] private bool attacking;
-    [SerializeField] private bool triggered;
     [SerializeField] private GameObject[] rocks;
     [SerializeField] private float cool_time = 3.0f;
+    [SerializeField] private float CASTING_TIME = 3.0f;
+    private float casting_time;
     private float cool_down = 0.0f;
+    private bool isWalking;
+    
+
+
 
 
     // Start is called before the first frame update
@@ -34,11 +39,12 @@ public class Tree_enemy : Enemy
         //from Enemy
         xp = 100;
         sightRange = 15;
-        attackRange = 7;
+        attackRange = 5;
         playerObject = GameObject.FindWithTag("Player");
         //from Tree_enemy
         attacking = false;
-        triggered = false;
+        isWalking = false;
+        casting_time = CASTING_TIME;
 
     }
 
@@ -49,14 +55,14 @@ public class Tree_enemy : Enemy
         RotateGravity();
         ApplyGravity();
         MoveEnemy();
-        
+        Tree_enemy_attack();
+        ToggleAnimation();
     }
 
     void Update()
     {
         attacking = InRange(attackRange);
-        //BoomAttack();
-        Tree_enemy_attack();
+        CoolDown();
         OnDeath();
     }
 
@@ -68,18 +74,54 @@ public class Tree_enemy : Enemy
             {
                 Instantiate(rocks[Random.Range(0, rocks.Length)], transform);
                 cool_down = cool_time;
-            }
-            else
-            {
-                cool_down -= 1.0f * Time.deltaTime;
-                if(cool_down < 0)
-                {
-                    cool_down = 0;
-                }
+                casting_time = CASTING_TIME;
+                animator.SetTrigger("CastAttack");
             }
 
         }
     }
+
+    void ToggleAnimation()
+    {
+        if (InRange(sightRange) && !isWalking)
+        {
+            animator.SetTrigger("Walk");
+            isWalking = true;
+        }
+        if (!InRange(sightRange) && isWalking)
+        {
+            animator.SetTrigger("StopWalk");
+            isWalking = false;
+        }
+    }
+
+    void CoolDown()
+    {
+        if(cool_down > 0)
+        {
+            cool_down -= 1.0f * Time.deltaTime;
+            
+
+            if (cool_down < 0)
+            {
+                cool_down = 0;
+            }
+        }
+        if(casting_time > 0)
+        {
+            casting_time -= 1.0f * Time.deltaTime;
+
+            if (casting_time <= 0)
+            {
+                animator.SetTrigger("StopCasting");
+                casting_time = CASTING_TIME;
+            }
+            
+                
+    
+        }
+    }
+
 }
 
 
