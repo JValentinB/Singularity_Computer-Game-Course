@@ -9,8 +9,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private CanvasGroup weaponWheelUI;
     [SerializeField] private CanvasGroup gameUI;
     [SerializeField] private GameObject inventoryUI;
+    [SerializeField] private GameObject inventoryInfoTextPanel;
     [SerializeField] private GameObject activeModeDisplay;
-    private Animator inventoryAnimator;
+    private Animator inventoryAnimator, inventoryInfoTextPanelAnimator;
     public int modeId;
     public Sprite modeImage;
     public List<bool> unlockedWeaponModes;
@@ -20,6 +21,7 @@ public class UIManager : MonoBehaviour
         unlockedWeaponModes = player.unlockedWeaponModes;
 
         inventoryAnimator = inventoryUI.GetComponent<Animator>();
+        inventoryInfoTextPanelAnimator = inventoryInfoTextPanel.GetComponent<Animator>();
 
         weaponWheelUI.blocksRaycasts = false;
         weaponWheelUI.alpha = 0;
@@ -36,6 +38,11 @@ public class UIManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.I) || (inventoryAnimator.GetBool("active") && Input.GetKeyDown(KeyCode.Escape)))
         {
             inventoryAnimator.SetBool("active", !inventoryAnimator.GetBool("active"));
+            if(!inventoryAnimator.GetBool("active")){
+                inventoryInfoTextPanelAnimator.SetBool("shutDown", true);
+            } else {
+                inventoryInfoTextPanelAnimator.SetBool("shutDown", false);
+            }
         }
     }
 
