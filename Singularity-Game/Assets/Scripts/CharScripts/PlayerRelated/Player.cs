@@ -29,7 +29,7 @@ public class Player : Character
 
     void Start()
     {
-        maxHealth = 100;
+        maxHealth = 10000;
         currentHealth = maxHealth;
 
         walkSpeed = 0.4f;

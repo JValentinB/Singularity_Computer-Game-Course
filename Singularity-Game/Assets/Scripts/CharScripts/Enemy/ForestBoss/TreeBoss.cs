@@ -2,21 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ForestBoss : Enemy
+public class TreeBoss : Enemy
 {
-    private float rangeClose, rangeFar, sideRadius;
+    private float rangeClose, rangeFar, sideRadius, spikeCounter, projectileCounter, nextSpike;
+    private bool secondPhase;
     [SerializeField] private float spikeCD, projectileCD, spikePause;
     [SerializeField] private int remainingSpikes;
-    private float spikeCounter, projectileCounter, nextSpike;
-    private float[] rootSpikePos = new float[10];
-    [SerializeField] private GameObject rootSpike;
-    [SerializeField] private GameObject manipulatableProjectile;
+    [SerializeField] private GameObject rootSpike, manipulatableProjectile,
+    bottomSide, topSide, rightSide, leftSide;
     [SerializeField] private Player playerScript; 
-
     [SerializeField] public float disToPlayer;
-
-    //Positions of each side, has to be the middle and below the ground
-    [SerializeField] private Vector3 bottomSideMidPos, topSideMidPos, rightSideMidPos, leftSideMidPos;
+    [SerializeField] private Vector3 bottomSideMidPos, topSideMidPos, rightSideMidPos, leftSideMidPos, globalZeroPoint;
     
     void Start()
     {
@@ -24,14 +20,10 @@ public class ForestBoss : Enemy
         maxHealth = 1000;
         currentHealth = maxHealth;
         direction = 1;
-        /* animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody>();
-        GetComponent<Rigidbody>().mass = 32.5f; */
         gravitationalDirection = Vector3.down;
         //from Character
         jumpNumber = 0;
         currentSpeed = 2.5f;
-        /* mass = GetComponent<Rigidbody>().mass; */
         jumpForce = 0;
         critChance = 0.2d;
         critMod = 1.3f;
@@ -48,17 +40,19 @@ public class ForestBoss : Enemy
         projectileCD = 5f;
 
         playerScript = playerObject.GetComponent<Player>();
-        bottomSideMidPos = transform.position;//Vector3.down;
-        topSideMidPos = Vector3.up;
-        rightSideMidPos = Vector3.right;
-        leftSideMidPos = Vector3.left;
-        sideRadius = 60f;
+        roomMiddlePoint = transform.position + new Vector3()
+        bottomSideMidPos = transform.po;
+        topSideMidPos = topSide.transform.position;
+        rightSideMidPos = rightSide.transform.position;
+        leftSideMidPos = leftSide.transform.position;
+        sideRadius = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
         ChooseAttack();
+        SecondPhase();
     }
 
     private float DistanceToPlayer(){
@@ -70,6 +64,16 @@ public class ForestBoss : Enemy
         var rand = Random.Range(0f, 1f);
         if(rand < 0.5f)         ThrowProjectile();
         else                    RootSpikes();
+    }
+
+    private void SecondPhase(){
+        if(currentHealth > Mathf.Floor(maxHealth/2) && !secondPhase) return;
+        projectileCD = 3f;
+        var rootBridges = GameObject.FindGameObjectsWithTag("RootBridge");
+        foreach(var bridge in rootBridges){
+            bridge.GetComponent<RootBridge>().destroyBridge = true;
+        }
+        secondPhase = true;
     }
 
     //Mid range attack (adjustable)

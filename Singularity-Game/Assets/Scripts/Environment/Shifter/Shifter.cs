@@ -6,7 +6,7 @@ public class Shifter : MonoBehaviour
 {
     [SerializeField] public Vector3 direction;
     [SerializeField] public float activeTime = 10f;
-    [SerializeField] public bool noActiveTimer;
+    [SerializeField] public bool alwaysActive;
     private GameObject shifterField;
     private ShifterField shifterScript;
     private float shifterTTL;
@@ -14,7 +14,7 @@ public class Shifter : MonoBehaviour
     void Start(){
         shifterField = transform.GetChild(0).gameObject;
         shifterScript = shifterField.GetComponent<ShifterField>();
-        shifterScript.active = noActiveTimer;
+        shifterScript.active = alwaysActive;
     }
 
     void Update(){
@@ -22,14 +22,14 @@ public class Shifter : MonoBehaviour
     }
 
     public void ToggleShifter(){
-        if(noActiveTimer) return;
+        if(alwaysActive) return;
 
         shifterScript.active = !shifterScript.active;
         if(shifterScript.active) shifterTTL = activeTime;
     }
 
     private void TTLCounter(){
-        if(noActiveTimer) return;
+        if(alwaysActive) return;
 
         if(shifterScript.active && shifterTTL >= 0f){
             shifterTTL -= Time.deltaTime;
