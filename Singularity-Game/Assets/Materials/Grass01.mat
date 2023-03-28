@@ -133,7 +133,7 @@ Material:
     - _Wind: 0
     - _ZWrite: 1
     m_Colors:
-    - _Base_Color: {r: 0.8181819, g: 0.9056604, b: 0, a: 1}
+    - _Base_Color: {r: 0.6254066, g: 0.6901961, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Offset: {r: -0.37, g: 0, b: 0, a: 0}

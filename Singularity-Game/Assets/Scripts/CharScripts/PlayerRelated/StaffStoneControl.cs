@@ -21,14 +21,12 @@ public class StaffStoneControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(weaponMaterials.Count == 0) return;
         ChangeMaterial();
     }
 
     private void ChangeMaterial(){
+        if(weaponMaterials.Count == 0 || currentMode < 0) return;
         currentMode = player.GetComponent<Player>().weaponMode;
-        
-        if(currentMode < 0) return;
         rend.material = weaponMaterials[currentMode];
     }
 

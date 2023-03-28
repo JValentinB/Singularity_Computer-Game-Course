@@ -6,32 +6,20 @@ public class InstablePlatform : Platform
     private Animator animator;
     private bool isShaking = false;
     private bool isBroken = false;
-    private bool takingDamage = false;
 
     [Header("Instable")]
-    public bool fixedAfterBreaking = true;
-    public float maxHealth = 1000;
-    public float damageOnCollision = 10;
-    private float currentHealth;
+    public float breakingThreshold = 100;
     public float breakDuration = 0.5f;
     public float fixDuration = 5f;
     public float maxIntensity = 50f;
-    [Range(0f, 1f)]
-    public float maxVolume = 1f;
     public float flashDuration = 0.1f;
-
-    Coroutine breakCoroutine;
-    Coroutine damageCoroutine;
 
     private Light crystalLight;
     private float intensity;
     private float threshold = 0f;
     int shakingHash = Animator.StringToHash("Base Layer.Shaking");
 
-    Rigidbody[] rigidbodies;
-    Collider[] colliders;
-
-    private ObjectSounds objectSounds;
+    private AudioManager audioManager;
 
     void Start()
     {
@@ -40,86 +28,63 @@ public class InstablePlatform : Platform
         crystalLight = transform.Find("Crystal").GetComponent<Light>();
         intensity = crystalLight.intensity;
 
-        currentHealth = maxHealth;
-
-        objectSounds = GetComponent<ObjectSounds>();
-
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (!isBroken && crystalLight.intensity > 1)
+        if (isShaking && !isBroken)
         {
-            crystalLight.intensity -= 0.1f;
-        }
+            threshold += 1;
+            crystalLight.intensity = Mathf.Clamp(crystalLight.intensity + 1, 0, maxIntensity);
 
-        if ((!isShaking && objectSounds.isPlayed("Shaking")) || isBroken)
-        {
-            isShaking = false;
-            StartCoroutine(objectSounds.fadeInOut("Shaking", 0f, 0.3f));
-        }
-    }
+            animator.SetFloat("ShakingMultiplier", (1 / breakingThreshold) * threshold);
 
-    void OnCollisionStay(Collision collision)
-    {
-        Collider other = collision.collider;
-        Rigidbody other_rigidbody = other.GetComponent<Rigidbody>();
-        if (other.tag == "Player")
-        {
-            ApplyDamage(damageOnCollision);
-        }
-    }
-
-    void OnCollisionExit(Collision collision)
-    {
-        Collider other = collision.collider;
-        Rigidbody other_rigidbody = other.GetComponent<Rigidbody>();
-        if (other.tag == "Player")
-        {
-            isShaking = false;
-            animator.SetBool("isShaking", false);
-        }
-    }
-
-    public void ApplyDamage(float damage)
-    {
-        currentHealth -= damage;
-        if (!takingDamage)
-        {
-            if (damageCoroutine != null)
-                StopCoroutine(damageCoroutine);
-            damageCoroutine = StartCoroutine(checkForDamage());
-        }
-
-        if (currentHealth <= 0 && !isBroken)
-        {
-            isShaking = false;
-            animator.SetBool("isShaking", false);
-            objectSounds.Stop("Shaking");
-
-            isBroken = true;
-
-            if (fixedAfterBreaking)
+            if (threshold > breakingThreshold)
             {
+                isBroken = true;
                 animator.SetBool("isBroken", true);
+                isShaking = false;
+                animator.SetBool("isShaking", false);
+                audioManager.Stop(audioManager.environmentSounds, "InstablePlatformShaking");
+                audioManager.Play(audioManager.environmentSounds, "InstablePlatformBreaking");
                 StartCoroutine(Break());
             }
-            else
-                BreakWithoutFix();
-            return;
         }
-        else if (isBroken) return;
+        else if (!isBroken && crystalLight.intensity > 1)
+        {
+            threshold -= 0.1f;
+            crystalLight.intensity -= 0.1f;
+        }
+    }
 
-        float healtRatio = 1 - currentHealth / maxHealth;
+    void OnTriggerEnter(Collider other)
+    {
+        Rigidbody other_rigidbody = other.GetComponent<Rigidbody>();
+        if (playerLayer == (playerLayer | (1 << other.gameObject.layer)))
+        {
+            other_rigidbody.velocity += rb.velocity;
 
-        isShaking = true;
-        animator.SetBool("isShaking", true);
-        animator.SetFloat("ShakingMultiplier", healtRatio);
-        crystalLight.intensity = healtRatio * maxIntensity;
+            if (!isBroken)
+            {
+                isShaking = true;
+                animator.SetBool("isShaking", true);
+                audioManager.Play(audioManager.environmentSounds, "InstablePlatformShaking");
+            }
+        }
+    }
 
-        if (!objectSounds.isPlayed("Shaking"))
-            objectSounds.Play("Shaking");
-        objectSounds.setSourceVolume("Shaking", healtRatio * maxVolume);
+    void OnTriggerExit(Collider other)
+    {
+        Rigidbody other_rigidbody = other.GetComponent<Rigidbody>();
+        if (playerLayer == (playerLayer | (1 << other.gameObject.layer)))
+        {
+            other_rigidbody.velocity += rb.velocity;
+
+            isShaking = false;
+            animator.SetBool("isShaking", false);
+            audioManager.Stop(audioManager.environmentSounds, "InstablePlatformShaking");
+        }
     }
 
     IEnumerator Break()
@@ -134,46 +99,20 @@ public class InstablePlatform : Platform
             }
         }
 
-        Debug.Log(crystalLight.intensity * 10);
         StartCoroutine(TransitionLight(crystalLight.intensity, crystalLight.intensity * 10, 0.1f));
 
-        objectSounds.Play("Breaking");
         yield return new WaitForSeconds(breakDuration);
         StartCoroutine(Fix());
-    }
-
-    void BreakWithoutFix()
-    {
-        animator.enabled = false;
-        GetComponent<Collider>().enabled = false;
-
-        Transform armature = transform.Find("Armature");
-        rigidbodies = armature.GetComponentsInChildren<Rigidbody>();
-        colliders = armature.GetComponentsInChildren<Collider>();
-
-        foreach (Rigidbody rigidbody in rigidbodies)
-        {
-            rigidbody.useGravity = true;
-            rigidbody.isKinematic = false;
-        }
-        foreach (Collider collider in colliders)
-        {
-            collider.enabled = true;
-        }
-
-        Destroy(gameObject, 10f);
     }
 
     IEnumerator Fix()
     {
         isBroken = false;
         animator.SetBool("isBroken", false);
-        currentHealth = maxHealth;
+        threshold = 0f;
+        yield return new WaitForSeconds(fixDuration);
 
-        yield return new WaitForSeconds(fixDuration / 2f);
-        objectSounds.Play("Fixing");
-        yield return new WaitForSeconds(fixDuration / 2f);
-
+        audioManager.Play(audioManager.environmentSounds, "InstablePlatformBreaking");
         StartCoroutine(TransitionLight(crystalLight.intensity, intensity, 1f));
         foreach (Collider collider in GetComponents<Collider>())
         {
@@ -183,6 +122,7 @@ public class InstablePlatform : Platform
                 break;
             }
         }
+        // isShaking = false;
     }
 
     IEnumerator TransitionLight(float current, float target, float transitionTime)
@@ -194,28 +134,5 @@ public class InstablePlatform : Platform
             crystalLight.intensity = Mathf.Lerp(current, target, t / transitionTime);
             yield return null;
         }
-    }
-
-    IEnumerator playAnimationForTime(string animationName, float time)
-    {
-        animator.SetBool(animationName, true);
-        yield return new WaitForSeconds(time);
-        animator.SetBool(animationName, false);
-    }
-
-    IEnumerator checkForDamage()
-    {
-        takingDamage = true;
-        float healthLastFrame = maxHealth;
-
-        while (healthLastFrame != currentHealth)
-        {
-            Debug.Log("Taking damage");
-            healthLastFrame = currentHealth;
-            yield return new WaitForSeconds(Time.fixedDeltaTime);
-        }
-        Debug.Log("Not taking damage");
-        isShaking = false;
-        takingDamage = false;
     }
 }

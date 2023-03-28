@@ -103,14 +103,14 @@ public class LaserBeam : MonoBehaviour
         if (beamInteraction && benders.Count > 0)
         {
             bendPath();
-            OnLaserCollision();
+            OnCollisionCutLaser();
 
             if (!willClear)
                 StartCoroutine(clearBendersAfterTime(1f));
         }
         else if (trigger)
         {
-            OnLaserCollision();
+            OnCollisionCutLaser();
         }
         else if (!noChange)
         {
@@ -155,16 +155,13 @@ public class LaserBeam : MonoBehaviour
         LaserEmitter otherEmitter = other.GetComponent<LaserEmitter>();
         if(otherEmitter != null && otherEmitter != laserEmitter)
         {
-            if(otherEmitter.wasAlreadyActive)
-                return;
-                
             otherEmitter.startEmitting();
             laserEmitter.stopEmitting();
             becameInactive = true;
         }
     }
 
-    void OnLaserCollision()
+    void OnCollisionCutLaser()
     {
         // Find hit point
         RaycastHit hit;
@@ -180,18 +177,15 @@ public class LaserBeam : MonoBehaviour
 
             if (Physics.Raycast(point, direction, out hit, anchorDistance))
             {
-                if (hit.transform.GetComponent<LaserBender>())
+                if (hit.transform.GetComponent<LaserBender>() != null)
                     continue;
                 // Apply Damage
-                if (hit.transform.GetComponent<Damageable>())
+                if (hit.transform.GetComponent<Damageable>() != null)
                 {
                     hittedDamageable = true;
                     copyList(anchorPositionsBeforeLastHit, anchorPositions);
                     hit.transform.GetComponent<Damageable>().ApplyDamage(laserDamage);
                     invertVelocity(hit.rigidbody);
-                }
-                if(hit.transform.GetComponent<InstablePlatform>()){
-                    hit.transform.GetComponent<InstablePlatform>().ApplyDamage(laserDamage);
                 }
 
                 isHitting = true;

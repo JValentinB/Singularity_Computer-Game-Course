@@ -6,21 +6,19 @@ using UnityEngine.UI;
 
 public class Player : Character
 {
-    [Header("For the Player")]
-    public int weaponMode = -1;
-    public List<bool> unlockedWeaponModes = new List<bool>() { false, false, false, false };
+    [SerializeField] public int weaponMode;
+    public List<bool> unlockedWeaponModes = new List<bool>(){false, false, false, false};
 
     [SerializeField] public bool doubleJump;
     [SerializeField] private GameObject projectile;
     [SerializeField] private GameObject projectile_blackhole;
     [SerializeField] public GameObject jumpBurst;
-    [HideInInspector] public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
+    public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
     private SceneControl scenecontrol;
-    private static Vector3 latestCheckPointPos;
+    [SerializeField] private static Vector3 latestCheckPointPos;
     private InvUI invUI;
     public GameObject BlackOutSquare;
     public int meleeDamage;
-    public bool infinite_ammo = false;
 
     private static bool notFirstTime = false;
     [HideInInspector] public bool controllingPlatform = false;
@@ -47,6 +45,7 @@ public class Player : Character
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         rb.mass = mass;
+        weaponMode = 0;
         setDirectionShot = false;
         meleeDamage = 15;
 
@@ -57,18 +56,16 @@ public class Player : Character
         BlackOutSquare.GetComponent<Image>().color = new Color(0f, 0f, 0f, 255f);
         StartCoroutine(FadeBlackOutSquare(false));
         checkForStart();
+        CheckLoading();
     }
 
     void FixedUpdate()
     {
         SpeedToggle();
         ChangeLineOfSight();
-
         Turn();
         MovePlayer();
         GroundCheck();
-        FallAnimation();
-
         RotateGravity();
         ApplyGravity();
         //changeEquipment();
@@ -76,6 +73,7 @@ public class Player : Character
         killOnHighSpeed();
         if (currentHealth <= 0)
             OnDeath();
+
     }
 
     void Update()
@@ -152,64 +150,61 @@ public class Player : Character
 
     private void GroundCheck()
     {
-        float falling_distance = 1.7f;
+        float falling_distance = 1.4f;
         Ray ray1 = new Ray(transform.position + new Vector3(0.5f, 1, 0), targetDirection);
         Ray ray2 = new Ray(transform.position + new Vector3(-0.5f, 1, 0), targetDirection);
-        RaycastHit hit1 = new RaycastHit();
-        RaycastHit hit2 = new RaycastHit();
+        RaycastHit hit1;
+        RaycastHit hit2;
 
-        // Debug.DrawRay(transform.position + new Vector3( 0.5f, 1, 0), targetDirection * 3, Color.green, 0.1f);
-        bool raycast1 = Physics.Raycast(ray1, out hit1, 3);
-        bool raycast2 = Physics.Raycast(ray2, out hit2, 3);
-        if (!raycast1)hit1.distance = Mathf.Infinity;
-        if (!raycast2)hit2.distance = Mathf.Infinity;
-
-        if (raycast1 || raycast2)
+        LayerMask hitLayer = LayerMask.NameToLayer("Ground");
+        int layerMask = (1 << hitLayer);
+        // Debug.DrawRay(transform.position + new Vector3( 0.5f, 1, 0), new Vector3(0, -5, 0), Color.green, 0.1f);
+        // Debug.DrawRay(transform.position + new Vector3(-0.5f, 1, 0), new Vector3(0, -5, 0), Color.red);
+        if (Physics.Raycast(ray1, out hit1, 5) && Physics.Raycast(ray2, out hit2, 5))
         {
             if (hit1.distance > falling_distance && hit2.distance > falling_distance)
+            {
+                if (checkFallingSpeed(0.2f) || checkFallingSpeed(-2f))
+                {
+                    animator.SetBool("Falling", true);
+                }
                 isGrounded = false;
+            }
             else
             {
+                if (animator.GetBool("Falling")) StartCoroutine(playAnimationForTime("Landing", 0.5f));
+                animator.SetBool("Falling", false);
+                // reset airjump number
                 jumpsRemaining = jumpNumber;
                 isGrounded = true;
             }
         }
         else
+        {
+            // if (checkFallingSpeed(0.2f))
+            // {
+            //     animator.SetBool("Falling", true);
+            // }
+            animator.SetBool("Landing", false);
             isGrounded = false;
+        }
+
     }
 
-    void FallAnimation()
-    {
-        if (isGrounded && !animator.GetCurrentAnimatorStateInfo(0).IsName("Landing"))
-        {
-            animator.SetBool("Falling", false);
-            StartCoroutine(playAnimationForTime("Landing", 0.5f));
-        }
-        else if(!isGrounded)
-        {
-            animator.SetBool("Falling", true);
-        }
-    }
-
-    public void ChangeBulletMode(int modeId)
-    {
+    public void ChangeBulletMode(int modeId){
         weaponMode = modeId;
     }
 
     private IEnumerator FireProjectile()
     {
-        if (Input.GetMouseButtonDown(1) && weaponMode >= 1)
+        if (Input.GetMouseButtonDown(1) && weaponMode != 0)
         {
-            if (!infinite_ammo)
-            {
-                // use ammo on respective weaponmode
-                int res = inventory.RemoveItem(inventory.GetItem(weaponMode), 1);
-                //Debug.Log(res);
-                if (res == -1) yield break;
-            }
+            // use ammo on respective weaponmode
+            int res = inventory.RemoveItem(inventory.GetItem(weaponMode), 1);
+            //Debug.Log(res);
+            if (res == -1) yield break;
 
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
-            if (castingCoroutine != null)
+            if (castingCoroutine != null) 
                 StopCoroutine(castingCoroutine);
             castingCoroutine = StartCoroutine(fadeInOutCastingAnimation(1f, 0.3f));
             yield return new WaitForSeconds(0.4f);
@@ -217,10 +212,9 @@ public class Player : Character
 
 
             //Do not use nearClipPlane from main camera, it's somehow synced to the overlayy camera. 72.8 is the correct nearClipPlane
-
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
             Vector3 staffStonePos = getStaffStonePos();
             Vector3 projTarget = mousePos - staffStonePos;
-            projTarget = projTarget.normalized;
             projTarget = new Vector3(projTarget.x, projTarget.y, 0f);
 
             GameObject projectileClone = (GameObject)Instantiate(weaponMode == 2 ? projectile_blackhole : projectile, staffStonePos, Quaternion.identity);
@@ -238,11 +232,14 @@ public class Player : Character
                 projectileClone.GetComponent<Projectile>().setProjectileConfig(
                     projTarget, weaponMode == 2 ? 2 : 20, weaponMode);
             }
-
             if (weaponMode != 2)
-                Destroy(projectileClone, 5);
+            {
+              Destroy(projectileClone, 5);
+            }
             else
-                Destroy(projectileClone, 30);
+            {
+              Destroy(projectileClone, 30);
+            }
         }
     }
 
@@ -299,8 +296,7 @@ public class Player : Character
 
     public void checkForStart()
     {
-        if (notFirstTime)
-        {
+        if (notFirstTime) {
             transform.position = latestCheckPointPos;
         }
         else
@@ -363,15 +359,19 @@ public class Player : Character
 
     private void SaveAndLoadGame()
     {
-        if(SaveSystem.couldNotLoadGame && SaveSystem.loadingDelay <= 0f) SaveSystem.loadingDelay -= Time.deltaTime;
-        else if(SaveSystem.couldNotLoadGame) SaveSystem.LoadGameNoReset();
-
         if (Input.GetKeyDown(KeyCode.K))
         {
             SaveSystem.SaveGame(this);
         }
         if(Input.GetKeyDown(KeyCode.L)){
-            SaveSystem.LoadGame(); 
+            SaveSystem.LoadGame();
+        }
+    }
+
+    private void CheckLoading(){
+        if(SaveSystem.couldNotLoadGame){
+            SaveSystem.couldNotLoadGame = false;
+            SaveSystem.LoadGame();
         }
     }
 

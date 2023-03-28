@@ -5,16 +5,12 @@ using UnityEngine;
 public class LaserEmitter : MonoBehaviour
 {   
     public bool isEmitting = false;
-    public Material deadMaterial;
-    [HideInInspector] public bool wasAlreadyActive = false;
-
     private LaserBeam laserBeam;
     private AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
     {
-        wasAlreadyActive = isEmitting;
         laserBeam = transform.parent.GetComponentInChildren<LaserBeam>();
         audioSource = GetComponent<AudioSource>();
 
@@ -28,7 +24,6 @@ public class LaserEmitter : MonoBehaviour
     {
         isEmitting = true;
         laserBeam.isActive = true;
-        wasAlreadyActive = true;
         laserBeam.becameActive = true;
 
         audioSource.Play();
@@ -41,7 +36,6 @@ public class LaserEmitter : MonoBehaviour
         laserBeam.becameActive = false;
 
         audioSource.Stop();
-        GetComponent<MeshRenderer>().material = deadMaterial;
     }
 
     public bool IsEmitting()

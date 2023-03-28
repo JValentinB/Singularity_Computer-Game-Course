@@ -112,7 +112,7 @@ Material:
     - _Base_Color: {r: 0.83683777, g: 0, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Glow_Color: {r: 0.0075421827, g: 0.0023584962, b: 0.5, a: 0}
+    - _Glow_Color: {r: 0.009978442, g: 0, b: 0.95294124, a: 0}
     - _Glow_Color_2: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 0}
     - _Glow_MinMax: {r: 0.5, g: 0.8, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}

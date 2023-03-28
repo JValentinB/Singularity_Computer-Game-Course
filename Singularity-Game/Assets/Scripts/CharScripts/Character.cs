@@ -6,7 +6,6 @@ using Random = UnityEngine.Random;
 public class Character : Damageable
 {
     //FIXME
-    [Header("For all Characters")]
     public int jumpNumber;
     public float currentSpeed, walkSpeed, runSpeed, sprintSpeed, mass, jumpForce, critMod;
     public double critChance;

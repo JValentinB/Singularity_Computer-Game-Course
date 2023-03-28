@@ -19,9 +19,8 @@ TagManager:
   - MenuUI
   - OptionsUI
   - ParentUI
+  - PixelizationValue
   - Prop
-  - Projectile
-  - prop
   layers:
   - Default
   - TransparentFX
