@@ -68,9 +68,7 @@ public class LaserBender : MonoBehaviour
     IEnumerator Timer()
     {
         timerTicking = true;
-        Debug.Log("Timer started");
         yield return new WaitForSeconds(timeUntilReset);
-        Debug.Log("Timer ended");
         // move back to initial position with high velocity
         transform.position = initialPosition;
         timerTicking = false;
