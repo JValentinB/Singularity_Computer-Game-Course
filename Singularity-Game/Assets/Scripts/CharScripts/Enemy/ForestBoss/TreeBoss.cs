@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class TreeBoss : Enemy
 {
-    private float rangeClose, rangeFar, sideRadius, spikeCounter, projectileCounter, nextSpike;
+    private float rangeClose, rangeFar, sideRadiusTB, sideRadiusLR, spikeCounter, projectileCounter,
+    nextSpike, projSpawnRadius;
     private bool secondPhase;
     [SerializeField] private float spikeCD, projectileCD, spikePause;
     [SerializeField] private int remainingSpikes;
@@ -12,7 +13,8 @@ public class TreeBoss : Enemy
     bottomSide, topSide, rightSide, leftSide;
     [SerializeField] private Player playerScript; 
     [SerializeField] public float disToPlayer;
-    [SerializeField] private Vector3 bottomSideMidPos, topSideMidPos, rightSideMidPos, leftSideMidPos, globalZeroPoint;
+    [SerializeField] private Vector3 bottomSideMidPos, topSideMidPos, rightSideMidPos, 
+    leftSideMidPos;
     
     void Start()
     {
@@ -40,12 +42,13 @@ public class TreeBoss : Enemy
         projectileCD = 5f;
 
         playerScript = playerObject.GetComponent<Player>();
-        roomMiddlePoint = transform.position + new Vector3()
-        bottomSideMidPos = transform.po;
+        bottomSideMidPos = bottomSide.transform.position;
         topSideMidPos = topSide.transform.position;
         rightSideMidPos = rightSide.transform.position;
         leftSideMidPos = leftSide.transform.position;
-        sideRadius = 0f;
+        sideRadiusTB = 18f;
+        sideRadiusLR = 25f;
+        projSpawnRadius = 13f;
     }
 
     // Update is called once per frame
@@ -101,16 +104,16 @@ public class TreeBoss : Enemy
 
         var spawnPos = transform.position;
         if(playerScript.gravitationalDirection == Vector3.right){
-            spawnPos = new Vector3(rightSideMidPos.x, rightSideMidPos.y + Random.Range(-sideRadius, sideRadius), rightSideMidPos.z);
+            spawnPos = new Vector3(rightSideMidPos.x, rightSideMidPos.y + Random.Range(-sideRadiusLR, sideRadiusLR), rightSideMidPos.z);
             GameObject rootSpikeObject = Instantiate(rootSpike, spawnPos, Quaternion.Euler(0f, 0f, 90f));
         } else if(playerScript.gravitationalDirection == Vector3.left){
-            spawnPos = new Vector3(leftSideMidPos.x, leftSideMidPos.y + Random.Range(-sideRadius, sideRadius), leftSideMidPos.z);
+            spawnPos = new Vector3(leftSideMidPos.x, leftSideMidPos.y + Random.Range(-sideRadiusLR, sideRadiusLR), leftSideMidPos.z);
             GameObject rootSpikeObject = Instantiate(rootSpike, spawnPos, Quaternion.Euler(0f, 0f, -90f));
         } else if(playerScript.gravitationalDirection == Vector3.up){
-            spawnPos = new Vector3(topSideMidPos.x + Random.Range(-sideRadius, sideRadius), topSideMidPos.y, topSideMidPos.z);
+            spawnPos = new Vector3(topSideMidPos.x + Random.Range(-sideRadiusTB, sideRadiusTB), topSideMidPos.y, topSideMidPos.z);
             GameObject rootSpikeObject = Instantiate(rootSpike, spawnPos, Quaternion.Euler(0f, 0f, 180f));
         } else {
-            spawnPos = new Vector3(bottomSideMidPos.x + Random.Range(-sideRadius, sideRadius), bottomSideMidPos.y, bottomSideMidPos.z);
+            spawnPos = new Vector3(bottomSideMidPos.x + Random.Range(-sideRadiusTB, sideRadiusTB), bottomSideMidPos.y, bottomSideMidPos.z);
             GameObject rootSpikeObject = Instantiate(rootSpike, spawnPos, Quaternion.identity);
         }
         
@@ -127,12 +130,12 @@ public class TreeBoss : Enemy
         }   
 
         //Projectile shouldn't spawn directly under player
-        var spawnPosX = transform.position.x - Random.Range(5f, 40f);
+        var spawnPosX = transform.position.x - Random.Range(-projSpawnRadius, projSpawnRadius);
         while(playerObject.transform.position.x - 5f <= spawnPosX && spawnPosX <= playerObject.transform.position.x + 5f){
-            spawnPosX = transform.position.x - Random.Range(5f, 40f);
+            spawnPosX = transform.position.x - Random.Range(-projSpawnRadius, projSpawnRadius);
         }
         
-        var spawnPos = new Vector3(transform.position.x - Random.Range(5f, 40f), transform.position.y, transform.position.z);
+        var spawnPos = new Vector3(transform.position.x - Random.Range(-projSpawnRadius, projSpawnRadius), transform.position.y, 0f);
         GameObject projectileObject = Instantiate(manipulatableProjectile, spawnPos, Quaternion.identity);
         projectileCounter = projectileCD;
         Debug.Log("PROJECTILE!");

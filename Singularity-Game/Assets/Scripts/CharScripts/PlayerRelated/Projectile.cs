@@ -17,7 +17,9 @@ public class Projectile : MonoBehaviour
     private Vector3 stop_pos;
     [SerializeField] private List<string> ignoreCollisionWithTag = new List<string>(){
         "Player",
-        "FOV"
+        "FOV",
+        "TreeBoss",
+        "IgnoreCollision"
     };
 
     void Start(){

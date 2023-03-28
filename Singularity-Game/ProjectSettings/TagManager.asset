@@ -23,6 +23,7 @@ TagManager:
   - Projectile
   - prop
   - RootBridge
+  - IgnoreCollision
   layers:
   - Default
   - TransparentFX
