@@ -19,10 +19,9 @@ TagManager:
   - MenuUI
   - OptionsUI
   - ParentUI
-  - PixelizationValue
   - Prop
+  - Projectile
   - prop
-  - GolemHeart
   layers:
   - Default
   - TransparentFX
