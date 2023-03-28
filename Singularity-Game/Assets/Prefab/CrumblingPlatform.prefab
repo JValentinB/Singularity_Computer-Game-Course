@@ -993,14 +993,14 @@ MonoBehaviour:
     source: {fileID: 0}
   - soundName: Breaking
     clip: {fileID: 8300000, guid: f12d3f0c1fb878b479552d5812662fa1, type: 3}
-    volume: 0.6
+    volume: 0.45
     pitch: 1
     loop: 0
     spatialBlend: 0
     source: {fileID: 0}
   - soundName: Fixing
     clip: {fileID: 8300000, guid: d3583a83e6709ce46bbd898099e68fd9, type: 3}
-    volume: 0.6
+    volume: 0.45
     pitch: 1
     loop: 0
     spatialBlend: 0

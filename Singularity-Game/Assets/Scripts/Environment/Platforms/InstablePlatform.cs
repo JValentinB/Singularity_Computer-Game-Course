@@ -65,7 +65,8 @@ public class InstablePlatform : Platform
         Collider other = collision.collider;
         Rigidbody other_rigidbody = other.GetComponent<Rigidbody>();
         if (other.tag == "Player")
-        {
+        {   
+            if(damageOnCollision < 0) return; 
             ApplyDamage(damageOnCollision);
         }
     }
@@ -133,8 +134,6 @@ public class InstablePlatform : Platform
                 break;
             }
         }
-
-        Debug.Log(crystalLight.intensity * 10);
         StartCoroutine(TransitionLight(crystalLight.intensity, crystalLight.intensity * 10, 0.1f));
 
         objectSounds.Play("Breaking");
@@ -161,6 +160,7 @@ public class InstablePlatform : Platform
             collider.enabled = true;
         }
 
+        objectSounds.Play("Breaking");
         Destroy(gameObject, 10f);
     }
 
@@ -210,11 +210,9 @@ public class InstablePlatform : Platform
 
         while (healthLastFrame != currentHealth)
         {
-            Debug.Log("Taking damage");
             healthLastFrame = currentHealth;
             yield return new WaitForSeconds(Time.fixedDeltaTime);
         }
-        Debug.Log("Not taking damage");
         isShaking = false;
         takingDamage = false;
     }

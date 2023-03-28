@@ -3,19 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LaserBender : MonoBehaviour
-{   
+{
     [Header("Time until the bender is moving back to initial position")]
+    public bool resetPosition = true;
     public float timeUntilReset = 10f;
     [Range(0f, 1f)]
-    public float bendingAmount = 0.05f;
+    public float bendingAmount = 1f;
     [Range(0f, 1f)]
     public float bendingDistance = 1f; // is bending if the actual distance is smaller than bendingDistance * colliderWidth
+    [Header("Destruction")]
+    public GameObject destructionParticles;
+    public GameObject shatteredCrystal;
+
     [HideInInspector] public float radius = 1f;
     [HideInInspector] public bool isMoving = false;
 
     private SphereCollider triggerCollider;
     private Rigidbody rb;
-    private LaserBeam laserBeam;
+    private List<LaserBeam> laserBeams = new List<LaserBeam>();
 
     private Vector3 initialPosition;
     Coroutine timerCoroutine;
@@ -33,9 +38,13 @@ public class LaserBender : MonoBehaviour
 
     void Update()
     {
-        if(!timerTicking && IsMoving())
+        if (resetPosition && !timerTicking && IsMoving())
         {
             timerCoroutine = StartCoroutine(Timer());
+        }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            DestroyBender();
         }
     }
 
@@ -45,15 +54,32 @@ public class LaserBender : MonoBehaviour
         LaserBeam beam = other.GetComponent<LaserBeam>();
 
         if (beam != null)
-        {   
-            laserBeam = beam;
+        {
+            if (!laserBeams.Contains(beam))
+                laserBeams.Add(beam);
             if (!beam.benders.Contains(this))
                 beam.benders.Add(this);
 
             beam.beamInteraction = true;
         }
-        else
-            laserBeam = null;
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        LaserBeam beam = other.GetComponent<LaserBeam>();
+
+        if (beam != null)
+        {
+            if (beam.benders.Contains(this))
+                beam.benders.Remove(this);
+
+            beam.beamInteraction = true;
+        }
+    }
+
+    void clearFromLists()
+    {
+        
     }
 
     // check if the bender is moving
@@ -73,7 +99,59 @@ public class LaserBender : MonoBehaviour
         transform.position = initialPosition;
         timerTicking = false;
 
-        if(laserBeam != null)
-            laserBeam.benderReset = true;
+        if (laserBeams.Count > 0)
+        {
+            foreach (LaserBeam laserBeam in laserBeams)
+            {
+                laserBeam.benderReset = true;
+            }
+        }
+    }
+
+    public void DestroyBender()
+    {
+        if (timerCoroutine != null)
+            StopCoroutine(timerCoroutine);
+
+        if (destructionParticles != null)
+            Instantiate(destructionParticles, transform.position, Quaternion.identity);
+
+        if (shatteredCrystal != null)
+        {
+            GameObject crystals = Instantiate(shatteredCrystal, transform.position, transform.rotation);
+            // add a explosive force to the shattered crystals
+            Rigidbody[] rigidbodies = crystals.GetComponentsInChildren<Rigidbody>();
+            foreach (Rigidbody rb in rigidbodies)
+            {
+                rb.AddExplosionForce(60000f, transform.position, 10f);
+            }
+            Destroy(crystals, 12f);
+        }
+
+        ObjectSounds objectSounds = GetComponent<ObjectSounds>();
+        if (objectSounds != null)
+            objectSounds.Play("Explosion");
+
+        if (laserBeams.Count > 0)
+        {
+            foreach (LaserBeam laserBeam in laserBeams)
+            {
+                laserBeam.benderReset = true;
+                laserBeam.benders.Remove(this);
+            }
+        }
+        // Remove all components of the bender but the ObjectSounds
+        Component[] components = GetComponents<Component>();
+        foreach (Component component in components)
+        {
+            if (component.GetType() != typeof(AudioSource) && component.GetType() != typeof(Transform))
+                Destroy(component);
+        }
+
+        Destroy(gameObject, 5f);
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }

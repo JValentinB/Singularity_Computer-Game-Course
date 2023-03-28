@@ -8,6 +8,7 @@ public class CharacterSounds : MonoBehaviour
     public List<Sound> jumpingSounds;
     public List<Sound> landingSounds;
     public List<Sound> damageSounds;
+    public List<Sound> otherSounds;
     
     private AudioSource audioSource;
 
@@ -19,6 +20,7 @@ public class CharacterSounds : MonoBehaviour
         addSourceToList(jumpingSounds);
         addSourceToList(landingSounds);
         addSourceToList(damageSounds);
+        addSourceToList(otherSounds);
 
     }
 

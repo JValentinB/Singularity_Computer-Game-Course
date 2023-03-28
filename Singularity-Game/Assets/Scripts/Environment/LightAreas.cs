@@ -40,6 +40,8 @@ public class LightAreas : MonoBehaviour
     private Vignette vignetteLayer;
     private AudioManager audioManager;
 
+    private LightAreas[] lightAreas;
+
     private Coroutine colorTransition;
     private Coroutine intensityTransition;
     private Coroutine fovTransition;
@@ -55,15 +57,18 @@ public class LightAreas : MonoBehaviour
         mainColor = mainLight.color;
         mainIntensity = mainLight.intensity;
         mainFov = mainCamera.fieldOfView;
+
         volumeProfile = mainCamera.GetComponent<Volume>().profile;
+
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
-        // vignetteLayer = volumeProfile.TryGet<Vignette>();
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
-        {
+        {   
+            stopAllTransitionsInLightAreas();
+
             boxesEntered++;
             if (colorTransition != null)
                 StopCoroutine(colorTransition);
@@ -111,7 +116,7 @@ public class LightAreas : MonoBehaviour
                         intensityTransition = StartCoroutine(TransitionIntensity(mainLight.intensity, mainIntensity));
                 }
                 if (fovTransition != null && backToMainFov)
-                {
+                {  
                     StopCoroutine(fovTransition);
                     if (fov)
                         fovTransition = StartCoroutine(TransitionFov(mainCamera.fieldOfView, mainFov));
@@ -130,6 +135,33 @@ public class LightAreas : MonoBehaviour
                         musicTransition = StartCoroutine(TransitionMusic(musicName, audioManager.getSourceVolume(audioManager.music, musicName), 0));
                 }
             }
+        }
+    }
+
+    // Stops all transitions in all LightAreas
+    void stopAllTransitionsInLightAreas(){
+        lightAreas = transform.parent.GetComponentsInChildren<LightAreas>();
+        foreach(LightAreas lightArea in lightAreas){
+            if(lightArea == this) continue;
+                        
+            lightArea.stopAllTransitions(color, intensity, fov, vignette, music);
+        }
+    }
+    public void stopAllTransitions(bool color2, bool intensity2, bool fov2, bool vignette2, bool music2){
+        if(color2 && colorTransition != null){
+            StopCoroutine(colorTransition);
+        }
+        if(intensity2 && intensityTransition != null){
+            StopCoroutine(intensityTransition);
+        }
+        if(fov2 && fovTransition != null){
+            StopCoroutine(fovTransition);
+        }
+        if(vignette2 && vignetteTransition != null){
+            StopCoroutine(vignetteTransition);
+        }
+        if(music2 && musicTransition != null){
+            StopCoroutine(musicTransition);
         }
     }
 
@@ -154,7 +186,7 @@ public class LightAreas : MonoBehaviour
         }
     }
     IEnumerator TransitionFov(float currentFov, float targetFov)
-    {
+    {   
         float t = 0f;
         while (t < transitionTime)
         {

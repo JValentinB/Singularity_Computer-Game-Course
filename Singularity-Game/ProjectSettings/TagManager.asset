@@ -21,6 +21,8 @@ TagManager:
   - ParentUI
   - PixelizationValue
   - Prop
+  - prop
+  - GolemHeart
   layers:
   - Default
   - TransparentFX

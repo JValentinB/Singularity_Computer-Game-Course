@@ -150,6 +150,8 @@ public class PlatformMovable : MonoBehaviour
             moveDirection.y *= 2f;
             moveDirection.z = 0;
 
+          
+            // float factor = Mathf.Pow(moveDirection.magnitude, 1.1f);
             rb.AddForce(moveDirection * force);
 
             rb.AddForce(-rb.velocity * friction);
