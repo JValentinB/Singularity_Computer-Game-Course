@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5775186129163884457}
   - component: {fileID: 7460862297399662604}
   - component: {fileID: 4642852719202954438}
+  - component: {fileID: 666848239568605974}
   - component: {fileID: -8905559822253447470}
-  - component: {fileID: 149574050726412362}
   m_Layer: 0
   m_Name: rock_3_full
   m_TagString: Untagged
@@ -85,6 +85,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &666848239568605974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6588279734740962579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aa265c69dd177d4ba2988297c4f1174, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rockPiece: {fileID: 919132149155446097, guid: ed2b404fec29d1b42b7492e3b217369e, type: 3}
+  speed: 0
+  freeze: 0
 --- !u!64 &-8905559822253447470
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -99,18 +114,3 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 289301614986012343, guid: bf1f9a75975912d4896d4ccaa5afff25, type: 3}
---- !u!114 &149574050726412362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6588279734740962579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f3f9e4ce029f1444949242e27f96ba6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rockPiece: {fileID: 0}
-  speed: 0
-  freeze: 0
