@@ -56,7 +56,7 @@ public class Door : MonoBehaviour
         counter += move;
         if(counter >= range)
         {
-            transform.rotation = Quaternion.Euler(0, range, 0);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
             closed = false;
             open = true;
             interaction = false;
@@ -71,7 +71,7 @@ public class Door : MonoBehaviour
         if (counter <= 0)
         {
             
-            transform.rotation = Quaternion.Euler(0, 0, 0);
+            transform.rotation = Quaternion.Euler(0, range, 0);
             closed = true;
             open = false;
             interaction = false;
