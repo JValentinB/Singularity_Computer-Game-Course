@@ -4,7 +4,9 @@ using System.Collections.Specialized;
 using UnityEngine;
 
 public class WindUpstream : MonoBehaviour
-{
+{   
+    public float jumpForce = 2000f;
+
     private float prevGravityStrength;
     private float prevJumpForce;
     //Function will be called on leaving collider range
@@ -18,7 +20,7 @@ public class WindUpstream : MonoBehaviour
             prevJumpForce = damageableObjectToShift.GetComponent<Character>().jumpForce;
             var rb = col.gameObject.GetComponent<Rigidbody>();
             damageableObjectToShift.gravityStrength = 5f;
-            damageableObjectToShift.GetComponent<Character>().jumpForce = 3050f;
+            damageableObjectToShift.GetComponent<Character>().jumpForce = jumpForce;
             rb.velocity = new Vector3(rb.velocity.x, -10f ,rb.velocity.z); 
         }
     }

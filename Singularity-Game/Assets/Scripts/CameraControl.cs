@@ -9,6 +9,9 @@ public class CameraControl : MonoBehaviour
     public bool rotateOnShift = true;
     public bool followPlayer = true;
     public float smoothTime = 0.3f;
+    public bool followPoint = false; // follows a point between player and a given object (e.g. a boss)
+    public GameObject objectToFollow;
+    [HideInInspector] public float followPointRatio = 0.5f;
     // public float offset_z = 0;
     public bool overlayActive = true;
 
@@ -24,44 +27,27 @@ public class CameraControl : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         zPosition = this.transform.position.z;
         overlayCamera = transform.GetChild(0).GetComponent<Camera>();
-        this.transform.position = new Vector3(player.position.x + offset_x, player.position.y + offset_y, zPosition);  
-        
+        this.transform.position = new Vector3(player.position.x + offset_x, player.position.y + offset_y, zPosition);
+
         downDirection = Vector3.down;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (followPlayer)
+        if (followPoint)
+        {
+            Vector3 targetPosition = Vector3.Lerp(Vector3.Scale(player.position, new Vector3(1, 1, 0)) + new Vector3(offset_x, offset_y, zPosition),
+                                                  Vector3.Scale(objectToFollow.transform.position, new Vector3(1, 1, 0)) + new Vector3(offset_x, offset_y, zPosition),
+                                                  followPointRatio);
+            // Vector3 targetPosition = new Vector3((player.position.x + objectToFollow.transform.position.x) / followPointRatio + offset_x, (player.position.y + objectToFollow.transform.position.y) / followPointRatio + offset_y, zPosition);
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+        }
+        else if (followPlayer)
         {
             Vector3 targetPosition = new Vector3(player.position.x + offset_x, player.position.y + offset_y, zPosition);
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
         }
-
-        if (overlayActive)
-        {
-            overlayCamera.fieldOfView = this.GetComponent<Camera>().fieldOfView;
-            // // If there is something between player and Camera, activate the Overlay Camera
-            // if (checkSpace() && overlayActive)
-            // {
-            //     overlayCamera.enabled = true;
-            // }
-            // else overlayCamera.enabled = false;
-        }
-    }
-
-    // Checks whether there is a mesh between the Camera and the player
-    bool checkSpace()
-    {
-        Ray ray = new Ray(player.position + new Vector3(0, 1, 0), transform.position - player.position);
-        RaycastHit hit;
-
-        //Debug.DrawRay(player.position + new Vector3(0, 1, 0), transform.position - player.position, Color.red, 2);
-        if (Physics.Raycast(ray, out hit))
-        {
-            return hit.distance < 20;
-        }
-        return false;
     }
 
     public IEnumerator stopFollowing(float time)
@@ -90,5 +76,34 @@ public class CameraControl : MonoBehaviour
             yield return null;
         }
         transform.rotation = Quaternion.Euler(endRotation);
+    }
+
+    public IEnumerator changeFollowPoint(float speed, bool endState, float time)
+    {
+        float t = 0;
+        while (t < time)
+        {
+            t += Time.deltaTime;
+
+            if (endState)
+            {
+                // lerp between 1f and smoothTime value
+                float smooth = Mathf.Lerp(speed, smoothTime, t / time);
+                Vector3 targetPosition = Vector3.Lerp(Vector3.Scale(player.position, new Vector3(1, 1, 0)) + new Vector3(offset_x, offset_y, zPosition),
+                                                      Vector3.Scale(objectToFollow.transform.position, new Vector3(1, 1, 0)) + new Vector3(offset_x, offset_y, zPosition),
+                                                      followPointRatio);
+                transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smooth);
+            }
+            else
+            {
+                float smooth = Mathf.Lerp(speed, smoothTime, t / time);
+                Vector3 targetPosition = new Vector3(player.position.x + offset_x, player.position.y + offset_y, zPosition);
+                transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smooth);
+            }
+
+            yield return null;
+        }
+        followPoint = endState;
+        followPlayer = !endState;
     }
 }

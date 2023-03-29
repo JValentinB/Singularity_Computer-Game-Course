@@ -9,6 +9,10 @@ public class StoneGolemBoss : MonoBehaviour
     private float currentHealthPoints;
     public bool dead = false;
 
+    [Header("Black Hole")]
+    public float blackHoleForce = 1f;
+    public Transform platforms;
+
     [Header("Stampede Explosion")]
     public int stampedeDamage = 10;
     public float explosionRadius = 5f;
@@ -90,7 +94,7 @@ public class StoneGolemBoss : MonoBehaviour
 
         Destroy(transform.Find("Tendrils").gameObject);
         Destroy(heart.gameObject);
-        Destroy(gameObject, 10f);
+        Destroy(gameObject, 7f);
 
         dead = false;
     }
@@ -151,29 +155,38 @@ public class StoneGolemBoss : MonoBehaviour
         // Create the black hole
         Transform target = leftArmRig.transform.Find("LeftArmTarget");
         GameObject particles = Instantiate(blackHoleParticles, Vector3.Scale(target.position, new Vector3(1,1,0)) + new Vector3(0,0,-1), Quaternion.identity);
-        Destroy(particles, 5f);
+        Destroy(particles, 7f);
 
+        Rigidbody player = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
         time = 0f;
         while (time < 5f)
         {
             time += Time.deltaTime;
             // pull the player towards the black hole
-            Rigidbody player = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
-            player.AddForce((target.position - player.position) * 50f);
+            player.AddForce((target.position - player.position) * 50f * blackHoleForce);
 
             List<LaserBender> benders = new List<LaserBender>(laser.benders);
             foreach (LaserBender bender in benders)
             {
-                bender.GetComponent<Rigidbody>().AddForce((target.position - bender.transform.position) * 1000f);
+                bender.GetComponent<Rigidbody>().AddForce((target.position - bender.transform.position) * 1000f * blackHoleForce);
+            }
+            List<Rigidbody> platformsRigidbodies = new List<Rigidbody>(platforms.GetComponentsInChildren<Rigidbody>());
+            foreach (Rigidbody rb in platformsRigidbodies)
+            {
+                rb.AddForce((target.position - rb.transform.position) * 20000f * blackHoleForce);
             }
 
             yield return null;
         }
 
         time = 0f;
+        Vector3 scale = particles.transform.localScale;
         while (time < 1f)
         {
             leftArmRig.weight = Mathf.Lerp(1f, 0f, time);
+            particles.GetComponent<AudioSource>().volume = Mathf.Lerp(1f, 0f, time);  
+            particles.transform.localScale = Vector3.Lerp(scale, Vector3.zero, time); 
+
             time += Time.deltaTime;
             yield return null;
         }
