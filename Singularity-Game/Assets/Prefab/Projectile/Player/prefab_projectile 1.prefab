@@ -63,6 +63,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileSpeed: 0
   mode: 2
+  ignoreCollisionWithTag:
+  - Player
+  - FOV
+  - Bonfire
+  - Projectile
+  - loot
 --- !u!198 &-6047080249484041264
 ParticleSystem:
   m_ObjectHideFlags: 0

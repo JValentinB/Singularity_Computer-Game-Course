@@ -62,7 +62,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 344df34739a0fbc459c138dea280c50e, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.057
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -160,6 +160,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileSpeed: 0
   mode: 2
+  ignoreCollisionWithTag:
+  - Player
+  - FOV
 --- !u!54 &-9048711250782130996
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -95,8 +95,8 @@ GameObject:
   - component: {fileID: 1565794307193046510}
   - component: {fileID: 8640531535211906933}
   m_Layer: 0
-  m_Name: prefab_lootbag
-  m_TagString: Untagged
+  m_Name: prefab_lootBag
+  m_TagString: loot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,7 +147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62c22e107183088479eb6c495452a5c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 0}
 --- !u!1 &2816754141601773388
 GameObject:
   m_ObjectHideFlags: 0

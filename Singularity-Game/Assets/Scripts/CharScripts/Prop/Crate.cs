@@ -6,6 +6,12 @@ using Random = UnityEngine.Random;
 public class Crate : Prop
 {
 
+    public bool drop_shifter_ammo = true;
+    public int shifter_projectile_ammo = 3;
+
+    public bool drop_bh_ammo = true;
+    public int black_hole_ammo = 3;
+
     void Start(){
         //Components
         rb = GetComponent<Rigidbody>();
@@ -29,9 +35,9 @@ public class Crate : Prop
     {
         
 
-        inventory.AddItem(inventory.GetItem(0), 3);
-        inventory.AddItem(inventory.GetItem(1), 3);
-        inventory.AddItem(inventory.GetItem(2), 3);
+        if(drop_shifter_ammo) inventory.AddItem(inventory.GetItem(1), shifter_projectile_ammo);
+
+        if(drop_bh_ammo) inventory.AddItem(inventory.GetItem(2), black_hole_ammo);
 
         var fixedPos = new Vector3(transform.position.x, transform.position.y-1f, transform.position.z);
         GameObject lootObject = Instantiate(lootPrefab, fixedPos, transform.rotation);
