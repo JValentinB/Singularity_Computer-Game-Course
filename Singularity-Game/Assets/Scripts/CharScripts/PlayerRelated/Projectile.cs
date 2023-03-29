@@ -17,26 +17,21 @@ public class Projectile : MonoBehaviour
     private Vector3 stop_pos;
     [SerializeField] private List<string> ignoreCollisionWithTag = new List<string>(){
         "Player",
-        "FOV"
+        "FOV",
+        "Bonfire",
+        "Projectile"
     };
 
     void Start(){
         ps = GetComponent<ParticleSystem>();
         _ps = ps.main;
         ChangeColor();
-        if (mode == 2) { findcollision(); }
+        if (mode == 2) findcollision();
     }
 
     void Update(){
-        if(mode != 2)
-        {
-            Move();
-        }
-        else
-        {
-            if (foundhit && (stop_pos - transform.position).magnitude < 1) { }
-            else Move();
-        }
+        Move();
+
     }
 
     public void setProjectileConfig(Vector3 dir, float speed, int mode){
@@ -64,7 +59,7 @@ public class Projectile : MonoBehaviour
                 dmg = 20;
                 break;
             case 2:
-                _ps.startColor = new Color(0f, 0f, 0f, 1f);
+                //_ps.startColor = new Color(0f, 0f, 0f, 1f);
                 break;
             case 3:
                 _ps.startColor = new Color(1f, 1f, 1f, 1f);
@@ -92,6 +87,7 @@ public class Projectile : MonoBehaviour
     }
 
     private void Move(){
+        if (mode == 2 && foundhit && (stop_pos - transform.position).magnitude < 1) return;
         transform.Translate(dir * projectileSpeed * Time.deltaTime);
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
@@ -107,7 +103,7 @@ public class Projectile : MonoBehaviour
         if(Physics.Raycast(ray, out hit, 60, layerMask))
         {
             stop_pos = hit.point;
-            Debug.Log(stop_pos);
+            //Debug.Log(stop_pos);
             foundhit = true;
             
         }
@@ -138,10 +134,11 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerStay(Collider col)
     {
+        if (mode != 2) return;
         var obj = col.gameObject;
         Vector3 projectile_pos = GetComponent<Transform>().position;
         bool has_damageable = obj.GetComponent<Damageable>() != null;
-        if (mode == 2 && obj.tag != "Player" && has_damageable)
+        if (obj.tag != "Player" && has_damageable)
         {
             var obj_rb = obj.GetComponent<Rigidbody>();
             Vector3 obj_pos = obj.GetComponent<Transform>().position;

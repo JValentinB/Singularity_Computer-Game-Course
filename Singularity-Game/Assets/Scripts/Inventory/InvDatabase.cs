@@ -5,7 +5,6 @@ using UnityEngine;
 public class InvDatabase
 {
     public List<InvItem> databaseItems = new List<InvItem>(){
-        new InvItem(0, "0", "0", null),
         new InvItem(1, "1", "1", null),
         new InvItem(2, "2", "2", null)
 };

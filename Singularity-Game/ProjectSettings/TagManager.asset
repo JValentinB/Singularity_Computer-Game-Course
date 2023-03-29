@@ -22,6 +22,9 @@ TagManager:
   - Prop
   - Projectile
   - prop
+  - Bonfire
+  - GolemHeart
+  - loot
   layers:
   - Default
   - TransparentFX
