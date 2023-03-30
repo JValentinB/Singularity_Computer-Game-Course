@@ -38,8 +38,8 @@ public class TreeBoss : Enemy
         rangeClose = 10f;
         rangeFar = 20f;
 
-        spikeCD = 2f;
-        projectileCD = 5f;
+        spikeCD = 3f;
+        projectileCD = 2f;
 
         playerScript = playerObject.GetComponent<Player>();
         bottomSideMidPos = bottomSide.transform.position;
@@ -65,7 +65,7 @@ public class TreeBoss : Enemy
 
     private void ChooseAttack(){
         var rand = Random.Range(0f, 1f);
-        if(rand < 0.5f)         ThrowProjectile();
+        if(rand < 0.65f)         ThrowProjectile();
         else                    RootSpikes();
     }
 
@@ -92,7 +92,7 @@ public class TreeBoss : Enemy
         }       
         
         spikeCounter = spikeCD;
-        remainingSpikes = 20;
+        remainingSpikes = 15;
         Debug.Log("ROOT SPIKES!");
     }
 

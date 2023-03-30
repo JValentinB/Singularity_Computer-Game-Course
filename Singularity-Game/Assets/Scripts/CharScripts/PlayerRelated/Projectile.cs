@@ -62,7 +62,7 @@ public class Projectile : MonoBehaviour
                 dmg = 20;
                 break;
             case 1:
-                _ps.startColor = new Color(1, 0.3322569f, 0f, 1f);
+                _ps.startColor = new Color(1f, 0.3322569f, 0f, 1f);
                 dmg = 20;
                 break;
             case 2:
