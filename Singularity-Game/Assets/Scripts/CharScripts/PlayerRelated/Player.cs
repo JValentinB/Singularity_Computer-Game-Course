@@ -9,7 +9,7 @@ public class Player : Character
     [Header("For the Player")]
     public int weaponMode = -1;
     public List<bool> unlockedWeaponModes = new List<bool>() { false, false, false, false };
-    public static List<bool> unlockedWeaponModes = unlockedWeaponModes;
+    private static List<bool> savedWeaponModes = new List<bool>() { false, false, false, false };
 
     [SerializeField] public bool doubleJump;
     [SerializeField] private GameObject projectile;
@@ -50,6 +50,7 @@ public class Player : Character
         rb.mass = mass;
         setDirectionShot = false;
         meleeDamage = 15;
+        unlockedWeaponModes = savedWeaponModes;
 
         scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
         inventory = new InvManager();
@@ -337,6 +338,14 @@ public class Player : Character
             sign = -1;
         }
         return sign == 1 ? fallingSpeed > speedThreshold : fallingSpeed < -speedThreshold;
+    }
+
+    public void SetSavedWeaponModes(List<bool> weaponModes){
+        savedWeaponModes = weaponModes;
+    }
+
+    public List<bool> GetSavedWeaponModes(){
+        return savedWeaponModes;
     }
 
     public void OnDeath()

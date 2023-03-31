@@ -11,17 +11,17 @@ public class Checkpoint : MonoBehaviour
     private Checkpoint[] checkpoints;
 
     void Start(){
-        checkpoints = FindObjectsOfType<Checkpoint>();
-
-        
+        checkpoints = FindObjectsOfType<Checkpoint>(); 
     }
 
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.tag == "Player" && !isCurrentCheckpoint)
         {
-            collision.GetComponent<Player>().setCheckPoint(transform.position);
-            collision.GetComponent<Player>().setFirstTime();
+            var playerScript = collision.GetComponent<Player>();
+            playerScript.setCheckPoint(transform.position);
+            playerScript.setFirstTime();
+            playerScript.SetSavedWeaponModes(playerScript.unlockedWeaponModes);
 
             foreach (Checkpoint checkpoint in checkpoints)
             {

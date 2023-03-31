@@ -15,7 +15,7 @@ public class SaveData
 
     public SaveData(Player player){
         health = player.currentHealth;
-        unlockedWeaponModes = player.unlockedWeaponModes;
+        unlockedWeaponModes = player.GetSavedWeaponModes();
         doubleJumpBoots = player.doubleJump;
 
         lastCheckpoint = new float[3];
