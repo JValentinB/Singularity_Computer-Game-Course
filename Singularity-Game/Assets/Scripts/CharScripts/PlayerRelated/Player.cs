@@ -9,6 +9,7 @@ public class Player : Character
     [Header("For the Player")]
     public int weaponMode = -1;
     public List<bool> unlockedWeaponModes = new List<bool>() { false, false, false, false };
+    public static List<bool> unlockedWeaponModes = unlockedWeaponModes;
 
     [SerializeField] public bool doubleJump;
     [SerializeField] private GameObject projectile;
