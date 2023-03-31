@@ -8,7 +8,7 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
-  m_EditorHideFlags: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 12004, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -19,7 +19,11 @@ MonoBehaviour:
     width: 2560
     height: 1336
   m_ShowMode: 4
+<<<<<<< HEAD
   m_Title: Scene
+=======
+  m_Title: Hierarchy
+>>>>>>> feature/UI/WeaponWheelInfoText
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +123,11 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
+<<<<<<< HEAD
   controlID: 86533
+=======
+  controlID: 13954
+>>>>>>> feature/UI/WeaponWheelInfoText
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -144,7 +152,11 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
+<<<<<<< HEAD
   controlID: 86534
+=======
+  controlID: 13955
+>>>>>>> feature/UI/WeaponWheelInfoText
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -164,12 +176,21 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
+<<<<<<< HEAD
     width: 2021
     height: 831
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
   controlID: 86535
+=======
+    width: 1481
+    height: 678
+  m_MinSize: {x: 200, y: 100}
+  m_MaxSize: {x: 16192, y: 8096}
+  vertical: 0
+  controlID: 13956
+>>>>>>> feature/UI/WeaponWheelInfoText
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -180,18 +201,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
+  m_Name: SceneHierarchyWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
+<<<<<<< HEAD
     width: 418
     height: 831
   m_MinSize: {x: 201, y: 221}
   m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 16}
+=======
+    width: 294
+    height: 678
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_ActualView: {fileID: 15}
+>>>>>>> feature/UI/WeaponWheelInfoText
   m_Panes:
   - {fileID: 16}
   m_Selected: 0
@@ -211,6 +240,7 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
+<<<<<<< HEAD
     x: 418
     y: 0
     width: 1603
@@ -218,12 +248,27 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 17}
+=======
+    x: 294
+    y: 0
+    width: 1187
+    height: 678
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
+  m_ActualView: {fileID: 16}
+>>>>>>> feature/UI/WeaponWheelInfoText
   m_Panes:
   - {fileID: 17}
   - {fileID: 18}
+<<<<<<< HEAD
   - {fileID: 19}
   m_Selected: 0
   m_LastSelected: 2
+=======
+  - {fileID: 14}
+  m_Selected: 0
+  m_LastSelected: 3
+>>>>>>> feature/UI/WeaponWheelInfoText
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -243,6 +288,7 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
+<<<<<<< HEAD
     y: 831
     width: 2021
     height: 455
@@ -250,6 +296,15 @@ MonoBehaviour:
   m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
   controlID: 86497
+=======
+    y: 678
+    width: 1481
+    height: 269
+  m_MinSize: {x: 200, y: 100}
+  m_MaxSize: {x: 16192, y: 8096}
+  vertical: 0
+  controlID: 13901
+>>>>>>> feature/UI/WeaponWheelInfoText
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -267,11 +322,19 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
+<<<<<<< HEAD
     width: 415
     height: 455
   m_MinSize: {x: 101, y: 121}
   m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 20}
+=======
+    width: 711
+    height: 269
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_ActualView: {fileID: 19}
+>>>>>>> feature/UI/WeaponWheelInfoText
   m_Panes:
   - {fileID: 20}
   m_Selected: 0
@@ -291,10 +354,17 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
+<<<<<<< HEAD
     x: 415
     y: 0
     width: 1072
     height: 455
+=======
+    x: 711
+    y: 0
+    width: 770
+    height: 269
+>>>>>>> feature/UI/WeaponWheelInfoText
   m_MinSize: {x: 232, y: 271}
   m_MaxSize: {x: 10002, y: 10021}
   m_ActualView: {fileID: 21}
@@ -303,7 +373,7 @@ MonoBehaviour:
   - {fileID: 22}
   - {fileID: 23}
   m_Selected: 0
-  m_LastSelected: 1
+  m_LastSelected: 2
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -365,11 +435,11 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
-  m_EditorHideFlags: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 12015, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MinSize: {x: 200, y: 200}
+  m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Game
@@ -377,23 +447,32 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
+<<<<<<< HEAD
     x: 1487
     y: 915
     width: 532
     height: 434
+=======
+    x: 294
+    y: 73
+    width: 1185
+    height: 657
+>>>>>>> feature/UI/WeaponWheelInfoText
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
     m_SaveData: []
-  m_SerializedViewNames:
-  - UnityEditor.DeviceSimulation.SimulatorWindow
-  m_SerializedViewValues:
-  - C:\Users\jovab\Documents\GitHub\Singularity_Computer-Game-Course\Singularity-Game\Library\PlayModeViewStates\a4046ba399f000946b5086960d69071e
+  m_SerializedViewNames: []
+  m_SerializedViewValues: []
   m_PlayModeViewName: GameView
   m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
+<<<<<<< HEAD
   m_TargetSize: {x: 1366, y: 768}
+=======
+  m_TargetSize: {x: 1185, y: 636}
+>>>>>>> feature/UI/WeaponWheelInfoText
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -401,17 +480,29 @@ MonoBehaviour:
   m_UseMipMap: 0
   m_VSyncEnabled: 0
   m_Gizmos: 0
+<<<<<<< HEAD
   m_Stats: 1
   m_SelectedSizes: 04000000000000000000000000000000000000000000000000000000000000000000000000000000
+=======
+  m_Stats: 0
+  m_SelectedSizes: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+>>>>>>> feature/UI/WeaponWheelInfoText
   m_ZoomArea:
     m_HRangeLocked: 0
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
+<<<<<<< HEAD
     m_HBaseRangeMin: -683
     m_HBaseRangeMax: 683
     m_VBaseRangeMin: -384
     m_VBaseRangeMax: 384
+=======
+    m_HBaseRangeMin: -592.5
+    m_HBaseRangeMax: 592.5
+    m_VBaseRangeMin: -318
+    m_VBaseRangeMax: 318
+>>>>>>> feature/UI/WeaponWheelInfoText
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -420,7 +511,7 @@ MonoBehaviour:
     m_HSlider: 1
     m_VSlider: 1
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -429,16 +520,24 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
+<<<<<<< HEAD
       width: 532
       height: 413
     m_Scale: {x: 1.5657165, y: 1.5657165}
     m_Translation: {x: 266, y: 206.5}
+=======
+      width: 1185
+      height: 636
+    m_Scale: {x: 1, y: 1}
+    m_Translation: {x: 592.5, y: 318}
+>>>>>>> feature/UI/WeaponWheelInfoText
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
+<<<<<<< HEAD
       x: -169.89027
       y: -131.8885
       width: 339.78055
@@ -446,6 +545,15 @@ MonoBehaviour:
     m_MinimalGUI: 1
   m_defaultScale: 0.38945827
   m_LastWindowPixelSize: {x: 532, y: 434}
+=======
+      x: -592.5
+      y: -318
+      width: 1185
+      height: 636
+    m_MinimalGUI: 1
+  m_defaultScale: 1
+  m_LastWindowPixelSize: {x: 1185, y: 657}
+>>>>>>> feature/UI/WeaponWheelInfoText
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -472,9 +580,15 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
+<<<<<<< HEAD
     y: 84
     width: 417
     height: 810
+=======
+    y: 73
+    width: 293
+    height: 657
+>>>>>>> feature/UI/WeaponWheelInfoText
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -484,7 +598,11 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 448}
       m_SelectedIDs: 
       m_LastClickedID: 0
+<<<<<<< HEAD
       m_ExpandedIDs: bef0d7ff9a02d8ff226dd8ffe091deff4ca0deff3cf1e2ff8c4be5ff2e78e7ff5637eefffe96fcffe2faffff406f000076710000e8710000b4740000b077000098780000b2790000f07b000080800000c4810000ec81000046870000d2880000e88a0000048d0000b48d00007e950300184b13009652130004581300a4351b0016371b00e4381b00fc381b00c43a1b00ea3b1b00fa3c1b003c401b00f8441b005c461b0084461b00a8461b00da471b00fe4b1b007a4e1b00c64f1b0052511b00aa521b00
+=======
+      m_ExpandedIDs: 8669fbff98b5ffff9cb5ffffb6b5ffffb8b5ffffccb5ffff1af5ffff
+>>>>>>> feature/UI/WeaponWheelInfoText
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -528,10 +646,17 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
+<<<<<<< HEAD
     x: 418
     y: 84
     width: 1601
     height: 810
+=======
+    x: 294
+    y: 73
+    width: 1185
+    height: 657
+>>>>>>> feature/UI/WeaponWheelInfoText
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -832,9 +957,15 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
+<<<<<<< HEAD
     m_Target: {x: -473.08426, y: -250.1912, z: 62.324905}
     speed: 2
     m_Value: {x: -473.08426, y: -250.1912, z: 62.324905}
+=======
+    m_Target: {x: 610.52203, y: 282.83005, z: -3.549628}
+    speed: 2
+    m_Value: {x: 605.97, y: 285.70044, z: -3.3666763}
+>>>>>>> feature/UI/WeaponWheelInfoText
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -885,9 +1016,15 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0.025493024, y: -0.017390238, z: 0.00042729956, w: 0.9995237}
   m_Size:
+<<<<<<< HEAD
     m_Target: 75.06151
     speed: 2
     m_Value: 75.06151
+=======
+    m_Target: 424.85416
+    speed: 2
+    m_Value: 406.559
+>>>>>>> feature/UI/WeaponWheelInfoText
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -928,14 +1065,14 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Package Manager
-    m_Image: {fileID: 5076950121296946556, guid: 0000000000000000d000000000000000, type: 0}
+    m_Image: {fileID: -2824328813065806953, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 222.66667
-    y: 72.66667
-    width: 857.3333
-    height: 357.66666
+    x: 294
+    y: 73
+    width: 1185
+    height: 657
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -1835,9 +1972,15 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
+<<<<<<< HEAD
     y: 915
     width: 414
     height: 434
+=======
+    y: 751
+    width: 710
+    height: 248
+>>>>>>> feature/UI/WeaponWheelInfoText
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -1862,10 +2005,17 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
+<<<<<<< HEAD
     x: 415
     y: 915
     width: 1070
     height: 434
+=======
+    x: 711
+    y: 751
+    width: 768
+    height: 248
+>>>>>>> feature/UI/WeaponWheelInfoText
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -1883,12 +2033,17 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
+<<<<<<< HEAD
     - Assets/Shader
+=======
+    - Assets/Scenes
+>>>>>>> feature/UI/WeaponWheelInfoText
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 67
   m_LastFolders:
+<<<<<<< HEAD
   - Assets/Shader
   m_LastFoldersGridSize: 67
   m_LastProjectPath: C:\Users\jovab\Documents\GitHub\Singularity_Computer-Game-Course\Singularity-Game
@@ -1899,6 +2054,18 @@ MonoBehaviour:
     m_SelectedIDs: 62a10000
     m_LastClickedID: 41314
     m_ExpandedIDs: 0000000014a0000016a0000018a000001aa000001ca000001ea0000020a0000022a0000024a0000026a0000028a000002aa000002ca000002ea0000030a0000032a0000034a0000036a0000038a000003aa000003ca000003ea0000040a0000042a0000044a0000046a0000048a000004aa000004ca000004ea0000050a0000052a0000054a0000056a0000058a000005aa000005ca000005ea0000060a0000062a0000064a0000000ca9a3b
+=======
+  - Assets/Scenes
+  m_LastFoldersGridSize: 53
+  m_LastProjectPath: S:\Users\sarac\Documents\GitHub\Singularity_Computer-Game-Course\Singularity-Game
+  m_LockTracker:
+    m_IsLocked: 0
+  m_FolderTreeState:
+    scrollPos: {x: 0, y: 300}
+    m_SelectedIDs: dca00000
+    m_LastClickedID: 41180
+    m_ExpandedIDs: 00000000aea00000daa0000004bf000000ca9a3bffffff7f
+>>>>>>> feature/UI/WeaponWheelInfoText
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1926,7 +2093,11 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 120}
     m_SelectedIDs: ce6dffff
     m_LastClickedID: -37426
+<<<<<<< HEAD
     m_ExpandedIDs: 0000000014a0000016a0000018a000001aa000001ca000001ea0000020a0000022a0000024a0000026a0000028a000002aa000002ca000002ea0000030a0000032a0000034a0000036a0000038a000003aa000003ca000003ea0000040a0000042a0000044a0000046a0000048a000004aa000004ca000004ea0000050a0000052a0000054a0000056a0000058a000005aa000005ca000005ea0000060a0000062a0000064a0000000ca9a3b
+=======
+    m_ExpandedIDs: 00000000aea0000000ca9a3bffffff7f
+>>>>>>> feature/UI/WeaponWheelInfoText
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1953,8 +2124,13 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
+<<<<<<< HEAD
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c62300005a2a00004868000086680000d4a20000045f030044cc00001e7e010050920000a41a010016850000d0a5fdff868900000e8600006a470500f8ac0000d4790000686b0000d88b0000e08b000000000000
+=======
+    m_HadKeyboardFocusLastEvent: 1
+    m_ExpandedInstanceIDs: c62300005a2a00004868000086680000d4a20000045f030044cc00001e7e010050920000a41a010016850000d0a5fdff868900000e8600006a470500f8ac0000d4790000686b00004691000000000000086b0000e8c70000
+>>>>>>> feature/UI/WeaponWheelInfoText
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -2002,10 +2178,17 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
+<<<<<<< HEAD
     x: 419
     y: 925
     width: 1066
     height: 424
+=======
+    x: 711
+    y: 751
+    width: 768
+    height: 248
+>>>>>>> feature/UI/WeaponWheelInfoText
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -2023,6 +2206,7 @@ MonoBehaviour:
     - {fileID: 8600080041306431713, guid: a27ad9df6f2ff2a4a969a274570e23fd, type: 2}
     - {fileID: -6707407576082541109, guid: 18e862cdaa48af045a02230d5c3f3806, type: 2}
     - {fileID: 5639401649193125373, guid: 6838219f42ad4a143971a3abac62fd7b, type: 2}
+<<<<<<< HEAD
     - {fileID: 3069939916433935778, guid: 859f37841c99bdb448f01eca23e4f665, type: 2}
     - {fileID: -5966542099722551627, guid: 54461cfcbac61ca45b5218bc2cdbce3f, type: 2}
     - {fileID: 5034871793963918889, guid: 859f37841c99bdb448f01eca23e4f665, type: 2}
@@ -2036,6 +2220,21 @@ MonoBehaviour:
       e11: 0.46878308
       e12: 0
       e13: 131.5582
+=======
+    - {fileID: 4714952974145017551, guid: db214f37c4994104aa0151f8eee9b90f, type: 2}
+    - {fileID: -2825474387205070770, guid: c6fd2b160eeaa184eb01b05aa3cd679d, type: 2}
+    - {fileID: 213933305047411628, guid: f3fd19888db503d4c9505c5c72133401, type: 2}
+    - {fileID: 3269600901279924259, guid: e222d9521b2423c4b870d58b287c22ca, type: 2}
+    m_ValueSerializationHelper:
+    - e00: 0.23968254
+      e01: 0
+      e02: 0
+      e03: 156.41269
+      e10: 0
+      e11: 0.23968254
+      e12: 0
+      e13: 73.34127
+>>>>>>> feature/UI/WeaponWheelInfoText
       e20: 0
       e21: 0
       e22: 1
@@ -2060,14 +2259,22 @@ MonoBehaviour:
       e31: 0
       e32: 0
       e33: 1
-    - e00: 0.9789938
+    - e00: 0.4343848
       e01: 0
       e02: 0
+<<<<<<< HEAD
       e03: -186.99878
+=======
+      e03: 122.060196
+>>>>>>> feature/UI/WeaponWheelInfoText
       e10: 0
-      e11: 0.9789938
+      e11: 0.4343848
       e12: 0
+<<<<<<< HEAD
       e13: 97.93481
+=======
+      e13: 51.24546
+>>>>>>> feature/UI/WeaponWheelInfoText
       e20: 0
       e21: 0
       e22: 1
@@ -2108,14 +2315,22 @@ MonoBehaviour:
       e31: 0
       e32: 0
       e33: 1
-    - e00: 0.8765579
+    - e00: 0.2637749
       e01: 0
       e02: 0
+<<<<<<< HEAD
       e03: -83.986206
+=======
+      e03: 176.47461
+>>>>>>> feature/UI/WeaponWheelInfoText
       e10: 0
-      e11: 0.8765579
+      e11: 0.2637749
       e12: 0
+<<<<<<< HEAD
       e13: 87.296875
+=======
+      e13: 26.339363
+>>>>>>> feature/UI/WeaponWheelInfoText
       e20: 0
       e21: 0
       e22: 1
@@ -2204,6 +2419,7 @@ MonoBehaviour:
       e31: 0
       e32: 0
       e33: 1
+<<<<<<< HEAD
     - e00: 0.8831579
       e01: 0
       e02: 0
@@ -2212,6 +2428,16 @@ MonoBehaviour:
       e11: 0.8831579
       e12: 0
       e13: 108.6
+=======
+    - e00: 0.44801238
+      e01: 0
+      e02: 0
+      e03: 230.35606
+      e10: 0
+      e11: 0.44801238
+      e12: 0
+      e13: 45.17536
+>>>>>>> feature/UI/WeaponWheelInfoText
       e20: 0
       e21: 0
       e22: 1
@@ -2220,6 +2446,7 @@ MonoBehaviour:
       e31: 0
       e32: 0
       e33: 1
+<<<<<<< HEAD
     - e00: 1.2800244
       e01: 0
       e02: 0
@@ -2228,6 +2455,16 @@ MonoBehaviour:
       e11: 1.2800244
       e12: 0
       e13: -14.461884
+=======
+    - e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+>>>>>>> feature/UI/WeaponWheelInfoText
       e20: 0
       e21: 0
       e22: 1
@@ -2236,6 +2473,7 @@ MonoBehaviour:
       e31: 0
       e32: 0
       e33: 1
+<<<<<<< HEAD
     - e00: 0.8831579
       e01: 0
       e02: 0
@@ -2244,6 +2482,16 @@ MonoBehaviour:
       e11: 0.8831579
       e12: 0
       e13: 60.026306
+=======
+    - e00: 0.471875
+      e01: 0
+      e02: 0
+      e03: -3.875
+      e10: 0
+      e11: 0.471875
+      e12: 0
+      e13: 54.953144
+>>>>>>> feature/UI/WeaponWheelInfoText
       e20: 0
       e21: 0
       e22: 1
@@ -2252,6 +2500,7 @@ MonoBehaviour:
       e31: 0
       e32: 0
       e33: 1
+<<<<<<< HEAD
     - e00: 0.6925797
       e01: 0
       e02: 0
@@ -2260,6 +2509,16 @@ MonoBehaviour:
       e11: 0.6925797
       e12: 0
       e13: 76.06019
+=======
+    - e00: 0.5022708
+      e01: 0
+      e02: 0
+      e03: -0.22616577
+      e10: 0
+      e11: 0.5022708
+      e12: 0
+      e13: 45.24189
+>>>>>>> feature/UI/WeaponWheelInfoText
       e20: 0
       e21: 0
       e22: 1
@@ -2269,9 +2528,15 @@ MonoBehaviour:
       e32: 0
       e33: 1
   m_PreviewAnimator: {fileID: 0}
+<<<<<<< HEAD
   m_AnimatorController: {fileID: 9100000, guid: 859f37841c99bdb448f01eca23e4f665, type: 2}
   m_BreadCrumbs:
   - m_Target: {fileID: 3069939916433935778, guid: 859f37841c99bdb448f01eca23e4f665, type: 2}
+=======
+  m_AnimatorController: {fileID: 9100000, guid: db214f37c4994104aa0151f8eee9b90f, type: 2}
+  m_BreadCrumbs:
+  - m_Target: {fileID: 4714952974145017551, guid: db214f37c4994104aa0151f8eee9b90f, type: 2}
+>>>>>>> feature/UI/WeaponWheelInfoText
     m_ScrollPosition: {x: 0, y: 0}
   stateMachineGraph: {fileID: 0}
   stateMachineGraphGUI: {fileID: 0}
@@ -2304,18 +2569,30 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
+<<<<<<< HEAD
     x: 419
     y: 925
     width: 1019
     height: 424
+=======
+    x: 711
+    y: 751
+    width: 768
+    height: 248
+>>>>>>> feature/UI/WeaponWheelInfoText
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_LockTracker:
     m_IsLocked: 0
+<<<<<<< HEAD
   m_LastSelectedObjectID: 1787156
 --- !u!114 &24
+=======
+  m_LastSelectedObjectID: 34712
+--- !u!114 &23
+>>>>>>> feature/UI/WeaponWheelInfoText
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
