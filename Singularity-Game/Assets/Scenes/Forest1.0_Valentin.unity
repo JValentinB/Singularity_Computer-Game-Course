@@ -20655,6 +20655,7 @@ MonoBehaviour:
   inventoryUI: {fileID: 963284071}
   inventoryInfoTextPanel: {fileID: 1891372774}
   activeModeDisplay: {fileID: 1904484823}
+  healthBar: {fileID: 965364140}
   modeId: 0
   modeImage: {fileID: 0}
   unlockedWeaponModes: 
@@ -57770,7 +57771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cab7ed7487f4ea14d910d4ecc123f861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 1000
+  currentHealth: 10
   maxHealth: 1000
   direction: 0
   shift: 0
@@ -64855,6 +64856,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 965364139}
+  - component: {fileID: 965364140}
   m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
@@ -64881,6 +64883,22 @@ Transform:
   m_Father: {fileID: 1234125127}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &965364140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965364138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a250317c766a7a647a486de39fe172fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 0
+  maxHealth: 0
+  frontBar: {fileID: 596012481}
+  backBar: {fileID: 1943825027}
 --- !u!1 &966175026
 GameObject:
   m_ObjectHideFlags: 0
@@ -110453,7 +110471,7 @@ GameObject:
   - component: {fileID: 1773962822}
   - component: {fileID: 1773962821}
   m_Layer: 5
-  m_Name: UI_WeaponWheel (1)
+  m_Name: UI_WeaponWheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
