@@ -19,6 +19,10 @@
     width: 25%;
   }
 
+  .bg-black {
+    background-color: black;
+  }
+
   .button {
     display: inline-block;
     border-radius: 4px;
@@ -33,43 +37,68 @@
     cursor: pointer;
     margin: 5px;
   }
+
   .dl-button {
     background-color: #583571;
   }
-  
+
   .button span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
-}
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
 
-.button span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
-}
+  .button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
 
-.button:hover{
-  background-color: #826794;
-}
+  .button:hover {
+    background-color: #826794;
+  }
 
-.button:hover span {
-  padding-right: 25px;
+  .button:hover span {
+    padding-right: 25px;
 
-}
+  }
 
-.button:hover span:after {
-  opacity: 1;
-  right: 0; 
-}
+  .button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
 </style>
 <style>
   body {
     position: relative;
+  }
+
+  .footer {
+    padding-top: 200px;
+  }
+
+  .unorderedList {
+    list-style: none;
+  }
+
+  .listItem {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 71px;
+  }
+
+  .ltt {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 18px;
+  }
+
+  .ltt:hover {
+    color: #adadad;
   }
 </style>
 
@@ -78,7 +107,7 @@
 <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50" class="bg-image">
 
   <!--NavigationBar-->
-  <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+  <nav class="navbar navbar-expand-lg bg-black navbar-dark fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="./index.html">
         <img src="./logo_hd_bloom_noBG.png" alt="Logo" width="200px" height="35px">
@@ -101,7 +130,7 @@
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="#">Assets</a></li>
-              <li><a class="dropdown-item" href="#">About</a></li>
+              <li><a class="dropdown-item" href="#About">About</a></li>
               <li><a class="dropdown-item" href="#">Credits</a></li>
             </ul>
           </li>
@@ -112,8 +141,43 @@
     </div>
   </nav>
 
-  <!--Textbody-->
-  <div class="container bg-dark">
+
+  <!--Screenshot Carousel-->
+  <div id="carouselExampleIndicators" class="carousel slide">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+        aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+        aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+        aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="bsp1.jfif" class="d-block w-100 screenshot" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="bsp2.png" class="d-block w-100 screenshot" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="bsp3.jpg" class="d-block w-100 screenshot" alt="...">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+      data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+      data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <div class="container bg-black">
+    <!--Textbody-->
+
     <div id="Story" class="text-white" style="padding:100px 20px;">
       <p>
         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
@@ -210,46 +274,15 @@
 
     <br>
 
-    <!--Screenshot Carousel-->
-    <div id="carouselExampleIndicators" class="carousel slide">
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-          aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-          aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-          aria-label="Slide 3"></button>
-      </div>
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="bsp1.jfif" class="d-block w-100 screenshot" alt="...">
-        </div>
-        <div class="carousel-item">
-          <img src="bsp2.png" class="d-block w-100 screenshot" alt="...">
-        </div>
-        <div class="carousel-item">
-          <img src="bsp3.jpg" class="d-block w-100 screenshot" alt="...">
-        </div>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-        data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-        data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
+
 
   </div>
 
   <!--footer-->
-  <div class="footer text-white bg-dark">
+  <div class="footer text-white bg-black">
     <div class="container">
       <div class="row">
-        <div class="col-lg-3 col-sm-6 container">
+        <div id="About" class="col-lg-3 col-sm-6 container">
           <h5>About</h5>
           <p>
             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
@@ -261,30 +294,35 @@
           </p>
         </div>
         <div class="col-lg-3 col-sm-6 container">
-          <h5>About</h5>
-          <p>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-            dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-            clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-            consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-            sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
-            sea takimata sanctus est Lorem ipsum dolor sit amet.
-          </p>
+          <aside>
+            <h5 style="text-align: center">Useful links</h5>
+            <ul class="unorderedList">
+              <li class="listItem">
+                <a class="ltt" href="./index.html"><b>Home</b></a>
+              </li>
+              <li class="listItem">
+                <a class="ltt" href="#Story"><b>Story</b></a>
+              </li>
+              <li class="listItem">
+                <a class="ltt" href="#Trailer"><b>Gameplay</b></a>
+              </li>
+            </ul>
+          </aside>
+
         </div>
         <div class="col-lg-3 col-sm-6 container">
-          <h5>About</h5>
-          <p>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-            dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-            clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-            consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-            sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
-            sea takimata sanctus est Lorem ipsum dolor sit amet.
-          </p>
+          <h5 style="text-align: center">Impressum</h5>
+          <ul class="unorderedList">
+            <li class="listItem">
+              <a class="ltt" href="./impressum.html"><b>Terms of Service</b></a>
+            </li>
+            <li class="listItem">
+              <a class="ltt" href="./impressum.html"><b>Privacy Policy</b></a>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
-
   </div>
 
 
