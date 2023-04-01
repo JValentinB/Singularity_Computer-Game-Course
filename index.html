@@ -9,10 +9,63 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 <style>
+  .bg-image {
+    background-image: url('./andy-holmes-LUpDjlJv4_c-unsplash.jpg');
+    height: 100vh;
+  }
+
   .screenshot {
     height: 25%;
     width: 25%;
   }
+
+  .button {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 23px;
+    padding: 10px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+  .dl-button {
+    background-color: #583571;
+  }
+  
+  .button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover{
+  background-color: #826794;
+}
+
+.button:hover span {
+  padding-right: 25px;
+
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0; 
+}
 </style>
 <style>
   body {
@@ -22,13 +75,13 @@
 
 </head>
 
-<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50" class="bg-dark">
+<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50" class="bg-image">
 
   <!--NavigationBar-->
   <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-        <img src="./logo_hd_bloom.png" alt="Logo" width="200px" height="35px">
+      <a class="navbar-brand" href="./index.html">
+        <img src="./logo_hd_bloom_noBG.png" alt="Logo" width="200px" height="35px">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
         aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,9 +89,6 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="./index.html">Home</a>
-          </li>
           <li class="nav-item">
             <a class="nav-link" href="#Story">Story</a>
           </li>
@@ -57,11 +107,13 @@
           </li>
         </ul>
       </div>
+      <a class="button dl-button" href="./index.html"><span>Download </span></a>
+      </button>
     </div>
   </nav>
 
   <!--Textbody-->
-  <div class="container">
+  <div class="container bg-dark">
     <div id="Story" class="text-white" style="padding:100px 20px;">
       <p>
         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
@@ -194,7 +246,7 @@
   </div>
 
   <!--footer-->
-  <div class="footer text-white">
+  <div class="footer text-white bg-dark">
     <div class="container">
       <div class="row">
         <div class="col-lg-3 col-sm-6 container">
