@@ -8,7 +8,7 @@ public class StaffStoneControl : MonoBehaviour
     [Header("Add a new Material here. Order matters!")]
     [SerializeField] private List<Material> weaponMaterials;
     private int currentMode;
-    public bool meleeAttack;
+    //public bool meleeAttack;
     private GameObject player;
 
     void Start()
@@ -32,7 +32,7 @@ public class StaffStoneControl : MonoBehaviour
         rend.material = weaponMaterials[currentMode];
     }
 
-    private bool CheckMeleeAttack(){
+    public bool CheckMeleeAttack(){
         return !player.GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsName("Empty");
     }
 

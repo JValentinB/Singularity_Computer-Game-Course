@@ -61782,7 +61782,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: bd72591916fca704981cfd937781f621, type: 2}
   - {fileID: 2100000, guid: 03b2114390be185479163b7b267f2a38, type: 2}
   - {fileID: 2100000, guid: 4bf6e837c76d73d48a8b88fd302a7dd8, type: 2}
-  meleeAttack: 0
 --- !u!136 &786238904
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -63711,11 +63710,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -289.3
+      value: -372
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 435.6
+      value: -133
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 634fa0ac2a1e08e4facdf76e15b77e29, type: 3}
       propertyPath: m_LocalPosition.z

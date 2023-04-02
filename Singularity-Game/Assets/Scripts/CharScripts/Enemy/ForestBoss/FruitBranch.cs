@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class FruitBranch : MonoBehaviour
 {
-    [SerializeField] private GameObject bombFruit;
-    [SerializeField] private GameObject branchPiece;
+    [SerializeField] private GameObject bombFruit, branchPiece, fruitDummy;
     [Header("Position of the fruit relative to the branch")]
-    [SerializeField] private Vector3 relativeFruitPos;
+    [SerializeField] private Vector3 relativeFruitPos, dummyStartPos;
     [SerializeField] private float regrowTime;
     private float regrowCounter;
-    private GameObject fruitObject;
+    private GameObject fruitObject, dummyObject;
     private bool regrown;
 
     void Start()
@@ -27,7 +26,8 @@ public class FruitBranch : MonoBehaviour
         if(regrown) return;
         if(regrowCounter > 0f){
             regrowCounter -= Time.deltaTime;
-            //Maybe grow dummy fruit slowly while regrowing
+            /* float newScale = regrowCounter;
+            dummyObject.transform.localScale = new Vector3(newScale, newScale, newScale); */
             //dummy fruit is only mesh. No script, collider, etc.
             return;
         }
@@ -42,6 +42,7 @@ public class FruitBranch : MonoBehaviour
         fruitObject.GetComponent<BombFruit>().released = true;
         regrowCounter = regrowTime;
         regrown = false;
+        //dummyObject = Instantiate(fruitDummy, dummyStartPos, Quaternion.identity);
     }
 
     private void createPieces(){
@@ -54,7 +55,8 @@ public class FruitBranch : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider col){
-        if(col.gameObject.tag == "Staffstone" && regrown){
+        var obj = col.gameObject;
+        if(regrown && obj.tag == "Staffstone" && obj.GetComponent<StaffStoneControl>().CheckMeleeAttack()){
             ReleaseFruit();
         }
     }
