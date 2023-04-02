@@ -20,7 +20,7 @@ public class WeaponWheelInfoController : MonoBehaviour
         modeDescriptions = new List<string>();
         for(var i = 0; i < 4; i++){
             InvItem modeItem = invDatabase.GetItem(i);
-            Debug.Log(modeItem.itemName);
+            // Debug.Log(modeItem.itemName);
             modeNames.Add(modeItem.itemName);
             modeDescriptions.Add(modeItem.description);
         }
