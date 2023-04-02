@@ -19,7 +19,7 @@ public class Projectile : MonoBehaviour
         "Player",
         "FOV",
         "Bonfire",
-        "Projectile"
+        "Projectile",
         "TreeBoss",
         "IgnoreCollision"
     };
