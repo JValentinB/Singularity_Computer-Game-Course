@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject inventoryUI;
     [SerializeField] private GameObject inventoryInfoTextPanel;
     [SerializeField] private GameObject activeModeDisplay;
+    [SerializeField] private HealthBar healthBar;
     private Animator inventoryAnimator, inventoryInfoTextPanelAnimator;
     public int modeId;
     public Sprite modeImage;
@@ -31,6 +32,7 @@ public class UIManager : MonoBehaviour
         OpenCloseInventory();
         OpenCloseWeaponWheel();
         UpdateWeaponMode();
+        UpdateHealthBar();
     }
 
     public void OpenCloseInventory()
@@ -73,5 +75,10 @@ public class UIManager : MonoBehaviour
             activeModeDisplay.GetComponent<Image>().preserveAspect = true;
             player.ChangeBulletMode(modeId);
         }
+    }
+
+    public void UpdateHealthBar(){
+        healthBar.currentHealth = player.currentHealth;
+        healthBar.maxHealth = player.maxHealth;
     }
 }

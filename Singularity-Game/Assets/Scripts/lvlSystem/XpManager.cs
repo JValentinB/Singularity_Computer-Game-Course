@@ -20,16 +20,6 @@ public class XpManager : MonoBehaviour
         UpdateXpUi();
     }
     
-    public static XpManager instance;
-
-    private void Awake(){
-        if (instance == null) {
-            instance = this;
-        } else {
-            Destroy(gameObject);
-        }
-    }
-
     public void GainXp(int xp){
         currentXp += xp;
         lerpTimer = 0f;
