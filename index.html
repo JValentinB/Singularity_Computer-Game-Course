@@ -71,6 +71,10 @@
     opacity: 1;
     right: 0;
   }
+
+  .dd:hover {
+    background-color: #adadad;
+  }
 </style>
 <style>
   body {
@@ -78,7 +82,7 @@
   }
 
   .footer {
-    padding-top: 200px;
+    padding-top: 150px;
   }
 
   .unorderedList {
@@ -88,7 +92,7 @@
   .listItem {
     padding-top: 15px;
     padding-bottom: 15px;
-    padding-left: 71px;
+    padding-left: 52px;
   }
 
   .ltt {
@@ -128,15 +132,15 @@
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Development
             </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Assets</a></li>
-              <li><a class="dropdown-item" href="#About">About</a></li>
-              <li><a class="dropdown-item" href="#">Credits</a></li>
+            <ul class="dropdown-menu bg-dark">
+              <li><a class="dropdown-item text-white dd " href="#">Assets</a></li>
+              <li><a class="dropdown-item text-white dd" href="#About">About</a></li>
+              <li><a class="dropdown-item text-white dd" href="#Creds">Credits</a></li>
             </ul>
           </li>
         </ul>
       </div>
-      <a class="button dl-button" href="./index.html"><span>Download </span></a>
+      <a class="button dl-button" href="./index.html"><span>Download</span></a>
       </button>
     </div>
   </nav>
@@ -175,10 +179,10 @@
     </button>
   </div>
 
-  <div class="container bg-black">
+  <div style="padding-bottom: 50px" class="container bg-black">
     <!--Textbody-->
 
-    <div id="Story" class="text-white" style="padding:100px 20px;">
+    <div id="Story" class="text-white" style="padding:100px;">
       <p>
         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
         dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
@@ -279,47 +283,53 @@
   </div>
 
   <!--footer-->
-  <div class="footer text-white bg-black">
-    <div class="container">
-      <div class="row">
-        <div id="About" class="col-lg-3 col-sm-6 container">
-          <h5>About</h5>
-          <p>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-            dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-            clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-            consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-            sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
-            sea takimata sanctus est Lorem ipsum dolor sit amet.
-          </p>
-        </div>
-        <div class="col-lg-3 col-sm-6 container">
-          <aside>
-            <h5 style="text-align: center">Useful links</h5>
+  <div class="footer text-white">
+    <div style="padding-top:50px; padding-bottom:50px" class="bg-black">
+      <div class="container">
+        <div class="row">
+          <div id="About" class="col-lg-3 col-sm-6 container">
+            <h3 style="text-align: center">About</h3>
+            <p>
+              We are developing our own computer game for the Computer Games & Visual Effects-Course!
+              There is only one specification given, the keyword for the primary game mechanic is "Attraction".
+
+              Our game will be a metroidvania, a 2D-Jump'n'Run/Sidescroller. As the player you will discover an
+              interconnected map of several areas. To reach the next area you first have to find special items
+              or skills.
+
+              All items, skills and weapons are centered around the keyword "Attraction". Furthermore we interpret
+              "Attraction" as a physical term and will be used as a synonym for gravity.
+
+            </p>
+          </div>
+          <div class="col-lg-3 col-sm-6 container">
+            <aside>
+              <h3 style="text-align: center">Useful links</h3>
+              <ul class="unorderedList">
+                <li class="listItem">
+                  <a class="ltt" href="./index.html"><b>Home</b></a>
+                </li>
+                <li class="listItem">
+                  <a class="ltt" href="#Story"><b>Story</b></a>
+                </li>
+                <li class="listItem">
+                  <a class="ltt" href="#Trailer"><b>Gameplay</b></a>
+                </li>
+              </ul>
+            </aside>
+
+          </div>
+          <div class="col-lg-3 col-sm-6 container">
+            <h3 id="Creds" style="text-align: center">Impressum</h3>
             <ul class="unorderedList">
               <li class="listItem">
-                <a class="ltt" href="./index.html"><b>Home</b></a>
+                <a class="ltt" href="./impressum.html"><b>Terms of Service</b></a>
               </li>
               <li class="listItem">
-                <a class="ltt" href="#Story"><b>Story</b></a>
-              </li>
-              <li class="listItem">
-                <a class="ltt" href="#Trailer"><b>Gameplay</b></a>
+                <a class="ltt" href="./impressum.html"><b>Privacy Policy</b></a>
               </li>
             </ul>
-          </aside>
-
-        </div>
-        <div class="col-lg-3 col-sm-6 container">
-          <h5 style="text-align: center">Impressum</h5>
-          <ul class="unorderedList">
-            <li class="listItem">
-              <a class="ltt" href="./impressum.html"><b>Terms of Service</b></a>
-            </li>
-            <li class="listItem">
-              <a class="ltt" href="./impressum.html"><b>Privacy Policy</b></a>
-            </li>
-          </ul>
+          </div>
         </div>
       </div>
     </div>
