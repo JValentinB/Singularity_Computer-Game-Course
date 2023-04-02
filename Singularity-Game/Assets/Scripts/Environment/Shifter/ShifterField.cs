@@ -38,7 +38,7 @@ public class ShifterField : MonoBehaviour
                 _psMain.gravityModifier = -0.2f;
             } else if(!active){
                 _psShape.position = inactivePos;
-                _psMain.gravityModifier = 0.1f;
+                _psMain.gravityModifier = 1f;
             }
         }
     }

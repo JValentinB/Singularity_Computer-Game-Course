@@ -25,6 +25,8 @@ TagManager:
   - Bonfire
   - GolemHeart
   - loot
+  - RootBridge
+  - IgnoreCollision
   layers:
   - Default
   - TransparentFX
