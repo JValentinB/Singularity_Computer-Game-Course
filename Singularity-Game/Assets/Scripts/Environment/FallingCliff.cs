@@ -68,11 +68,13 @@ public class FallingCliff : MonoBehaviour
 
         }
     }
+    
     private void OnCollisionExit(Collision other)
     {
         if (!isFalling && triggerEvent == TriggerEvent.StandingOnCliff && other.collider.CompareTag("Player"))
         {
-            StopCoroutine(rumblingCoroutine);
+            if(rumblingCoroutine != null)
+                StopCoroutine(rumblingCoroutine);
             isRumbling = false;
             fadeOutCoroutine = StartCoroutine(audioManager.fadeOut(audioManager.environmentSounds, "CliffRumbling", 4f));
         }

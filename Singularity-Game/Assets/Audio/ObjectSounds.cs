@@ -57,6 +57,18 @@ public class ObjectSounds : MonoBehaviour
             Stop(name);
     }
 
+    public IEnumerator risePitch(string name, float targetPitch, float riseTime){
+        float startPitch = getSourcePitch(name);
+        float time = 0f;
+        while (time < riseTime)
+        {
+            time += Time.deltaTime;
+            float pitch = Mathf.Lerp(startPitch, targetPitch, time / riseTime);
+            setSourcePitch(name, pitch);
+            yield return null;
+        }
+    }
+
     public bool isPlayed(string name)
     {
         Sound sound = Array.Find(sounds, Sound => Sound.soundName == name);

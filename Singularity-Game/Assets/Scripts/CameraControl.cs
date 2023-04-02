@@ -21,6 +21,10 @@ public class CameraControl : MonoBehaviour
     private Vector3 downDirection;
     private Camera overlayCamera;
 
+    private Coroutine turnCameraCoroutine;
+    private bool isTurningCamera = false;
+    private float directionTurningTo = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +39,7 @@ public class CameraControl : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (followPoint)
+        if (followPoint && objectToFollow != null)
         {
             Vector3 targetPosition = Vector3.Lerp(Vector3.Scale(player.position, new Vector3(1, 1, 0)) + new Vector3(offset_x, offset_y, zPosition),
                                                   Vector3.Scale(objectToFollow.transform.position, new Vector3(1, 1, 0)) + new Vector3(offset_x, offset_y, zPosition),
@@ -57,25 +61,58 @@ public class CameraControl : MonoBehaviour
         followPlayer = true;
     }
 
-    // turn Camera in direction of gravity by lerp
-    public IEnumerator turnCamera(Vector3 direction, float time)
+    public void turnCameraWithShift(Vector3 startDirection, Vector3 direction, float time)
     {
-        if (!rotateOnShift) yield break;
+        if (!rotateOnShift) return;
+
+        if (directionTurningTo != getRotation(direction)){
+            if (turnCameraCoroutine != null)
+                StopCoroutine(turnCameraCoroutine);
+            turnCameraCoroutine = StartCoroutine(turnCamera(startDirection, direction, time));
+        }
+    }
+
+    public IEnumerator turnCamera(Vector3 startDirection, Vector3 direction, float time)
+    {
+        isTurningCamera = true;
+        float startRotation = transform.eulerAngles.z;
+        // startRotation = startRotation > 180 ? startRotation - 360 : startRotation;
+        float endRotation = getRotation(direction);
+        directionTurningTo = endRotation;
+
+        if(startDirection == Vector3.left && direction == Vector3.down)
+            endRotation += 360;
+        else if(startDirection == Vector3.up && direction == Vector3.left)
+            startRotation -= 360;
+        
+        // if(startRotation > 200) startRotation -= 360;
+        // else if(startRotation < -200) startRotation += 360;
+
+        float angleDiff = endRotation - startRotation;
+        Debug.Log(startRotation + " " + endRotation + " " + angleDiff);
+        
+        if(angleDiff > 180) angleDiff -= 360;
+        else if(angleDiff < -180) angleDiff += 360;
 
         float elapsedTime = 0;
-        Vector3 startRotation = transform.rotation.eulerAngles;
-        Vector3 endRotation = new Vector3(startRotation.x, 0, 0);
-        if (direction == Vector3.left) endRotation = new Vector3(0, 0, -90);
-        else if (direction == Vector3.up) endRotation = new Vector3(0, 0, 180);
-        else if (direction == Vector3.right) endRotation = new Vector3(0, 0, 90);
-
         while (elapsedTime < time)
         {
-            transform.rotation = Quaternion.Euler(Vector3.Lerp(startRotation, endRotation, (elapsedTime / time)));
+            float step = angleDiff * (Time.deltaTime / time);
+            transform.Rotate(new Vector3(0, 0, step));
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        transform.rotation = Quaternion.Euler(endRotation);
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, endRotation));
+        isTurningCamera = false;
+    }
+
+    float getRotation(Vector3 direction)
+    {
+        float rotation = 0;
+        if (direction == Vector3.left) rotation = -90;
+        else if (direction == Vector3.up) rotation = 180;
+        else if (direction == Vector3.right) rotation = 90;
+        return rotation;
     }
 
     public IEnumerator changeFollowPoint(float speed, bool endState, float time)

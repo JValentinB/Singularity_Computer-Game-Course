@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -6047080249484041264}
   - component: {fileID: -8839174377124506434}
   - component: {fileID: -9048711250782130996}
+  - component: {fileID: 2116833348323530395}
   m_Layer: 0
   m_Name: prefab_projectile 1
   m_TagString: Projectile
@@ -63,12 +64,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileSpeed: 0
   mode: 2
-  ignoreCollisionWithTag:
-  - Player
-  - FOV
-  - Bonfire
-  - Projectile
-  - loot
+  impactEffect: {fileID: 5024009746357069194, guid: f36f29aecf3176548824cab321eabd31, type: 3}
 --- !u!198 &-6047080249484041264
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4797,7 +4793,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 0359453be3f6d224599dd7c6ac00d3bf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4864,3 +4860,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2116833348323530395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8792342904977857413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 140bb016ab821ee4a8aeb022ea5513f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - soundName: Impact
+    clip: {fileID: 8300000, guid: 7e8a2daefb786fe4ca82c70c5d3e5995, type: 3}
+    volume: 0.3
+    pitch: 0.75
+    loop: 0
+    spatialBlend: 0
+    source: {fileID: 0}

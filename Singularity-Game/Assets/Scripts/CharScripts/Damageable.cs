@@ -10,11 +10,15 @@ public class Damageable : MonoBehaviour
     [HideInInspector] public int direction;
     public bool shift = false;
     public float gravityStrength = 27f;
+
     [HideInInspector] public Quaternion targetRotation;
     [HideInInspector] public Vector3 targetDirection, gravitationalDirection;
     [HideInInspector] public Animator animator;
     [HideInInspector] public Rigidbody rb;
+
     public InvManager inventory = new InvManager();
+
+    private List<Vector3> gravityShifts = new List<Vector3>();
 
     public void ApplyDamage(int damage){
         currentHealth -= damage;
@@ -27,11 +31,17 @@ public class Damageable : MonoBehaviour
         rb.AddForce(gravitationalDirection * gravityStrength, ForceMode.Acceleration);
     }
 
-    public void ShiftGravity(Vector3 shiftDirection){
-        if(shiftDirection != gravitationalDirection){
-            targetDirection = shiftDirection;
+    public void ShiftGravity(){
+        if(gravityShifts.Count == 0){
+            targetDirection = Vector3.down;
             shift = true;
-            gravitationalDirection = shiftDirection;
+            gravitationalDirection = Vector3.down;
+            return;
+        }
+        if(gravityShifts[0] != gravitationalDirection){
+            targetDirection = gravityShifts[0];
+            shift = true;
+            gravitationalDirection = gravityShifts[0];
         }
     }
 
@@ -48,6 +58,25 @@ public class Damageable : MonoBehaviour
                 shift = false;
             }
         }
+    }
+
+    public void AddGravityShift(Vector3 shiftDirection){
+        if(!gravityShifts.Contains(shiftDirection))
+            gravityShifts.Add(shiftDirection);
+    }
+
+    public void RemoveGravityShift(Vector3 shiftDirection){
+        if(gravityShifts.Contains(shiftDirection))
+            gravityShifts.Remove(shiftDirection);
+    }
+
+    public Vector3 getGravityShift(){
+        if(gravityShifts.Count == 0) return Vector3.down;
+        return gravityShifts[0];
+    }
+
+    public int getGravityShiftCount(){
+        return gravityShifts.Count;
     }
 
     public void Wait(float time){

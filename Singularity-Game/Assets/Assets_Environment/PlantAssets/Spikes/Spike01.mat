@@ -20,13 +20,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Spike03
+  m_Name: Spike01
   m_Shader: {fileID: 4800000, guid: 766736548846cdf459a9766614dcccab, type: 3}
   m_ValidKeywords:
   - _EMISSIVE_ANIMATION
   - _IS_ANGELRING_OFF
-  - _IS_CLIPPING_TRANSMODE
-  - _IS_OUTLINE_CLIPPING_YES
+  - _IS_CLIPPING_OFF
+  - _IS_OUTLINE_CLIPPING_NO
   - _OUTLINE_NML
   m_InvalidKeywords:
   - _
@@ -36,17 +36,17 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap:
     IgnoreProjection: False
-    RenderType: TransparentCutout
+    RenderType: Opaque
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _1st_ShadeMap:
-        m_Texture: {fileID: 2800000, guid: 827fe0ba24e15c8429b8850042317567, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1ea2186cb90e62d43ba6847885bbcc16, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _2nd_ShadeMap:
-        m_Texture: {fileID: 2800000, guid: 827fe0ba24e15c8429b8850042317567, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1ea2186cb90e62d43ba6847885bbcc16, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _AngelRing_Sampler:
@@ -86,7 +86,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Emissive_Tex:
-        m_Texture: {fileID: 2800000, guid: e57d1777b9d1939449e9097b2b286826, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9d3a85712aba55d49a5e623da20e36eb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HighColor_Tex:
@@ -94,7 +94,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 827fe0ba24e15c8429b8850042317567, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1ea2186cb90e62d43ba6847885bbcc16, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MatCap_Sampler:
@@ -196,7 +196,7 @@ Material:
     - _CameraRolling_Stabilizer: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _ClippingMode: 2
+    - _ClippingMode: 0
     - _Clipping_Level: 0
     - _ColorShift_Speed: 1
     - _Cull: 2
@@ -292,11 +292,11 @@ Material:
     - _Tweak_MatcapMaskLevel: 0
     - _Tweak_RimLightMaskLevel: 0
     - _Tweak_ShadingGradeMapLevel: 0
-    - _Tweak_SystemShadowsLevel: 0
+    - _Tweak_SystemShadowsLevel: -0.075
     - _Tweak_transparency: 0
     - _Unlit_Intensity: 0
-    - _Use_1stAs2nd: 0
-    - _Use_BaseAs1st: 0
+    - _Use_1stAs2nd: 1
+    - _Use_BaseAs1st: 1
     - _WorkflowMode: 1
     - _ZOverDrawMode: 0
     - _ZWrite: 1
@@ -314,7 +314,7 @@ Material:
     - _Ap_RimLightColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorShift: {r: 0.46570867, g: 0.93729764, b: 1.9766747, a: 1}
+    - _ColorShift: {r: 0.7761811, g: 0.46570867, b: 1.9766746, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive_Color: {r: 1, g: 1, b: 1, a: 1}
     - _HighColor: {r: 0, g: 0, b: 0, a: 1}

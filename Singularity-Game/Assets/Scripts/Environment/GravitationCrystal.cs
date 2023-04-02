@@ -21,10 +21,10 @@ public class GravitationCrystal : MonoBehaviour
             
             player.GiveItem(player.inventory.GetItem(crystalModeId), 10);
             player.unlockedWeaponModes[crystalModeId] = true;
-            gameObject.SetActive(false);
-
             StartCoroutine(audioManager.PauseCategory(audioManager.music, 1f));
             audioManager.Play(audioManager.music, "CrystalSkill");
+            
+            gameObject.SetActive(false);
         }
     }
 }

@@ -9,6 +9,7 @@ public class Player : Character
     [Header("For the Player")]
     public int weaponMode = -1;
     public List<bool> unlockedWeaponModes = new List<bool>() { false, false, false, false };
+    public bool killOnHighFallingSpeed = true;
 
     [SerializeField] public bool doubleJump;
     [SerializeField] private GameObject projectile;
@@ -79,7 +80,7 @@ public class Player : Character
     }
 
     void Update()
-    {
+    {   
         Attack();
         StartCoroutine(FireProjectile());
         Jump();
@@ -133,7 +134,11 @@ public class Player : Character
             StartCoroutine(playAnimationForTime("Jumping", 0.5f));
 
             // factorwise multiply the velocity with another vector
-            rb.velocity = Vector3.Scale(rb.velocity, new Vector3(1, 0.1f, 1));
+            if(targetDirection == Vector3.up || targetDirection == Vector3.down)
+                rb.velocity = Vector3.Scale(rb.velocity, new Vector3(1, 0.1f, 1));
+            else
+                rb.velocity = Vector3.Scale(rb.velocity, new Vector3(0.1f, 1, 1));
+
             rb.AddForce((-1) * gravitationalDirection * jumpForce, ForceMode.Impulse);
             jumpsRemaining--;
         }
@@ -153,20 +158,26 @@ public class Player : Character
     private void GroundCheck()
     {
         float falling_distance = 1.7f;
-        Ray ray1 = new Ray(transform.position + new Vector3(0.5f, 1, 0), targetDirection);
-        Ray ray2 = new Ray(transform.position + new Vector3(-0.5f, 1, 0), targetDirection);
+        
+        float offsetY = targetDirection == Vector3.up ? -1 : 1;
+        Ray ray1 = new Ray(transform.position + new Vector3(0.5f, offsetY, 0), targetDirection);
+        Ray ray2 = new Ray(transform.position + new Vector3(-0.5f, offsetY, 0), targetDirection);
+        Ray ray3 = new Ray(transform.position + new Vector3(0, offsetY, 0), targetDirection);
         RaycastHit hit1 = new RaycastHit();
         RaycastHit hit2 = new RaycastHit();
+        RaycastHit hit3 = new RaycastHit();
 
-        // Debug.DrawRay(transform.position + new Vector3( 0.5f, 1, 0), targetDirection * 3, Color.green, 0.1f);
+        // Debug.DrawRay(transform.position + new Vector3( 0.5f, 1, 0), targetDirection * 3, Color.green);
         bool raycast1 = Physics.Raycast(ray1, out hit1, 3);
         bool raycast2 = Physics.Raycast(ray2, out hit2, 3);
+        bool raycast3 = Physics.Raycast(ray3, out hit3, 3);
         if (!raycast1)hit1.distance = Mathf.Infinity;
         if (!raycast2)hit2.distance = Mathf.Infinity;
+        if (!raycast3)hit3.distance = Mathf.Infinity;
 
-        if (raycast1 || raycast2)
+        if (raycast1 || raycast2 || raycast3)
         {
-            if (hit1.distance > falling_distance && hit2.distance > falling_distance)
+            if (hit1.distance > falling_distance && hit2.distance > falling_distance && hit3.distance > falling_distance)
                 isGrounded = false;
             else
             {
@@ -198,7 +209,7 @@ public class Player : Character
 
     private IEnumerator FireProjectile()
     {
-        if (Input.GetMouseButtonDown(1) && weaponMode >= 1)
+        if (Input.GetMouseButtonDown(1) && (weaponMode == 1 || weaponMode == 2))
         {
             if (!infinite_ammo)
             {
@@ -310,7 +321,9 @@ public class Player : Character
     }
 
     private void killOnHighSpeed()
-    {
+    {   
+        if(!killOnHighFallingSpeed) return; 
+        
         bool tooFast = checkFallingSpeed(70f);
         if (tooFast)
             ApplyDamage(99999);

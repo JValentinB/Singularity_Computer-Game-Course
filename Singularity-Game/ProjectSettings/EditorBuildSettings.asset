@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Testscenes/Forest1.0.unity
     guid: 7be70e83c8f987d4f8a556f0939f356c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Space.unity
     guid: ec56d299a11565643b5af5906c9bd190
   - enabled: 1
