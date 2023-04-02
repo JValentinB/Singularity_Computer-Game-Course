@@ -74,6 +74,7 @@ public class SaveSystem
 
         player.currentHealth = saveData.health;
         player.unlockedWeaponModes = saveData.unlockedWeaponModes;
+        player.SetSavedWeaponModes(saveData.unlockedWeaponModes);
         player.doubleJump = saveData.doubleJumpBoots;
 
         //Not checking if inventory is empty. Should be empty since we reload scene

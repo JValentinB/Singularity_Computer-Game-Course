@@ -5,19 +5,16 @@ using UnityEngine.UI;
 
 public class InvUI : MonoBehaviour
 {
-    public GameObject inventoryUI, slotPrefab;
-    private InvManager playerInventory; // Reference to the player's inventory
+    [SerializeField] private GameObject player;
+    private InvManager playerInventory;
     public int slots;
     private List<(GameObject, InvItem)> slotList;
 
-    
-
     private void Start()
     {
-        inventoryUI = GameObject.FindWithTag("InventoryUI");
-        playerInventory = gameObject.GetComponent<Player>().inventory; // Get the reference to the player's inventory
-        slots = 16;
-        CreateLayout();
+        playerInventory = player.GetComponent<Player>().inventory;
+        slots = 4;
+        CeateSlotList();
         UpdateInvUI();
     }
 
@@ -26,19 +23,16 @@ public class InvUI : MonoBehaviour
         UpdateInvUI();
     }
 
-    private void CreateLayout()
+    private void CeateSlotList()
     {
         slotList = new List<(GameObject, InvItem)>();
-
-        for(int i = 0; i < slots; i++){
-            GameObject newSlot = (GameObject)Instantiate(slotPrefab);
-            newSlot.name = "Slot" + i;
-            newSlot.transform.SetParent(inventoryUI.transform, false);
-            slotList.Add((newSlot, null));
+        var invUiTransform = gameObject.transform;
+        foreach(Transform slot in invUiTransform){
+            slotList.Add((slot.gameObject, null));
         }
     }
 
-    public void UpdateInvUI(){
+    private void UpdateInvUI(){
         foreach (var entry in slotList)
         {
             if(entry.Item2 != null){
@@ -75,5 +69,15 @@ public class InvUI : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public int GetItemIdInSlot(GameObject slot){
+        foreach ((GameObject, InvItem) entry in slotList)
+        {
+            if(GameObject.ReferenceEquals(slot, entry.Item1)){
+                return entry.Item2.id;
+            }
+        }
+        return -1;
     }
 }

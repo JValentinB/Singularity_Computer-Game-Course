@@ -10,16 +10,20 @@ public class Player : Character
     public int weaponMode = -1;
     public List<bool> unlockedWeaponModes = new List<bool>() { false, false, false, false };
     public bool killOnHighFallingSpeed = true;
+    private static List<bool> savedWeaponModes = new List<bool>() { false, false, false, false };
+
 
     [SerializeField] public bool doubleJump;
     [SerializeField] private GameObject projectile;
     [SerializeField] private GameObject projectile_blackhole;
     [SerializeField] public GameObject jumpBurst;
+    [SerializeField] private XpManager xpManager;
+    [SerializeField] private InvUI invUi;
     [HideInInspector] public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
     private SceneControl scenecontrol;
     private static Vector3 latestCheckPointPos;
-    private InvUI invUI;
     public GameObject BlackOutSquare;
+    public InvManager inventory;
     public int meleeDamage;
     public bool infinite_ammo = false;
 
@@ -30,7 +34,7 @@ public class Player : Character
 
     void Start()
     {
-        maxHealth = 100;
+        maxHealth = 10000;
         currentHealth = maxHealth;
 
         walkSpeed = 0.4f;
@@ -50,11 +54,11 @@ public class Player : Character
         rb.mass = mass;
         setDirectionShot = false;
         meleeDamage = 15;
+        unlockedWeaponModes = savedWeaponModes;
 
         scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
         inventory = new InvManager();
-        invUI = GetComponent<InvUI>();
-        BlackOutSquare = GameObject.Find("/UI/black_screen");
+        BlackOutSquare = GameObject.Find("/UI_Ingame/black_screen");
         BlackOutSquare.GetComponent<Image>().color = new Color(0f, 0f, 0f, 255f);
         StartCoroutine(FadeBlackOutSquare(false));
         checkForStart();
@@ -146,13 +150,12 @@ public class Player : Character
 
     public void giveXp(int xp)
     {
-        GetComponent<XpManager>().GainXp(xp);
+        xpManager.GainXp(xp);
     }
 
     public void GiveItem(InvItem item, int amount)
     {
-        bool isSpace = invUI.AddItemToPlayerInventory(item, amount);
-        //if(!isSpace) inventoryFull();
+        bool isSpace = invUi.AddItemToPlayerInventory(item, amount);
     }
 
     private void GroundCheck()
@@ -349,6 +352,14 @@ public class Player : Character
             sign = -1;
         }
         return sign == 1 ? fallingSpeed > speedThreshold : fallingSpeed < -speedThreshold;
+    }
+
+    public void SetSavedWeaponModes(List<bool> weaponModes){
+        savedWeaponModes = weaponModes;
+    }
+
+    public List<bool> GetSavedWeaponModes(){
+        return savedWeaponModes;
     }
 
     public void OnDeath()

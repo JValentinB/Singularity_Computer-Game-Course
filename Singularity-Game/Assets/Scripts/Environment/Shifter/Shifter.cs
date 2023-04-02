@@ -21,12 +21,15 @@ public class Shifter : MonoBehaviour
     private Color crystalChargedColor;
 
     private bool active = false;
+    [SerializeField] public bool alwaysActive;
+
     private GameObject shifterField;
     private ShifterField shifterScript;
     private ShifterField[] shifterFields;
     private float shifterTTL;
     private bool colorShifting;
     private bool recharging;
+
 
     private ObjectSounds objectSounds;
     private float startPitch;
@@ -38,6 +41,7 @@ public class Shifter : MonoBehaviour
     private Coroutine pitchCoroutine;
     private Coroutine tickingCoroutine;
 
+
     void Start()
     {
 
@@ -47,8 +51,7 @@ public class Shifter : MonoBehaviour
             shifterScript = shifterField.GetComponent<ShifterField>();
             shifterScript.active = noActiveTimer;
             shifterScript.time = activeTime;
-            shifterScript.warningTime = warningTime;
-        }
+            shifterScript.warningTime = warningTime;        }
 
         active = noActiveTimer;
 

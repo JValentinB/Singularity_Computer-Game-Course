@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class WeaponWheelButtonController : MonoBehaviour
 {
@@ -12,6 +11,7 @@ public class WeaponWheelButtonController : MonoBehaviour
     [SerializeField] private UIManager uiManager;
     [SerializeField] private Image image;
     [SerializeField] private Animator animOtherStone1, animOtherStone2, animOtherStone3;
+    [SerializeField] private WeaponWheelInfoController InfoTextPanel;
     private Animator[] anims;
     private CanvasGroup weaponWheelUiCanvasGroup;
     public int id;
@@ -52,10 +52,12 @@ public class WeaponWheelButtonController : MonoBehaviour
 
     public void HoverEnter(){
         anim.SetBool("hover", true);
+        InfoTextPanel.SetText(id);
     }
 
     public void HoverExit(){
         anim.SetBool("hover", false);
+        InfoTextPanel.SetText(-1);
     }
 
     public void ActivateAnimation(){

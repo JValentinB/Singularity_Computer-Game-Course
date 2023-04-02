@@ -19,16 +19,16 @@ public class Projectile : MonoBehaviour
     private Vector3 stop_pos;
     private bool destroyed = false;
     private bool alreadyDestroyed = false;
+    [SerializeField] private List<string> ignoreCollisionWithTag = new List<string>(){
+        "Player",
+        "FOV",
+        "Bonfire",
+        "Projectile",
+        "TreeBoss",
+        "IgnoreCollision"
+    };
 
     private ObjectSounds objectSounds;
-    // [SerializeField]
-    // private List<string> ignoreCollisionWithTag = new List<string>(){
-    //     "Player",
-    //     "FOV",
-    //     "Bonfire",
-    //     "Projectile",
-    //     "Untagged",
-    // };
 
     void Start()
     {
@@ -69,7 +69,7 @@ public class Projectile : MonoBehaviour
                 dmg = 20;
                 break;
             case 1:
-                _ps.startColor = new Color(1, 0.3322569f, 0f, 1f);
+                _ps.startColor = new Color(1f, 0.3322569f, 0f, 1f);
                 dmg = 20;
                 break;
             case 2:
