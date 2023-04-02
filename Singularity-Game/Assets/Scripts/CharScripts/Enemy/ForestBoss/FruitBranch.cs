@@ -26,8 +26,8 @@ public class FruitBranch : MonoBehaviour
         if(regrown) return;
         if(regrowCounter > 0f){
             regrowCounter -= Time.deltaTime;
-            /* float newScale = regrowCounter;
-            dummyObject.transform.localScale = new Vector3(newScale, newScale, newScale); */
+            float newScale = regrowCounter;
+            dummyObject.transform.localScale = new Vector3(newScale, newScale, newScale);
             //dummy fruit is only mesh. No script, collider, etc.
             return;
         }
