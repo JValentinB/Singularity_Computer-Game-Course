@@ -54,10 +54,10 @@ public class ShifterField : MonoBehaviour
         }
         else {
             if(active){
-                _psShape.position = activePos;
+                //_psShape.position = activePos;
                 _psMain.gravityModifier = -0.2f;
             } else if(!active){
-                _psShape.position = inactivePos;
+                //_psShape.position = inactivePos;
                 _psMain.gravityModifier = 1f;
             }
         }

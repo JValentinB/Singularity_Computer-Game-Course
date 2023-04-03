@@ -4,17 +4,14 @@ using UnityEngine;
 
 public class BombFruit : MonoBehaviour
 {
-    [SerializeField] private GameObject fruitPiece;
     [SerializeField] private GameObject explosionObject;
     [SerializeField] private float speed;
-    private Vector3 target;
     private int dmg;
-    public bool released;
+    private Vector3 target = Vector3.down;
 
     void Start(){
         speed = 15f;
         dmg = 50;
-        target = Vector3.down;
     }
 
     void Update(){
@@ -27,18 +24,9 @@ public class BombFruit : MonoBehaviour
     }
     
     public void OnDeath(){
-        //createPieces();
-        Instantiate(explosionObject, transform.position, Quaternion.identity);
+        var explosion = Instantiate(explosionObject, transform.position, Quaternion.identity);
+        explosion.GetComponent<ParticleSystem>().Play();
         Destroy(gameObject);
-    }
-
-    private void createPieces(){
-        Vector3 pos = transform.position;
-        for(int i = 0; i < 5; i++){
-            Vector3 piecePos = new Vector3(pos.x+Random.value, pos.y+Random.value, pos.z+Random.value);
-            GameObject pieceClone = Instantiate(fruitPiece, piecePos, transform.rotation);
-            Destroy(pieceClone, 5);
-        }
     }
 
     private void Move(){
@@ -52,8 +40,8 @@ public class BombFruit : MonoBehaviour
         if(obj.GetComponent<BlackHoleContainer>()){
             obj.GetComponent<TreeBoss>().ApplyDamage(dmg);
             OnDeath();
-        } else if(obj.GetComponent<Player>()){
-            obj.GetComponent<TreeBoss>().ApplyDamage(dmg);
+        } else if(obj.GetComponent<Damageable>()){
+            obj.GetComponent<Damageable>().ApplyDamage(dmg);
             OnDeath();
         }
     }

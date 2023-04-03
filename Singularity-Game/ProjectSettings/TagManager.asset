@@ -27,6 +27,7 @@ TagManager:
   - loot
   - RootBridge
   - IgnoreCollision
+  - BombFruit
   layers:
   - Default
   - TransparentFX

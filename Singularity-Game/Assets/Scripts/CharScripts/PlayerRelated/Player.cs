@@ -244,7 +244,7 @@ public class Player : Character
             if (setDirectionShot)
             {
                 projectileClone.GetComponent<Projectile>().setProjectileConfig(
-                    projTarget, 20, 2);
+                    projTarget, 20, 4);
                 setDirectionShot = false;
             }
             else

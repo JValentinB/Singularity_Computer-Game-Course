@@ -34,7 +34,6 @@ public class Projectile : MonoBehaviour
     {
         ps = GetComponent<ParticleSystem>();
         _ps = ps.main;
-        ChangeColor();
         if (mode == 2) findcollision();
 
         objectSounds = GetComponent<ObjectSounds>();
@@ -66,17 +65,22 @@ public class Projectile : MonoBehaviour
         {
             case 0:
                 _ps.startColor = new Color(0.5447297f, 0f, 1f, 1f);
-                dmg = 20;
+                dmg = 0;
                 break;
             case 1:
                 _ps.startColor = new Color(1f, 0.3322569f, 0f, 1f);
-                dmg = 20;
+                dmg = 0;
                 break;
             case 2:
                 //_ps.startColor = new Color(0f, 0f, 0f, 1f);
                 break;
             case 3:
-                _ps.startColor = new Color(1f, 1f, 1f, 1f);
+                _ps.startColor = new Color(0f, 0f, 0f, 1f);
+                dmg = 20;
+                break;
+            case 4:
+                _ps.startColor = new Color(0.5447297f, 0f, 1f, 1f);
+                dmg = 0;
                 break;
         }
     }
@@ -143,12 +147,12 @@ public class Projectile : MonoBehaviour
             mProjCollision(obj);
             destroyed = true;
         }
-        else if (mode == 3 && obj.tag != "Player")
+        else if (mode == 4 && obj.tag != "Player" && !col.isTrigger)
         {
             controlShot();
             destroyed = true;
         }
-        else if (obj.GetComponent<Damageable>() && obj.tag != "Player" && obj.tag != "FOV")
+        else if (obj.GetComponent<Damageable>() && obj.tag != "Player" && !col.isTrigger)
         {
             obj.GetComponent<Damageable>().ApplyDamage(dmg);
             destroyed = true;
@@ -196,7 +200,7 @@ public class Projectile : MonoBehaviour
 
             obj_rb.AddForce((projectile_pos - obj_pos) * 81f, ForceMode.Acceleration);
         }
-    }
+    } 
 
     bool noTriggerCollider(GameObject obj)
     {

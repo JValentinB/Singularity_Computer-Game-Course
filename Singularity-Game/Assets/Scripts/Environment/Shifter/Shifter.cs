@@ -105,22 +105,6 @@ public class Shifter : MonoBehaviour
         }
     }
 
-    // private void TTLCounter()
-    // {
-    //     if (noActiveTimer) return;
-
-    //     if (active && shifterTTL >= 0f)
-    //     {
-    //         shifterTTL -= Time.deltaTime;
-    //         return;
-    //     }
-    //     active = false;
-    //     if(shifterScript != null)
-    //         shifterScript.active = false;
-    //     if(shifterFields != null)
-    //         toggleShifterFields(active);
-    // }
-
     void toggleShifterFields(bool active)
     {
         foreach (ShifterField shifterField in shifterFields)

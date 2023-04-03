@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class BlackHoleContainer : MonoBehaviour
 {
-    [SerializeField] private float ttl, ttlCounter;
+    [SerializeField] private float ttl; 
+    public float ttlCounter;
 
     // Start is called before the first frame update
     void Start()
     {
-        ttl = 10f;
+        ttl = 30f;
     }
 
     // Update is called once per frame
@@ -20,11 +21,15 @@ public class BlackHoleContainer : MonoBehaviour
     }
 
     private void AttractProjectiles(){
-        if(ttlCounter <= 0f) return;
+        //if(ttlCounter <= 0f) return;
 
         var projectiles = GameObject.FindGameObjectsWithTag("m_Projectile");
         foreach(var projectile in projectiles){
             projectile.GetComponent<m_Projectile>().setDir(transform.position);
+        }
+        var bombFruits = GameObject.FindGameObjectsWithTag("BombFruit");
+        foreach(var fruit in bombFruits){
+            fruit.GetComponent<BombFruit>().setDir(transform.position);
         }
     }
 
@@ -47,10 +52,10 @@ public class BlackHoleContainer : MonoBehaviour
 
     void OnTriggerEnter(Collider col){
         var obj = col.gameObject.GetComponent<Projectile>(); 
-        if(obj && obj.mode == 2 && ttlCounter <= 0f){
+        if(obj && obj.mode == 2){
             obj.setProjectileConfig(Vector3.zero, 0f, 2);
             ttlCounter = ttl;
-            //Set ttl of blackhole to ttl of container
+            Destroy(col.gameObject, ttlCounter);
         }
     }
 

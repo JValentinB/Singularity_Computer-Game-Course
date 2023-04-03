@@ -83,12 +83,15 @@ public class m_Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider col){
         var obj = col.gameObject;
-        if(obj.GetComponent<Damageable>()){
+        if(!col.isTrigger && obj.GetComponent<Damageable>()){
             obj.GetComponent<Damageable>().ApplyDamage(dmg);
             OnDeath();
         } else if(freeze && !obj.GetComponent<Projectile>()){
             OnDeath();
-        } else if(obj.tag != "FOV" && obj.tag != "Shifter" && !obj.GetComponent<Projectile>())
+        } else if(obj.GetComponent<BlackHoleContainer>() && obj.GetComponent<BlackHoleContainer>().ttlCounter > 0f){
+            obj.GetComponent<TreeBoss>().ApplyDamage(dmg);
+            OnDeath();
+        } else if(!col.isTrigger && !obj.GetComponent<Projectile>() && !init)
             OnDeath();
     }
 }
