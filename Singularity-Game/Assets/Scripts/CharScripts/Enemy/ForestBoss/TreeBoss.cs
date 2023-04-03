@@ -13,6 +13,7 @@ public class TreeBoss : Enemy
     bottomSide, topSide, rightSide, leftSide;
     [SerializeField] private Player playerScript; 
     [SerializeField] public float disToPlayer;
+    [SerializeField] public bool startFight;
     [SerializeField] private Vector3 bottomSideMidPos, topSideMidPos, rightSideMidPos, 
     leftSideMidPos;
     
@@ -54,6 +55,8 @@ public class TreeBoss : Enemy
     // Update is called once per frame
     void Update()
     {
+        if(!startFight) return;
+        if(startFight && currentHealth <= 0f) OnDeath();
         ChooseAttack();
         SecondPhase();
     }
@@ -65,7 +68,7 @@ public class TreeBoss : Enemy
 
     private void ChooseAttack(){
         var rand = Random.Range(0f, 1f);
-        if(rand < 0.65f)         ThrowProjectile();
+        if(rand < 0.65f)        ThrowProjectile();
         else                    RootSpikes();
     }
 
@@ -77,6 +80,12 @@ public class TreeBoss : Enemy
             bridge.GetComponent<RootBridge>().destroyBridge = true;
         }
         secondPhase = true;
+    }
+
+    private void OnDeath(){
+        startFight = false;
+        //Defeat animation
+        //Open up escape path
     }
 
     //Mid range attack (adjustable)

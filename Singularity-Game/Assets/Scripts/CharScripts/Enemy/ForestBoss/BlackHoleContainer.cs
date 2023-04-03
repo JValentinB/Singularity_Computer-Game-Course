@@ -10,7 +10,7 @@ public class BlackHoleContainer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ttl = 30f;
+        ttl = 20f;
     }
 
     // Update is called once per frame
@@ -21,8 +21,8 @@ public class BlackHoleContainer : MonoBehaviour
     }
 
     private void AttractProjectiles(){
-        //if(ttlCounter <= 0f) return;
-
+        if(ttlCounter <= 0f) return;
+        
         var projectiles = GameObject.FindGameObjectsWithTag("m_Projectile");
         foreach(var projectile in projectiles){
             projectile.GetComponent<m_Projectile>().setDir(transform.position);
@@ -56,6 +56,14 @@ public class BlackHoleContainer : MonoBehaviour
             obj.setProjectileConfig(Vector3.zero, 0f, 2);
             ttlCounter = ttl;
             Destroy(col.gameObject, ttlCounter);
+        } else if(col.GetComponent<m_Projectile>() && ttlCounter > 0f){
+            var treeBoss = GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>();
+            treeBoss.ApplyDamage(col.GetComponent<m_Projectile>().dmg);
+            col.GetComponent<m_Projectile>().OnDeath();
+        } else if(col.GetComponent<BombFruit>() && ttlCounter > 0f){
+            var treeBoss = GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>();
+            treeBoss.ApplyDamage(col.GetComponent<BombFruit>().dmg);
+            col.GetComponent<BombFruit>().OnDeath();
         }
     }
 

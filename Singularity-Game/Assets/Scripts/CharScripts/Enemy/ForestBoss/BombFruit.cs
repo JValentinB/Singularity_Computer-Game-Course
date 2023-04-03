@@ -6,7 +6,7 @@ public class BombFruit : MonoBehaviour
 {
     [SerializeField] private GameObject explosionObject;
     [SerializeField] private float speed;
-    private int dmg;
+    public int dmg;
     private Vector3 target = Vector3.down;
 
     void Start(){
@@ -37,10 +37,7 @@ public class BombFruit : MonoBehaviour
 
     private void OnTriggerEnter(Collider col){
         var obj = col.gameObject;
-        if(obj.GetComponent<BlackHoleContainer>()){
-            obj.GetComponent<TreeBoss>().ApplyDamage(dmg);
-            OnDeath();
-        } else if(obj.GetComponent<Damageable>()){
+        if(obj.GetComponent<Damageable>() && !col.isTrigger){
             obj.GetComponent<Damageable>().ApplyDamage(dmg);
             OnDeath();
         }

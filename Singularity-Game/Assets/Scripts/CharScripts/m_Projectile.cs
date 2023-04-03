@@ -8,7 +8,7 @@ public class m_Projectile : MonoBehaviour
     [SerializeField] private float speed;
     public bool freeze = false;
     private Vector3 dir;
-    private int dmg;
+    public int dmg;
 
     //Move up, then move to player part
     private Vector3 startPosition;

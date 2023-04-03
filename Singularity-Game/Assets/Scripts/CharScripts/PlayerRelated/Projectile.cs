@@ -13,12 +13,15 @@ public class Projectile : MonoBehaviour
 
     private ParticleSystem ps;
     private ParticleSystem.MainModule _ps;
+    private ParticleSystemRenderer psr;
     private Vector3 dir;
     private int dmg;
     private bool foundhit = false;
     private Vector3 stop_pos;
     private bool destroyed = false;
     private bool alreadyDestroyed = false;
+    [Header("Index 0 and 2 can stay empty, they won't be loaded")]
+    [SerializeField] private List<Material> modeMaterials;
     [SerializeField] private List<string> ignoreCollisionWithTag = new List<string>(){
         "Player",
         "FOV",
@@ -34,9 +37,11 @@ public class Projectile : MonoBehaviour
     {
         ps = GetComponent<ParticleSystem>();
         _ps = ps.main;
+        psr = GetComponent<ParticleSystemRenderer>();
         if (mode == 2) findcollision();
 
         objectSounds = GetComponent<ObjectSounds>();
+        ChangeColor();
     }
 
     void Update()
@@ -61,28 +66,10 @@ public class Projectile : MonoBehaviour
 
     private void ChangeColor()
     {
-        switch (mode)
-        {
-            case 0:
-                _ps.startColor = new Color(0.5447297f, 0f, 1f, 1f);
-                dmg = 0;
-                break;
-            case 1:
-                _ps.startColor = new Color(1f, 0.3322569f, 0f, 1f);
-                dmg = 0;
-                break;
-            case 2:
-                //_ps.startColor = new Color(0f, 0f, 0f, 1f);
-                break;
-            case 3:
-                _ps.startColor = new Color(0f, 0f, 0f, 1f);
-                dmg = 20;
-                break;
-            case 4:
-                _ps.startColor = new Color(0.5447297f, 0f, 1f, 1f);
-                dmg = 0;
-                break;
-        }
+        if(mode == 0 || mode == 2) return;
+        psr.material = modeMaterials[mode];
+        if(mode == 3) dmg = 20;
+        else dmg = 0;
     }
 
     private void mProjCollision(GameObject obj)
