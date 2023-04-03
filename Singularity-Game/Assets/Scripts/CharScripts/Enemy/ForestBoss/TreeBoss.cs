@@ -102,7 +102,6 @@ public class TreeBoss : Enemy
         
         spikeCounter = spikeCD;
         remainingSpikes = 15;
-        // Debug.Log("ROOT SPIKES!");
     }
 
     private void SpawnSpike(){
@@ -134,7 +133,6 @@ public class TreeBoss : Enemy
     private void ThrowProjectile(){
         if(projectileCounter >= 0f){
             projectileCounter -= Time.deltaTime;
-            //Debug.Log("Remaining cooldown: " + projectileCounter);
             return;
         }   
 
@@ -147,7 +145,6 @@ public class TreeBoss : Enemy
         var spawnPos = new Vector3(transform.position.x - Random.Range(-projSpawnRadius, projSpawnRadius), transform.position.y, 0f);
         GameObject projectileObject = Instantiate(manipulatableProjectile, spawnPos, Quaternion.identity);
         projectileCounter = projectileCD;
-        // Debug.Log("PROJECTILE!");
     }
 
 

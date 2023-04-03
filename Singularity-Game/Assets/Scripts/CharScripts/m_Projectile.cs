@@ -26,7 +26,7 @@ public class m_Projectile : MonoBehaviour
         waitBeforeAttack = false;
         counter = 0f;
 
-        this.speed = 15f;
+        this.speed = 22f;
         this.dmg = 50;
         this.dir = new Vector3(0f, 0.5f, 0f);
     }
