@@ -85,26 +85,26 @@ public class Projectile : MonoBehaviour
 
         var treeBoss = GameObject.FindWithTag("TreeBoss");
         if(obj.GetComponent<m_Projectile>()){
-            StartCoroutine(AttractToCenter(obj, false));
+            StartCoroutine(AttractToCenter(obj));
         } else if(obj.GetComponent<BombFruit>()){
-            StartCoroutine(AttractToCenter(obj, true));
+            StartCoroutine(AttractToCenter(obj));
         }
     }
 
-    private IEnumerator AttractToCenter(GameObject obj, bool fruit){
+    private IEnumerator AttractToCenter(GameObject obj){
         yield return new WaitForSeconds(0.3f);
         if(!obj) yield break;
 
         var treeBoss = GameObject.FindWithTag("TreeBoss");
         int projDmg = 0;
         if(closeToTreeBoss){
-            if(fruit) projDmg = obj.GetComponent<BombFruit>().dmg;
+            if(obj.GetComponent<BombFruit>()) projDmg = obj.GetComponent<BombFruit>().dmg;
             else projDmg = obj.GetComponent<m_Projectile>().dmg;
 
             treeBoss.GetComponent<TreeBoss>().ApplyDamage(projDmg);
             Debug.Log("Hit!");
         }
-        if(fruit) obj.GetComponent<BombFruit>().OnDeath();
+        if(obj.GetComponent<BombFruit>()) obj.GetComponent<BombFruit>().OnDeath();
         else obj.GetComponent<m_Projectile>().OnDeath();
         
 }
