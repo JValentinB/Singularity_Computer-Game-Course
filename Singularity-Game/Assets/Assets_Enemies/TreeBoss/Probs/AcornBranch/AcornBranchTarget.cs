@@ -25,7 +25,6 @@ public class AcornBranchTarget : MonoBehaviour
     {   
         float distance = (transform.position - startPos).magnitude;
         if(distance > 0.1f){
-            Debug.Log(distance);
             transform.position = Vector3.SmoothDamp(transform.position, startPos, ref velocity, smoothTime);
         }
         

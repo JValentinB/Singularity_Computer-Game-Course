@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Shifter : MonoBehaviour
 {
-    [SerializeField] public Vector3 direction;
     [SerializeField] public float activeTime = 10f;
     [Range(0f, 1f)]
     public float activeVolume = 0.5f;
@@ -29,6 +28,8 @@ public class Shifter : MonoBehaviour
     private float shifterTTL;
     private bool colorShifting;
     private bool recharging;
+    private bool playWarning = true;
+    private bool touchedCollider = false;
 
 
     private ObjectSounds objectSounds;
@@ -40,6 +41,7 @@ public class Shifter : MonoBehaviour
     private Coroutine warnCoroutine;
     private Coroutine pitchCoroutine;
     private Coroutine tickingCoroutine;
+    private Coroutine playWarningCoroutine;
 
 
     void Start()
@@ -51,7 +53,8 @@ public class Shifter : MonoBehaviour
             shifterScript = shifterField.GetComponent<ShifterField>();
             shifterScript.active = noActiveTimer;
             shifterScript.time = activeTime;
-            shifterScript.warningTime = warningTime;        }
+            shifterScript.warningTime = warningTime;
+        }
 
         active = noActiveTimer;
 
@@ -67,10 +70,30 @@ public class Shifter : MonoBehaviour
             }
         }
 
-        if(transform.Find("Crystals"))
+        if (transform.Find("Crystals"))
             crystalChargedColor = transform.Find("Crystals").GetChild(0).GetComponent<Renderer>().material.GetColor("_Glow_Color");
 
         objectSounds = GetComponent<ObjectSounds>();
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (!playWarning && other.tag == "Player")
+        {
+            playWarning = true;
+            touchedCollider = true;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (playWarning && other.tag == "Player")
+        {
+            touchedCollider = false;
+            if (playWarningCoroutine != null)
+                StopCoroutine(playWarningCoroutine);
+            playWarningCoroutine = StartCoroutine(stopWarningSound());
+        }
     }
 
     public void ToggleShifter()
@@ -87,7 +110,8 @@ public class Shifter : MonoBehaviour
                 StopCoroutine(timerCoroutine);
             timerCoroutine = StartCoroutine(shifterTimer());
         }
-        else{
+        else
+        {
             StopCoroutine(timerCoroutine);
             StopCoroutines();
         }
@@ -105,22 +129,6 @@ public class Shifter : MonoBehaviour
         }
     }
 
-    // private void TTLCounter()
-    // {
-    //     if (noActiveTimer) return;
-
-    //     if (active && shifterTTL >= 0f)
-    //     {
-    //         shifterTTL -= Time.deltaTime;
-    //         return;
-    //     }
-    //     active = false;
-    //     if(shifterScript != null)
-    //         shifterScript.active = false;
-    //     if(shifterFields != null)
-    //         toggleShifterFields(active);
-    // }
-
     void toggleShifterFields(bool active)
     {
         foreach (ShifterField shifterField in shifterFields)
@@ -134,8 +142,11 @@ public class Shifter : MonoBehaviour
         soundCoroutine = StartCoroutine(shifterSound());
 
         yield return new WaitForSeconds(activeTime - warningTime);
-        warnCoroutine = StartCoroutine(warningSound());
-        tickingCoroutine = StartCoroutine(tickingSound());
+        if (playWarning)
+        {
+            warnCoroutine = StartCoroutine(warningSound());
+            tickingCoroutine = StartCoroutine(tickingSound());
+        }
 
         yield return new WaitForSeconds(warningTime);
         StopCoroutines();
@@ -155,6 +166,8 @@ public class Shifter : MonoBehaviour
     }
     IEnumerator warningSound()
     {
+        if (!playWarning) yield break;
+
         startPitch = objectSounds.getSourcePitch("Warning");
 
         StartCoroutine(objectSounds.fadeInOut("Warning", warningVolume, warningTime - 0.5f));
@@ -223,6 +236,19 @@ public class Shifter : MonoBehaviour
             yield return null;
         }
         recharging = false;
+    }
+
+    IEnumerator stopWarningSound()
+    {
+        float t = 0f;
+        while (t < 5f)
+        {
+            if (touchedCollider) break;
+
+            t += Time.deltaTime;
+            yield return null;
+        }
+        playWarning = false;
     }
 
     void StopCoroutines()

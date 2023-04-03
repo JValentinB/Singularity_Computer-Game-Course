@@ -26,6 +26,9 @@ public class UIManager : MonoBehaviour
 
         weaponWheelUI.blocksRaycasts = false;
         weaponWheelUI.alpha = 0;
+        
+        // Delete before release!!!
+        activateAllModes();
     }
 
     void Update(){
@@ -80,5 +83,13 @@ public class UIManager : MonoBehaviour
     public void UpdateHealthBar(){
         healthBar.currentHealth = player.currentHealth;
         healthBar.maxHealth = player.maxHealth;
+    }
+
+
+    // Delete this before Release!!! (only for testing)
+    void activateAllModes(){
+        for(int i = 0; i < unlockedWeaponModes.Count; i++){
+            unlockedWeaponModes[i] = true;
+        }
     }
 }

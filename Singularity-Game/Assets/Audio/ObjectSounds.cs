@@ -31,13 +31,15 @@ public class ObjectSounds : MonoBehaviour
     public void Play(string name)
     {
         Sound sound = Array.Find(sounds, Sound => Sound.soundName == name);
-        sound.source.Play();
+        if(sound.source != null)
+            sound.source.Play();
     }
 
     public void Stop(string name)
     {
         Sound sound = Array.Find(sounds, Sound => Sound.soundName == name);
-        sound.source.Stop();
+        if(sound.source != null)
+            sound.source.Stop();
     }
 
     public IEnumerator fadeInOut(string name, float targetVolume, float fadeTime){
@@ -72,30 +74,36 @@ public class ObjectSounds : MonoBehaviour
     public bool isPlayed(string name)
     {
         Sound sound = Array.Find(sounds, Sound => Sound.soundName == name);
+        if(sound.source == null) return false;
+
         return sound.source.isPlaying;
     }
 
     public float getSourceVolume(string name)
     {
         Sound sound = Array.Find(sounds, Sound => Sound.soundName == name);
+        if(sound.source == null) return 0f;
         return sound.source.volume;
     }
 
     public void setSourceVolume(string name, float volume)
     {
         Sound sound = Array.Find(sounds, Sound => Sound.soundName == name);
-        sound.source.volume = volume;
+        if(sound.source != null)
+            sound.source.volume = volume;
     }
 
     public float getSourcePitch(string name)
     {
         Sound sound = Array.Find(sounds, Sound => Sound.soundName == name);
+        if(sound.source == null) return 0f;
         return sound.source.pitch;
     }
 
     public void setSourcePitch(string name, float pitch)
     {
         Sound sound = Array.Find(sounds, Sound => Sound.soundName == name);
-        sound.source.pitch = pitch;
+        if(sound.source != null)
+            sound.source.pitch = pitch;
     }
 }

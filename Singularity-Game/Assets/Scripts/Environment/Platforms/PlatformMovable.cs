@@ -95,13 +95,13 @@ public class PlatformMovable : MonoBehaviour
 
     void mouseMovingPlatform()
     {
-        if (Input.GetMouseButtonDown(1) && !isHeld)
+        if (Input.GetMouseButtonDown(1) && !isHeld && Vector3.Distance(transform.position, player.transform.position) < 100f)
         {
             // Check if the mouse is over the platform
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             LayerMask platformLayer = 1 << LayerMask.NameToLayer("Movable Platform");
-            if (Physics.Raycast(ray, out hit, 200, platformLayer) && hit.collider.gameObject == gameObject)
+            if (Physics.Raycast(ray, out hit, 200, platformLayer) && (hit.collider.gameObject == gameObject || hit.transform.IsChildOf(transform)))
             {
                 var mousePos = Input.mousePosition;
                 mousePos.z = -mainCamera.transform.position.z;

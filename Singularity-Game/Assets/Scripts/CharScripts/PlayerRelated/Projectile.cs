@@ -136,7 +136,6 @@ public class Projectile : MonoBehaviour
         if (mode == 2)
             return;
 
-
         var obj = col.gameObject;
         if (obj.GetComponent<m_Projectile>() && mode == 1)
         {
@@ -154,7 +153,7 @@ public class Projectile : MonoBehaviour
             destroyed = true;
         }
         else if (obj.GetComponent<Shifter>())
-        {
+        {   
             obj.GetComponent<Shifter>().ToggleShifter();
             destroyed = true;
         }
@@ -178,10 +177,6 @@ public class Projectile : MonoBehaviour
             Destroy(impact, 2f);
             Destroy(gameObject,1f);
         }
-        // else if (!ignoreCollisionWithTag.Contains(obj.tag) && !obj.GetComponent<ShifterField>())
-        // {
-        //     Destroy(gameObject);
-        // }
     }
 
     private void OnTriggerStay(Collider col)

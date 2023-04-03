@@ -10,6 +10,7 @@ public class Damageable : MonoBehaviour
     [HideInInspector] public int direction;
     public bool shift = false;
     public float gravityStrength = 27f;
+    public float mass;
 
     [HideInInspector] public Quaternion targetRotation;
     [HideInInspector] public Vector3 targetDirection, gravitationalDirection;
@@ -23,7 +24,8 @@ public class Damageable : MonoBehaviour
     public void ApplyDamage(int damage){
         currentHealth -= damage;
 
-        StartCoroutine(damageAnimation());
+        if(animator != null)
+            StartCoroutine(damageAnimation());
     }
 
     public void ApplyGravity()

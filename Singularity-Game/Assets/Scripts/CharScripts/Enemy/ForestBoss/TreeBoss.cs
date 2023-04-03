@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class TreeBoss : Enemy
 {
+    
     private float rangeClose, rangeFar, sideRadiusTB, sideRadiusLR, spikeCounter, projectileCounter,
     nextSpike, projSpawnRadius;
     private bool secondPhase;
-    [SerializeField] private float spikeCD, projectileCD, spikePause;
+
+    [Header("TreeBoss")]
+    [SerializeField] private float spikeCD;
+    [SerializeField] private float projectileCD, spikePause;
     [SerializeField] private int remainingSpikes;
     [SerializeField] private GameObject rootSpike, manipulatableProjectile,
     bottomSide, topSide, rightSide, leftSide;

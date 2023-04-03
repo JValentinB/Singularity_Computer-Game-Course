@@ -7,13 +7,23 @@ public class CameraControl : MonoBehaviour
     public float offset_x = 0;
     public float offset_y = 0;
     public bool rotateOnShift = true;
+
+    [Header("Camera Follows Player")]
     public bool followPlayer = true;
+    [Range(0, 2)]
     public float smoothTime = 0.3f;
+    [Header("Camera Follows Mouse")]
+    public bool followMouse = false;
+    [Range(0, 1)]
+    public float mouseFollowRatio = 0.5f;
+    [Range(0, 2)]
+    public float mouseFollowSpeed = 0.5f;
+    [Header("Camera Follows Object")]
     public bool followPoint = false; // follows a point between player and a given object (e.g. a boss)
     public GameObject objectToFollow;
     [HideInInspector] public float followPointRatio = 0.5f;
     // public float offset_z = 0;
-    public bool overlayActive = true;
+    // public bool overlayActive = true;
 
     private Transform player;
     private Vector3 velocity = Vector3.zero;
@@ -44,8 +54,21 @@ public class CameraControl : MonoBehaviour
             Vector3 targetPosition = Vector3.Lerp(Vector3.Scale(player.position, new Vector3(1, 1, 0)) + new Vector3(offset_x, offset_y, zPosition),
                                                   Vector3.Scale(objectToFollow.transform.position, new Vector3(1, 1, 0)) + new Vector3(offset_x, offset_y, zPosition),
                                                   followPointRatio);
-            // Vector3 targetPosition = new Vector3((player.position.x + objectToFollow.transform.position.x) / followPointRatio + offset_x, (player.position.y + objectToFollow.transform.position.y) / followPointRatio + offset_y, zPosition);
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+        }
+        else if(followMouse){
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
+            mousePosition.z = zPosition;
+
+            // Vector3 targetPosition = Vector3.Lerp(Vector3.Scale(player.position, new Vector3(1, 1, 0)) + new Vector3(offset_x, offset_y, zPosition),
+            //                                       Vector3.Scale(mousePosition, new Vector3(1, 1, 0)) + new Vector3(offset_x, offset_y, zPosition),
+            //                                       mouseFollowRatio);
+            // transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, mouseFollowSpeed);
+
+            Vector3 playerPos = Vector3.Lerp(transform.position, Vector3.Scale(player.position, new Vector3(1, 1, 0)) + new Vector3(offset_x, offset_y, zPosition), smoothTime);
+            Vector3 mousePos = Vector3.Lerp(transform.position, Vector3.Scale(mousePosition, new Vector3(1, 1, 0)) + new Vector3(offset_x, offset_y, zPosition), mouseFollowRatio);
+
+            transform.position = Vector3.SmoothDamp(playerPos, mousePos, ref velocity, mouseFollowSpeed);
         }
         else if (followPlayer)
         {
@@ -89,7 +112,7 @@ public class CameraControl : MonoBehaviour
         // else if(startRotation < -200) startRotation += 360;
 
         float angleDiff = endRotation - startRotation;
-        Debug.Log(startRotation + " " + endRotation + " " + angleDiff);
+        // Debug.Log(startRotation + " " + endRotation + " " + angleDiff);
         
         if(angleDiff > 180) angleDiff -= 360;
         else if(angleDiff < -180) angleDiff += 360;

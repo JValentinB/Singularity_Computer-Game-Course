@@ -8,7 +8,7 @@ public class Character : Damageable
     //FIXME
     [Header("For all Characters")]
     public int jumpNumber;
-    public float currentSpeed, walkSpeed, runSpeed, sprintSpeed, mass, jumpForce, critMod;
+    public float currentSpeed, walkSpeed, runSpeed, sprintSpeed, jumpForce, critMod;
     public double critChance;
 
     [HideInInspector]public int jumpsRemaining;

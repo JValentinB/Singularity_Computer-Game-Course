@@ -23,7 +23,7 @@ public class Player : Character
     private SceneControl scenecontrol;
     private static Vector3 latestCheckPointPos;
     public GameObject BlackOutSquare;
-    public InvManager inventory;
+    public InvManager playerInventory;
     public int meleeDamage;
     public bool infinite_ammo = false;
 
@@ -84,7 +84,7 @@ public class Player : Character
     }
 
     void Update()
-    {   
+    {
         Attack();
         StartCoroutine(FireProjectile());
         Jump();
@@ -138,7 +138,7 @@ public class Player : Character
             StartCoroutine(playAnimationForTime("Jumping", 0.5f));
 
             // factorwise multiply the velocity with another vector
-            if(targetDirection == Vector3.up || targetDirection == Vector3.down)
+            if (targetDirection == Vector3.up || targetDirection == Vector3.down)
                 rb.velocity = Vector3.Scale(rb.velocity, new Vector3(1, 0.1f, 1));
             else
                 rb.velocity = Vector3.Scale(rb.velocity, new Vector3(0.1f, 1, 1));
@@ -161,26 +161,25 @@ public class Player : Character
     private void GroundCheck()
     {
         float falling_distance = 1.7f;
-        
-        float offsetY = targetDirection == Vector3.up ? -1 : 1;
-        Ray ray1 = new Ray(transform.position + new Vector3(0.5f, offsetY, 0), targetDirection);
-        Ray ray2 = new Ray(transform.position + new Vector3(-0.5f, offsetY, 0), targetDirection);
-        Ray ray3 = new Ray(transform.position + new Vector3(0, offsetY, 0), targetDirection);
+
+        Vector4 offsets = offsetDict[targetDirection];
+        Ray ray1 = new Ray(transform.position + new Vector3(offsets.z, offsets.x, 0), targetDirection);
+        Ray ray2 = new Ray(transform.position + new Vector3(offsets.w, offsets.y, 0), targetDirection);
         RaycastHit hit1 = new RaycastHit();
         RaycastHit hit2 = new RaycastHit();
-        RaycastHit hit3 = new RaycastHit();
 
-        // Debug.DrawRay(transform.position + new Vector3( 0.5f, 1, 0), targetDirection * 3, Color.green);
+        // Debug.DrawRay(transform.position + new Vector3(offsets.z, offsets.x, 0), targetDirection * 3, Color.green);
+        // Debug.DrawRay(transform.position + new Vector3(offsets.w, offsets.y, 0), targetDirection * 3, Color.green);
+
         bool raycast1 = Physics.Raycast(ray1, out hit1, 3);
         bool raycast2 = Physics.Raycast(ray2, out hit2, 3);
-        bool raycast3 = Physics.Raycast(ray3, out hit3, 3);
-        if (!raycast1)hit1.distance = Mathf.Infinity;
-        if (!raycast2)hit2.distance = Mathf.Infinity;
-        if (!raycast3)hit3.distance = Mathf.Infinity;
+        if (!raycast1) hit1.distance = Mathf.Infinity;
+        if (!raycast2) hit2.distance = Mathf.Infinity;
 
-        if (raycast1 || raycast2 || raycast3)
+        // Debug.Log(hit1.distance + " " + hit2.distance);
+        if (raycast1 || raycast2)
         {
-            if (hit1.distance > falling_distance && hit2.distance > falling_distance && hit3.distance > falling_distance)
+            if (hit1.distance > falling_distance && hit2.distance > falling_distance)
                 isGrounded = false;
             else
             {
@@ -199,7 +198,7 @@ public class Player : Character
             animator.SetBool("Falling", false);
             StartCoroutine(playAnimationForTime("Landing", 0.5f));
         }
-        else if(!isGrounded)
+        else if (!isGrounded)
         {
             animator.SetBool("Falling", true);
         }
@@ -324,9 +323,9 @@ public class Player : Character
     }
 
     private void killOnHighSpeed()
-    {   
-        if(!killOnHighFallingSpeed) return; 
-        
+    {
+        if (!killOnHighFallingSpeed) return;
+
         bool tooFast = checkFallingSpeed(70f);
         if (tooFast)
             ApplyDamage(99999);
@@ -354,11 +353,13 @@ public class Player : Character
         return sign == 1 ? fallingSpeed > speedThreshold : fallingSpeed < -speedThreshold;
     }
 
-    public void SetSavedWeaponModes(List<bool> weaponModes){
+    public void SetSavedWeaponModes(List<bool> weaponModes)
+    {
         savedWeaponModes = weaponModes;
     }
 
-    public List<bool> GetSavedWeaponModes(){
+    public List<bool> GetSavedWeaponModes()
+    {
         return savedWeaponModes;
     }
 
@@ -387,15 +388,16 @@ public class Player : Character
 
     private void SaveAndLoadGame()
     {
-        if(SaveSystem.couldNotLoadGame && SaveSystem.loadingDelay <= 0f) SaveSystem.loadingDelay -= Time.deltaTime;
-        else if(SaveSystem.couldNotLoadGame) SaveSystem.LoadGameNoReset();
+        if (SaveSystem.couldNotLoadGame && SaveSystem.loadingDelay <= 0f) SaveSystem.loadingDelay -= Time.deltaTime;
+        else if (SaveSystem.couldNotLoadGame) SaveSystem.LoadGameNoReset();
 
         if (Input.GetKeyDown(KeyCode.K))
         {
             SaveSystem.SaveGame(this);
         }
-        if(Input.GetKeyDown(KeyCode.L)){
-            SaveSystem.LoadGame(); 
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            SaveSystem.LoadGame();
         }
     }
 
@@ -477,5 +479,14 @@ public class Player : Character
             }
         }
     }
+
+
+    Dictionary<Vector3, Vector4> offsetDict = new Dictionary<Vector3, Vector4>
+    {
+        { Vector3.up, new Vector4(-1, -1, 0.5f, -0.5f) },
+        { Vector3.down, new Vector4(1, 1, -0.5f, 0.5f) },
+        { Vector3.left, new Vector4(0.5f, -0.5f, 1, 1) },
+        { Vector3.right, new Vector4(-0.5f, 0.5f, -1, -1) },
+    };
     //---------------------------------------
 }
