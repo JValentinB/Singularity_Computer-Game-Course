@@ -15,7 +15,7 @@ public class m_Projectile : MonoBehaviour
     private bool init;
     private float MoveUpAmount;
     private float WaitBeforeMovingAmount;
-    private bool waitBeforeAttack;
+    public bool waitBeforeAttack;
     private float counter;
 
     void Start(){
@@ -87,9 +87,6 @@ public class m_Projectile : MonoBehaviour
             obj.GetComponent<Damageable>().ApplyDamage(dmg);
             OnDeath();
         } else if(freeze && !obj.GetComponent<Projectile>()){
-            OnDeath();
-        } else if(obj.GetComponent<BlackHoleContainer>() && obj.GetComponent<BlackHoleContainer>().ttlCounter > 0f){
-            obj.GetComponent<TreeBoss>().ApplyDamage(dmg);
             OnDeath();
         } else if(!col.isTrigger && !obj.GetComponent<Projectile>() && !init)
             OnDeath();

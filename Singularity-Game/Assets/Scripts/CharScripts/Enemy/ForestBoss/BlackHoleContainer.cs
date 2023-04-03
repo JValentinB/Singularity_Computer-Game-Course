@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class BlackHoleContainer : MonoBehaviour
 {
-    [SerializeField] private float ttl; 
+    //Scraped original idea, now Black hole attracts in general, container just fixes its position
+    /* [SerializeField] private float ttl; 
     public float ttlCounter;
 
     // Start is called before the first frame update
@@ -18,19 +19,6 @@ public class BlackHoleContainer : MonoBehaviour
     {
         AttractProjectiles();
         DecreaseTTL();
-    }
-
-    private void AttractProjectiles(){
-        if(ttlCounter <= 0f) return;
-        
-        var projectiles = GameObject.FindGameObjectsWithTag("m_Projectile");
-        foreach(var projectile in projectiles){
-            projectile.GetComponent<m_Projectile>().setDir(transform.position);
-        }
-        var bombFruits = GameObject.FindGameObjectsWithTag("BombFruit");
-        foreach(var fruit in bombFruits){
-            fruit.GetComponent<BombFruit>().setDir(transform.position);
-        }
     }
 
     private void DecreaseTTL(){
@@ -65,7 +53,7 @@ public class BlackHoleContainer : MonoBehaviour
             treeBoss.ApplyDamage(col.GetComponent<BombFruit>().dmg);
             col.GetComponent<BombFruit>().OnDeath();
         }
-    }
+    } */
 
     void OnTriggerStay(Collider col){
         var obj = col.gameObject.GetComponent<Projectile>(); 

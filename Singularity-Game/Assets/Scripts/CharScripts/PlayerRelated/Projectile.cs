@@ -20,6 +20,7 @@ public class Projectile : MonoBehaviour
     private Vector3 stop_pos;
     private bool destroyed = false;
     private bool alreadyDestroyed = false;
+    public bool closeToTreeBoss;
     [Header("Index 0 and 2 can stay empty, they won't be loaded")]
     [SerializeField] private List<Material> modeMaterials;
     [SerializeField] private List<string> ignoreCollisionWithTag = new List<string>(){
@@ -47,6 +48,7 @@ public class Projectile : MonoBehaviour
     void Update()
     {
         Move();
+        AttractProjectiles();
     }
 
     public void setProjectileConfig(Vector3 dir, float speed, int mode)
@@ -63,6 +65,49 @@ public class Projectile : MonoBehaviour
             GetComponent<SphereCollider>().radius = 1.25f;
         }
     }
+
+    private void AttractProjectiles(){
+        if(mode != 2) return;
+
+        var projectiles = GameObject.FindGameObjectsWithTag("m_Projectile");
+        foreach(var projectile in projectiles){
+            projectile.GetComponent<m_Projectile>().setDir(transform.position);
+            projectile.GetComponent<m_Projectile>().waitBeforeAttack = false;
+        }
+        var bombFruits = GameObject.FindGameObjectsWithTag("BombFruit");
+        foreach(var fruit in bombFruits){
+            fruit.GetComponent<BombFruit>().setDir(transform.position);
+        }
+    }
+
+    private void CheckAttractedObjects(GameObject obj){
+        if(mode != 2) return;
+
+        var treeBoss = GameObject.FindWithTag("TreeBoss");
+        if(obj.GetComponent<m_Projectile>()){
+            StartCoroutine(AttractToCenter(obj, false));
+        } else if(obj.GetComponent<BombFruit>()){
+            StartCoroutine(AttractToCenter(obj, true));
+        }
+    }
+
+    private IEnumerator AttractToCenter(GameObject obj, bool fruit){
+        yield return new WaitForSeconds(0.3f);
+        if(!obj) yield break;
+
+        var treeBoss = GameObject.FindWithTag("TreeBoss");
+        int projDmg = 0;
+        if(closeToTreeBoss){
+            if(fruit) projDmg = obj.GetComponent<BombFruit>().dmg;
+            else projDmg = obj.GetComponent<m_Projectile>().dmg;
+
+            treeBoss.GetComponent<TreeBoss>().ApplyDamage(projDmg);
+            Debug.Log("Hit!");
+        }
+        if(fruit) obj.GetComponent<BombFruit>().OnDeath();
+        else obj.GetComponent<m_Projectile>().OnDeath();
+        
+}
 
     private void ChangeColor()
     {
@@ -178,6 +223,7 @@ public class Projectile : MonoBehaviour
     private void OnTriggerStay(Collider col)
     {
         if (mode != 2) return;
+        CheckAttractedObjects(col.gameObject);
         var obj = col.gameObject;
         Vector3 projectile_pos = transform.position;
         if (obj.tag != "Player" && obj.GetComponent<Damageable>())
