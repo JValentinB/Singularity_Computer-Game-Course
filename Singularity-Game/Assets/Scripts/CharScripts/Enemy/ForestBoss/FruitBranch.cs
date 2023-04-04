@@ -5,8 +5,8 @@ using UnityEngine;
 public class FruitBranch : MonoBehaviour
 {
     [SerializeField] private GameObject bombFruit;
-    [Header("Position of the fruit relative to the branch")]
     [SerializeField] private float regrowTime;
+    private AudioSource leaveRustling;
     private Vector3 fruitSize, fruitLocalPos;
     private float regrowCounter;
     private GameObject fruitObject;
@@ -14,6 +14,7 @@ public class FruitBranch : MonoBehaviour
 
     void Start()
     {
+        leaveRustling = GetComponent<AudioSource>();
         fruitObject = gameObject.transform.Find("Armature/Bone/Bone.001/Bone.002/Bone.003/Bone.004/AcornControl/Acorn").gameObject;
         fruitSize = fruitObject.transform.localScale;
         fruitLocalPos = fruitObject.transform.localPosition;
@@ -45,8 +46,10 @@ public class FruitBranch : MonoBehaviour
 
     void OnTriggerEnter(Collider col){
         var obj = col.gameObject;
-        if(regrown && obj.tag == "Staffstone" && obj.GetComponent<StaffStoneControl>().CheckMeleeAttack()){
-            ReleaseFruit();
+
+        if((obj.GetComponent<StaffStoneControl>() && obj.GetComponent<StaffStoneControl>().CheckMeleeAttack()) || obj.GetComponent<m_Projectile>()){
+            if(regrown) ReleaseFruit();
+            leaveRustling.Play();
         }
     }
 }

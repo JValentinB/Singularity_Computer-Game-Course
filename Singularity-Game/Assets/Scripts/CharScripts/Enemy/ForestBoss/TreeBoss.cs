@@ -7,7 +7,7 @@ public class TreeBoss : Enemy
     private float rangeClose, rangeFar, sideRadiusTB, sideRadiusLR, spikeCounter, projectileCounter,
     nextSpike, projSpawnRadius;
     private bool secondPhase;
-    [SerializeField] private float spikeCD, projectileCD, spikePause;
+    [SerializeField] private float spikeCD, projectileCD, spikePause, hitPhaseTimer;
     [SerializeField] private int remainingSpikes;
     [SerializeField] private GameObject rootSpike, manipulatableProjectile,
     bottomSide, topSide, rightSide, leftSide;
@@ -50,6 +50,7 @@ public class TreeBoss : Enemy
         sideRadiusTB = 18f;
         sideRadiusLR = 25f;
         projSpawnRadius = 13f;
+        hitPhaseTimer = 30f;
     }
 
     // Update is called once per frame
@@ -80,6 +81,13 @@ public class TreeBoss : Enemy
             bridge.GetComponent<RootBridge>().destroyBridge = true;
         }
         secondPhase = true;
+    }
+
+    private IEnumerator HitPhase(){
+        yield return new WaitForSeconds(hitPhaseTimer);
+
+        //Animation
+        //Collider activation
     }
 
     private void OnDeath(){

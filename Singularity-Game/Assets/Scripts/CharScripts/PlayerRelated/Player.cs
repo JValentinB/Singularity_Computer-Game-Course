@@ -212,7 +212,7 @@ public class Player : Character
 
     private IEnumerator FireProjectile()
     {
-        if (Input.GetMouseButtonDown(1) && (weaponMode == 1 || weaponMode == 2))
+        if (Input.GetMouseButtonDown(1) && (weaponMode != 0))
         {
             if (!infinite_ammo)
             {
@@ -256,7 +256,7 @@ public class Player : Character
             if (weaponMode != 2)
                 Destroy(projectileClone, 5);
             else
-                Destroy(projectileClone, 30);
+                Destroy(projectileClone, 10);
         }
     }
 
