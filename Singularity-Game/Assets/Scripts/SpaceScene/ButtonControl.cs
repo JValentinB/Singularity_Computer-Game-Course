@@ -104,8 +104,8 @@ public class ButtonControl : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         }    
     }
 
-    private void SpecialMessage(string msg){
-        specialMessageCD = 3f;
+    public void SpecialMessage(string msg, float ttl){
+        specialMessageCD = ttl;
         specialMessage = msg;
         showSpecial = true;
     }
@@ -142,7 +142,7 @@ public class ButtonControl : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         ButtonSound.Play();
         SaveSystem.LoadGame();
         if(SceneManager.GetActiveScene().name != "Forest1.0_Valentin"){
-            SpecialMessage("No savegame found!");
+            SpecialMessage("No savegame found!", 3f);
         }
     }
 

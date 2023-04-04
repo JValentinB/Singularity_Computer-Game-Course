@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StorytextControl : MonoBehaviour
 {
@@ -33,6 +34,8 @@ public class StorytextControl : MonoBehaviour
         PlayStory();
     }
 
+    //To add a text, add a string tuple
+    //First item is the name, second is the text
     private void AddStoryText(){
         spaceStoryText.Add(
             ("Otter", "'Arion', give me a status report of our ship and our current course.")
@@ -52,7 +55,24 @@ public class StorytextControl : MonoBehaviour
         spaceStoryText.Add(
             ("Arion", "But it may be a good place for your next date.")
         );
-
+        spaceStoryText.Add(
+            ("Otter", "Next date? What are you talking about?")
+        );
+        spaceStoryText.Add(
+            ("Arion", "2 days ago you matched with User 'SweetAngel_93' on your partner finding application called 'Gravitynder'.\nI took the liberty to arrange a date for you. You would have messed it up anyway.")
+        );
+        spaceStoryText.Add(
+            ("Otter", "What?! Why didn't you tell me!")
+        );
+        spaceStoryText.Add(
+            ("Arion", "Well, you didn't ask.")
+        );
+        spaceStoryText.Add(
+            ("Otter", "I should have sold you to the scrap dealer on Tardus...\n'Arion', change the course to the location of our Tinder match.")
+        );
+        spaceStoryText.Add(
+            ("Arion", "Changing course to 'Othrys'.")
+        );
     }
 
     private void PlayStory(){
@@ -66,6 +86,10 @@ public class StorytextControl : MonoBehaviour
 
     private void NextText(){
         GetComponent<CanvasGroup>().alpha = 1;
+        if(storyIndex > spaceStoryText.Count){ 
+            StartCoroutine(ContinueGame());
+            return;
+        }
 
         if(writing){
             storyIndex--;
@@ -73,18 +97,14 @@ public class StorytextControl : MonoBehaviour
             charIndex = finalText.Length;
             headerField.text = spaceStoryText[storyIndex].Item1;
             textField.text = spaceStoryText[storyIndex].Item2;
-        } else if(storyIndex == spaceStoryText.Count) {
-            ContinueGame();
-        } else {
+        } else if(storyIndex < spaceStoryText.Count){
             textField.text = "";
             charIndex = 0;
             headerField.text = spaceStoryText[storyIndex].Item1;
             finalText = spaceStoryText[storyIndex].Item2;
             ReproduceText();
             writing = true;
-        }
-        
-        
+        }  
     }
 
     private void ReproduceText()
@@ -129,8 +149,21 @@ public class StorytextControl : MonoBehaviour
         }
     }
 
-    private void ContinueGame(){
-        ShipScript.lockPlayerControl = false;
-        GameObject.FindWithTag("SpaceCamera").GetComponent<CameraControlSpace>().followPlayer = true;
+    private IEnumerator ContinueGame(){
+        ShipScript.lockPlayerControl = true;
+        GetComponent<CanvasGroup>().alpha = 0f;
+        GameObject.FindWithTag("SpaceCamera").GetComponent<CameraControlSpace>().followPlayer = false;
+
+        yield return new WaitForSeconds(2f);
+        
+        var shipTargetPosY = Spaceship.transform.position.y + 20f;
+
+        while(shipTargetPosY >= Spaceship.transform.position.y){
+            Spaceship.transform.Translate(Vector3.down * Spaceship.GetComponent<ShipControl>().SpaceShipSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        Debug.Log("Ready to move Scenes!");
+        SceneManager.LoadScene("Forest1.0_Valentin");
     }
 }
