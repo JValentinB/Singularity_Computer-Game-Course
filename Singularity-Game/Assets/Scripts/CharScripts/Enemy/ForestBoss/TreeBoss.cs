@@ -10,11 +10,11 @@ public class TreeBoss : Enemy
     [SerializeField] private float spikeCD, projectileCD, spikePause, hitPhaseTimer;
     [SerializeField] private int remainingSpikes;
     [SerializeField] private GameObject rootSpike, manipulatableProjectile,
-    bottomSide, topSide, rightSide, leftSide;
+    bottomSide, rightSide, leftSide;
     [SerializeField] private Player playerScript; 
     [SerializeField] public float disToPlayer;
     [SerializeField] public bool startFight;
-    [SerializeField] private Vector3 bottomSideMidPos, topSideMidPos, rightSideMidPos, 
+    [SerializeField] private Vector3 bottomSideMidPos, rightSideMidPos, 
     leftSideMidPos;
     
     void Start()
@@ -44,7 +44,6 @@ public class TreeBoss : Enemy
 
         playerScript = playerObject.GetComponent<Player>();
         bottomSideMidPos = bottomSide.transform.position;
-        topSideMidPos = topSide.transform.position;
         rightSideMidPos = rightSide.transform.position;
         leftSideMidPos = leftSide.transform.position;
         sideRadiusTB = 18f;
@@ -125,9 +124,6 @@ public class TreeBoss : Enemy
         } else if(playerScript.gravitationalDirection == Vector3.left){
             spawnPos = new Vector3(leftSideMidPos.x, leftSideMidPos.y + Random.Range(-sideRadiusLR, sideRadiusLR), leftSideMidPos.z);
             GameObject rootSpikeObject = Instantiate(rootSpike, spawnPos, Quaternion.Euler(0f, 0f, -90f));
-        } else if(playerScript.gravitationalDirection == Vector3.up){
-            spawnPos = new Vector3(topSideMidPos.x + Random.Range(-sideRadiusTB, sideRadiusTB), topSideMidPos.y, topSideMidPos.z);
-            GameObject rootSpikeObject = Instantiate(rootSpike, spawnPos, Quaternion.Euler(0f, 0f, 180f));
         } else {
             spawnPos = new Vector3(bottomSideMidPos.x + Random.Range(-sideRadiusTB, sideRadiusTB), bottomSideMidPos.y, bottomSideMidPos.z);
             GameObject rootSpikeObject = Instantiate(rootSpike, spawnPos, Quaternion.identity);
