@@ -6,6 +6,7 @@ public class FruitBranch : MonoBehaviour
 {
     [SerializeField] private GameObject bombFruit;
     [SerializeField] private float regrowTime;
+    private Rigidbody rb;
     private AudioSource leaveRustling;
     private Vector3 fruitSize, fruitLocalPos;
     private float regrowCounter;
@@ -14,6 +15,7 @@ public class FruitBranch : MonoBehaviour
 
     void Start()
     {
+        rb = transform.Find("Rig 1/BranchTarget").gameObject.GetComponent<Rigidbody>();
         leaveRustling = GetComponent<AudioSource>();
         fruitObject = gameObject.transform.Find("Armature/Bone/Bone.001/Bone.002/Bone.003/Bone.004/AcornControl/Acorn").gameObject;
         fruitSize = fruitObject.transform.localScale;
@@ -50,6 +52,7 @@ public class FruitBranch : MonoBehaviour
         if((obj.GetComponent<StaffStoneControl>() && obj.GetComponent<StaffStoneControl>().CheckMeleeAttack()) || obj.GetComponent<m_Projectile>()){
             if(regrown) ReleaseFruit();
             leaveRustling.Play();
+            rb.AddForce(Vector3.up * 150f, ForceMode.Impulse);
         }
     }
 }
