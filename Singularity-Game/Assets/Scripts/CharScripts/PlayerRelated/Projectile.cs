@@ -194,12 +194,12 @@ public class Projectile : MonoBehaviour
             obj.GetComponent<Rigidbody>().AddForce(dir * 1500f);
             destroyed = true;
         }
-        else if (obj.GetComponent<Shifter>())
+        else if (obj.GetComponent<Shifter>() && mode == 1)
         {   
             obj.GetComponent<Shifter>().ToggleShifter();
             destroyed = true;
         }
-        else if (!col.isTrigger && isChildOfShifter(out shifter, obj.transform, 2)){
+        else if (!col.isTrigger && isChildOfShifter(out shifter, obj.transform, 2) && mode == 1){
             Debug.Log("Shifter" + shifter.transform.name);
             
             shifter.ToggleShifter();
