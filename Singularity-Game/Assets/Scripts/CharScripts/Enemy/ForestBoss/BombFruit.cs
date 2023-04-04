@@ -26,6 +26,7 @@ public class BombFruit : MonoBehaviour
     public void OnDeath(){
         var explosion = Instantiate(explosionObject, transform.position, Quaternion.identity);
         explosion.GetComponent<ParticleSystem>().Play();
+        explosion.GetComponent<AudioSource>().Play();
         Destroy(gameObject);
     }
 
