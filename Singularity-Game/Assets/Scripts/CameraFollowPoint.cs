@@ -22,6 +22,7 @@ public class CameraFollowPoint : MonoBehaviour
         {
             cameraControl.objectToFollow = objectToFollow;
             cameraControl.followPlayer = false;
+            cameraControl.followMouse = false;
             cameraControl.followPointRatio = followPointRatio;
 
             if(changeFollowPointCoroutine != null)

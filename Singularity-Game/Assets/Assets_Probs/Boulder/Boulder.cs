@@ -5,9 +5,14 @@ using UnityEngine;
 public class Boulder : Damageable
 {   
     [Header("Boulder")]
-    public float speed = 10f;
+    public GameObject impactParticles;
+
+    private AudioSource audioSource;
 
     private Vector3 startingPosition;
+    private float velocity;
+
+    [HideInInspector] public bool destroyedRoots = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,16 +30,39 @@ public class Boulder : Damageable
 
 
         startingPosition = transform.position;
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
         ApplyGravity();
+        velocity = rb.velocity.magnitude;
     }
 
     public void ResetBoulder(){
         transform.position = startingPosition;
         rb.velocity = Vector3.zero;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {  
+        if (collision.gameObject.tag != "Player" && velocity > 10 && !destroyedRoots)
+        {  
+            if(audioSource != null){
+                audioSource.volume = velocity / 50;
+                audioSource.Play();
+            }
+            
+            if(impactParticles != null){
+                Vector3 impactPosition = collision.contacts[0].point;
+                Quaternion impactRotation = Quaternion.FromToRotation(Vector3.up, collision.contacts[0].normal);
+                GameObject impact = Instantiate(impactParticles, impactPosition, impactRotation);
+
+                impact.GetComponent<ParticleSystem>().Play();
+                Destroy(impact, 5);
+            }
+        }
     }
 }

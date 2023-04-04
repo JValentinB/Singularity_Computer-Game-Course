@@ -56,14 +56,10 @@ public class CameraControl : MonoBehaviour
                                                   followPointRatio);
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
         }
-        else if(followMouse){
+        else if (followMouse || (followPoint && objectToFollow == null))
+        {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
             mousePosition.z = zPosition;
-
-            // Vector3 targetPosition = Vector3.Lerp(Vector3.Scale(player.position, new Vector3(1, 1, 0)) + new Vector3(offset_x, offset_y, zPosition),
-            //                                       Vector3.Scale(mousePosition, new Vector3(1, 1, 0)) + new Vector3(offset_x, offset_y, zPosition),
-            //                                       mouseFollowRatio);
-            // transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, mouseFollowSpeed);
 
             Vector3 playerPos = Vector3.Lerp(transform.position, Vector3.Scale(player.position, new Vector3(1, 1, 0)) + new Vector3(offset_x, offset_y, zPosition), smoothTime);
             Vector3 mousePos = Vector3.Lerp(transform.position, Vector3.Scale(mousePosition, new Vector3(1, 1, 0)) + new Vector3(offset_x, offset_y, zPosition), mouseFollowRatio);
@@ -88,7 +84,8 @@ public class CameraControl : MonoBehaviour
     {
         if (!rotateOnShift) return;
 
-        if (directionTurningTo != getRotation(direction)){
+        if (directionTurningTo != getRotation(direction))
+        {
             if (turnCameraCoroutine != null)
                 StopCoroutine(turnCameraCoroutine);
             turnCameraCoroutine = StartCoroutine(turnCamera(startDirection, direction, time));
@@ -103,19 +100,19 @@ public class CameraControl : MonoBehaviour
         float endRotation = getRotation(direction);
         directionTurningTo = endRotation;
 
-        if(startDirection == Vector3.left && direction == Vector3.down)
+        if (startDirection == Vector3.left && direction == Vector3.down)
             endRotation += 360;
-        else if(startDirection == Vector3.up && direction == Vector3.left)
+        else if (startDirection == Vector3.up && direction == Vector3.left)
             startRotation -= 360;
-        
+
         // if(startRotation > 200) startRotation -= 360;
         // else if(startRotation < -200) startRotation += 360;
 
         float angleDiff = endRotation - startRotation;
         // Debug.Log(startRotation + " " + endRotation + " " + angleDiff);
-        
-        if(angleDiff > 180) angleDiff -= 360;
-        else if(angleDiff < -180) angleDiff += 360;
+
+        if (angleDiff > 180) angleDiff -= 360;
+        else if (angleDiff < -180) angleDiff += 360;
 
         float elapsedTime = 0;
         while (elapsedTime < time)
@@ -139,7 +136,12 @@ public class CameraControl : MonoBehaviour
     }
 
     public IEnumerator changeFollowPoint(float speed, bool endState, float time)
-    {
+    {   
+        if(objectToFollow == null){
+            followMouse = !endState;
+            yield break;
+        }
+
         float t = 0;
         while (t < time)
         {
@@ -164,6 +166,7 @@ public class CameraControl : MonoBehaviour
             yield return null;
         }
         followPoint = endState;
-        followPlayer = !endState;
+        // followPlayer = !endState;
+        followMouse = !endState;
     }
 }

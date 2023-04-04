@@ -12,12 +12,6 @@ public class BoulderReset : MonoBehaviour
         boulder = GameObject.Find("Boulder");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     void OnTriggerExit(Collider other)
     {
         if(other.gameObject == boulder)

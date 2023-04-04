@@ -30,6 +30,7 @@ public class Shifter : MonoBehaviour
     private bool recharging;
     private bool playWarning = true;
     private bool touchedCollider = false;
+    private bool justToggled = false;
 
 
     private ObjectSounds objectSounds;
@@ -98,7 +99,9 @@ public class Shifter : MonoBehaviour
 
     public void ToggleShifter()
     {
-        if (noActiveTimer || recharging) return;
+        if (noActiveTimer || recharging || justToggled) return;
+
+        StartCoroutine(toggleTimeOut());
 
         if (!colorShifting)
             consumeCoroutine = StartCoroutine(consumeCrystalEnergy());
@@ -135,6 +138,13 @@ public class Shifter : MonoBehaviour
         {
             shifterField.active = active;
         }
+    }
+
+    IEnumerator toggleTimeOut()
+    {
+        justToggled = true;
+        yield return new WaitForSeconds(0.1f);
+        justToggled = false;
     }
 
     IEnumerator shifterTimer()

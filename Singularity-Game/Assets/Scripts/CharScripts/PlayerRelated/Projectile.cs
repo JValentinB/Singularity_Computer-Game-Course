@@ -137,6 +137,7 @@ public class Projectile : MonoBehaviour
             return;
 
         var obj = col.gameObject;
+        Shifter shifter = null;
         if (obj.GetComponent<m_Projectile>() && mode == 1)
         {
             mProjCollision(obj);
@@ -152,14 +153,20 @@ public class Projectile : MonoBehaviour
             obj.GetComponent<Damageable>().ApplyDamage(dmg);
             destroyed = true;
         }
+        else if(obj.GetComponent<AcornBranchTarget>())
+        {
+            obj.GetComponent<Rigidbody>().AddForce(dir * 1500f);
+            destroyed = true;
+        }
         else if (obj.GetComponent<Shifter>())
         {   
             obj.GetComponent<Shifter>().ToggleShifter();
             destroyed = true;
         }
-        else if(obj.GetComponent<AcornBranchTarget>())
-        {
-            obj.GetComponent<Rigidbody>().AddForce(dir * 1500f);
+        else if (!col.isTrigger && isChildOfShifter(out shifter, obj.transform, 2)){
+            Debug.Log("Shifter" + shifter.transform.name);
+            
+            shifter.ToggleShifter();
             destroyed = true;
         }
         else if(!col.isTrigger)
@@ -168,6 +175,7 @@ public class Projectile : MonoBehaviour
         }   
 
         if(destroyed && !alreadyDestroyed && mode == 1){
+            Debug.Log(obj.name);
             alreadyDestroyed = true;
             
             GameObject impact = Instantiate(impactEffect, transform.position, transform.rotation);
@@ -204,5 +212,21 @@ public class Projectile : MonoBehaviour
             }
         }
         return true;
+    }
+
+    bool isChildOfShifter(out Shifter shifter, Transform obj, int depth = 0)
+    {
+        if (obj.parent == null || depth <= 0){
+            shifter = null;
+            return false;
+        }
+        else if (obj.parent.GetComponent<Shifter>()){
+            shifter = obj.parent.GetComponent<Shifter>();
+            return true;
+        }
+        else{
+            shifter = null;
+            return isChildOfShifter(out shifter, obj.parent, depth - 1);
+        }  
     }
 }
