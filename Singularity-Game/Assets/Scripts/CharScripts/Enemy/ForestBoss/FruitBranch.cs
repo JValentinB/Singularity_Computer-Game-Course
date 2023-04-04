@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class FruitBranch : MonoBehaviour
 {
-    [SerializeField] private GameObject bombFruit, branchPiece, fruitDummy;
-    [Header("Position of the fruit relative to the branch")]
-    [SerializeField] private Vector3 relativeFruitPos, dummyStartPos;
+    [SerializeField] private GameObject bombFruit;
     [SerializeField] private float regrowTime;
+    private AudioSource leaveRustling;
+    private Vector3 fruitSize, fruitLocalPos;
     private float regrowCounter;
-    private GameObject fruitObject, dummyObject;
+    private GameObject fruitObject;
     private bool regrown;
 
     void Start()
     {
+        leaveRustling = GetComponent<AudioSource>();
+        fruitObject = gameObject.transform.Find("Armature/Bone/Bone.001/Bone.002/Bone.003/Bone.004/AcornControl/Acorn").gameObject;
+        fruitSize = fruitObject.transform.localScale;
+        fruitLocalPos = fruitObject.transform.localPosition;
         regrowTime = 15f;
     }
 
@@ -26,38 +30,26 @@ public class FruitBranch : MonoBehaviour
         if(regrown) return;
         if(regrowCounter > 0f){
             regrowCounter -= Time.deltaTime;
-            float newScale = regrowCounter;
-            dummyObject.transform.localScale = new Vector3(newScale, newScale, newScale);
-            //dummy fruit is only mesh. No script, collider, etc.
+            fruitObject.transform.localPosition = Vector3.Lerp(fruitLocalPos, Vector3.zero, regrowCounter/regrowTime);
+            fruitObject.transform.localScale = Vector3.Lerp(fruitSize, Vector3.zero, regrowCounter/regrowTime);
             return;
         }
 
-        //Push it of a bit, dont let it straight up fall down
         regrown = true;
-        var fruitPosition = transform.position + relativeFruitPos;
-        fruitObject = Instantiate(bombFruit, fruitPosition, Quaternion.identity);
     }
 
     private void ReleaseFruit(){
-        fruitObject.GetComponent<BombFruit>().released = true;
         regrowCounter = regrowTime;
         regrown = false;
-        //dummyObject = Instantiate(fruitDummy, dummyStartPos, Quaternion.identity);
-    }
-
-    private void createPieces(){
-        Vector3 pos = transform.position;
-        for(int i = 0; i < 5; i++){
-            Vector3 piecePos = new Vector3(pos.x+Random.value, pos.y+Random.value, pos.z+Random.value);
-            GameObject pieceClone = Instantiate(branchPiece, piecePos, transform.rotation);
-            Destroy(pieceClone, 5);
-        }
+        Instantiate(bombFruit, fruitObject.transform.position, fruitObject.transform.rotation);
     }
 
     void OnTriggerEnter(Collider col){
         var obj = col.gameObject;
-        if(regrown && obj.tag == "Staffstone" && obj.GetComponent<StaffStoneControl>().CheckMeleeAttack()){
-            ReleaseFruit();
+
+        if((obj.GetComponent<StaffStoneControl>() && obj.GetComponent<StaffStoneControl>().CheckMeleeAttack()) || obj.GetComponent<m_Projectile>()){
+            if(regrown) ReleaseFruit();
+            leaveRustling.Play();
         }
     }
 }

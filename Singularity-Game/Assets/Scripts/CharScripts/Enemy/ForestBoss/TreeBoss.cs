@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class TreeBoss : Enemy
 {
-    
     private float rangeClose, rangeFar, sideRadiusTB, sideRadiusLR, spikeCounter, projectileCounter,
     nextSpike, projSpawnRadius;
     private bool secondPhase;
-
-    [Header("TreeBoss")]
-    [SerializeField] private float spikeCD;
-    [SerializeField] private float projectileCD, spikePause;
+    [SerializeField] private float spikeCD, projectileCD, spikePause, hitPhaseTimer;
     [SerializeField] private int remainingSpikes;
     [SerializeField] private GameObject rootSpike, manipulatableProjectile,
     bottomSide, topSide, rightSide, leftSide;
     [SerializeField] private Player playerScript; 
     [SerializeField] public float disToPlayer;
+    [SerializeField] public bool startFight;
     [SerializeField] private Vector3 bottomSideMidPos, topSideMidPos, rightSideMidPos, 
     leftSideMidPos;
     
@@ -53,11 +50,14 @@ public class TreeBoss : Enemy
         sideRadiusTB = 18f;
         sideRadiusLR = 25f;
         projSpawnRadius = 13f;
+        hitPhaseTimer = 30f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(!startFight) return;
+        if(startFight && currentHealth <= 0f) OnDeath();
         ChooseAttack();
         SecondPhase();
     }
@@ -69,7 +69,7 @@ public class TreeBoss : Enemy
 
     private void ChooseAttack(){
         var rand = Random.Range(0f, 1f);
-        if(rand < 0.65f)         ThrowProjectile();
+        if(rand < 0.65f)        ThrowProjectile();
         else                    RootSpikes();
     }
 
@@ -81,6 +81,19 @@ public class TreeBoss : Enemy
             bridge.GetComponent<RootBridge>().destroyBridge = true;
         }
         secondPhase = true;
+    }
+
+    private IEnumerator HitPhase(){
+        yield return new WaitForSeconds(hitPhaseTimer);
+
+        //Animation
+        //Collider activation
+    }
+
+    private void OnDeath(){
+        startFight = false;
+        //Defeat animation
+        //Open up escape path
     }
 
     //Mid range attack (adjustable)
@@ -97,7 +110,6 @@ public class TreeBoss : Enemy
         
         spikeCounter = spikeCD;
         remainingSpikes = 15;
-        // Debug.Log("ROOT SPIKES!");
     }
 
     private void SpawnSpike(){
@@ -129,7 +141,6 @@ public class TreeBoss : Enemy
     private void ThrowProjectile(){
         if(projectileCounter >= 0f){
             projectileCounter -= Time.deltaTime;
-            //Debug.Log("Remaining cooldown: " + projectileCounter);
             return;
         }   
 
@@ -142,7 +153,6 @@ public class TreeBoss : Enemy
         var spawnPos = new Vector3(transform.position.x - Random.Range(-projSpawnRadius, projSpawnRadius), transform.position.y, 0f);
         GameObject projectileObject = Instantiate(manipulatableProjectile, spawnPos, Quaternion.identity);
         projectileCounter = projectileCD;
-        // Debug.Log("PROJECTILE!");
     }
 
 
