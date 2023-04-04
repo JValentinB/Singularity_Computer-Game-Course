@@ -74,8 +74,7 @@ public class Menu : MonoBehaviour
         SpaceCameraScript.followPlayer = true;
         ShipScript.lockPlayerControl = false;
 
-        //Start story
-
-        //Lock player control and let Spaceship fly out of screen
+        GameObject.FindWithTag("MenuUI").GetComponent<CanvasGroup>().alpha = 0f;
+        GameObject.FindWithTag("StoryField").GetComponent<StorytextControl>().startStory = true;
     }
 }
