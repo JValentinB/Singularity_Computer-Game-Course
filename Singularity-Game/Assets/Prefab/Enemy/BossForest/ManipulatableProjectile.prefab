@@ -4962,6 +4962,10 @@ PrefabInstance:
       propertyPath: rockPiece
       value: 
       objectReference: {fileID: 1202423540033928085, guid: 8f62b56a7c37b8d498d1c2c2f328ed7f, type: 3}
+    - target: {fileID: 1132824578749169088, guid: 2b38f835ada0bb14fa1a69b1fef22e57, type: 3}
+      propertyPath: rockBreakObject
+      value: 
+      objectReference: {fileID: 7039443408830278626, guid: 9115c0b7bf8ffab4b91135f2e566f173, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b38f835ada0bb14fa1a69b1fef22e57, type: 3}
 --- !u!4 &4711965258648061837 stripped

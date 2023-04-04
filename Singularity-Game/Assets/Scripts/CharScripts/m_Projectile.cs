@@ -5,6 +5,7 @@ using UnityEngine;
 public class m_Projectile : MonoBehaviour
 {
     [SerializeField] private GameObject rockPiece;
+    [SerializeField] private GameObject rockBreakObject;
     [SerializeField] private float speed;
     public bool freeze = false;
     private Vector3 dir;
@@ -45,6 +46,8 @@ public class m_Projectile : MonoBehaviour
     
     public void OnDeath(){
         createPieces();
+        GameObject rockBreakClone = Instantiate(rockBreakObject, transform.position, Quaternion.identity);
+        rockBreakClone.GetComponent<AudioSource>().Play();
         Destroy(gameObject);
     }
 
