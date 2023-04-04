@@ -27,7 +27,6 @@ public class XpManager : MonoBehaviour
         while(currentXp >= targetXp){
             frontBar.fillAmount = 0f;
             backBar.fillAmount = 0f;
-            Debug.Log("lvl up!");
             lvl++;
             currentXp -= targetXp;
             targetXp += (int)Mathf.Floor(lvl + 300 * Mathf.Pow(2, lvl/7))/4;
@@ -46,8 +45,6 @@ public class XpManager : MonoBehaviour
                 frontBar.fillAmount = Mathf.Lerp(xpFillAmount, backBar.fillAmount, percentComplete);
             }
 
-        }
-        
-        
+        }  
     }
 }

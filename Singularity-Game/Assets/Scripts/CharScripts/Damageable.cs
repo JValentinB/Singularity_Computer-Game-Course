@@ -14,12 +14,15 @@ public class Damageable : MonoBehaviour
     [HideInInspector] public Vector3 targetDirection, gravitationalDirection;
     [HideInInspector] public Animator animator;
     [HideInInspector] public Rigidbody rb;
+    [SerializeField] private HealthBar healthBar;
     public InvManager inventory = new InvManager();
 
     public void ApplyDamage(int damage){
         currentHealth -= damage;
-
         StartCoroutine(damageAnimation());
+        if(healthBar){
+            healthBar.UpdateHealth(currentHealth);
+        }
     }
 
     public void ApplyGravity()
