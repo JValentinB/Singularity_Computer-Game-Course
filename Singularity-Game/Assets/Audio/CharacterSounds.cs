@@ -64,7 +64,6 @@ public class CharacterSounds : MonoBehaviour
 
     public void meleeAttack()
     {
-        Debug.Log("meleeSound");
         Sound sound = meleeSounds[Random.Range(0, meleeSounds.Count)];
         sound.source.Play();
     }
