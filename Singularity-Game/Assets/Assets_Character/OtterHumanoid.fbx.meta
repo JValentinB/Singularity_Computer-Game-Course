@@ -123,6 +123,9 @@ ModelImporter:
   - first:
       74: 6941135465181782425
     second: TakingDamage
+  - first:
+      74: 7101064363375740852
+    second: TakingDamage (1)
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -155,9 +158,6 @@ ModelImporter:
       'Jumping02' has import animation warnings that might lower retargeting quality:\n\t'spine.004'
       has translation animation that will be discarded.\n\t'spine.004' is inbetween
       humanoid transforms and has rotation animation that will be discarded.\n\nClip
-      'Landing02' has import animation warnings that might lower retargeting quality:\n\t'spine.004'
-      has translation animation that will be discarded.\n\t'spine.004' is inbetween
-      humanoid transforms and has rotation animation that will be discarded.\n\nClip
       'Running02' has import animation warnings that might lower retargeting quality:\n\t'spine.004'
       has translation animation that will be discarded.\n\t'spine.004' is inbetween
       humanoid transforms and has rotation animation that will be discarded.\n\nClip
@@ -179,6 +179,9 @@ ModelImporter:
       has translation animation that will be discarded.\n\t'spine.004' is inbetween
       humanoid transforms and has rotation animation that will be discarded.\n\nClip
       'Landing01' has import animation warnings that might lower retargeting quality:\n\t'spine.004'
+      has translation animation that will be discarded.\n\t'spine.004' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'Landing02' has import animation warnings that might lower retargeting quality:\n\t'spine.004'
       has translation animation that will be discarded.\n\t'spine.004' is inbetween
       humanoid transforms and has rotation animation that will be discarded.\n"
     animationRetargetingWarnings: 
@@ -304,11 +307,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Falling01
-      takeName: Falling01
+      name: TakingDamage (1)
+      takeName: TakingDamage
       internalID: 0
       firstFrame: 0
-      lastFrame: 18
+      lastFrame: 15
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -2887,7 +2890,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.5671745
+        functionName: meleeAttack
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
@@ -3136,7 +3146,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.41883656
+        functionName: meleeAttack
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
@@ -3385,7 +3402,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.71551245
+        functionName: meleeAttack
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
