@@ -7,24 +7,26 @@ using UnityEngine.SceneManagement;
 
 public class StorytextControl : MonoBehaviour
 {
+    [SerializeField] private int storyIndex, charIndex;
+    private GameObject Spaceship;
+    private ShipControl ShipScript;
     private TMPro.TextMeshProUGUI headerField, textField;
+    private AudioSource textSound;
+
     private List<(string, string)> spaceStoryText = new List<(string, string)>();
     private string finalText;
     private bool writing;
-    [SerializeField] private int storyIndex, charIndex;
     public bool startStory;
-    private GameObject Spaceship;
-    private ShipControl ShipScript;
 
     void Start()
     {
         Spaceship = GameObject.FindWithTag("Spaceship");
         ShipScript = Spaceship.GetComponent<ShipControl>();
-
-        GetComponent<CanvasGroup>().alpha = 0f;
+        textSound = GetComponent<AudioSource>();
         headerField = transform.Find("InfoHeader").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
         textField = transform.Find("InfoDescription").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
-        
+
+        GetComponent<CanvasGroup>().alpha = 0f;
         AddStoryText();
         storyIndex = 0;
     }
@@ -86,7 +88,7 @@ public class StorytextControl : MonoBehaviour
 
     private void NextText(){
         GetComponent<CanvasGroup>().alpha = 1;
-        if(storyIndex > spaceStoryText.Count){ 
+        if(storyIndex > spaceStoryText.Count || (storyIndex == spaceStoryText.Count && !writing)){ 
             StartCoroutine(ContinueGame());
             return;
         }
@@ -117,6 +119,9 @@ public class StorytextControl : MonoBehaviour
 
             //Actualize on screen
             textField.text += letter;
+
+            //Play text sound
+            textSound.Play();
 
             //set to go to the next
             charIndex += 1;
