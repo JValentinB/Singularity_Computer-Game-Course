@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Singularity Game</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<style>
+  .bg-image {
+    background-image: url('./805180.jpg');
+    <!-- 
+      source https://wall.alphacoders.com/big.php?i=805180
+    -->
+    height: 100vh;
+  }
+
+  .screenshot {
+    height: 25%;
+    width: 25%;
+  }
+
+  .bg-black {
+    background-color: black;
+  }
+
+  .button {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 23px;
+    padding: 10px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+
+  .dl-button {
+    background-color: #583571;
+  }
+
+  .button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+
+  .button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+
+  .button:hover {
+    background-color: #826794;
+  }
+
+  .button:hover span {
+    padding-right: 25px;
+
+  }
+
+  .button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+
+  .dd:hover {
+    background-color: #adadad;
+  }
+</style>
+<style>
+  body {
+    position: relative;
+  }
+
+  .footer {
+    padding-top: 150px;
+  }
+
+  .unorderedList {
+    list-style: none;
+  }
+
+  .listItem {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 52px;
+  }
+
+  .ltt {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 18px;
+  }
+
+  .ltt:hover {
+    color: #adadad;
+  }
+</style>
+
+</head>
+
+<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50" class="bg-image">
+
+  <!--NavigationBar-->
+  <nav class="navbar navbar-expand-lg bg-black navbar-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="./index.html">
+        <img src="./logo_hd_bloom_noBG.png" alt="Logo" width="200px" height="35px">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="./index.html#Story">Story</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./index.html#Trailer">Gameplay</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./zuz.html">Play now</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Development
+            </a>
+            <ul class="dropdown-menu bg-dark">
+              <li><a class="dropdown-item text-white dd " href="#">Assets</a></li>
+              <li><a class="dropdown-item text-white dd" href="#About">About</a></li>
+              <li><a class="dropdown-item text-white dd" href="#Creds">Credits</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <a class="button dl-button" href="#"><span>Download</span></a>
+      </button>
+    </div>
+  </nav>
+
+
+
+
+  <div style="padding-bottom: 50px" class="container bg-black">
+    <!--Textbody-->
+
+    <div id="Story" class="text-white" style="padding:100px;">
+      <p>
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+        dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+        clita
+        kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+        sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+        voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+        sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
+        justo
+        duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+        Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+        delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+        sed
+        diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+
+        Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea
+        commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel
+        illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent
+        luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+
+        Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer
+        possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
+        ut
+        laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
+        suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+
+        Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+        feugiat nulla facilisis.
+
+        At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+        Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+        tempor
+        invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+        et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
+        dolor
+        sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et
+        nonumy
+        sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata
+        ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+        diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
+
+        Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed
+        diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+        takimata
+        sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
+        justo
+        duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+        Lorem
+        ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
+        magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+        gubergren, no sea takimata sanctus.
+
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+        dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+        clita
+        kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+        sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+        voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+        sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
+        justo
+        duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+        Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+        delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+        sed
+        diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+
+        Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea
+        commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel
+        illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent
+        luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+
+        Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer
+        possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
+        ut
+        laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
+        suscipit lobortis nisl ut aliquip ex ea commodo
+      </p>
+    </div>
+  </div>
+
+  <!--footer-->
+  <div class="footer text-white">
+    <div style="padding-top:50px; padding-bottom:50px" class="bg-black">
+      <div class="container">
+        <div class="row">
+          <div id="About" class="col-lg-3 col-sm-6 container">
+            <h3 style="text-align: center">About</h3>
+            <p>
+              We are developing our own computer game for the Computer Games & Visual Effects-Course!
+              There is only one specification given, the keyword for the primary game mechanic is "Attraction".
+
+              Our game will be a metroidvania, a 2D-Jump'n'Run/Sidescroller. As the player you will discover an
+              interconnected map of several areas. To reach the next area you first have to find special items
+              or skills.
+
+              All items, skills and weapons are centered around the keyword "Attraction". Furthermore we interpret
+              "Attraction" as a physical term and will be used as a synonym for gravity.
+
+            </p>
+          </div>
+          <div class="col-lg-3 col-sm-6 container">
+            <aside>
+              <h3 style="text-align: center">Useful links</h3>
+              <ul class="unorderedList">
+                <li class="listItem">
+                  <a class="ltt" href="./index.html"><b>Home</b></a>
+                </li>
+                <li class="listItem">
+                  <a class="ltt" href="./index.html#Story"><b>Story</b></a>
+                </li>
+                <li class="listItem">
+                  <a class="ltt" href="./index.html#Trailer"><b>Gameplay</b></a>
+                </li>
+              </ul>
+            </aside>
+
+          </div>
+          <div class="col-lg-3 col-sm-6 container">
+            <h3 id="Creds" style="text-align: center">Impressum</h3>
+            <ul class="unorderedList">
+              <li class="listItem">
+                <a class="ltt" href="./impressum.html"><b>Terms of Service</b></a>
+              </li>
+              <li class="listItem">
+                <a class="ltt" href="./impressum.html"><b>Privacy Policy</b></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</body>
+
+</html>
