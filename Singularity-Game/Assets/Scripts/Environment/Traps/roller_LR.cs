@@ -10,6 +10,7 @@ public class roller_LR : MonoBehaviour
 
     private bool backward = false;
     private float count = 0;
+    private int dmg;
     enum Direction
     { forward, back }
     [SerializeField] Direction direction;
@@ -19,7 +20,7 @@ public class roller_LR : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        dmg = 75;
     }
 
     // Update is called once per frame
@@ -79,6 +80,15 @@ public class roller_LR : MonoBehaviour
             //transform.Translate(Vector3.left * speed * Time.deltaTime);
             transform.Translate(speed * Time.deltaTime, 0, 0, Space.World);
             count += speed * Time.deltaTime;
+        }
+    }
+
+    private void OnTriggerEnter(Collider col)
+    {
+        var obj = col.gameObject;
+        if (obj.GetComponent<Damageable>())
+        {
+            obj.GetComponent<Damageable>().ApplyDamage(dmg);
         }
     }
 }

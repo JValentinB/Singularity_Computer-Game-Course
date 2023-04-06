@@ -11,11 +11,12 @@ public class spikes : MonoBehaviour
     private float count = 0;
     private float way = 0;
     private bool backward = false;
+    private int dmg;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        dmg = 100;
     }
 
     // Update is called once per frame
@@ -104,5 +105,12 @@ public class spikes : MonoBehaviour
             }
         }
     }
-  
+    private void OnTriggerEnter(Collider col)
+    {
+        var obj = col.gameObject;
+        if (obj.GetComponent<Damageable>())
+        {
+            obj.GetComponent<Damageable>().ApplyDamage(dmg);
+        }
+    }
 }

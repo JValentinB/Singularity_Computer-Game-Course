@@ -8,12 +8,12 @@ public class Tree_enemy : Enemy
 
     [SerializeField] private bool attacking;
     [SerializeField] private GameObject[] rocks;
+    [SerializeField] private GameObject dust;
     [SerializeField] private float cool_time = 3.0f;
     [SerializeField] private float CASTING_TIME = 3.0f;
-    private float casting_time;
-    private float cool_down = 0.0f;
-    private bool isWalking;
-    
+    private float cool_down;
+    private bool dead;
+    private float dying_time = 3.0f;
 
 
 
@@ -39,89 +39,132 @@ public class Tree_enemy : Enemy
         //from Enemy
         xp = 100;
         sightRange = 15;
-        attackRange = 5;
+        attackRange = 10;
         playerObject = GameObject.FindWithTag("Player");
         //from Tree_enemy
         attacking = false;
-        isWalking = false;
-        casting_time = CASTING_TIME;
+        cool_down = 0.0f;
+        dead = false;
 
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        ChangeLineOfSight();
-        RotateGravity();
-        ApplyGravity();
-        MoveEnemy();
-        Tree_enemy_attack();
-        ToggleAnimation();
+        if (!dead)
+        {
+            ChangeLineOfSight();
+            RotateGravity();
+            ApplyGravity();
+            MoveEnemy();
+            OnDeath();
+        }
+
     }
 
     void Update()
     {
-        attacking = InRange(attackRange);
-        CoolDown();
-        OnDeath();
+        if (!dead)
+        {
+            Attacking();
+            Tree_enemy_attack();
+            coolDown();
+        }
+        if (dead)
+        {
+            Dying();
+        }
     }
+
+
+
+
 
     void Tree_enemy_attack()
     {
-        if (attacking)
+        if (cool_down <= 0)
         {
-            if (cool_down <= 0)
+            if (attacking)
             {
-                Instantiate(rocks[Random.Range(0, rocks.Length)], transform);
-                cool_down = cool_time;
-                casting_time = CASTING_TIME;
                 animator.SetTrigger("CastAttack");
+                Instantiate(dust, instantiatePosition(), Quaternion.Euler(new Vector3(-90, 0, 0)));
+                Instantiate(rocks[Random.Range(0, rocks.Length)], instantiatePosition(), Quaternion.identity);
+                cool_down = cool_time;
+                attacking = false;
             }
 
         }
     }
 
-    void ToggleAnimation()
+    void coolDown()
     {
-        if (InRange(sightRange) && !isWalking)
+        if (cool_down > 0)
         {
-            animator.SetTrigger("Walk");
-            isWalking = true;
-        }
-        if (!InRange(sightRange) && isWalking)
-        {
-            animator.SetTrigger("StopWalk");
-            isWalking = false;
-        }
-    }
-
-    void CoolDown()
-    {
-        if(cool_down > 0)
-        {
-            cool_down -= 1.0f * Time.deltaTime;
-            
-
+            cool_down -= 1 * Time.deltaTime;
             if (cool_down < 0)
             {
                 cool_down = 0;
             }
         }
-        if(casting_time > 0)
-        {
-            casting_time -= 1.0f * Time.deltaTime;
+    }
 
-            if (casting_time <= 0)
+    Vector3 instantiatePosition()
+    {
+        return new Vector3(transform.position.x + 3 * direction, transform.position.y - 3, transform.position.z);
+    }
+    public new void OnDeath()
+    {
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+            animator.SetTrigger("Die");
+            dead = true;
+        }
+    }
+    public new void MoveEnemy()
+    {
+        var velocity = Vector3.zero;
+        if (InRange(sightRange) && !InRange(attackRange - 0.5f))
+        {
+            if (gravitationalDirection.x == 1)
             {
-                animator.SetTrigger("StopCasting");
-                casting_time = CASTING_TIME;
+                direction = playerObject.transform.position.y - transform.position.y > 0 ? 1 : -1;
             }
-            
-                
-    
+            else if (gravitationalDirection.x == -1)
+            {
+                direction = playerObject.transform.position.y - transform.position.y > 0 ? -1 : 1;
+            }
+            else
+            {
+                direction = playerObject.transform.position.x - transform.position.x > 0 ? 1 : -1;
+            }
+            velocity = Vector3.forward * currentSpeed;
+        }
+        transform.Translate(velocity * Time.deltaTime);
+        animator.SetFloat("EnemySpeed", velocity.magnitude);
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+    }
+
+    void Attacking()
+    {
+        if (cool_down <= 0)
+        {
+            attacking = InRange(attackRange);
         }
     }
 
+    void Dying()
+    {
+        if(dying_time > 0)
+        {
+            dying_time -= 1 * Time.deltaTime;
+        } else
+            if(dying_time <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
 }
+
 
 
