@@ -6,8 +6,14 @@
     <title>Unity WebGL Player | Singularity-Game</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <style>
+      .bg-image {
+        background-image: url('./805180.jpg');
+        height: 100vh;
+      }
+    </style>
   </head>
-  <body>
+  <body class="bg-image">
     <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" width=1344 height=840></canvas>
       <div id="unity-loading-bar">
@@ -18,9 +24,8 @@
       </div>
       <div id="unity-warning"> </div>
       <div id="unity-footer">
-        <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">Singularity-Game</div>
+        <div id="unity-build-title" style="color: white;">Uber Gravity Naked Mole-Rat</div>
       </div>
     </div>
     <script>
