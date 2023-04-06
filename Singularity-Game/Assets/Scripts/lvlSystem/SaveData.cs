@@ -8,7 +8,7 @@ public class SaveData
     //Stat based
     public int health;
     public List<bool> unlockedWeaponModes;
-    public bool doubleJumpBoots;
+    public bool doubleJumpBoots, treeBossEntryDestroyed, golemDefeated, treeBossDefeated;
     public List<int> invItemID = new List<int>();
     public List<int> invItemAmount = new List<int>();
     public float[] lastCheckpoint;
@@ -27,5 +27,13 @@ public class SaveData
             invItemID.Add(item.Item1.id);
             invItemAmount.Add(item.Item2);
         }
+
+
+        if(GameObject.FindWithTag("BossEntry")) treeBossEntryDestroyed = false;
+        else treeBossEntryDestroyed = true;
+        if(GameObject.FindWithTag("GolemHeart")) golemDefeated = false;
+        else golemDefeated = true;
+        if(GameObject.FindWithTag("TreeBoss")) treeBossDefeated = false;
+        else treeBossDefeated = true;
     }
 }
