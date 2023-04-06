@@ -9,6 +9,7 @@ public class AnimationTreeBoss : MonoBehaviour
     public AnimationCurve curve = new AnimationCurve();
     public AnimationClip clip;
     [Header("Explosion")]
+    public GameObject explosionParticles;
     public float explosionRadius = 5f;
     public float explosionForce = 700f;
     public Vector3 explosionPosition;
@@ -97,6 +98,9 @@ public class AnimationTreeBoss : MonoBehaviour
                 // rb.AddExplosionForce(explosionForce, transform.position + explosionPosition, explosionRadius);
             }
         }
+
+        GameObject explosion = Instantiate(explosionParticles, transform.position + explosionPosition, Quaternion.Euler(-90, 0, 0));
+        Destroy(explosion, 5f);
     }
 
     public void setWeight(float clipLength)

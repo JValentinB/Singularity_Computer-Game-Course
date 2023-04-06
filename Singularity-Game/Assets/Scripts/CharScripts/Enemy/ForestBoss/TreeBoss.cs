@@ -7,11 +7,14 @@ public class TreeBoss : Enemy
     private float rangeClose, rangeFar, sideRadiusTB, sideRadiusLR, spikeCounter, projectileCounter,
     nextSpike, projSpawnRadius;
     private bool secondPhase;
-    [SerializeField] private float spikeCD, projectileCD, spikePause, hitPhaseTimer;
+
+    [Header("Tree Boss")]
+    [SerializeField] private float spikeCD;
+    [SerializeField] private float projectileCD, spikePause, hitPhaseTimer;
     [SerializeField] private int remainingSpikes;
     [SerializeField] private GameObject rootSpike, manipulatableProjectile,
     bottomSide, rightSide, leftSide;
-    [SerializeField] private Player playerScript; 
+    private Player playerScript; 
     [SerializeField] public float disToPlayer;
     [SerializeField] public bool startFight;
     [SerializeField] private Vector3 bottomSideMidPos, rightSideMidPos, 
@@ -39,6 +42,7 @@ public class TreeBoss : Enemy
         rangeClose = 10f;
         rangeFar = 20f;
 
+        remainingSpikes = 15;
         spikeCD = 3f;
         projectileCD = 2f;
 
@@ -61,6 +65,13 @@ public class TreeBoss : Enemy
         SecondPhase();
     }
 
+    void OnTriggerEnter(Collider other){
+        if(other.gameObject.tag == "Player"){
+            Debug.Log("Player entered boss fight");
+            startFight = true;
+        }
+    }
+
     private float DistanceToPlayer(){
         disToPlayer = Mathf.Abs(transform.position.x - playerObject.transform.position.x);
         return disToPlayer;
@@ -74,6 +85,7 @@ public class TreeBoss : Enemy
 
     private void SecondPhase(){
         if(currentHealth > Mathf.Floor(maxHealth/2) && !secondPhase) return;
+        Debug.Log("Second phase");
         projectileCD = 3f;
         var rootBridges = GameObject.FindGameObjectsWithTag("RootBridge");
         foreach(var bridge in rootBridges){
@@ -89,7 +101,7 @@ public class TreeBoss : Enemy
         //Collider activation
     }
 
-    private void OnDeath(){
+    new private void OnDeath(){
         startFight = false;
         //Defeat animation
         //Open up escape path
@@ -112,6 +124,7 @@ public class TreeBoss : Enemy
     }
 
     private void SpawnSpike(){
+        Debug.Log("Spawning spike");
         if(spikePause > 0f){
             spikePause -= Time.deltaTime;
             return;

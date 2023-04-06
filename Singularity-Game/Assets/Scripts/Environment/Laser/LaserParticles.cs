@@ -16,6 +16,8 @@ public class LaserParticles : MonoBehaviour
     private LaserBeam laserBeam;
     private GameObject soundObject;
 
+    // private bool becameActive = false;
+
     void Start()
     {
         laserBeam = GetComponent<LaserBeam>();
@@ -26,7 +28,7 @@ public class LaserParticles : MonoBehaviour
         collisionParticles = Instantiate(laserSpark, transform.position, Quaternion.identity);
         collisionParticles.transform.parent = transform;
         collisionParticleSystem = collisionParticles.GetComponent<ParticleSystem>();
-        
+
         var emission = collisionParticleSystem.emission;
         emission.rateOverTime = emissionAtCollision;
 
@@ -37,32 +39,32 @@ public class LaserParticles : MonoBehaviour
 
     void Update()
     {
-        Vector3 lastPoint = path.bezierPath[path.bezierPath.NumPoints - 1];
-        Vector3 direction = path.path.GetDirection(1);
-
-        //Put the shape of the collision particle system at the end of the path
-        var shape = collisionParticleSystem.shape;
-        shape.position = lastPoint;
-        shape.rotation = direction;
-
-        soundObject.transform.position = lastPoint + transform.position;
-
-        if(laserBeam.isActive)
+        if (laserBeam.isActive)
         {
-            if(!soundObject.GetComponent<AudioSource>().isPlaying)
+            Vector3 lastPoint = path.bezierPath[path.bezierPath.NumPoints - 1];
+            Vector3 direction = path.path.GetDirection(1);
+
+            //Put the shape of the collision particle system at the end of the path
+            var shape = collisionParticleSystem.shape;
+            shape.position = lastPoint;
+            shape.rotation = direction;
+
+            soundObject.transform.position = lastPoint + transform.position;
+
+            if (!soundObject.GetComponent<AudioSource>().isPlaying)
                 soundObject.GetComponent<AudioSource>().Play();
-            if(!laserSpark.GetComponent<ParticleSystem>().isPlaying)
+            if (!laserSpark.GetComponent<ParticleSystem>().isPlaying)
                 laserSpark.GetComponent<ParticleSystem>().Play();
-            if(!collisionParticleSystem.isPlaying)
+            if (!collisionParticleSystem.isPlaying)
                 collisionParticleSystem.Play();
         }
         else
         {
-            if(soundObject.GetComponent<AudioSource>().isPlaying)
+            if (soundObject.GetComponent<AudioSource>().isPlaying)
                 soundObject.GetComponent<AudioSource>().Stop();
-            if(laserSpark.GetComponent<ParticleSystem>().isPlaying)
+            if (laserSpark.GetComponent<ParticleSystem>().isPlaying)
                 laserSpark.GetComponent<ParticleSystem>().Stop();
-            if(collisionParticleSystem.isPlaying)
+            if (collisionParticleSystem.isPlaying)
                 collisionParticleSystem.Stop();
         }
     }

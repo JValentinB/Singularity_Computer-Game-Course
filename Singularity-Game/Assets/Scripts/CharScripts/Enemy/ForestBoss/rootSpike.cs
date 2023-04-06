@@ -26,26 +26,50 @@ public class rootSpike : MonoBehaviour
         growBackCount();
     }
 
-    private void PlayEarthRumble(){
-        if(startRumble){
+    private void PlayEarthRumble()
+    {
+        if (startRumble)
+        {
             ps.Play();
             startRumble = false;
         }
     }
 
-    private void GrowRootSpike(){
-        if(ps.isEmitting){ return; }
+    private void GrowRootSpike()
+    {
+        if (ps.isEmitting) return;
+        
         animator.SetBool("grow", true);
+        StartCoroutine(rootScale(0.1f, 1f));
     }
 
-    private void growBackCount(){
-        if(animator.GetBool("grow")){
+    private void growBackCount()
+    {
+        if (animator.GetBool("grow"))
+        {
             growBackCD -= Time.deltaTime;
         }
-        if(0f >= growBackCD){
+        if (0f >= growBackCD)
+        {
             animator.SetBool("grow", false);
             animator.SetBool("recede", true);
             Destroy(gameObject, 1f);
+            StartCoroutine(rootScale(1f, 0.1f));
         }
+    }
+
+    IEnumerator rootScale(float startScale, float endScale)
+    {
+        transform.localScale = Vector3.Scale(transform.localScale, new Vector3(1f, 1f, startScale));
+
+        float time = 0f;
+        while (time < growBackCD)
+        {
+            time += Time.deltaTime;
+            float scale = Mathf.Lerp(startScale, endScale, time / growBackCD);
+            transform.localScale = Vector3.Scale(transform.localScale, new Vector3(1f, 1f, scale));
+            yield return null;
+        }
+        transform.localScale = Vector3.Scale(transform.localScale, new Vector3(1f, 1f, endScale));
     }
 }

@@ -19,12 +19,19 @@ public class StoneGolemBoss : MonoBehaviour
     public float explosionForce = 700f;
     public Vector3 explosionDirection;
 
+    [Header("LaserAttack")]
+    public LaserEmitter laserEmitter;
+    public float laserWidth = 1f;
+    public float laserInterval = 0.5f;
+
     [Header("Particles")]
     public GameObject stampedeParticles;
+    public GameObject heartDamageParticles;
     public GameObject heartExplosionParticles;
     public GameObject deathParticles;
     public GameObject blackHoleParticles;
 
+    [HideInInspector] public bool bossFightStarted = false;
     private int fightPhase = 0;
     private LaserBeam laser;
 
@@ -33,6 +40,13 @@ public class StoneGolemBoss : MonoBehaviour
     private ObjectSounds objectSounds;
 
     Coroutine blackHoleCoroutine;
+    bool blackHoleActive = false;
+    Coroutine laserAttackCoroutine;
+    bool laserAttackActive = false;
+    bool phaseTimerActive = false;
+
+    bool damageParticlesActive = false;
+    bool protectHeartActive = false;
 
     // Start is called before the first frame update
     void Start()
@@ -49,23 +63,33 @@ public class StoneGolemBoss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if R is pressed
-        if (dead || Input.GetKeyDown(KeyCode.R))
+        // if R is pressed. Delete Before Release!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if (Input.GetKeyDown(KeyCode.R))
         {
             OnDeath();
         }
 
         BossFightPhases();
+
+        if(bossFightStarted && !phaseTimerActive){
+            StartCoroutine(PhaseTimer());
+        }
     }
 
     public void ApplyDamage(float damage, LaserBeam laserBeam = null)
-    {
+    {   
+        if(!bossFightStarted) return;
+
         if (laserBeam != null)
         {
             laser = laserBeam;
         }
+        if(!damageParticlesActive)
+            StartCoroutine(damageParticles());
+        if(!protectHeartActive && !blackHoleActive)
+            StartCoroutine(protectHeart());
+                
         currentHealthPoints -= damage;
-
         if (currentHealthPoints % 5000 == 0)
             Debug.Log("Boss health: " + currentHealthPoints);
 
@@ -77,6 +101,8 @@ public class StoneGolemBoss : MonoBehaviour
 
     void OnDeath()
     {
+        if(!bossFightStarted) return;
+
         animator.enabled = false;
         foreach (Rigidbody rb in boneRigidbodies)
         {
@@ -94,16 +120,16 @@ public class StoneGolemBoss : MonoBehaviour
 
         Destroy(transform.Find("Tendrils").gameObject);
         Destroy(heart.gameObject);
-        Destroy(gameObject, 7f);
-
-        dead = false;
+        Destroy(gameObject, 6f);
     }
 
     private void BossFightPhases()
     {
+        if(!bossFightStarted) return;
+
         if (fightPhase == 0 && currentHealthPoints <= healthPoints * 0.833f && blackHoleCoroutine == null)
         {
-            blackHoleCoroutine = StartCoroutine(blackHole());
+            // blackHoleCoroutine = StartCoroutine(blackHole());
         }
 
         if (fightPhase == 0 && currentHealthPoints <= healthPoints * 0.666f)
@@ -115,6 +141,64 @@ public class StoneGolemBoss : MonoBehaviour
 
     }
 
+    IEnumerator PhaseTimer(){
+        phaseTimerActive = true;
+        yield return new WaitForSeconds(20f);
+
+        if(!laserAttackActive)
+            laserAttackCoroutine = StartCoroutine(LaserAttack());
+
+        while(!dead){
+            yield return new WaitForSeconds(90f);
+
+            if(!laserAttackActive)
+                laserAttackCoroutine = StartCoroutine(LaserAttack());
+        }
+
+        phaseTimerActive = false;
+    }
+
+    // Particles and Animations _______________________________________________
+    IEnumerator damageParticles(){
+        damageParticlesActive = true;
+        Transform heart = transform.Find("Heart");
+        GameObject damageParticles = Instantiate(heartDamageParticles, heart.position, Quaternion.LookRotation(-heart.up));
+
+        yield return new WaitForSeconds(1.5f);
+        damageParticles.GetComponent<ParticleSystem>().Stop();
+        Destroy(damageParticles,1f);
+        damageParticlesActive = false;
+    }
+
+    IEnumerator protectHeart(){
+        protectHeartActive = true;
+
+        float time = 0f;
+        while(time < 1.5f){
+            time += Time.deltaTime;
+            animator.SetLayerWeight(3, Mathf.Lerp(0f, 1f, time / 1.5f));
+            yield return null;
+        }
+
+        while(true){
+            if(damageParticlesActive && !blackHoleActive)
+                yield return new WaitForSeconds(2f);
+            else break;
+        }
+
+        time = 0f;
+        while(time < 1.5f){
+            time += Time.deltaTime;
+            animator.SetLayerWeight(3, Mathf.Lerp(1f, 0f, time / 1.5f));
+            yield return null;
+        }
+
+        protectHeartActive = false;
+    }
+
+    // ________________________________________________________________________
+
+    // Skills _________________________________________________________________ 
     void StampedeExplosion()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
@@ -140,10 +224,66 @@ public class StoneGolemBoss : MonoBehaviour
         Destroy(particles, 6f);
     }
 
+    IEnumerator LaserAttack(){
+        laserAttackActive = true;
+        
+        LaserBeam laserBeam = laserEmitter.transform.parent.GetComponentInChildren<LaserBeam>();
+
+        laserEmitter.startEmitting(false);
+        StartCoroutine(objectSounds.fadeInOut("LaserShooting", 0.7f, 1));
+        StartCoroutine(objectSounds.risePitch("LaserShooting", 0.7f, 1));
+
+        float time = 0f;
+        while(time < 1f){
+            laserBeam.laserWidth = Mathf.Lerp(0f, 1, time);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        laserBeam.laserWidth = 1f;
+
+        // Goes back and forth 2 times
+        for(int i = 0; i < 2; i++){
+            if(i == 0)
+                blackHoleCoroutine = StartCoroutine(blackHole());
+
+            time = 0f;
+            while(time < 8f){
+                time += Time.deltaTime;
+                float angle = Mathf.Lerp(0, -110, time / 8f);
+                laserEmitter.rotateLaserEmitter(angle);
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(1f);
+
+            time = 0f;
+            while(time < 8f){
+                time += Time.deltaTime;
+                float angle = Mathf.Lerp(-110, 0, time / 8f);
+                laserEmitter.rotateLaserEmitter(angle);
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(1f);
+        }
+
+        time = 0f;
+        while(time < 1f){
+            laserBeam.laserWidth = Mathf.Lerp(1, 0, time);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        laserBeam.laserWidth = 0f;
+        laserEmitter.stopEmitting(false);
+        
+        laserAttackActive = false;
+    }
+
     IEnumerator blackHole()
-    {
-        // Rise the weight of the left arm rig
-        Rig leftArmRig = transform.Find("LeftArmRig").GetComponent<Rig>();
+    {   
+        blackHoleActive = true;
+        // Get Left Arm Rig from Rigbuilder
+        Rig leftArmRig = GetComponent<RigBuilder>().layers.Find(layer => layer.name == "LeftArmRig").rig;
         float time = 0f;
         while (time < 1f)
         {
@@ -190,6 +330,7 @@ public class StoneGolemBoss : MonoBehaviour
             time += Time.deltaTime;
             yield return null;
         }
+        blackHoleActive = false;
     }
 
     void DestroyActiveBenders()
@@ -201,4 +342,6 @@ public class StoneGolemBoss : MonoBehaviour
             bender.DestroyBender();
         }
     }
+
+    // _________________________________________________________________ Skills
 }

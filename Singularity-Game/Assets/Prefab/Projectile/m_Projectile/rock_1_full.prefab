@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6478536213147159724, guid: 9ab757e3da1f89a48aa783f1cc646bdf, type: 3}
+  - {fileID: 2100000, guid: 0793ac7938ea2744cbe3ae8d9977bf81, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -112,8 +112,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rockPiece: {fileID: 1202423540033928085, guid: 8f62b56a7c37b8d498d1c2c2f328ed7f, type: 3}
+  rockBreakObject: {fileID: 0}
   speed: 0
   freeze: 0
+  dmg: 0
+  waitBeforeAttack: 0
 --- !u!54 &-780300099286208724
 Rigidbody:
   m_ObjectHideFlags: 0

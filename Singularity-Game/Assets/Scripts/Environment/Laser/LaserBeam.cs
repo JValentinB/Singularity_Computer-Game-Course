@@ -10,7 +10,9 @@ public class LaserBeam : MonoBehaviour
     public float laserWidth = 0.1f;
     private float laserWidthAtStart;
     public int laserDamage = 1;
+    public int laserDamageOnGolem = 1;
     public float laserForce = 5f;
+    public float laserChargeAmount = 1f;
     [Header("Path")]
     public float anchorDistance = 4f;
     public float maxLength = 100f;
@@ -25,6 +27,7 @@ public class LaserBeam : MonoBehaviour
 
     private int lastAnchor;
     private float thickness = 2f;
+    private Vector3 startDirection;
 
     List<Vector3> anchorPositions = new List<Vector3>();
     List<Vector3> anchorPositionsAtStart = new List<Vector3>();
@@ -39,10 +42,12 @@ public class LaserBeam : MonoBehaviour
     bool isBlocked = false;
     bool noChange = false;
     bool laserHit = false;
+    [HideInInspector] public bool laserRotated = false;
+    [HideInInspector] public float rotationAngle = 0f;
 
     public bool isActive = false;
     [HideInInspector] public bool becameActive = false;
-    private bool becameInactive = false;
+    [HideInInspector] public bool becameInactive = false;
     private LaserEmitter laserEmitter;
 
     void Start()
@@ -53,8 +58,9 @@ public class LaserBeam : MonoBehaviour
         laserWidthAtStart = laserWidth;
 
         bezierPath = pathCreator.bezierPath;
+        startDirection = (bezierPath[bezierPath.NumPoints - 1] - bezierPath[bezierPath.NumPoints - 4]).normalized;
 
-        increaseLength();
+        increaseLength(0);
         addAnchors(0);
 
         anchorPositionsAtStart = getAnchorPoints();
@@ -77,6 +83,10 @@ public class LaserBeam : MonoBehaviour
 
     void Update()
     {   
+        if(laserRotated){
+            laserRotated = false;
+            rotateLaser(rotationAngle);
+        }
         if (becameInactive)
         {
             becameInactive = false;
@@ -108,16 +118,16 @@ public class LaserBeam : MonoBehaviour
             beamReseted = true;
         }
         else
-        {   
+        {
             anchorPositions = new List<Vector3>(anchorPositionsWithoutHit);
             OnLaserCollision();
         }
 
         if (beamInteraction || isBlocked || benderReset || laserHit)
-        {   
+        {
             // if(benderReset)Debug.Log(compareVectorLists(anchorPositions, anchorPositionsAtStart));
             for (int anchor = 3; anchor < bezierPath.NumPoints; anchor += 3)
-            {   
+            {
                 bezierPath.MovePoint(anchor, anchorPositions[anchor / 3]);
             }
             pathCreator.bezierPath = bezierPath;
@@ -129,7 +139,7 @@ public class LaserBeam : MonoBehaviour
             beamInteraction = false;
             isBlocked = false;
             laserHit = false;
-            if(beamReseted)
+            if (beamReseted)
                 benderReset = false;
         }
     }
@@ -152,7 +162,7 @@ public class LaserBeam : MonoBehaviour
         Vector3 hitPoint = Vector3.zero;
         bool isHitting = false;
 
-        
+
         Vector3 nextPoint = anchorPositions[1] + transform.position;
         for (int i = 0; i < anchorsOfInterest.Count - 1; i++)
         {
@@ -171,8 +181,9 @@ public class LaserBeam : MonoBehaviour
                     hit.transform.GetComponent<Damageable>().ApplyDamage(laserDamage);
                     invertVelocity(hit.rigidbody);
                 }
-                if(hit.transform.tag == "GolemHeart"){
-                    hit.transform.parent.GetComponent<StoneGolemBoss>().ApplyDamage(laserDamage, this);
+                if (hit.transform.tag == "GolemHeart" && laserDamageOnGolem > 0)
+                {
+                    hit.transform.parent.GetComponent<StoneGolemBoss>().ApplyDamage(laserDamageOnGolem, this);
                 }
                 if (hit.transform.GetComponent<InstablePlatform>())
                 {
@@ -214,10 +225,12 @@ public class LaserBeam : MonoBehaviour
     }
 
     void chargingEmitter(LaserEmitter otherEmitter)
-    {
-        otherEmitter.charge += 1;
-        laserEmitter.charge -= 1;
-        laserWidth = laserWidthAtStart * (laserEmitter.charge / 250f);
+    {   
+        if(!otherEmitter.chargeable) return;
+        
+        otherEmitter.charge += laserChargeAmount;
+        laserEmitter.charge -= laserChargeAmount;
+        laserWidth = laserWidthAtStart * (laserEmitter.charge / laserEmitter.maxCharge);
         if (laserEmitter.charge <= 0)
         {
             otherEmitter.startEmitting();
@@ -227,10 +240,10 @@ public class LaserBeam : MonoBehaviour
         }
     }
 
-    void increaseLength()
+    void increaseLength(float angleInDegrees)
     {
         Vector3 origin = bezierPath[bezierPath.NumPoints - 4];
-        Vector3 direction = Vector3.Normalize(bezierPath[bezierPath.NumPoints - 1] - origin);
+        Vector3 direction = Quaternion.AngleAxis(angleInDegrees, Vector3.forward) * startDirection;
 
         bezierPath.MovePoint(bezierPath.NumPoints - 1, origin + maxLength * direction);
     }
@@ -275,7 +288,7 @@ public class LaserBeam : MonoBehaviour
                 float distance = Vector3.Distance(benderPosition, anchorPositions[anchor / 3]);
 
                 if (distance < (bender.radius * bender.bendingDistance))
-                {   
+                {
                     float t = distance / (bender.radius * bender.bendingDistance);
                     Vector3 straightLinePosition = getStraightLinePosition(anchor + 3);
                     Vector3 interpolationPosition = Vector3.Lerp(straightLinePosition, benderPosition, bender.bendingAmount);
@@ -283,7 +296,7 @@ public class LaserBeam : MonoBehaviour
                     averageDirection += newPosition - anchorPositions[(anchor + 3) / 3];
 
                     sortedAdd(anchorsOfInterest, anchor);
-                    if(!bendersCopy.Contains(bender))
+                    if (!bendersCopy.Contains(bender))
                         bendersCopy.Add(bender);
                 }
             }
@@ -305,6 +318,30 @@ public class LaserBeam : MonoBehaviour
         for (int anchor = 0; anchor < bezierPath.NumPoints; anchor += 3)
         {
             points.Add(bezierPath[anchor]);
+        }
+        return points;
+    }
+
+    public void rotateLaser(float angleInDegrees)
+    {
+        List<Vector3> points = rotateAnchorPoints(angleInDegrees);
+        anchorPositionsAtStart = new List<Vector3>(points);
+        anchorPositionsWithoutHit = new List<Vector3>(points);
+    }
+
+    List<Vector3> rotateAnchorPoints(float angleInDegrees){
+        Vector3 origin = bezierPath[0];
+        Vector3 direction = (Quaternion.AngleAxis(angleInDegrees, Vector3.forward) * startDirection).normalized;
+
+        List<Vector3> points = new List<Vector3>();
+        points.Add(origin);
+        Vector3 lastPoint = origin;
+        for (int anchor = 3; anchor < bezierPath.NumPoints; anchor += 3)
+        {
+            Vector3 anchorPosition = lastPoint + anchorDistance * direction;
+            points.Add(anchorPosition);
+
+            lastPoint = anchorPosition;
         }
         return points;
     }
@@ -347,7 +384,7 @@ public class LaserBeam : MonoBehaviour
         rb.AddForce(velocity);
         // rb.velocity = Vector3.ClampMagnitude(rb.velocity, 2f);
     }
-    
+
     // Credit to Sebastian Lague on YouTube
     Mesh createMeshFromPath(float width, float lengthOffset = 0f)
     {
