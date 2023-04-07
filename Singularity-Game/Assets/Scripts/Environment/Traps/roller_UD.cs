@@ -10,9 +10,10 @@ public class roller_UD : MonoBehaviour
 
     private float count = 0;
     private bool backward = false;
+    private int dmg;
 
     enum Direction
-    { forward, back }
+    { up, down }
     [SerializeField] Direction direction;
 
 
@@ -20,17 +21,17 @@ public class roller_UD : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        dmg = 75;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (direction == Direction.forward)
+        if (direction == Direction.down)
         {
             MoveForward();
         }
-        else if (direction == Direction.back)
+        else if (direction == Direction.up)
         {
             MoveBackward();
         }
@@ -79,6 +80,14 @@ public class roller_UD : MonoBehaviour
             //transform.Translate(Vector3.left * speed * Time.deltaTime);
             transform.Translate(0, -speed * Time.deltaTime, 0, Space.World);
             count += speed * Time.deltaTime;
+        }
+    }
+    private void OnTriggerEnter(Collider col)
+    {
+        var obj = col.gameObject;
+        if (obj.GetComponent<Damageable>())
+        {
+            obj.GetComponent<Damageable>().ApplyDamage(dmg);
         }
     }
 }

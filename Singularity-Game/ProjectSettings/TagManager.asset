@@ -28,6 +28,7 @@ TagManager:
   - RootBridge
   - IgnoreCollision
   - BombFruit
+  - Elevator
   layers:
   - Default
   - TransparentFX
