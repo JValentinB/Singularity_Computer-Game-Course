@@ -93,6 +93,8 @@ public class Menu : MonoBehaviour
     }
 
     private IEnumerator showControls(){
+        yield return new WaitForSeconds(timeBetweenControls);
+        
         foreach(var control in controls){
             parentUI.GetComponent<ButtonControl>().SpecialMessage(control, showControlTime);
             
@@ -100,6 +102,6 @@ public class Menu : MonoBehaviour
             yield return new WaitForSeconds(showControlTime + timeBetweenControls);
         }
 
-        GameObject.FindWithTag("StoryField").GetComponent<StorytextControl>().startStory = true;
+        GameObject.FindWithTag("StoryField").GetComponent<StorytextControlSpace>().startStory = true;
     }
 }
