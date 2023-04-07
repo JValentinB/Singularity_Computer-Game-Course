@@ -13,8 +13,9 @@ public class ButtonControl : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [SerializeField] public Button NewGameButton, LoadGameButton, OptionsButton, 
     OptionBack, OptionPixelizationUp, OptionPixelizationDown, 
     OptionResolutionUp, OptionResolutionDown,
-    OptionFullScreenUp, OptionFullScreenDown;
-    [SerializeField] public TMP_Text SpecialMessageField, PixelizationValue, ResolutionValue, FullScreenValue;
+    OptionFullScreenUp, OptionFullScreenDown,
+    OptionUwuifyUp, OptionUwuifyDown;
+    [SerializeField] public TMP_Text SpecialMessageField, PixelizationValue, ResolutionValue, FullScreenValue, UwuifyValue;
     private CanvasGroup ParentUI, MenuUI, OptionsUI;
     private AudioSource ButtonSound;
     [SerializeField] public bool fadeOutUI, fadeInUI;
@@ -22,7 +23,7 @@ public class ButtonControl : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private string specialMessage = "";
     private float specialMessagePosY, specialMessageCD;
     private bool showSpecial;
-    [SerializeField] private bool fullScreen;
+    [SerializeField] private bool fullScreen, uwuMode;
     [SerializeField] private List<Vector2> resolutions = new List<Vector2>(){
         new Vector2(640, 480),
         new Vector2(1280, 720),
@@ -52,9 +53,12 @@ public class ButtonControl : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         OptionResolutionDown.onClick.AddListener(DecResolution);
         OptionFullScreenUp.onClick.AddListener(IncFullScreen);
         OptionFullScreenDown.onClick.AddListener(DecFullScreen);
+        OptionUwuifyUp.onClick.AddListener(IncUwuify);
+        OptionUwuifyDown.onClick.AddListener(DecUwuify);
         ResetRenderScale();
         UpdatePixelizationValue();
         UpdateFullScreenValue();
+        UpdateUwuifyValue();
     }
 
     void Update(){
@@ -244,5 +248,27 @@ public class ButtonControl : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     private void UpdateFullScreenValue(){
         FullScreenValue.text = fullScreen ? "Yes" : "No";
+    }
+
+    private void IncUwuify(){
+        ButtonSound.Play();
+        if(StorytextControl.uwuMode) return;
+
+        StorytextControl.uwuMode = true;
+
+        UpdateUwuifyValue();
+    }
+
+    private void DecUwuify(){
+        ButtonSound.Play();
+        if(!StorytextControl.uwuMode) return;
+
+        StorytextControl.uwuMode = false;
+
+        UpdateUwuifyValue();
+    }
+
+    private void UpdateUwuifyValue(){
+        UwuifyValue.text = StorytextControl.uwuMode ? "Yes" : "No";
     }
 }

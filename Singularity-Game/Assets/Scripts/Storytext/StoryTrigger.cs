@@ -7,6 +7,7 @@ public class StoryTrigger : MonoBehaviour
     [Header("Choose which part the collider should show")]
     [SerializeField] private int storyPartIndex;
     [SerializeField] private bool storyShown;
+    [SerializeField] private bool oneTimePlay;
     private StorytextControl storyController;
 
     // Update is called once per frame
@@ -15,12 +16,19 @@ public class StoryTrigger : MonoBehaviour
         storyController = GameObject.FindWithTag("StoryField").GetComponent<StorytextControl>();
     }
 
-    void OnTriggerEnter(Collider col){
+    void OnTriggerStay(Collider col){
         if(!storyShown && col.tag == "Player" && storyController.CheckStoryRequirements(storyPartIndex)){
             storyShown = true;
             storyController.storyPartIndex = storyPartIndex;
             storyController.AddStoryText();
             StartCoroutine(storyController.PlayStory());
+        }
+    }
+
+    void OnTriggerExit(Collider col){
+        if(!storyShown && col.tag == "Player" && storyController.CheckStoryRequirements(storyPartIndex)){
+            if(oneTimePlay) return;
+            storyShown = false;
         }
     }
 }

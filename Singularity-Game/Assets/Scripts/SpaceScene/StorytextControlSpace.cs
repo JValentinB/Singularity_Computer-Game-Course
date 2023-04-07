@@ -40,41 +40,105 @@ public class StorytextControlSpace : MonoBehaviour
     //First item is the name, second is the text
     private void AddStoryText(){
         spaceStoryText.Add(
-            ("Otter", "'Arion', give me a status report of our ship and our current course.")
+            ("P. Otter", "'Arion', give me a status report of our ship and our current course.")
         );
         spaceStoryText.Add(
             ("Arion", "All is good, everything is fine.")
         );
         spaceStoryText.Add(
-            ("Otter", "Oh how helpful. Thank you very much 'Arion'.")
+            ("P. Otter", "Oh how helpful. Thank you very much 'Arion'.")
         );
         spaceStoryText.Add(
             ("Arion", "Fine... Ships vitals are at 100%. We have sufficient fuel for our course including an optional trip to the next Spacediner.\nOur storage contains 345 kg of 'Gravitanium crystals'.\nNone of them are damaged.")
         );
         spaceStoryText.Add(
-            ("Otter", "Sounds good but I would rather drink from the toilet than eating at an outer rim Spacediner.")
+            ("P. Otter", "Sounds good but I would rather drink from the toilet than eating at an outer rim Spacediner.")
         );
         spaceStoryText.Add(
             ("Arion", "But it may be a good place for your next date.")
         );
         spaceStoryText.Add(
-            ("Otter", "Next date? What are you talking about?")
+            ("P. Otter", "Next date? What are you talking about?")
         );
         spaceStoryText.Add(
             ("Arion", "2 days ago you matched with User 'SweetAngel_93' on your partner finding application called 'Gravitynder'.\nI took the liberty to arrange a date for you. You would have messed it up anyway.")
         );
         spaceStoryText.Add(
-            ("Otter", "What?! Why didn't you tell me!")
+            ("P. Otter", "What?! Why didn't you tell me!")
         );
         spaceStoryText.Add(
             ("Arion", "Well, you didn't ask.")
         );
         spaceStoryText.Add(
-            ("Otter", "I should have sold you to the scrap dealer on Tardus...\n'Arion', change the course to the location of our Tinder match.")
+            ("P. Otter", "I should have sold you to the scrap dealer on Tardus...\n'Arion', change the course to the location of our Tinder match.")
         );
         spaceStoryText.Add(
             ("Arion", "Changing course to 'Othrys'.")
         );
+
+        if(StorytextControl.uwuMode) UwuifiyStory();
+    }
+
+    private void UwuifiyStory(){
+        foreach(var text in spaceStoryText){
+            text.Item2.Replace("'Arion'", "'Awion' " + UwuifySymbols("'Arion'"));
+            text.Item2.Replace("'P. Otter'", "'P. Ottew' " + UwuifySymbols("'P. Otter'"));
+            text.Item2.Replace("What?", "What? ∑(ﾟﾛﾟ〃)");
+            text.Item2.Replace("help", "hewp *sweats*");
+            text.Item2.Replace("heavy", "heavy *screams*");
+            text.Item2.Replace("l", "w");
+            text.Item2.Replace("L", "W");
+            text.Item2.Replace("r", "w");
+            text.Item2.Replace("R", "W");
+            text.Item2.Replace("no", "nyo");
+            text.Item2.Replace("No", "Nyo");
+            text.Item2.Replace("mo", "myo");
+            text.Item2.Replace("Mo", "Myo");
+            text.Item2.Replace(".", UwuifySymbols("."));
+            text.Item2.Replace("?", UwuifySymbols("?"));
+            text.Item2.Replace("!", UwuifySymbols("!"));
+        }
+    }
+
+    private string UwuifySymbols(string symbol){
+        int rand = UnityEngine.Random.Range(0, 4);
+
+        switch (symbol)
+        {
+            case "!":
+                var exclamations = new List<string>(){
+                    "!?", "?-?-?!?1", "Σ(•。•)" 
+                };
+                return exclamations[rand%exclamations.Count];
+                break;
+            case "?":
+                var questionmarks = new List<string>(){
+                    "(?_?)", "(・・?)", "(・∀・)?", "( ‥)?", "(•ิ_•ิ)?", "ლ(ಠ_ಠ ლ)"
+                };
+                return questionmarks[rand%questionmarks.Count];
+                break;
+            case ".":
+                var dots = new List<string>(){
+                    ".-.-.", "♡(>ᴗ•)", "¯\\_(ツ)_/¯"
+                };
+                return dots[rand%dots.Count];
+                break;
+            case "'P. Otter'":
+                var potter = new List<string>(){
+                    "/╲/\\╭(ఠఠ益ఠఠ)╮/\\╱\\", "(∩ᄑ_ᄑ)⊃━☆ﾟ*･｡*･:≡( ε:)", "(╯°益°)╯彡┻━┻", "(⌐■_■)", "( ＾▽＾)っ✂╰⋃╯"
+                };
+                return potter[rand%potter.Count];
+                break; 
+            case "'Arion'":
+                var arion = new List<string>(){
+                    "(づ￣ ³￣)づ", "(づ◡﹏◡)づ", "|ʘ‿ʘ)╯", "ฅ(^◕ᴥ◕^)ฅ"
+                };
+                return arion[rand%arion.Count];
+                break; 
+            default:
+                return symbol;
+                break;
+        }
     }
 
     private void PlayStory(){
