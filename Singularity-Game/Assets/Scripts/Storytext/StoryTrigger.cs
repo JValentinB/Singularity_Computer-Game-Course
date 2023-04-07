@@ -18,10 +18,12 @@ public class StoryTrigger : MonoBehaviour
 
     void OnTriggerStay(Collider col){
         if(!storyShown && col.tag == "Player" && storyController.CheckStoryRequirements(storyPartIndex)){
+            if(storyPartIndex == 17) StopCoroutine(storyController.storyCoroutine);
+            
             storyShown = true;
             storyController.storyPartIndex = storyPartIndex;
             storyController.AddStoryText();
-            StartCoroutine(storyController.PlayStory());
+            storyController.storyCoroutine = StartCoroutine(storyController.PlayStory());
         }
     }
 

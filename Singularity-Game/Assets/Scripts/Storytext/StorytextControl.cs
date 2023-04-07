@@ -11,6 +11,7 @@ public class StorytextControl : MonoBehaviour
     private TMPro.TextMeshProUGUI headerField, textField;
     private AudioSource textSound; 
     private GameObject player;
+    public Coroutine storyCoroutine;
 
     private List<(string, string)> spaceStoryText = new List<(string, string)>();
     private string finalText;
@@ -363,6 +364,7 @@ public class StorytextControl : MonoBehaviour
                 );
                 break;
             case 17:
+                charIndex = 0;
                 spaceStoryText.Add(
                     ("Arion", "Well rip, P. Otter.")
                 );
@@ -406,8 +408,10 @@ public class StorytextControl : MonoBehaviour
                 return !player.GetComponent<Player>().doubleJump;
             case 9:
                 //Golem destroyed bender
+            case 15:
+                //tree boss dead
             case 18:
-                //Golem stops until finsihed
+                //Golem stops until finished
             default:
                 return true;
         }
