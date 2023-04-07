@@ -64,13 +64,13 @@ public class StorytextControl : MonoBehaviour
     }
 
     public bool CheckStoryRequirements(int nextStoryPart){
-    switch (nextStoryPart)
-    {
-        case 2:
-            return player.GetComponent<Player>().unlockedWeaponModes[0];
-        default:
-            return true;
-    }
+        switch (nextStoryPart)
+        {
+            case 2:
+                return player.GetComponent<Player>().unlockedWeaponModes[0];
+            default:
+                return true;
+        }
     }
 
     public IEnumerator PlayStory(){
