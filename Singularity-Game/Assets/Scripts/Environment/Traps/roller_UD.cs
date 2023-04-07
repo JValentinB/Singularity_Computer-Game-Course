@@ -13,7 +13,7 @@ public class roller_UD : MonoBehaviour
     private int dmg;
 
     enum Direction
-    { forward, back }
+    { up, down }
     [SerializeField] Direction direction;
 
 
@@ -27,11 +27,11 @@ public class roller_UD : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (direction == Direction.forward)
+        if (direction == Direction.down)
         {
             MoveForward();
         }
-        else if (direction == Direction.back)
+        else if (direction == Direction.up)
         {
             MoveBackward();
         }

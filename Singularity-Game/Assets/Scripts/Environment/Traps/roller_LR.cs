@@ -12,7 +12,7 @@ public class roller_LR : MonoBehaviour
     private float count = 0;
     private int dmg;
     enum Direction
-    { forward, back }
+    { forward, backward }
     [SerializeField] Direction direction;
 
 
@@ -30,7 +30,7 @@ public class roller_LR : MonoBehaviour
         {
             MoveForward();
         }
-        else if (direction == Direction.back)
+        else if (direction == Direction.backward)
         {
             MoveBackward();
         }
