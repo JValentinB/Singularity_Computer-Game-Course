@@ -394,7 +394,7 @@ public class StorytextControl : MonoBehaviour
                 );
                 break;
         }
-        if(this.uwuMode) UwuifiyStory();
+        if(uwuMode) UwuifiyStory();
     }
 
     public bool CheckStoryRequirements(int nextStoryPart){
@@ -414,23 +414,25 @@ public class StorytextControl : MonoBehaviour
     }
 
     private void UwuifiyStory(){
-        foreach(var text in spaceStoryText){
-            text.Item2.Replace("'Arion'", "'Awion' " + UwuifySymbols("'Arion'"));
-            text.Item2.Replace("'P. Otter'", "'P. Ottew' " + UwuifySymbols("'P. Otter'"));
-            text.Item2.Replace("What?", "What? ∑(ﾟﾛﾟ〃)");
-            text.Item2.Replace("help", "hewp *sweats*");
-            text.Item2.Replace("heavy", "heavy *screams*");
-            text.Item2.Replace("l", "w");
-            text.Item2.Replace("L", "W");
-            text.Item2.Replace("r", "w");
-            text.Item2.Replace("R", "W");
-            text.Item2.Replace("no", "nyo");
-            text.Item2.Replace("No", "Nyo");
-            text.Item2.Replace("mo", "myo");
-            text.Item2.Replace("Mo", "Myo");
-            text.Item2.Replace(".", UwuifySymbols("."));
-            text.Item2.Replace("?", UwuifySymbols("?"));
-            text.Item2.Replace("!", UwuifySymbols("!"));
+        for(int i = 0; i < spaceStoryText.Count; i++){
+            var newText = spaceStoryText[i].Item2;
+            newText = newText.Replace("'Arion'", "'Awion' " + UwuifySymbols("'Arion'"))
+            .Replace("'P. Otter'", "'P. Ottew' " + UwuifySymbols("'P. Otter'"))
+            .Replace("What?", "What? ∑(ﾟﾛﾟ〃)")
+            .Replace("help", "hewp *sweats*")
+            .Replace("heavy", "heavy *screams*")
+            .Replace("l", "w")
+            .Replace("L", "W")
+            .Replace("r", "w")
+            .Replace("R", "W")
+            .Replace("no", "nyo")
+            .Replace("No", "Nyo")
+            .Replace("mo", "myo")
+            .Replace("Mo", "Myo")
+            .Replace(".", UwuifySymbols("."))
+            .Replace("?", UwuifySymbols("?"))
+            .Replace("!", UwuifySymbols("!"));
+            spaceStoryText[i] = (spaceStoryText[i].Item1, newText);
         }
     }
 

@@ -17,13 +17,13 @@ public class Menu : MonoBehaviour
     private AudioSource ThrusterAudio;
     private float showControlTime, timeBetweenControls;
     private List<string> controls = new List<string>(){
-        "Controls for the Ship and Player:",
+        /* "Controls for the Ship and Player:",
         "Use W,A,S,D to control your Player",
         "Press 'LMB' to Shoot and 'RMB' to Aim",
         "Press 'Space' to Jump",
         "Press 'Shift' to Dodge / Run",
         "Use 'I' to open your Inventory",
-        "Press 'Space' to Continue!"
+        "Press 'Space' to Continue!" */
     };
 
     void Start()
@@ -94,7 +94,7 @@ public class Menu : MonoBehaviour
 
     private IEnumerator showControls(){
         yield return new WaitForSeconds(timeBetweenControls);
-        
+
         foreach(var control in controls){
             parentUI.GetComponent<ButtonControl>().SpecialMessage(control, showControlTime);
             

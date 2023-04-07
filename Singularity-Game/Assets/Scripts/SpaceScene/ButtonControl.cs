@@ -139,6 +139,7 @@ public class ButtonControl : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         fadeOutUI = true;
         var gameTitle = GameObject.FindWithTag("GameTitle").GetComponent<Menu>();
         gameTitle.fadeOut = true;
+        if(StorytextControl.uwuMode) GameObject.FindWithTag("StoryField").GetComponent<StorytextControlSpace>().UwuifiyStory();
         ActivateUI(false);
     }
 
