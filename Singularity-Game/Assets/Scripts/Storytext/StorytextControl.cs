@@ -498,7 +498,7 @@ public class StorytextControl : MonoBehaviour
     }
 
     public IEnumerator PlayStory(){
-        //Lock player input
+        player.GetComponent<Player>().lockPlayerControl = true;
         GetComponent<CanvasGroup>().alpha = 1f;
         NextText();
         storyIndex++;
@@ -517,7 +517,7 @@ public class StorytextControl : MonoBehaviour
         if(storyIndex > spaceStoryText.Count || (storyIndex == spaceStoryText.Count && !writing)){ 
             StopCoroutine(storyCoroutine);
             GetComponent<CanvasGroup>().alpha = 0f;
-            //Unlock player input
+            player.GetComponent<Player>().lockPlayerControl = false;
             return;
         }
 
