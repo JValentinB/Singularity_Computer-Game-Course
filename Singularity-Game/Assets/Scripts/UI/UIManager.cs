@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject activeModeDisplay;
     [SerializeField] private HealthBar healthBar;
     [SerializeField] private CanvasGroup weaponWheelUI;
+    [SerializeField] private CanvasGroup menuUI;
     private Animator inventoryAnimator, inventoryInfoTextPanelAnimator;
     public int modeId;
     public Sprite modeImage;
@@ -41,14 +42,32 @@ public class UIManager : MonoBehaviour
     }
 
     void Update(){
-        OpenCloseInventory();
-        OpenCloseWeaponWheel();
-        UpdateWeaponMode();
-        UpdateHealthBar();
-        UpdateBossHealthBar();
+        OpenCloseMenu();
+        if(menuUI.alpha == 0){
+            OpenCloseInventory();
+            OpenCloseWeaponWheel();
+            UpdateWeaponMode();
+            UpdateBossHealthBar();
+        }        
     }
 
-    public void OpenCloseInventory()
+    private void OpenCloseMenu(){
+        if(Input.GetKeyDown(KeyCode.Escape) && !inventoryAnimator.GetBool("active") 
+        && weaponWheelUI.alpha == 0){
+            bool menuIsActive = menuUI.alpha == 1;
+            gameUI.alpha = menuIsActive ? 1 : 0;
+            gameUI.interactable = menuIsActive;
+            gameUI.blocksRaycasts = menuIsActive;
+
+            menuUI.alpha = !menuIsActive ? 1 : 0;
+            menuUI.interactable = !menuIsActive;
+            menuUI.blocksRaycasts = !menuIsActive;
+            menuUI.GetComponent<IngameMenuButtonController>().UpdateValues();
+            player.lockPlayerControl = !menuIsActive;
+        }
+    }
+
+    private void OpenCloseInventory()
     {
         if(Input.GetKeyDown(KeyCode.I) || (inventoryAnimator.GetBool("active") && Input.GetKeyDown(KeyCode.Escape)))
         {
@@ -61,7 +80,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void OpenCloseWeaponWheel()
+    private void OpenCloseWeaponWheel()
     {
         //maybe animator
         if(Input.GetKeyDown(KeyCode.Tab))
@@ -70,6 +89,7 @@ public class UIManager : MonoBehaviour
             weaponWheelUI.interactable = true;
             gameUI.alpha = 0;
             weaponWheelUI.alpha = 1;
+            player.lockPlayerControl = true;
         }
         if(Input.GetKeyUp(KeyCode.Tab))
         {
@@ -77,11 +97,11 @@ public class UIManager : MonoBehaviour
             weaponWheelUI.interactable = false;
             gameUI.alpha = 1;
             weaponWheelUI.alpha = 0;
+            player.lockPlayerControl = false;
         }
     }
     
-
-    public void UpdateWeaponMode(){
+    private void UpdateWeaponMode(){
         if(modeImage && player.weaponMode != modeId){
             activeModeDisplay.GetComponent<Image>().color = Color.white;
             activeModeDisplay.GetComponent<Image>().sprite = modeImage;
@@ -90,20 +110,14 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void UpdateHealthBar(){
-        healthBar.currentHealth = player.currentHealth;
-        healthBar.maxHealth = player.maxHealth;
-    }
-
-
     // Delete this before Release!!! (only for testing)
-    void activateAllModes(){
+    private void activateAllModes(){
         for(int i = 0; i < unlockedWeaponModes.Count; i++){
             unlockedWeaponModes[i] = true;
         }
     }
 
-    private void UpdateBossHealthBar(){
+    public void UpdateBossHealthBar(){
         stoneGolemHealthBar.alpha = stoneGolem.bossFightStarted ? 1 : 0;
         treeBossHealthBar.alpha = treeBoss.startFight ? 1 : 0;
     }

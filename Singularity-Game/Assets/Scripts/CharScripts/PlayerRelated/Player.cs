@@ -33,7 +33,7 @@ public class Player : Character
 
     void Start()
     {
-        maxHealth = 10000;
+        maxHealth = 150;
         currentHealth = maxHealth;
         healthBar.maxHealth = maxHealth;
         healthBar.currentHealth = currentHealth;
