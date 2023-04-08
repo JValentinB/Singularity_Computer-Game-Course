@@ -33,6 +33,8 @@ public class LaserDeActivation : MonoBehaviour
 
     void deactivateAllEmitters(){
         foreach(LaserEmitter laserEmitter in laserEmitters){
+            if(laserEmitter == null)
+                continue;
             laserEmitter.stopEmitting(false);
             laserEmitter.wasAlreadyActive = false;
         }

@@ -16,6 +16,8 @@ public class WindUpstream : MonoBehaviour
 
         if (damageable)
         {
+            damageable.inWeightlessFields++;
+
             prevGravityStrength = damageable.gravityStrength;
             prevJumpForce = damageable.GetComponent<Character>().jumpForce;
             var rb = col.gameObject.GetComponent<Rigidbody>();
@@ -42,13 +44,21 @@ public class WindUpstream : MonoBehaviour
 
     private void OnTriggerExit(Collider col)
     {
-        var damagbleObjectToShift = col.gameObject.GetComponent<Damageable>();
+        var damagbleObjectToShift = col.GetComponent<Damageable>();
 
         if (damagbleObjectToShift)
         {
-            damagbleObjectToShift.gravityStrength = prevGravityStrength;
-            damagbleObjectToShift.GetComponent<Character>().jumpForce = prevJumpForce;
-        }
+            damagbleObjectToShift.inWeightlessFields--;
 
+            Debug.Log(damagbleObjectToShift.inWeightlessFields);
+            if (damagbleObjectToShift.inWeightlessFields > 0)
+                return;
+
+            damagbleObjectToShift.gravityStrength = damagbleObjectToShift.standaradGravityStrength;
+
+            Character character = col.GetComponent<Character>();
+            if (character)
+                character.jumpForce = character.standardJumpForce;
+        }
     }
 }

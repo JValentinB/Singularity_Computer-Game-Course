@@ -12,7 +12,7 @@ public class DeathPlane : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.GetComponent<Damageable>() && !damageTimeOut)
+        if (!col.GetComponent<TreeBoss>() && col.GetComponent<Damageable>() && !damageTimeOut)
         {
             damageCoroutine = StartCoroutine(makeDamage(col.GetComponent<Damageable>()));
         }
@@ -20,7 +20,7 @@ public class DeathPlane : MonoBehaviour
 
     void OnTriggerStay(Collider col)
     {
-        if (col.GetComponent<Damageable>() && !damageTimeOut)
+        if (!col.GetComponent<TreeBoss>() && col.GetComponent<Damageable>() && !damageTimeOut)
         {
             damageCoroutine = StartCoroutine(makeDamage(col.GetComponent<Damageable>()));
         }

@@ -45,6 +45,7 @@ public class Player : Character
         targetDirection = Vector3.down;
         direction = 1;
         jumpForce = 1250f;
+        standardJumpForce = jumpForce;
         jumpNumber = 5;
         doubleJump = true;
         jumpsRemaining = jumpNumber;
@@ -237,6 +238,7 @@ public class Player : Character
             projTarget = new Vector3(projTarget.x, projTarget.y, 0f);
 
             GameObject projectileClone = (GameObject)Instantiate(weaponMode == 2 ? projectile_blackhole : projectile, staffStonePos, Quaternion.identity);
+            Destroy(projectileClone, 20f);
             var shape = projectileClone.GetComponent<ParticleSystem>().shape;
             shape.position = Vector3.zero;
 
@@ -483,10 +485,10 @@ public class Player : Character
 
     Dictionary<Vector3, Vector4> offsetDict = new Dictionary<Vector3, Vector4>
     {
-        { Vector3.up, new Vector4(-1, -1, 0.5f, -0.5f) },
-        { Vector3.down, new Vector4(1, 1, -0.5f, 0.5f) },
-        { Vector3.left, new Vector4(0.5f, -0.5f, 1, 1) },
-        { Vector3.right, new Vector4(-0.5f, 0.5f, -1, -1) },
+        { Vector3.up, new Vector4(-1, -1, 0.4f, -0.4f) },
+        { Vector3.down, new Vector4(1, 1, -0.4f, 0.4f) },
+        { Vector3.left, new Vector4(0.4f, -0.4f, 1, 1) },
+        { Vector3.right, new Vector4(-0.4f, 0.4f, -1, -1) },
     };
     //---------------------------------------
 }

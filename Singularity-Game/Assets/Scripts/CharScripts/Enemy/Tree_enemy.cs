@@ -66,7 +66,8 @@ public class Tree_enemy : Enemy
         {
             if (cool_down <= 0)
             {
-                Instantiate(rocks[Random.Range(0, rocks.Length)], transform);
+                GameObject rock = Instantiate(rocks[Random.Range(0, rocks.Length)], transform);
+                Destroy(rock, 5f);
                 cool_down = cool_time;
             }
             else

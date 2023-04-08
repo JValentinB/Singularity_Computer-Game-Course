@@ -9,6 +9,7 @@ public class Character : Damageable
     [Header("For all Characters")]
     public int jumpNumber;
     public float currentSpeed, walkSpeed, runSpeed, sprintSpeed, jumpForce, critMod;
+    [HideInInspector] public float standardJumpForce;
     public double critChance;
 
     [HideInInspector]public int jumpsRemaining;

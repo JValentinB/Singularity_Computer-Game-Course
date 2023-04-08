@@ -91,9 +91,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2454031492377940478, guid: be320ca49994fd54281ec6f5e6608e62, type: 3}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8792342904977857413, guid: be320ca49994fd54281ec6f5e6608e62, type: 3}
       propertyPath: m_Name
-      value: prefab_projectile_black_hole
+      value: BlackHole
       objectReference: {fileID: 0}
     - target: {fileID: 8792342904977857532, guid: be320ca49994fd54281ec6f5e6608e62, type: 3}
       propertyPath: m_RootOrder

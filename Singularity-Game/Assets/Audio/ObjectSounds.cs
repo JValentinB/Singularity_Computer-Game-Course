@@ -106,4 +106,15 @@ public class ObjectSounds : MonoBehaviour
         if(sound.source != null)
             sound.source.pitch = pitch;
     }
+
+    public void playAtRandomTimePoint(string name, float min, float max)
+    {
+        Sound sound = Array.Find(sounds, Sound => Sound.soundName == name);
+        if(sound.source != null){
+            float timePoint = sound.source.clip.length * UnityEngine.Random.Range(min, max);
+            sound.source.time = timePoint;
+
+            sound.source.Play();
+        }
+    }
 }

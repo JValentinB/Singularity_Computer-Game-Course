@@ -6,19 +6,21 @@ public class FruitBranch : MonoBehaviour
 {
     [SerializeField] private GameObject bombFruit;
     [SerializeField] private float regrowTime;
-    private AudioSource leaveRustling;
     private Vector3 fruitSize, fruitLocalPos;
     private float regrowCounter;
     private GameObject fruitObject;
     private bool regrown;
 
+    private ObjectSounds objectSounds;
+
     void Start()
     {
-        leaveRustling = GetComponent<AudioSource>();
         fruitObject = gameObject.transform.Find("Armature/Bone/Bone.001/Bone.002/Bone.003/Bone.004/AcornControl/Acorn").gameObject;
         fruitSize = fruitObject.transform.localScale;
         fruitLocalPos = fruitObject.transform.localPosition;
         regrowTime = 15f;
+
+        objectSounds = GetComponent<ObjectSounds>();
     }
 
     void Update()
@@ -41,7 +43,10 @@ public class FruitBranch : MonoBehaviour
     private void ReleaseFruit(){
         regrowCounter = regrowTime;
         regrown = false;
-        Instantiate(bombFruit, fruitObject.transform.position, fruitObject.transform.rotation);
+        GameObject acornBomb = Instantiate(bombFruit, fruitObject.transform.position, fruitObject.transform.rotation);
+        acornBomb.GetComponent<BombFruit>().isMoving = true;
+
+        Destroy(acornBomb, 15f);
     }
 
     void OnTriggerEnter(Collider col){
@@ -49,7 +54,13 @@ public class FruitBranch : MonoBehaviour
 
         if((obj.GetComponent<StaffStoneControl>() && obj.GetComponent<StaffStoneControl>().CheckMeleeAttack()) || obj.GetComponent<m_Projectile>()){
             if(regrown) ReleaseFruit();
-            leaveRustling.Play();
+            StartCoroutine(shakeBranch());
         }
+    }
+
+    IEnumerator shakeBranch(){
+        objectSounds.playAtRandomTimePoint("LeaveRustling", 0, 0.7f);
+        yield return new WaitForSeconds(1f);
+        StartCoroutine(objectSounds.fadeInOut("LeaveRustling", 0f, 0.25f));
     }
 }

@@ -6,12 +6,21 @@ using UnityEngine;
 //So trigger and dmg should be done by 5th bone
 public class DamageByRoot : MonoBehaviour
 {
-    private int dmg = 30;
+    public int damage = 30;
+    public float force = 50000f;
+
+    private Vector3 direction;
+
+    void Start(){
+        direction = transform.parent.GetComponent<rootSpike>().growingDirection;
+    }
 
     void OnTriggerEnter(Collider col){
-        if(!col.gameObject.GetComponent<Damageable>()){
-            return; 
+        
+        if(!col.GetComponent<TreeBoss>() && col.GetComponent<Damageable>()){
+
+            col.GetComponent<Damageable>().ApplyDamage(damage); 
+            col.GetComponent<Rigidbody>().AddForce(direction * force);
         }
-        col.gameObject.GetComponent<Damageable>().ApplyDamage(dmg);
     }
 }

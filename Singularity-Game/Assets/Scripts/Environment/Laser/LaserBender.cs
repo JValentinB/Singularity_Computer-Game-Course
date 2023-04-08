@@ -113,8 +113,10 @@ public class LaserBender : MonoBehaviour
         if (timerCoroutine != null)
             StopCoroutine(timerCoroutine);
 
-        if (destructionParticles != null)
-            Instantiate(destructionParticles, transform.position, Quaternion.identity);
+        if (destructionParticles != null){
+            GameObject particles = Instantiate(destructionParticles, transform.position, Quaternion.identity);
+            Destroy(particles, 5f);
+        }
 
         if (shatteredCrystal != null)
         {
