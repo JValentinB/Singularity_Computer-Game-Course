@@ -15,7 +15,7 @@ public class StorytextControl : MonoBehaviour
 
     private List<(string, string)> spaceStoryText = new List<(string, string)>();
     private string finalText;
-    private bool writing, visitedArion;
+    private bool writing, visitedArion, stopText;
 
     public static bool uwuMode;
 
@@ -42,13 +42,13 @@ public class StorytextControl : MonoBehaviour
         {
             case 0:
                 spaceStoryText.Add(
-                    ("P. Otter", "What the heck?! What happened?\n'Arion', can you hear me! Where are you?")
+                    ("P. Otter", "What the heck?! What happened?\nArion, can you hear me! Where are you?")
                 );
                 spaceStoryText.Add(
                     ("Arion", "...")
                 );
                 spaceStoryText.Add(
-                    ("P. Otter", "Damn it. This looks bad.\nI gotta find 'Arion'.")
+                    ("P. Otter", "Damn it. This looks bad.\nI gotta find Arion.")
                 );
                 spaceStoryText.Add(
                     ("P. Otter", "Right side looks like a dead end, so left it is!")
@@ -61,16 +61,16 @@ public class StorytextControl : MonoBehaviour
                 break;
             case 2:
                 spaceStoryText.Add(
-                    ("P. Otter", "'Arion', come in. Do you read me?")
+                    ("P. Otter", "Arion, come in. Do you read me?")
                 );
                 spaceStoryText.Add(
                     ("Arion", "...")
                 );
                 spaceStoryText.Add(
-                    ("P. Otter", "I guess the system was shut down after crashing!\nAnd... 'Arion' can you here me now?")
+                    ("P. Otter", "I guess the system was shut down after crashing!\nAnd... Arion can you here me now?")
                 );
                 spaceStoryText.Add(
-                    ("Arion", "Ahem. Finally, 'P. Otter'.\nIt's about time you decided to turn me on.")
+                    ("Arion", "Ahem. Finally, P. Otter.\nIt's about time you decided to turn me on.")
                 );
                 spaceStoryText.Add(
                     ("P. Otter", "Can you tell me again what we're looking for?")
@@ -79,19 +79,19 @@ public class StorytextControl : MonoBehaviour
                     ("Arion", "Of course, as I already told you before, we require a power regulator.\nIt's basic knowledge that any competent spaceship captain would know.")
                 );
                 spaceStoryText.Add(
-                    ("P. Otter", "Alright, where should we start looking first then, 'Arion'?")
+                    ("P. Otter", "Alright, where should we start looking first then, Arion?")
                 );
                 spaceStoryText.Add(
-                    ("Arion", "Based on my superior analysis, we should search the nearby clearing first.\nThere's a high probability of finding the power regulator there.\nBut don't worry, 'P. Otter', I'm sure you'll learn from this experience and become a better captain someday.")
+                    ("Arion", "Based on my superior analysis, we should search the nearby clearing first.\nThere's a high probability of finding the power regulator there.\nBut don't worry, P. Otter, I'm sure you'll learn from this experience and become a better captain someday.")
                 );
                 spaceStoryText.Add(
-                    ("P. Otter", "Let's just get this over with.\nAnd watch your attitude, 'Arion'.")
+                    ("P. Otter", "Let's just get this over with.\nAnd watch your attitude, Arion.")
                 );
                 visitedArion = true;
                 break;
             case 3:
                 spaceStoryText.Add(
-                    ("P. Otter", "What's this crystal, Arion? It looks important.")
+                    ("P. Otter", "What's this crystal, Arion? It looks important. What's this crystal, Arion? It looks important. What's this crystal, Arion? It looks important.")
                 );
                 spaceStoryText.Add(
                     ("Arion", "Oh yes, very important. It's just a common crystal, P. Otter. Nothing to see here.")
@@ -163,7 +163,7 @@ public class StorytextControl : MonoBehaviour
                 break;
             case 6:
                 spaceStoryText.Add(
-                    ("Arion", "'P. Otter', it looks like there's is something way more interesting to our right, than wherever you're planning to go right now!")
+                    ("Arion", "P. Otter, it looks like there's is something way more interesting to our right, than wherever you're planning to go right now!")
                 );
                 break;
             case 7:
@@ -354,7 +354,7 @@ public class StorytextControl : MonoBehaviour
                 break;
             case 16:
                 spaceStoryText.Add(
-                    ("P. Otter", "'Arion', this doesn't look good.\nThe path ahead is blocked by this rock face.")
+                    ("P. Otter", "Arion, this doesn't look good.\nThe path ahead is blocked by this rock face.")
                 );
                 spaceStoryText.Add(
                     ("Arion", "Oh no, what ever shall we do? Perhaps you should try punching it to see if it moves.")
@@ -364,7 +364,6 @@ public class StorytextControl : MonoBehaviour
                 );
                 break;
             case 17:
-                charIndex = 0;
                 spaceStoryText.Add(
                     ("Arion", "Well rip, P. Otter.")
                 );
@@ -397,6 +396,7 @@ public class StorytextControl : MonoBehaviour
                 break;
         }
         if(uwuMode) UwuifiyStory();
+        stopText = false;
     }
 
     public bool CheckStoryRequirements(int nextStoryPart){
@@ -410,6 +410,12 @@ public class StorytextControl : MonoBehaviour
                 //Golem destroyed bender
             case 15:
                 //tree boss dead
+            case 17:
+                if(storyPartIndex == 3){
+                    stopCurrentText();
+                    return true;
+                }
+                return false;
             case 18:
                 //Golem stops until finished
             default:
@@ -417,14 +423,24 @@ public class StorytextControl : MonoBehaviour
         }
     }
 
+    private void stopCurrentText(){
+        stopText = true;
+        GetComponent<CanvasGroup>().alpha = 0f;
+        charIndex = 0;
+        StopCoroutine(storyCoroutine);
+    }
+
     private void UwuifiyStory(){
         for(int i = 0; i < spaceStoryText.Count; i++){
             var newText = spaceStoryText[i].Item2;
-            newText = newText.Replace("'Arion'", "'Awion' " + UwuifySymbols("'Arion'"))
-            .Replace("'P. Otter'", "'P. Ottew' " + UwuifySymbols("'P. Otter'"))
+            newText = newText.Replace("Arion", "Awion " + UwuifySymbols("Arion"))
+            .Replace("P. Otter", "P. Ottew " + UwuifySymbols("P. Otter"))
             .Replace("What?", "What? ∑(ﾟﾛﾟ〃)")
             .Replace("help", "hewp *sweats*")
             .Replace("heavy", "heavy *screams*")
+            .Replace("could", "c-could")
+            .Replace("but", "b-but")
+            .Replace("maybe", "m-maybe")
             .Replace("l", "w")
             .Replace("L", "W")
             .Replace("r", "w")
@@ -463,13 +479,13 @@ public class StorytextControl : MonoBehaviour
                 };
                 return dots[rand%dots.Count];
                 break;
-            case "'P. Otter'":
+            case "P. Otter":
                 var potter = new List<string>(){
                     "/╲/\\╭(ఠఠ益ఠఠ)╮/\\╱\\", "(∩ᄑ_ᄑ)⊃━☆ﾟ*･｡*･:≡( ε:)", "(╯°益°)╯彡┻━┻", "(⌐■_■)", "( ＾▽＾)っ✂╰⋃╯"
                 };
                 return potter[rand%potter.Count];
                 break; 
-            case "'Arion'":
+            case "Arion":
                 var arion = new List<string>(){
                     "(づ￣ ³￣)づ", "(づ◡﹏◡)づ", "|ʘ‿ʘ)╯", "ฅ(^◕ᴥ◕^)ฅ"
                 };
@@ -487,7 +503,7 @@ public class StorytextControl : MonoBehaviour
         NextText();
         storyIndex++;
         
-        while(true){
+        while(!stopText){
             if(Input.GetKeyDown(KeyCode.Space)){
                 NextText();
                 storyIndex++;
@@ -499,7 +515,7 @@ public class StorytextControl : MonoBehaviour
     private void NextText(){
         GetComponent<CanvasGroup>().alpha = 1;
         if(storyIndex > spaceStoryText.Count || (storyIndex == spaceStoryText.Count && !writing)){ 
-            StopCoroutine(PlayStory());
+            StopCoroutine(storyCoroutine);
             GetComponent<CanvasGroup>().alpha = 0f;
             //Unlock player input
             return;
@@ -523,6 +539,7 @@ public class StorytextControl : MonoBehaviour
 
     private void ReproduceText()
     {
+        if(stopText) return;
         //if not readied all letters
         if (charIndex < finalText.Length)
         {
@@ -548,15 +565,15 @@ public class StorytextControl : MonoBehaviour
         switch (letter)
         {
             case '.':
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.8f);
                 ReproduceText();
                 yield break;
             case ',':
-                yield return new WaitForSeconds(0.09f);
+                yield return new WaitForSeconds(0.06f);
                 ReproduceText();
                 yield break;
             case ' ':
-                yield return new WaitForSeconds(0.08f);
+                yield return new WaitForSeconds(0.06f);
                 ReproduceText();
                 yield break;
             default:

@@ -40,13 +40,13 @@ public class StorytextControlSpace : MonoBehaviour
     //First item is the name, second is the text
     private void AddStoryText(){
         spaceStoryText.Add(
-            ("P. Otter", "'Arion', give me a status report of our ship and our current course.")
+            ("P. Otter", "Arion, give me a status report of our ship and our current course.")
         );
         spaceStoryText.Add(
             ("Arion", "All is good, everything is fine.")
         );
         spaceStoryText.Add(
-            ("P. Otter", "Oh how helpful. Thank you very much 'Arion'.")
+            ("P. Otter", "Oh how helpful. Thank you very much Arion.")
         );
         spaceStoryText.Add(
             ("Arion", "Fine... Ships vitals are at 100%. We have sufficient fuel for our course including an optional trip to the next Spacediner.\nOur storage contains 345 kg of 'Gravitanium crystals'.\nNone of them are damaged.")
@@ -70,7 +70,7 @@ public class StorytextControlSpace : MonoBehaviour
             ("Arion", "Well, you didn't ask.")
         );
         spaceStoryText.Add(
-            ("P. Otter", "I should have sold you to the scrap dealer on Tardus...\n'Arion', change the course to the location of our Tinder match.")
+            ("P. Otter", "I should have sold you to the scrap dealer on Tardus...\nArion, change the course to the location of our Tinder match.")
         );
         spaceStoryText.Add(
             ("Arion", "Changing course to 'Othrys'.")
@@ -80,8 +80,8 @@ public class StorytextControlSpace : MonoBehaviour
     public void UwuifiyStory(){
         for(int i = 0; i < spaceStoryText.Count; i++){
             var newText = spaceStoryText[i].Item2;
-            newText = newText/* .Replace("'Arion'", "'Awion' " + UwuifySymbols("'Arion'"))
-            .Replace("'P. Otter'", "'P. Ottew' " + UwuifySymbols("'P. Otter'"))
+            newText = newText/* .Replace("Arion", "Awion " + UwuifySymbols("Arion"))
+            .Replace("P. Otter", "P. Ottew " + UwuifySymbols("P. Otter"))
             .Replace("What?", "What? ∑(ﾟﾛﾟ〃)") */
             .Replace("help", "hewp *sweats*")
             .Replace("heavy", "heavy *screams*")
@@ -124,13 +124,13 @@ public class StorytextControlSpace : MonoBehaviour
                 };
                 return dots[rand%dots.Count];
                 break;
-            case "'P. Otter'":
+            case "P. Otter":
                 var potter = new List<string>(){
                     "/╲/\\╭(ఠఠ益ఠఠ)╮/\\╱\\", "(∩ᄑ_ᄑ)⊃━☆ﾟ*･｡*･:≡( ε:)", "(╯°益°)╯彡┻━┻", "(⌐■_■)", "( ＾▽＾)っ✂╰⋃╯"
                 };
                 return potter[rand%potter.Count];
                 break; 
-            case "'Arion'":
+            case "Arion":
                 var arion = new List<string>(){
                     "(づ￣ ³￣)づ", "(づ◡﹏◡)づ", "|ʘ‿ʘ)╯", "ฅ(^◕ᴥ◕^)ฅ"
                 };
