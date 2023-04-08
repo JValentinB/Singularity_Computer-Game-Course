@@ -19,7 +19,7 @@ public class Damageable : MonoBehaviour
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public int inWeightlessFields = 0;
 
-    [SerializeField] private HealthBar healthBar;
+    [SerializeField] public HealthBar healthBar;
     public InvManager inventory = new InvManager();
 
     private List<Vector3> gravityShifts = new List<Vector3>();

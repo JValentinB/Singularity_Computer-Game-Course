@@ -41,6 +41,8 @@ public class TreeBoss : Enemy
         currentHealth = maxHealth;
         direction = 1;
         gravitationalDirection = Vector3.down;
+        healthBar.maxHealth = maxHealth;
+        healthBar.currentHealth = currentHealth;
         //from Character
         jumpNumber = 0;
         currentSpeed = 2.5f;

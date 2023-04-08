@@ -12,8 +12,6 @@ public class HealthBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        maxHealth = 1;
-        currentHealth = maxHealth;
         frontBar.fillAmount = currentHealth/maxHealth;
         backBar.fillAmount = currentHealth/maxHealth;
     }

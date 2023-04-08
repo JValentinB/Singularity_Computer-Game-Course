@@ -5,18 +5,27 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Player")]
     [SerializeField] private Player player;
-    [SerializeField] private CanvasGroup weaponWheelUI;
     [SerializeField] private CanvasGroup gameUI;
     [SerializeField] private GameObject inventoryUI;
     [SerializeField] private GameObject inventoryInfoTextPanel;
     [SerializeField] private GameObject activeModeDisplay;
     [SerializeField] private HealthBar healthBar;
+    [SerializeField] private CanvasGroup weaponWheelUI;
     private Animator inventoryAnimator, inventoryInfoTextPanelAnimator;
     public int modeId;
     public Sprite modeImage;
     public List<bool> unlockedWeaponModes;
 
+    [Header("TreeBoss")]
+    [SerializeField] private CanvasGroup treeBossHealthBar;
+    [SerializeField] private TreeBoss treeBoss;
+
+    [Header("StoneGolemBoss")]
+    [SerializeField] private CanvasGroup stoneGolemHealthBar;
+    [SerializeField] private StoneGolemBoss stoneGolem;
+    
     void Start(){
         modeId = 0;
         unlockedWeaponModes = player.unlockedWeaponModes;
@@ -36,6 +45,7 @@ public class UIManager : MonoBehaviour
         OpenCloseWeaponWheel();
         UpdateWeaponMode();
         UpdateHealthBar();
+        UpdateBossHealthBar();
     }
 
     public void OpenCloseInventory()
@@ -91,5 +101,10 @@ public class UIManager : MonoBehaviour
         for(int i = 0; i < unlockedWeaponModes.Count; i++){
             unlockedWeaponModes[i] = true;
         }
+    }
+
+    private void UpdateBossHealthBar(){
+        stoneGolemHealthBar.alpha = stoneGolem.bossFightStarted ? 1 : 0;
+        treeBossHealthBar.alpha = treeBoss.startFight ? 1 : 0;
     }
 }

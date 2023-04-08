@@ -49,10 +49,14 @@ public class StoneGolemBoss : MonoBehaviour
     bool damageParticlesActive = false;
     bool protectHeartActive = false;
 
+    [SerializeField] public HealthBar healthBar;
+
     // Start is called before the first frame update
     void Start()
     {
         currentHealthPoints = healthPoints;
+        healthBar.maxHealth = (int)healthPoints;
+        healthBar.currentHealth = (int)healthPoints;
 
         animator = GetComponent<Animator>();
         objectSounds = GetComponent<ObjectSounds>();
@@ -92,6 +96,7 @@ public class StoneGolemBoss : MonoBehaviour
             StartCoroutine(protectHeart());
 
         currentHealthPoints -= damage;
+        healthBar.UpdateHealth((int)currentHealthPoints);
         if (currentHealthPoints % 5000 == 0)
             Debug.Log("Boss health: " + currentHealthPoints);
 
@@ -104,7 +109,7 @@ public class StoneGolemBoss : MonoBehaviour
     void OnDeath()
     {
         if (!bossFightStarted) return;
-
+        bossFightStarted = false;
         animator.enabled = false;
         foreach (Rigidbody rb in boneRigidbodies)
         {
@@ -114,7 +119,7 @@ public class StoneGolemBoss : MonoBehaviour
         Transform heart = transform.Find("Heart");
 
         objectSounds.Play("RockExplosion");
-
+        
         GameObject particles1 = Instantiate(deathParticles, heart.position, Quaternion.LookRotation(-heart.up));
         GameObject particles2 = Instantiate(heartExplosionParticles, heart.position, Quaternion.LookRotation(-heart.up));
         Destroy(particles1, 8f);

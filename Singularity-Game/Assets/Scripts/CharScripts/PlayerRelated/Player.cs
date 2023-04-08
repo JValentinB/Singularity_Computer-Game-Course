@@ -35,6 +35,8 @@ public class Player : Character
     {
         maxHealth = 10000;
         currentHealth = maxHealth;
+        healthBar.maxHealth = maxHealth;
+        healthBar.currentHealth = currentHealth;
 
         walkSpeed = 0.4f;
         runSpeed = 4.0f;
