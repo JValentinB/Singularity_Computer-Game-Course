@@ -48,16 +48,16 @@ public class CameraControl : MonoBehaviour
 
     // Update is called once per frame
     void FixedUpdate()
-    {
+    {   
         if (followPoint && objectToFollow != null)
-        {
+        {   
             Vector3 targetPosition = Vector3.Lerp(Vector3.Scale(player.position, new Vector3(1, 1, 0)) + new Vector3(offset_x, offset_y, zPosition),
                                                   Vector3.Scale(objectToFollow.transform.position, new Vector3(1, 1, 0)) + new Vector3(offset_x, offset_y, zPosition),
                                                   followPointRatio);
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
         }
         else if (followMouse || (followPoint && objectToFollow == null))
-        {
+        {   
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
             mousePosition.z = zPosition;
 
@@ -67,7 +67,7 @@ public class CameraControl : MonoBehaviour
             transform.position = Vector3.SmoothDamp(playerPos, mousePos, ref velocity, mouseFollowSpeed);
         }
         else if (followPlayer)
-        {
+        {   
             Vector3 targetPosition = new Vector3(player.position.x + offset_x, player.position.y + offset_y, zPosition);
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
         }

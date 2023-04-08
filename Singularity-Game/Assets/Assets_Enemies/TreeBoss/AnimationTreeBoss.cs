@@ -29,10 +29,11 @@ public class AnimationTreeBoss : MonoBehaviour
 
     bool punchTimeOut = false;
     Coroutine punchTimerCoroutine;
+    bool isStunned = false;
 
     // Start is called before the first frame update
     void Start()
-    {   
+    {
         treeBoss = GetComponent<TreeBoss>();
         animator = GetComponent<Animator>();
         // get rigcontrol script from child
@@ -42,16 +43,13 @@ public class AnimationTreeBoss : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {   
-        if(treeBoss.stunned){
-            if(!animator.GetBool("Stunned"))
-                setWeightWithCurve(treeBoss.stunnedTime, curve2);
-            animator.SetBool("Stunned", true);
+    {
+        if (treeBoss.stunned)
+        {
+            if (!isStunned)
+                StartCoroutine(stunnedAnimation());
             return;
         }
-        else{
-            animator.SetBool("Stunned", false);
-        } 
 
         if (player != null)
             punchIfClose();
@@ -146,7 +144,7 @@ public class AnimationTreeBoss : MonoBehaviour
         {
             Rigidbody rb = hit.GetComponent<Rigidbody>();
             if (rb != null)
-            {   
+            {
                 Vector3 direction = (rb.transform.position - transform.position).normalized;
                 rb.AddForce((Vector3.up + direction) * explosionForce);
                 // rb.AddExplosionForce(explosionForce, transform.position + explosionPosition, explosionRadius);
@@ -157,6 +155,19 @@ public class AnimationTreeBoss : MonoBehaviour
         Destroy(explosion, 5f);
     }
 
+    IEnumerator stunnedAnimation(){
+        Debug.Log("stunned animation");
+        isStunned = true;
+        setWeightWithCurve(treeBoss.stunnedTime, curve2);
+
+        animator.SetBool("Startled", true);
+        animator.SetBool("Stunned", true);
+
+        yield return new WaitForSeconds(treeBoss.stunnedTime);
+
+        animator.SetBool("Stunned", false);
+        isStunned = false;
+    }
     public void setWeight(float clipLength)
     {
         if (weightCoroutine != null)
@@ -173,5 +184,11 @@ public class AnimationTreeBoss : MonoBehaviour
             StopCoroutine(weightCoroutine);
         }
         weightCoroutine = StartCoroutine(rigControl.weightCurve(curve, clipLength));
+    }
+
+    void toggleAnimatorBool(string name)
+    {
+        animator.SetBool(name, !animator.GetBool(name));
+        Debug.Log("toggle " + name + " to " + animator.GetBool(name));
     }
 }

@@ -37,9 +37,11 @@ public class StaffStoneControl : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider col){
-        if(CheckMeleeAttack() && col.gameObject.GetComponent<Damageable>() 
-        && !col.gameObject.GetComponent<Player>()){
-            col.gameObject.GetComponent<Damageable>().ApplyDamage(player.GetComponent<Player>().meleeDamage);
+        if(CheckMeleeAttack() && !col.GetComponent<Player>()){
+            if(col.GetComponent<Damageable>())
+                col.GetComponent<Damageable>().ApplyDamage(player.GetComponent<Player>().meleeDamage);
+            if(col.GetComponent<TreeBossHitzone>())
+                col.GetComponent<TreeBossHitzone>().gettingHit(player.GetComponent<Player>().meleeDamage);
         }
     }
 }
