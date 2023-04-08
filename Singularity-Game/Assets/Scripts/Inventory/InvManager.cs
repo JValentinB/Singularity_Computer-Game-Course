@@ -43,14 +43,6 @@ public class InvManager : InvDatabase
     public int FindItemIndexInInventory(InvItem item)
     {
         int index = stackedInventoryItems.FindIndex(i => i.Item1.id == item.id);
-        //Debug.Log(index);
-        /*foreach (var i in stackedInventoryItems)
-        {
-            Debug.Log(i.Item1.id);
-            Debug.Log(item.id);
-            Debug.Log(i.Item2);
-            Debug.Log(stackedInventoryItems.Count);
-        }*/
         
         return index;
     }
