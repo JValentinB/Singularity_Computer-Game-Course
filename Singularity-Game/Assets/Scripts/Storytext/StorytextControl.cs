@@ -433,9 +433,9 @@ public class StorytextControl : MonoBehaviour
             case 6:
                 return !player.GetComponent<Player>().doubleJump;
             case 9:
-                //Golem destroyed bender
+                return GameObject.FindWithTag("GolemBoss").GetComponent<StoneGolemBoss>().destroyedBenders;
             case 15:
-                //tree boss dead
+                return GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().dead;
             case 17:
                 if(storyPartIndex == 3){
                     stopCurrentText();
@@ -443,7 +443,8 @@ public class StorytextControl : MonoBehaviour
                 }
                 return false;
             case 18:
-                //Tree boss stops until finished
+                GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().freeze = true;
+                return true;
             default:
                 return true;
         }
@@ -553,6 +554,7 @@ public class StorytextControl : MonoBehaviour
             weaponModeDisplay.alpha = 1;
             weaponWheel.alpha = 1;
             player.GetComponent<Player>().lockPlayerControl = false;
+            if(storyPartIndex == 18) GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().freeze = false;
             return;
         }
 

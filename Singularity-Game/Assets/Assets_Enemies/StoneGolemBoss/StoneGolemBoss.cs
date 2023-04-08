@@ -7,7 +7,7 @@ public class StoneGolemBoss : MonoBehaviour
 {
     public float healthPoints = 100000f;
     private float currentHealthPoints;
-    public bool dead = false;
+    public bool dead, destroyedBenders;
 
     [Header("Black Hole")]
     public float blackHoleForce = 1f;
@@ -359,6 +359,7 @@ public class StoneGolemBoss : MonoBehaviour
     void DestroyActiveBenders()
     {
         // Copy the list to avoid errors
+        destroyedBenders = true;
         List<LaserBender> benders = new List<LaserBender>(laser.benders);
         foreach (LaserBender bender in benders)
         {

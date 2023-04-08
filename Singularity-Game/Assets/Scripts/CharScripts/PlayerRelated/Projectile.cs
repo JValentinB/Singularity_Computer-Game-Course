@@ -92,7 +92,7 @@ public class Projectile : MonoBehaviour
             destroyed = true;
         }   
 
-        if(destroyed && !alreadyDestroyed && mode == 1){
+        if(destroyed && !alreadyDestroyed && (mode == 1 || mode == 3)){
             alreadyDestroyed = true;
             
             GameObject impact = Instantiate(impactEffect, transform.position, transform.rotation);

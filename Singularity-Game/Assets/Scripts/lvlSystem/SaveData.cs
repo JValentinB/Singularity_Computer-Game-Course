@@ -40,7 +40,7 @@ public class SaveData
         else treeBossEntryDestroyed = true;
         if(GameObject.FindWithTag("GolemHeart")) golemDefeated = false;
         else golemDefeated = true;
-        if(GameObject.FindWithTag("TreeBoss")) treeBossDefeated = false;
-        else treeBossDefeated = true;
+        treeBossDefeated = GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().dead;
+
     }
 }

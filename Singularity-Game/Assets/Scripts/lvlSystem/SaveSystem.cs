@@ -99,7 +99,7 @@ public class SaveSystem
 
         if(saveData.golemDefeated) UnityEngine.Object.Destroy(GameObject.FindWithTag("GolemBoss"));
         if(saveData.treeBossEntryDestroyed) UnityEngine.Object.Destroy(GameObject.FindWithTag("BossEntry"));
-        if(saveData.treeBossDefeated) UnityEngine.Object.Destroy(GameObject.FindWithTag("TreeBoss"));
+        GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().dead = saveData.treeBossDefeated;
 
         loadingDelay = -1f;
 
