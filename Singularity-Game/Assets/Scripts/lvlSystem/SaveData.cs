@@ -8,7 +8,7 @@ public class SaveData
     //Stat based
     public int health;
     public List<bool> unlockedWeaponModes;
-    public bool doubleJumpBoots;
+    public bool doubleJumpBoots, treeBossEntryDestroyed, golemDefeated, treeBossDefeated;
     public List<int> invItemID = new List<int>();
     public List<int> invItemAmount = new List<int>();
     public List<int> storyPartIndex = new List<int>();
@@ -35,5 +35,12 @@ public class SaveData
             storyPartIndex.Add(storyTrigger.GetComponent<StoryTrigger>().storyPartIndex);
             storyShown.Add(storyTrigger.GetComponent<StoryTrigger>().storyShown);
         }
+
+        if(GameObject.FindWithTag("BossEntry")) treeBossEntryDestroyed = false;
+        else treeBossEntryDestroyed = true;
+        if(GameObject.FindWithTag("GolemHeart")) golemDefeated = false;
+        else golemDefeated = true;
+        if(GameObject.FindWithTag("TreeBoss")) treeBossDefeated = false;
+        else treeBossDefeated = true;
     }
 }

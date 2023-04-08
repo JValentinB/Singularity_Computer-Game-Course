@@ -89,6 +89,18 @@ public class SaveSystem
             storyTrigger.GetComponent<StoryTrigger>().storyShown = saveData.storyShown[index];
         }
 
+        if(saveData.doubleJumpBoots) UnityEngine.Object.Destroy(GameObject.FindWithTag("DoubleJumpCrystal"));
+        if(saveData.unlockedWeaponModes[1]) UnityEngine.Object.Destroy(GameObject.FindWithTag("ShifterCrystal"));
+        if(saveData.unlockedWeaponModes[2]) UnityEngine.Object.Destroy(GameObject.FindWithTag("BlackHoleCrystal"));
+        if(saveData.unlockedWeaponModes[0]){
+            UnityEngine.Object.Destroy(GameObject.FindWithTag("PullCrystal"));
+            UnityEngine.Object.Destroy(GameObject.FindWithTag("FallingRocks")); 
+        }
+
+        if(saveData.golemDefeated) UnityEngine.Object.Destroy(GameObject.FindWithTag("GolemBoss"));
+        if(saveData.treeBossEntryDestroyed) UnityEngine.Object.Destroy(GameObject.FindWithTag("BossEntry"));
+        if(saveData.treeBossDefeated) UnityEngine.Object.Destroy(GameObject.FindWithTag("TreeBoss"));
+
         loadingDelay = -1f;
 
         Debug.Log("Savefile successfully loaded without reset!");

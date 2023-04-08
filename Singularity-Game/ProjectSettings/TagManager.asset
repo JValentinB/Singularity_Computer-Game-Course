@@ -32,6 +32,13 @@ TagManager:
   - Elevator
   - StoryField
   - StoryTextParent
+  - BossEntry
+  - GolemBoss
+  - DoubleJumpCrystal
+  - PullCrystal
+  - ShifterCrystal
+  - BlackHoleCrystal
+  - FallingRocks
   layers:
   - Default
   - TransparentFX
