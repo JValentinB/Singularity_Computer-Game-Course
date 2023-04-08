@@ -30,6 +30,8 @@ public class Player : Character
     [HideInInspector] public bool controllingPlatform = false;
 
     private Coroutine castingCoroutine;
+    private bool projectileCooldownActive;
+    private float projectileCooldown = 0.5f;
 
     void Start()
     {
@@ -219,8 +221,9 @@ public class Player : Character
 
     private IEnumerator FireProjectile()
     {
-        if (Input.GetMouseButtonDown(1) && (weaponMode != 0))
+        if (Input.GetMouseButtonDown(1) && (weaponMode != 0) && !projectileCooldownActive)
         {
+            projectileCooldownActive = true;
             if (!infinite_ammo)
             {
                 // use ammo on respective weaponmode
@@ -265,6 +268,9 @@ public class Player : Character
                 Destroy(projectileClone, 5);
             else
                 Destroy(projectileClone, 10);
+            
+            yield return new WaitForSeconds(projectileCooldown);
+            projectileCooldownActive = false;
         }
     }
 
