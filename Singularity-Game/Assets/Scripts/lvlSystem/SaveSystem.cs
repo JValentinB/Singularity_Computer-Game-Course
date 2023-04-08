@@ -13,7 +13,7 @@ public class SaveSystem
         SaveData saveData = new SaveData(player);
 
         string saveGamePath = Application.persistentDataPath + "/ugnmr_save.json";
-        string jsonSaveGame = JsonUtility.ToJson(saveData);
+        string jsonSaveGame = JsonUtility.ToJson(saveData, true);
         File.WriteAllText(saveGamePath, jsonSaveGame);
 
         //Show SaveGame Path in Log
@@ -83,6 +83,12 @@ public class SaveSystem
                 player.inventory.AddItem(player.inventory.GetItem(saveData.invItemID[i]), saveData.invItemAmount[i]);
             }
         }
+
+        foreach(Transform storyTrigger in GameObject.FindWithTag("StoryTextParent").transform){
+            int index = saveData.storyPartIndex.FindIndex(a => a == storyTrigger.GetComponent<StoryTrigger>().storyPartIndex);
+            storyTrigger.GetComponent<StoryTrigger>().storyShown = saveData.storyShown[index];
+        }
+
         loadingDelay = -1f;
 
         Debug.Log("Savefile successfully loaded without reset!");

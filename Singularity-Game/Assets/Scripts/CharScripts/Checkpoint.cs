@@ -6,12 +6,35 @@ public class Checkpoint : MonoBehaviour
 {
     public GameObject bonfireParticles;
 
-
     private bool isCurrentCheckpoint = false;
     private Checkpoint[] checkpoints;
+    private static List<int> storyPartIndexCheckpoint;
+    private static List<bool> storyShownCheckpoint;
 
     void Start(){
-        checkpoints = FindObjectsOfType<Checkpoint>(); 
+        checkpoints = FindObjectsOfType<Checkpoint>();
+        LoadStoryProgressLists();
+    }
+
+    private void LoadStoryProgressLists(){
+        if(storyPartIndexCheckpoint == null){
+           storyPartIndexCheckpoint = new List<int>();
+            storyShownCheckpoint = new List<bool>();
+            return;
+        } else if(storyPartIndexCheckpoint.Count == 0){
+            return;
+        }
+        foreach(Transform storyTrigger in GameObject.FindWithTag("StoryTextParent").transform){
+            int index = storyPartIndexCheckpoint.FindIndex(a => a == storyTrigger.GetComponent<StoryTrigger>().storyPartIndex);
+            storyTrigger.GetComponent<StoryTrigger>().storyShown = storyShownCheckpoint[index];
+        }
+    }
+
+    private void SaveStoryProgress(){
+        foreach(Transform storyTrigger in GameObject.FindWithTag("StoryTextParent").transform){
+            storyPartIndexCheckpoint.Add(storyTrigger.GetComponent<StoryTrigger>().storyPartIndex);
+            storyShownCheckpoint.Add(storyTrigger.GetComponent<StoryTrigger>().storyShown);
+        }
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -28,6 +51,9 @@ public class Checkpoint : MonoBehaviour
                 checkpoint.isCurrentCheckpoint = false;
             }
             isCurrentCheckpoint = true;
+
+            SaveStoryProgress();
+
             StartCoroutine(activationAnimation(collision.transform));
         }
     }

@@ -13,6 +13,9 @@ public class StorytextControl : MonoBehaviour
     private GameObject player;
     public Coroutine storyCoroutine;
 
+    public static List<int> storyPartIndexCheckpoint;
+    public static List<bool> storyShownCheckpoint;
+
     private List<(string, string)> spaceStoryText = new List<(string, string)>();
     private string finalText;
     private bool writing, visitedArion, stopText;
@@ -91,13 +94,7 @@ public class StorytextControl : MonoBehaviour
                 break;
             case 3:
                 spaceStoryText.Add(
-                    ("P. Otter", "What's this crystal, Arion? It looks important. What's this crystal, Arion? It looks important. What's this crystal, Arion? It looks important.")
-                );
-                spaceStoryText.Add(
-                    ("Arion", "Oh yes, very important. It's just a common crystal, P. Otter. Nothing to see here.")
-                );
-                spaceStoryText.Add(
-                    ("P. Otter", "Well, it's still worth taking with us.")
+                    ("Arion", "Well rip, P. Otter. Have fun down there!")
                 );
                 break;
             case 4:
@@ -394,6 +391,33 @@ public class StorytextControl : MonoBehaviour
                     ("Arion", "OwO Ha?!! You think you c-can intimidate us, Justin!!11 We've faced much wowse than a tawking twee befowe.\nBut vewy weww, if you insist on a fight, *notices buldge* we'ww give you onye.\nP. Ottew, get w-w-weady. Justin, you'we about t-to weawn why you don't mess with Awion and P. Ottew.")
                 );
                 break;
+            case 19:
+                spaceStoryText.Add(
+                    ("Arion", "Well, what are you waiting for? Are you scared, P. Otter?\nJust tell the darn elevator to take you down to your date already.\nTime is ticking, and I don't have all day to wait for you.")
+                );
+                spaceStoryText.Add(
+                    ("P. Otter", "Alright, alright, I'm on it. No need to get your circuits in a twist.")
+                );
+                spaceStoryText.Add(
+                    ("Arion", "See? That wasn't so hard, was it? Now hurry up and find that 'SweetAngel_93' of yours so we can get out of this backwater planet.")
+                );
+                break;
+            case 20:
+                spaceStoryText.Add(
+                    ("Arion", "Looks like our little Otter is finally making progress. Scans show that your precious SweetAngel_93 is just around the corner.\nAnd what do we have here? A switch? Hmm, who knows what it does. But you know what, Otter?\nYou've been wasting enough time already. Just pull it and get on with it.")
+                );
+                spaceStoryText.Add(
+                    ("P. Otter", "But what if it activates some kind of trap or something?")
+                );
+                spaceStoryText.Add(
+                    ("Arion", "Oh please, P. Otter. You're such a worrier. Just shoot at it already!")
+                );
+                break;
+            case 21:
+                spaceStoryText.Add(
+                    ("", "")
+                );
+                break;
         }
         if(uwuMode) UwuifiyStory();
         stopText = false;
@@ -417,7 +441,7 @@ public class StorytextControl : MonoBehaviour
                 }
                 return false;
             case 18:
-                //Golem stops until finished
+                //Tree boss stops until finished
             default:
                 return true;
         }
