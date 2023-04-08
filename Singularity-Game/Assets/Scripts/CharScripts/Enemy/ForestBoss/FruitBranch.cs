@@ -17,7 +17,6 @@ public class FruitBranch : MonoBehaviour
     void Start()
     {
         rb = transform.Find("Rig 1/BranchTarget").gameObject.GetComponent<Rigidbody>();
-        leaveRustling = GetComponent<AudioSource>();
         fruitObject = gameObject.transform.Find("Armature/Bone/Bone.001/Bone.002/Bone.003/Bone.004/AcornControl/Acorn").gameObject;
         fruitSize = fruitObject.transform.localScale;
         fruitLocalPos = fruitObject.transform.localPosition;
