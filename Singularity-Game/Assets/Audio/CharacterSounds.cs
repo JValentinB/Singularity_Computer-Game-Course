@@ -9,6 +9,7 @@ public class CharacterSounds : MonoBehaviour
     public List<Sound> landingSounds;
     public List<Sound> damageSounds;
     public List<Sound> otherSounds;
+    public List<Sound> meleeSounds;
     
     private AudioSource audioSource;
 
@@ -21,6 +22,7 @@ public class CharacterSounds : MonoBehaviour
         addSourceToList(landingSounds);
         addSourceToList(damageSounds);
         addSourceToList(otherSounds);
+        addSourceToList(meleeSounds);
 
     }
 
@@ -57,6 +59,12 @@ public class CharacterSounds : MonoBehaviour
     public void takingDamage()
     {
         Sound sound = damageSounds[Random.Range(0, damageSounds.Count)];
+        sound.source.Play();
+    }
+
+    public void meleeAttack()
+    {
+        Sound sound = meleeSounds[Random.Range(0, meleeSounds.Count)];
         sound.source.Play();
     }
 }
