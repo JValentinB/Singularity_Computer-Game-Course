@@ -431,7 +431,7 @@ public class StorytextControl : MonoBehaviour
             case 6:
                 return !player.GetComponent<Player>().doubleJump;
             case 9:
-                //Golem destroyed bender
+                return GameObject.FindWithTag("GolemBoss").GetComponent<StoneGolemBoss>().destroyedBenders;
             case 15:
                 return GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().dead;
             case 17:
