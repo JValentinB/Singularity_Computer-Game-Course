@@ -69,6 +69,7 @@ public class Player : Character
     void FixedUpdate()
     {
         SpeedToggle();
+        if (!lockPlayerControl) MovePlayer();
 
         ChangeLineOfSight();
         Turn();
@@ -91,7 +92,7 @@ public class Player : Character
             return;
         }
 
-        MovePlayer();
+        
         Attack();
         StartCoroutine(FireProjectile());
         Jump();
