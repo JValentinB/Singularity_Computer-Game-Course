@@ -8,7 +8,7 @@ public class TreeBoss : Enemy
     public List<MovingBossRoom> bossRoomParts;
     public List<SpikeSpawnZone> spikeSpawnZones = new List<SpikeSpawnZone>();
     public float stunnedTime = 10f;
-    public bool secondPhase;
+    public bool secondPhase, dead, freeze;
 
 
     [SerializeField] private float spikeCooldown;
@@ -24,7 +24,6 @@ public class TreeBoss : Enemy
     // private Vector3 bottomSideMidPos, rightSideMidPos,
     // leftSideMidPos;
 
-    bool dead = false;
     bool roomPartsMoved = false;
     [HideInInspector] public bool stunned = false;
 
@@ -79,6 +78,8 @@ public class TreeBoss : Enemy
     // Update is called once per frame
     void Update()
     {
+        if(freeze) return;
+
         if(stunned && !stunTimerRunning)
             StartCoroutine(stunnedTimer());
             

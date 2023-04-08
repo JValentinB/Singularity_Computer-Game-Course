@@ -43,6 +43,8 @@ public class AnimationTreeBoss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
+        if(transform.GetComponent<TreeBoss>().freeze) return;
+
         if(treeBoss.stunned){
             if(!animator.GetBool("Stunned"))
                 setWeightWithCurve(treeBoss.stunnedTime, curve2);
@@ -59,7 +61,7 @@ public class AnimationTreeBoss : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" && !transform.GetComponent<TreeBoss>().freeze)
         {
             player = other.gameObject.transform;
             sounds.groaningSoundRandom();
