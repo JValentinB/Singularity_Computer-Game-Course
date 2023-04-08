@@ -13,6 +13,9 @@ public class StorytextControl : MonoBehaviour
     private GameObject player;
     public Coroutine storyCoroutine;
 
+    public static List<int> storyPartIndexCheckpoint;
+    public static List<bool> storyShownCheckpoint;
+
     private List<(string, string)> spaceStoryText = new List<(string, string)>();
     private string finalText;
     private bool writing, visitedArion, stopText;
@@ -438,7 +441,7 @@ public class StorytextControl : MonoBehaviour
                 }
                 return false;
             case 18:
-                //Golem stops until finished
+                //Tree boss stops until finished
             default:
                 return true;
         }

@@ -13,7 +13,7 @@ public class SaveSystem
         SaveData saveData = new SaveData(player);
 
         string saveGamePath = Application.persistentDataPath + "/ugnmr_save.json";
-        string jsonSaveGame = JsonUtility.ToJson(saveData);
+        string jsonSaveGame = JsonUtility.ToJson(saveData, true);
         File.WriteAllText(saveGamePath, jsonSaveGame);
 
         //Show SaveGame Path in Log
