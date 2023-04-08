@@ -22,6 +22,8 @@ public class StorytextControl : MonoBehaviour
 
     public static bool uwuMode;
 
+    [SerializeField] public CanvasGroup healthBar, weaponModeDisplay, weaponWheel;
+
     void Start()
     {
         textSound = GetComponent<AudioSource>();
@@ -449,7 +451,10 @@ public class StorytextControl : MonoBehaviour
 
     private void stopCurrentText(){
         stopText = true;
-        GetComponent<CanvasGroup>().alpha = 0f;
+        GetComponent<Animator>().SetBool("active", false);
+        healthBar.alpha = 1;
+        weaponModeDisplay.alpha = 1;
+        weaponWheel.alpha = 1;
         charIndex = 0;
         StopCoroutine(storyCoroutine);
     }
@@ -523,7 +528,10 @@ public class StorytextControl : MonoBehaviour
 
     public IEnumerator PlayStory(){
         player.GetComponent<Player>().lockPlayerControl = true;
-        GetComponent<CanvasGroup>().alpha = 1f;
+        healthBar.alpha = 0;
+        weaponModeDisplay.alpha = 0;
+        weaponWheel.alpha = 0;
+        GetComponent<Animator>().SetBool("active", true);
         NextText();
         storyIndex++;
         
@@ -540,7 +548,10 @@ public class StorytextControl : MonoBehaviour
         GetComponent<CanvasGroup>().alpha = 1;
         if(storyIndex > spaceStoryText.Count || (storyIndex == spaceStoryText.Count && !writing)){ 
             StopCoroutine(storyCoroutine);
-            GetComponent<CanvasGroup>().alpha = 0f;
+            GetComponent<Animator>().SetBool("active", false);
+            healthBar.alpha = 1;
+            weaponModeDisplay.alpha = 1;
+            weaponWheel.alpha = 1;
             player.GetComponent<Player>().lockPlayerControl = false;
             return;
         }
