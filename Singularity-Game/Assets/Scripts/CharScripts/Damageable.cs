@@ -19,6 +19,7 @@ public class Damageable : MonoBehaviour
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public int inWeightlessFields = 0;
 
+    [SerializeField] private HealthBar healthBar;
     public InvManager inventory = new InvManager();
 
     private List<Vector3> gravityShifts = new List<Vector3>();
@@ -27,6 +28,9 @@ public class Damageable : MonoBehaviour
         currentHealth -= damage;
         if(animator != null)
             StartCoroutine(damageAnimation());
+        if(healthBar){
+            healthBar.UpdateHealth(currentHealth);
+        }
     }
 
     public void ApplyGravity()

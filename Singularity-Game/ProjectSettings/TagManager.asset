@@ -29,6 +29,8 @@ TagManager:
   - IgnoreCollision
   - BombFruit
   - BlackholeContainer
+  - Elevator
+  - StoryField
   layers:
   - Default
   - TransparentFX

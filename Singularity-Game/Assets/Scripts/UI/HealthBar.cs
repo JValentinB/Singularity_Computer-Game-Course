@@ -24,9 +24,16 @@ public class HealthBar : MonoBehaviour
         UpdateHealthUi();
     }
 
+    public void UpdateHealth(int health){
+        currentHealth = health;
+        delayTimer = 0;
+        lerpTimer = 0;
+    }
+
     public void UpdateHealthUi(){
         float healthPercentage = (float)currentHealth/(float)maxHealth;
         float healthFillAmount = frontBar.fillAmount;
+        float backHealthFillAmount = backBar.fillAmount;
         if(healthFillAmount < healthPercentage){
             delayTimer += Time.deltaTime;
             backBar.fillAmount = healthPercentage;
@@ -35,7 +42,14 @@ public class HealthBar : MonoBehaviour
                 float percentComplete = lerpTimer/4;
                 frontBar.fillAmount = Mathf.Lerp(healthFillAmount, backBar.fillAmount, percentComplete);
             }
-
+        } else if(backHealthFillAmount > healthPercentage){
+            delayTimer += Time.deltaTime;
+            frontBar.fillAmount = healthPercentage;
+            if(delayTimer > 3){
+                lerpTimer += Time.deltaTime;
+                float percentComplete = 1 - lerpTimer/4;
+                backBar.fillAmount = Mathf.Lerp(frontBar.fillAmount, backHealthFillAmount, percentComplete);
+            }
         }
     }
 }

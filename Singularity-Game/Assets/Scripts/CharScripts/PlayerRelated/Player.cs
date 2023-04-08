@@ -13,11 +13,10 @@ public class Player : Character
     private static List<bool> savedWeaponModes = new List<bool>() { false, false, false, false };
 
 
-    [SerializeField] public bool doubleJump;
+    [SerializeField] public bool doubleJump, lockPlayerControl;
     [SerializeField] private GameObject projectile;
     [SerializeField] private GameObject projectile_blackhole;
     [SerializeField] public GameObject jumpBurst;
-    [SerializeField] private XpManager xpManager;
     [SerializeField] private InvUI invUi;
     [HideInInspector] public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
     private SceneControl scenecontrol;
@@ -68,10 +67,10 @@ public class Player : Character
     void FixedUpdate()
     {
         SpeedToggle();
-        ChangeLineOfSight();
 
+        ChangeLineOfSight();
         Turn();
-        MovePlayer();
+        
         GroundCheck();
         FallAnimation();
 
@@ -80,12 +79,13 @@ public class Player : Character
         //changeEquipment();
 
         killOnHighSpeed();
-        if (currentHealth <= 0)
-            OnDeath();
+        if (currentHealth <= 0) OnDeath();
     }
 
     void Update()
     {
+        if (lockPlayerControl){ return; }
+        MovePlayer();
         Attack();
         StartCoroutine(FireProjectile());
         Jump();
@@ -151,7 +151,7 @@ public class Player : Character
 
     public void giveXp(int xp)
     {
-        xpManager.GainXp(xp);
+        return;
     }
 
     public void GiveItem(InvItem item, int amount)
