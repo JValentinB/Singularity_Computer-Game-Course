@@ -11,6 +11,9 @@ public class SaveData
     public bool doubleJumpBoots;
     public List<int> invItemID = new List<int>();
     public List<int> invItemAmount = new List<int>();
+    public List<int> storyPartIndex = new List<int>();
+    public List<bool> storyShown = new List<bool>();
+
     public float[] lastCheckpoint;
 
     public SaveData(Player player){
@@ -26,6 +29,11 @@ public class SaveData
         foreach(var item in player.inventory.stackedInventoryItems){
             invItemID.Add(item.Item1.id);
             invItemAmount.Add(item.Item2);
+        }
+
+        foreach(Transform storyTrigger in GameObject.FindWithTag("StoryTextParent").transform){
+            storyPartIndex.Add(storyTrigger.GetComponent<StoryTrigger>().storyPartIndex);
+            storyShown.Add(storyTrigger.GetComponent<StoryTrigger>().storyShown);
         }
     }
 }

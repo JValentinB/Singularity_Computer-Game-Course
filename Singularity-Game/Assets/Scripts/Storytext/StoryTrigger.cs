@@ -5,8 +5,8 @@ using UnityEngine;
 public class StoryTrigger : MonoBehaviour
 {
     [Header("Choose which part the collider should show")]
-    [SerializeField] private int storyPartIndex;
-    [SerializeField] private bool storyShown;
+    [SerializeField] public int storyPartIndex;
+    [SerializeField] public bool storyShown;
     [SerializeField] private bool oneTimePlay;
     private StorytextControl storyController;
 

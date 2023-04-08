@@ -30,6 +30,7 @@ TagManager:
   - BombFruit
   - Elevator
   - StoryField
+  - StoryTextParent
   layers:
   - Default
   - TransparentFX

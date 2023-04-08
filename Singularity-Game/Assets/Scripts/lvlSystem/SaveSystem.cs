@@ -83,6 +83,12 @@ public class SaveSystem
                 player.inventory.AddItem(player.inventory.GetItem(saveData.invItemID[i]), saveData.invItemAmount[i]);
             }
         }
+
+        foreach(Transform storyTrigger in GameObject.FindWithTag("StoryTextParent").transform){
+            int index = saveData.storyPartIndex.FindIndex(a => a == storyTrigger.GetComponent<StoryTrigger>().storyPartIndex);
+            storyTrigger.GetComponent<StoryTrigger>().storyShown = saveData.storyShown[index];
+        }
+
         loadingDelay = -1f;
 
         Debug.Log("Savefile successfully loaded without reset!");
