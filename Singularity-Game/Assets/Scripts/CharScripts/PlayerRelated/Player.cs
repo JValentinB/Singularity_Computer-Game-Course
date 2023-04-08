@@ -13,7 +13,7 @@ public class Player : Character
     private static List<bool> savedWeaponModes = new List<bool>() { false, false, false, false };
 
 
-    [SerializeField] public bool doubleJump, lockPlayerControl;
+    [SerializeField] public bool doubleJump, lockPlayerControl, freezeGame;
     [SerializeField] private GameObject projectile;
     [SerializeField] private GameObject projectile_blackhole;
     [SerializeField] public GameObject jumpBurst;
@@ -84,7 +84,11 @@ public class Player : Character
 
     void Update()
     {
-        if (lockPlayerControl){ return; }
+        if (lockPlayerControl){
+            animator.SetFloat("Speed", 0f);
+            return;
+        }
+
         MovePlayer();
         Attack();
         StartCoroutine(FireProjectile());

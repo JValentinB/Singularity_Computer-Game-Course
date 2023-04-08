@@ -15,8 +15,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Space.unity
     guid: ec56d299a11565643b5af5906c9bd190
   - enabled: 0
-    path: Assets/Scenes/tempScene_BossRoom.unity
-    guid: b1f0ae16e60a851458a86a03ee0d8ac8
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/Forest1.0_Valentin.unity
     guid: 7a655546bc495604fae9cb9f1ddeff9b

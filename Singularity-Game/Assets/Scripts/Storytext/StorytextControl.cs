@@ -91,13 +91,7 @@ public class StorytextControl : MonoBehaviour
                 break;
             case 3:
                 spaceStoryText.Add(
-                    ("P. Otter", "What's this crystal, Arion? It looks important. What's this crystal, Arion? It looks important. What's this crystal, Arion? It looks important.")
-                );
-                spaceStoryText.Add(
-                    ("Arion", "Oh yes, very important. It's just a common crystal, P. Otter. Nothing to see here.")
-                );
-                spaceStoryText.Add(
-                    ("P. Otter", "Well, it's still worth taking with us.")
+                    ("Arion", "Well rip, P. Otter. Have fun down there!")
                 );
                 break;
             case 4:
@@ -414,6 +408,11 @@ public class StorytextControl : MonoBehaviour
                 );
                 spaceStoryText.Add(
                     ("Arion", "Oh please, P. Otter. You're such a worrier. Just shoot at it already!")
+                );
+                break;
+            case 21:
+                spaceStoryText.Add(
+                    ("", "")
                 );
                 break;
         }
