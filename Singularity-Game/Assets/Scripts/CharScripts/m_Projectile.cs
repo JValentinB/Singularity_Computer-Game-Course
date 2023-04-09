@@ -6,38 +6,29 @@ public class m_Projectile : MonoBehaviour
 {
     [SerializeField] private GameObject rockPiece;
     [SerializeField] private GameObject rockBreakObject;
-    [SerializeField] private float speed;
+    [SerializeField] private float speed = 22f;
+    public int damage = 20;
+    public float stoppingTime = 2f;
     public bool freeze = false;
+    public float MoveUpAmount = 5f;
     [HideInInspector] public Vector3 direction;
-    public int dmg;
 
     //Move up, then move to player part
     private Vector3 startPosition;
-    private bool init;
-    private float MoveUpAmount;
-    private float WaitBeforeMovingAmount;
-    public bool waitBeforeAttack;
-    private float counter;
+
+    private bool init = true;
+    private bool destroyed = false;
 
     void Start()
     {
         startPosition = transform.position;
         init = true;
-        MoveUpAmount = 3f;
-        WaitBeforeMovingAmount = 0.5f;
-        waitBeforeAttack = false;
-        counter = 0f;
 
-        this.speed = 22f;
-        this.dmg = 50;
-        // this.direction = new Vector3(0f, 0.5f, 0f);
-    }
+        StartCoroutine(rockMovement());
 
-    void Update()
-    {
-        MovedUp();
-        WaitCounter();
-        Move();
+        GameObject rockBreakClone = Instantiate(rockBreakObject, transform.position, Quaternion.identity);
+        rockBreakClone.GetComponent<AudioSource>().Play();
+        Destroy(rockBreakClone, 2f);
     }
 
     private void OnTriggerEnter(Collider col)
@@ -45,7 +36,7 @@ public class m_Projectile : MonoBehaviour
         var obj = col.gameObject;
         if (!col.isTrigger && obj.GetComponent<Damageable>())
         {
-            obj.GetComponent<Damageable>().ApplyDamage(dmg);
+            obj.GetComponent<Damageable>().ApplyDamage(damage);
             OnDeath();
         }
         else if (freeze && !obj.GetComponent<Projectile>())
@@ -58,6 +49,24 @@ public class m_Projectile : MonoBehaviour
         }
     }
 
+    IEnumerator rockMovement()
+    {
+        while(Vector3.Distance(transform.position, startPosition) < MoveUpAmount){
+            Move();
+            yield return null;
+        }
+        init = false;
+        
+        yield return new WaitForSeconds(0.9f * stoppingTime);
+        setDir(GameObject.FindWithTag("Staffstone").transform.position);
+        yield return new WaitForSeconds(0.1f * stoppingTime);
+
+        while(!destroyed){
+            Move();
+            yield return null;
+        }
+    }
+
     public void setDir(Vector3 dir)
     {
         this.direction = Vector3.Normalize(dir - transform.position);
@@ -66,7 +75,8 @@ public class m_Projectile : MonoBehaviour
     }
 
     public void OnDeath()
-    {
+    {   
+        destroyed = true;
         createPieces();
         GameObject rockBreakClone = Instantiate(rockBreakObject, transform.position, Quaternion.identity);
         rockBreakClone.GetComponent<AudioSource>().Play();
@@ -82,35 +92,20 @@ public class m_Projectile : MonoBehaviour
         {
             Vector3 piecePos = new Vector3(pos.x + Random.value, pos.y + Random.value, pos.z + Random.value);
             GameObject pieceClone = Instantiate(rockPiece, piecePos, transform.rotation);
+            pieceClone.transform.localScale *= Random.Range(0.75f, 4f);
             Destroy(pieceClone, 3f);
         }
     }
 
-    private void MovedUp()
-    {
-        if (init)
-        {
-            if (Vector3.Distance(transform.position, startPosition) < MoveUpAmount) return;
-
-            init = false;
-            setDir(GameObject.FindWithTag("Staffstone").transform.position);
-            waitBeforeAttack = true;
-        }
-    }
-
-    private void WaitCounter()
-    {
-        if (!waitBeforeAttack) return;
-
-        if (counter >= WaitBeforeMovingAmount) waitBeforeAttack = false;
-        counter += Time.deltaTime;
-    }
-
     private void Move()
     {
-        if (freeze || waitBeforeAttack) return;
+        if (freeze) return;
         transform.Translate(direction * speed * Time.deltaTime, Space.World);
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
         transform.Rotate(1.5f, 1.5f, 1.5f, Space.Self);
+    }
+
+    public void increaseDamage(int increase){
+        damage += increase;
     }
 }

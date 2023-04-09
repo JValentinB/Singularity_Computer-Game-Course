@@ -6,16 +6,19 @@ public class rootSpike : MonoBehaviour
 {   
     public int damage = 30;
     public float growSize = 1f;
+    public float rumblingTime = 2f;
     public float growTime = 0.2f;
     public float waitTime = 0.5f;
     public float retractionTime = 0.5f;
 
     private Animator animator;
     private ParticleSystem ps;
-    private bool startRumble;
+    Collider spikeCollider;
+    ObjectSounds objectSounds;
 
     Vector3 localScale;
     Vector3 startPosition;
+    private bool started = false;
     private bool isGrowing = false;
     private bool isShrinking = false;
 
@@ -25,7 +28,10 @@ public class rootSpike : MonoBehaviour
     {
         animator = GetComponentInChildren<Animator>();
         ps = GetComponentInChildren<ParticleSystem>();
-        startRumble = true;
+        spikeCollider = GetComponentInChildren<Collider>();
+        objectSounds = GetComponent<ObjectSounds>();
+
+        spikeCollider.enabled = false;
 
         float randomScale = Random.Range(0.5f, 1f);
         localScale = transform.localScale * randomScale;
@@ -36,47 +42,28 @@ public class rootSpike : MonoBehaviour
         growSize *= randomScale;
     }
 
-    void Update()
-    {
-        PlayEarthRumble();
-        GrowRootSpike();
-        // growBackCount();
-    }
-
-    private void PlayEarthRumble()
-    {
-        if (startRumble)
-        {
-            ps.Play();
-            startRumble = false;
+    void Update(){
+        if(!started){
+            started = true;
+            StartCoroutine(GrowRootSpike());
+            objectSounds.setRandomSourcePitch("Growing", 0.1f);
         }
     }
 
-    private void GrowRootSpike()
+    private IEnumerator GrowRootSpike()
     {
-        if (ps.isEmitting) return;
+        ps.Play();
+        StartCoroutine(objectSounds.PlayForTime("Crumbling", 0.1f, rumblingTime));
 
-        // animator.SetBool("grow", true);
-        if (!isGrowing)
-        {
-            isGrowing = true;
-            StartCoroutine(rootScale(0.1f, 1f));
-        }
+        yield return new WaitForSeconds(rumblingTime);
+
+        objectSounds.Play("Growing");
+        StartCoroutine(rootScale(0.1f, 1f));
+
+        yield return new WaitForSeconds(growTime / 4);
+
+        spikeCollider.enabled = true;
     }
-
-    // private void growBackCount()
-    // {
-    //     if (animator.GetBool("grow"))
-    //     {
-    //         growBackCD -= Time.deltaTime;
-    //     }
-    //     if (0f >= growBackCD)
-    //     {
-    //         // animator.SetBool("grow", false);
-    //         // animator.SetBool("recede", true);
-    //         Destroy(gameObject, 1f);
-    //     }
-    // }
 
     IEnumerator rootScale(float startScale, float endScale)
     {
@@ -116,6 +103,7 @@ public class rootSpike : MonoBehaviour
         transform.localScale = localScale * endScale;
 
         yield return new WaitForSeconds(waitTime);
+        spikeCollider.enabled = false;
 
         time = 0f;
         while (time < retractionTime)
@@ -149,5 +137,9 @@ public class rootSpike : MonoBehaviour
         transform.localScale = localScale * startScale;
 
         Destroy(gameObject, 0.5f);
+    }
+
+    public void increaseDamage(int increase){
+        damage += increase;
     }
 }

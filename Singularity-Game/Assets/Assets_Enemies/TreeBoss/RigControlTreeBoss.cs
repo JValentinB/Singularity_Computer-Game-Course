@@ -60,6 +60,11 @@ public class RigControlTreeBoss : MonoBehaviour
         }
     }
 
+    public void setWeight(float weight)
+    {
+        rig.weight = weight;
+    }
+
     IEnumerator fadingWeight(float endWeight, float duration, bool end)
     {
         float currentWeight = rig.weight;

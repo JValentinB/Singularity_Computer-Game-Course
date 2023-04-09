@@ -282,7 +282,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 12
+      scalar: 13
       minScalar: 4
       maxCurve:
         serializedVersion: 2
@@ -398,7 +398,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 70
+      scalar: 75
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -861,7 +861,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 1
+      value: 0.5
       mode: 0
       spread: 0
       speed:
@@ -4874,7 +4874,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b82a2416ffa14c040bbc0df81b774e77, type: 2}
+  - {fileID: 2100000, guid: 0793ac7938ea2744cbe3ae8d9977bf81, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4935,6 +4935,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8365467389909269600}
   - component: {fileID: 8365467389909269603}
+  - component: {fileID: 4648118781079671313}
   m_Layer: 0
   m_Name: RootSpike
   m_TagString: Untagged
@@ -4971,9 +4972,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0127f3e1d2460814baf8d8d72a75bd66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 30
+  damage: 15
   growSize: 7
+  rumblingTime: 2
   growTime: 0.2
   waitTime: 0.5
-  retractionTime: 0.5
+  retractionTime: 1
   growingDirection: {x: 0, y: 0, z: 0}
+--- !u!114 &4648118781079671313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8365467389909269601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 140bb016ab821ee4a8aeb022ea5513f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - soundName: Growing
+    clip: {fileID: 8300000, guid: 4bbf681c8d6e6e145aa44d594b5a4671, type: 3}
+    volume: 0.5
+    pitch: 0.75
+    loop: 0
+    spatialBlend: 0
+    source: {fileID: 0}
+  - soundName: Crumbling
+    clip: {fileID: 8300000, guid: 4d6619e0a7ae22e49ba88fca3f59d0a2, type: 3}
+    volume: 0
+    pitch: 0.75
+    loop: 1
+    spatialBlend: 0
+    source: {fileID: 0}

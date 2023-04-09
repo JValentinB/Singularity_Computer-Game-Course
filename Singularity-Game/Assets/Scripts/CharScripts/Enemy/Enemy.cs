@@ -32,7 +32,7 @@ public class Enemy : Character
     public void OnDeath(){
         if(currentHealth <= 0){
             currentHealth = 0;
-            playerObject.GetComponent<Player>().giveXp(xp);
+            // playerObject.GetComponent<Player>().giveXp(xp);
             //...drop Items...
             //...animation...
             gameObject.SetActive(false);

@@ -23,9 +23,11 @@ public class Damageable : MonoBehaviour
     public InvManager inventory = new InvManager();
 
     private List<Vector3> gravityShifts = new List<Vector3>();
+    // private bool inverting = false;
 
     public void ApplyDamage(int damage){
         currentHealth -= damage;
+        Debug.Log(transform.name + " taking Damage");
         if(animator != null)
             StartCoroutine(damageAnimation());
         if(healthBar){
@@ -39,16 +41,24 @@ public class Damageable : MonoBehaviour
     }
 
     public void ShiftGravity(){
+        Vector3 oldDirection = targetDirection;
         if(gravityShifts.Count == 0){
             targetDirection = Vector3.down;
             shift = true;
             gravitationalDirection = Vector3.down;
-            return;
         }
-        if(gravityShifts[0] != gravitationalDirection){
+        else if(gravityShifts[0] != gravitationalDirection){
             targetDirection = gravityShifts[0];
             shift = true;
             gravitationalDirection = gravityShifts[0];
+        }
+
+        if(GetComponent<Player>()){
+            // if(!inverting)
+            //     StartCoroutine(invertPlayerControl(GetComponent<Player>(), oldDirection, targetDirection == Vector3.up ? -1 : 1));
+
+            if(Camera.main.GetComponent<CameraControl>().downDirection != targetDirection)
+                Camera.main.GetComponent<CameraControl>().turnCameraWithShift(oldDirection, targetDirection, 0.75f);
         }
     }
 
@@ -86,6 +96,10 @@ public class Damageable : MonoBehaviour
         return gravityShifts.Count;
     }
 
+    public bool isFirstShifter(Vector3 shifterDirection){
+        return shifterDirection == gravityShifts[0];
+    }
+
     public void Wait(float time){
         var counter = 0f;
         while (counter < time) {
@@ -94,6 +108,7 @@ public class Damageable : MonoBehaviour
     }
 
     IEnumerator damageAnimation(){
+        Debug.Log(transform.name);
         animator.SetTrigger("TakingDamage");
         animator.SetLayerWeight(2, 1);
         yield return new WaitForSeconds(1f);

@@ -1,14 +1,10 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
 
 public class ObjectSounds : MonoBehaviour
 {
     public Sound[] sounds;
-    
-    private AudioSource audioSource;
 
     void Start()
     {
@@ -43,10 +39,10 @@ public class ObjectSounds : MonoBehaviour
     }
 
     public IEnumerator fadeInOut(string name, float targetVolume, float fadeTime){
-        if(!isPlayed(name))
+        float startVolume = getSourceVolume(name);
+        if(!isPlayed(name) || startVolume == 0)
             Play(name);
 
-        float startVolume = getSourceVolume(name);
         float time = 0f;
         while (time < fadeTime)
         {
@@ -105,6 +101,18 @@ public class ObjectSounds : MonoBehaviour
         Sound sound = Array.Find(sounds, Sound => Sound.soundName == name);
         if(sound.source != null)
             sound.source.pitch = pitch;
+    }
+
+    public void setRandomSourcePitch(string name, float range){
+        Sound sound = Array.Find(sounds, Sound => Sound.soundName == name);
+        if(sound.source != null)
+            sound.source.pitch += UnityEngine.Random.Range(-range, range);
+    }
+
+    public IEnumerator PlayForTime(string name, float targetVolume, float time){
+        StartCoroutine(fadeInOut(name, targetVolume, time * 0.1f));
+        yield return new WaitForSeconds(time);
+        StartCoroutine(fadeInOut(name, 0, time * 0.1f));
     }
 
     public void playAtRandomTimePoint(string name, float min, float max)

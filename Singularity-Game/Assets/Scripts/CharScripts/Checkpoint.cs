@@ -61,8 +61,8 @@ public class Checkpoint : MonoBehaviour
     IEnumerator activationAnimation(Transform player){
         GameObject particleObject = (GameObject)Instantiate(bonfireParticles, player.position, Quaternion.identity);
 
-        var shape = particleObject  .GetComponent<ParticleSystem>().shape;
-        var character = GameObject.Find("Character");
+        var shape = particleObject.GetComponent<ParticleSystem>().shape;
+        var character = player.Find("Character");
         shape.skinnedMeshRenderer = character.GetComponent<SkinnedMeshRenderer>();
 
         yield return new WaitForSeconds(1f);

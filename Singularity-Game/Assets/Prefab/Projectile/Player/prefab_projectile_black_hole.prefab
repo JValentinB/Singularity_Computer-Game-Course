@@ -158,8 +158,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0d083b51dc0bfe45902622cf4385799, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileSpeed: 0
+  projectileSpeed: 10
   mode: 2
+  impactEffect: {fileID: 0}
+  closeToTreeBoss: 0
+  modeMaterials: []
   ignoreCollisionWithTag:
   - Player
   - FOV

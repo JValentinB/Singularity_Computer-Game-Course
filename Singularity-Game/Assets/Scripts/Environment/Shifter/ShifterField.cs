@@ -6,7 +6,7 @@ public class ShifterField : MonoBehaviour
 {
     public Vector3 direction;
     public bool active;
-    
+
     [HideInInspector] public float time = 0f;
     [HideInInspector] public float warningTime = 0f;
     [SerializeField] private Vector3 activePos;
@@ -20,6 +20,7 @@ public class ShifterField : MonoBehaviour
     private List<Damageable> damageables = new List<Damageable>();
 
     private Coroutine timerCoroutine;
+    private bool inverting = false;
 
     void Start()
     {
@@ -37,9 +38,9 @@ public class ShifterField : MonoBehaviour
     private void ChangeMode()
     {
         if (active && !ps.isPlaying)
-        {   
+        {
             foreach (Damageable damageable in damageables)
-                activateShiftField(damageable);
+                activateShifterField(damageable);
 
             ps.Play();
             timerCoroutine = StartCoroutine(shifterTimer());
@@ -52,11 +53,15 @@ public class ShifterField : MonoBehaviour
             ps.Stop();
             StopCoroutine(timerCoroutine);
         }
-        else {
-            if(active){
+        else
+        {
+            if (active)
+            {
                 //_psShape.position = activePos;
                 _psMain.gravityModifier = -0.2f;
-            } else if(!active){
+            }
+            else if (!active)
+            {
                 //_psShape.position = inactivePos;
                 _psMain.gravityModifier = 1f;
             }
@@ -71,8 +76,8 @@ public class ShifterField : MonoBehaviour
             if (!damageables.Contains(ObjectToShift.GetComponent<Damageable>()))
                 damageables.Add(ObjectToShift.GetComponent<Damageable>());
 
-            if(active)
-                activateShiftField(ObjectToShift.GetComponent<Damageable>());
+            if (active)
+                activateShifterField(ObjectToShift.GetComponent<Damageable>());
         }
     }
 
@@ -83,18 +88,27 @@ public class ShifterField : MonoBehaviour
         {
             damageables.Remove(ObjectToShift.GetComponent<Damageable>());
 
-            if(active)
+            if (active)
                 deactivateShiftField(ObjectToShift.GetComponent<Damageable>());
         }
     }
 
-    void activateShiftField(Damageable obj)
+    void activateShifterField(Damageable obj)
     {
-        if (obj.GetComponent<Player>() && obj.GetComponent<Damageable>().getGravityShiftCount() == 0 )
-        {
-            Vector3 oldDirection = obj.GetComponent<Damageable>().getGravityShift();
-            Camera.main.GetComponent<CameraControl>().turnCameraWithShift(oldDirection, direction, 0.75f);
-        }
+        // if (obj.GetComponent<Player>())
+        // {
+        //     // if (obj.GetComponent<Damageable>().getGravityShiftCount() == 0)
+        //     // {
+        //     //     Vector3 oldDirection = obj.GetComponent<Damageable>().getGravityShift();
+        //     //     Camera.main.GetComponent<CameraControl>().turnCameraWithShift(oldDirection, direction, 0.75f);
+        //     // }
+
+
+        //     if (direction == Vector3.up && !inverting)
+        //     {
+        //         StartCoroutine(invertPlayerControl(obj.GetComponent<Player>(), -1));
+        //     }
+        // }
 
         obj.GetComponent<Damageable>().AddGravityShift(direction);
         obj.GetComponent<Damageable>().ShiftGravity();
@@ -105,11 +119,16 @@ public class ShifterField : MonoBehaviour
         obj.GetComponent<Damageable>().RemoveGravityShift(direction);
         obj.GetComponent<Damageable>().ShiftGravity();
 
-        if (obj.GetComponent<Player>())
-        {
-            Vector3 newDirection = obj.GetComponent<Damageable>().getGravityShift();
-            Camera.main.GetComponent<CameraControl>().turnCameraWithShift(direction, newDirection, 0.75f);
-        }
+        // if (obj.GetComponent<Player>())
+        // {
+        //     // Vector3 newDirection = obj.GetComponent<Damageable>().getGravityShift();
+        //     // Camera.main.GetComponent<CameraControl>().turnCameraWithShift(direction, newDirection, 0.75f);
+
+        //     if (direction == Vector3.up && !inverting)
+        //     {
+        //         StartCoroutine(invertPlayerControl(obj.GetComponent<Player>(), 1));
+        //     }
+        // }
     }
 
     IEnumerator shifterTimer()

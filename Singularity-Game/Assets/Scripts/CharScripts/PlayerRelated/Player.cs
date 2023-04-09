@@ -30,12 +30,14 @@ public class Player : Character
     [HideInInspector] public bool controllingPlatform = false;
 
     private Coroutine castingCoroutine;
+    private bool isCasting = false;
+    // [HideInInspector] public int shiftInversion = 1;
     private bool projectileCooldownActive;
     private float projectileCooldown = 0.5f;
 
     void Start()
     {
-        maxHealth = 10000;
+        maxHealth = 100;
         currentHealth = maxHealth;
         healthBar.maxHealth = maxHealth;
         healthBar.currentHealth = currentHealth;
@@ -49,7 +51,7 @@ public class Player : Character
         direction = 1;
         jumpForce = 1250f;
         standardJumpForce = jumpForce;
-        jumpNumber = 5;
+        jumpNumber = 2;
         doubleJump = true;
         jumpsRemaining = jumpNumber;
 
@@ -71,11 +73,11 @@ public class Player : Character
     void FixedUpdate()
     {
         SpeedToggle();
-        if (!lockPlayerControl) MovePlayer();
 
         ChangeLineOfSight();
         Turn();
-        
+        if (!lockPlayerControl) MovePlayer();
+
         GroundCheck();
         FallAnimation();
 
@@ -89,12 +91,14 @@ public class Player : Character
 
     void Update()
     {
-        if (lockPlayerControl){
+        // Debug.Log(shiftInversion);
+        if (lockPlayerControl)
+        {
             animator.SetFloat("Speed", 0f);
             return;
         }
 
-        
+
         Attack();
         StartCoroutine(FireProjectile());
         Jump();
@@ -104,8 +108,9 @@ public class Player : Character
     private void MovePlayer()
     {
         float landing = (animator.GetCurrentAnimatorStateInfo(0).IsName("Landing")) ? 0.5f : 1;
-        float shiftInversion = targetDirection == Vector3.up ? -1 : 1;
-        var velocity = direction * Vector3.forward * Input.GetAxis("Horizontal") * landing * currentSpeed * shiftInversion;
+
+        var velocity = direction * Vector3.forward * Input.GetAxis("Horizontal") * landing * currentSpeed; // * shiftInversion;
+
         transform.Translate(velocity * Time.deltaTime);
         animator.SetFloat("Speed", velocity.magnitude);
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
@@ -120,24 +125,26 @@ public class Player : Character
 
     private void Turn()
     {
-        int shiftInversion = targetDirection == Vector3.up ? -1 : 1;
-        if (castingCoroutine != null)
+        // int shiftInversion = targetDirection == Vector3.up ? -1 : 1;
+        if (isCasting)
         {
             // check if the player casted the spell on the right or the left
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
-            Vector3 playerToMouse = Vector3.Normalize(mousePos - transform.position);
-            float dot = Vector3.Dot(Camera.main.transform.right, playerToMouse);
-            if (dot > 0)
-                direction = 1 * shiftInversion;
-            else
-                direction = -1 * shiftInversion;
+            if (Vector3.Distance(mousePos, transform.position) > 2.5f)
+            {
+                Vector3 playerToMouse = Vector3.Normalize(mousePos - transform.position);
+                float dot = Vector3.Dot(Camera.main.transform.right, playerToMouse);
+                if (dot > 0)
+                    direction = 1; // * shiftInversion;
+                else
+                    direction = -1; // * shiftInversion;
+
+                return;
+            }
         }
-        else
-        {
-            // turn around
-            if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1 * shiftInversion;
-            if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1 * shiftInversion;
-        }
+
+        if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) direction = -1; // * shiftInversion;
+        if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) direction = 1; // * shiftInversion;
     }
 
     public void Jump()
@@ -158,11 +165,6 @@ public class Player : Character
         }
     }
 
-    public void giveXp(int xp)
-    {
-        return;
-    }
-
     public void GiveItem(InvItem item, int amount)
     {
         bool isSpace = invUi.AddItemToPlayerInventory(item, amount);
@@ -178,11 +180,11 @@ public class Player : Character
         RaycastHit hit1 = new RaycastHit();
         RaycastHit hit2 = new RaycastHit();
 
-        // Debug.DrawRay(transform.position + new Vector3(offsets.z, offsets.x, 0), targetDirection * 3, Color.green);
-        // Debug.DrawRay(transform.position + new Vector3(offsets.w, offsets.y, 0), targetDirection * 3, Color.green);
+        // Debug.DrawRay(transform.position + new Vector3(offsets.z, offsets.x, 0), targetDirection * 2, Color.green);
+        // Debug.DrawRay(transform.position + new Vector3(offsets.w, offsets.y, 0), targetDirection * 2, Color.green);
 
-        bool raycast1 = Physics.Raycast(ray1, out hit1, 3);
-        bool raycast2 = Physics.Raycast(ray2, out hit2, 3);
+        bool raycast1 = Physics.Raycast(ray1, out hit1, 2);
+        bool raycast2 = Physics.Raycast(ray2, out hit2, 2);
         if (!raycast1) hit1.distance = Mathf.Infinity;
         if (!raycast2) hit2.distance = Mathf.Infinity;
 
@@ -200,6 +202,10 @@ public class Player : Character
         else
             isGrounded = false;
     }
+
+    // bool checkForWall(){
+
+    // }
 
     void FallAnimation()
     {
@@ -261,14 +267,14 @@ public class Player : Character
             else
             {
                 projectileClone.GetComponent<Projectile>().setProjectileConfig(
-                    projTarget, weaponMode == 2 ? 2 : 20, weaponMode);
+                    projTarget, weaponMode == 2 ? 10 : 20, weaponMode);
             }
 
             if (weaponMode != 2)
                 Destroy(projectileClone, 5);
             else
                 Destroy(projectileClone, 10);
-            
+
             yield return new WaitForSeconds(projectileCooldown);
             projectileCooldownActive = false;
         }
@@ -277,6 +283,8 @@ public class Player : Character
     IEnumerator fadeInOutCastingAnimation(float target, float duration)
     {
         float start = animator.GetLayerWeight(3);
+        if (start == 0) isCasting = true;
+
         float counter = 0f;
         while (counter < duration)
         {
@@ -286,6 +294,8 @@ public class Player : Character
             yield return null;
         }
         animator.SetLayerWeight(3, target);
+
+        if (target == 0) isCasting = false;
     }
 
     // IEnumerator to put the origin of the projectile always at the staffstone
@@ -416,6 +426,10 @@ public class Player : Character
         }
     }
 
+    void hitSoundAndParticles(){
+        GameObject.FindWithTag("Staffstone").GetComponent<StaffStoneControl>().hitSoundAndParticles();
+    }
+
     //FIXME Muss noch neu gemacht werden:
     //---------------------------------------
     private float last_Attack;
@@ -435,34 +449,6 @@ public class Player : Character
             animator.SetInteger("Attack", 0);
         }
     }
-
-
-    void EquipWeapon(int weapon)
-    {
-        gun = GameObject.Find("Gun");
-        sword = GameObject.Find("Sword");
-        gun.GetComponent<MeshRenderer>().enabled = (weapon == 1);
-        sword.GetComponent<MeshRenderer>().enabled = (weapon == 2);
-        sword.GetComponent<BoxCollider>().enabled = (weapon == 2);
-    }
-
-    void changeEquipment()
-    {
-        // Scroll Mouse Wheel to change Equipment
-        animator.SetInteger("Current Equip", animator.GetInteger("Equipment"));
-
-        if (Input.mouseScrollDelta.y > 0)
-        {
-            animator.SetInteger("Equipment", (animator.GetInteger("Equipment") + 1) % 3);
-        }
-        if (Input.mouseScrollDelta.y < 0)
-        {
-            animator.SetInteger("Equipment", (3 + (animator.GetInteger("Equipment") - 1)) % 3);
-        }
-        // Show equipped Weapon
-        EquipWeapon(animator.GetInteger("Equipment"));
-    }
-
 
     private IEnumerator FadeBlackOutSquare(bool fadeToBlack = true, float fadespeed = 1f)
     {
@@ -498,10 +484,10 @@ public class Player : Character
 
     Dictionary<Vector3, Vector4> offsetDict = new Dictionary<Vector3, Vector4>
     {
-        { Vector3.up, new Vector4(-1, -1, 0.4f, -0.4f) },
-        { Vector3.down, new Vector4(1, 1, -0.4f, 0.4f) },
-        { Vector3.left, new Vector4(0.4f, -0.4f, 1, 1) },
-        { Vector3.right, new Vector4(-0.4f, 0.4f, -1, -1) },
+        { Vector3.up, new Vector4(-1, -1, 0.35f, -0.35f) },
+        { Vector3.down, new Vector4(1, 1, -0.35f, 0.35f) },
+        { Vector3.left, new Vector4(0.35f, -0.35f, 1, 1) },
+        { Vector3.right, new Vector4(-0.35f, 0.35f, -1, -1) },
     };
     //---------------------------------------
 }

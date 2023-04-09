@@ -28,12 +28,6 @@ public class SpikeSpawnZone : MonoBehaviour
         spikeSpawnPoint.position = new Vector3(spikeSpawnPoint.position.x, spikeSpawnPoint.position.y, 0);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")

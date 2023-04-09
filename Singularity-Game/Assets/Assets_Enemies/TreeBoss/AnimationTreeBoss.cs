@@ -17,6 +17,8 @@ public class AnimationTreeBoss : MonoBehaviour
     public Vector3 explosionPositionLeft;
     public Vector3 explosionPositionRight;
 
+    [Header("Punching")]
+    public int punchDamage = 10;
     enum PunchDirection { Left, Right, Middle, None };
     private PunchDirection punchDirection;
 
@@ -30,6 +32,8 @@ public class AnimationTreeBoss : MonoBehaviour
     bool punchTimeOut = false;
     Coroutine punchTimerCoroutine;
     bool isStunned = false;
+    bool isDead = false;
+    bool secondPhaseStarted = false;
 
     // Start is called before the first frame update
     void Start()
@@ -43,8 +47,23 @@ public class AnimationTreeBoss : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        if(transform.GetComponent<TreeBoss>().freeze) return;
+    {   
+        if(treeBoss.freeze || !treeBoss.startFight) return;
+
+        if(treeBoss.dead)
+        {
+            if (!isDead){
+                isDead = true;
+                rigControl.setWeight(0);
+            }
+            return;
+        }
+
+        if(treeBoss.secondPhase && !secondPhaseStarted){
+            secondPhaseStarted = true;
+
+            punchDamage += 5;
+        }
         
         if (treeBoss.stunned)
         {
@@ -59,9 +78,9 @@ public class AnimationTreeBoss : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player" && !transform.GetComponent<TreeBoss>().freeze)
+        if (!treeBoss.freeze && other.gameObject.tag == "Player")
         {
-            player = other.gameObject.transform;
+            player = other.transform;
             sounds.groaningSoundRandom();
 
             if (punchTimerCoroutine != null)
@@ -137,19 +156,31 @@ public class AnimationTreeBoss : MonoBehaviour
         punchDirection = PunchDirection.None;
     }
 
+    // void punchFoeToDeath(){
+    //     if (punchDirection == PunchDirection.None)
+    //         return;
+
+    //     bool punchedPlayer = punchDirection == PunchDirection.Middle ? 
+    // }
+
     void Explode()
     {
         Vector3 explosionPosition = punchDirection == PunchDirection.Left ? explosionPositionLeft :
                                         punchDirection == PunchDirection.Right ? explosionPositionRight : explosionPositionMiddle;
+        float randomSign = (Random.value < 0.5f) ? -1 : 1;
+        
         Collider[] colliders = Physics.OverlapSphere(transform.position + explosionPosition, explosionRadius);
         foreach (Collider hit in colliders)
         {
             Rigidbody rb = hit.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                Vector3 direction = (rb.transform.position - transform.position).normalized;
+                Vector3 direction = punchDirection == PunchDirection.Middle ? new Vector3(randomSign,0.05f,0) : (rb.transform.position - transform.position).normalized;
                 rb.AddForce((Vector3.up + direction) * explosionForce);
                 // rb.AddExplosionForce(explosionForce, transform.position + explosionPosition, explosionRadius);
+            }
+            if(hit.gameObject.tag == "Player"){
+                hit.gameObject.GetComponent<Player>().ApplyDamage(punchDamage);
             }
         }
 
@@ -158,7 +189,6 @@ public class AnimationTreeBoss : MonoBehaviour
     }
 
     IEnumerator stunnedAnimation(){
-        Debug.Log("stunned animation");
         isStunned = true;
         setWeightWithCurve(treeBoss.stunnedTime, curve2);
 
@@ -191,6 +221,5 @@ public class AnimationTreeBoss : MonoBehaviour
     void toggleAnimatorBool(string name)
     {
         animator.SetBool(name, !animator.GetBool(name));
-        Debug.Log("toggle " + name + " to " + animator.GetBool(name));
     }
 }

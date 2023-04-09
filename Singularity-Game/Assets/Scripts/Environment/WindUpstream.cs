@@ -6,6 +6,9 @@ using UnityEngine;
 public class WindUpstream : MonoBehaviour
 {
     public float jumpForce = 2000f;
+    public float gravity = 5f;
+    public GameObject EnteringParticles;
+    public GameObject ExitingParticles;
 
     private float prevGravityStrength;
     private float prevJumpForce;
@@ -21,7 +24,7 @@ public class WindUpstream : MonoBehaviour
             prevGravityStrength = damageable.gravityStrength;
             prevJumpForce = damageable.GetComponent<Character>().jumpForce;
             var rb = col.gameObject.GetComponent<Rigidbody>();
-            damageable.gravityStrength = 5f;
+            damageable.gravityStrength = gravity;
             damageable.GetComponent<Character>().jumpForce = jumpForce;
 
 
@@ -39,6 +42,14 @@ public class WindUpstream : MonoBehaviour
                                                                             // new Vector3(rb.velocity.x, -10f ,rb.velocity.z); 
             }
 
+            if (col.gameObject.tag == "Player")
+            {
+                GameObject particles = GameObject.Instantiate(EnteringParticles, col.transform.position, Quaternion.identity);
+                var shape = particles.GetComponent<ParticleSystem>().shape;
+                var character = col.transform.Find("Character");
+                shape.skinnedMeshRenderer = character.GetComponent<SkinnedMeshRenderer>();
+                Destroy(particles, 3f);
+            }
         }
     }
 
@@ -50,7 +61,7 @@ public class WindUpstream : MonoBehaviour
         {
             damagbleObjectToShift.inWeightlessFields--;
 
-            Debug.Log(damagbleObjectToShift.inWeightlessFields);
+            // Debug.Log(damagbleObjectToShift.inWeightlessFields);
             if (damagbleObjectToShift.inWeightlessFields > 0)
                 return;
 
@@ -59,6 +70,15 @@ public class WindUpstream : MonoBehaviour
             Character character = col.GetComponent<Character>();
             if (character)
                 character.jumpForce = character.standardJumpForce;
+
+            if (col.gameObject.tag == "Player")
+            {
+                GameObject particles = GameObject.Instantiate(ExitingParticles, col.transform.position, Quaternion.identity);
+                var shape = particles.GetComponent<ParticleSystem>().shape;
+                var charac = col.transform.Find("Character");
+                shape.skinnedMeshRenderer = charac.GetComponent<SkinnedMeshRenderer>();
+                Destroy(particles, 3f);
+            }
         }
     }
 }

@@ -13,13 +13,10 @@ public class SoundsTreeBoss : MonoBehaviour
 
     void Start()
     {
-        // audioSource = GetComponent<AudioSource>();
-
         addSourceToList(groaningSounds);
         addSourceToList(punchgroaningSounds);
         addSourceToList(attackSounds);
         addSourceToList(damageSounds);
-
     }
 
     void addSourceToList(List<Sound> soundList)

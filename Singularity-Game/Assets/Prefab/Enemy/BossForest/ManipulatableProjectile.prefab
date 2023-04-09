@@ -318,8 +318,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 50
-      minScalar: 20
+      scalar: 75
+      minScalar: 15
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -694,7 +694,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 4
+    type: 18
     angle: 0.5
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -900,7 +900,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 0
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -1010,7 +1010,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 25
+        scalar: 30
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -4852,7 +4852,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 6795462705980167066, guid: ea700c3ed41464b4c8ee5a5d629392f0, type: 3}
+  - {fileID: 2100000, guid: 0793ac7938ea2744cbe3ae8d9977bf81, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4959,9 +4959,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1132824578749169088, guid: 2b38f835ada0bb14fa1a69b1fef22e57, type: 3}
+      propertyPath: speed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1132824578749169088, guid: 2b38f835ada0bb14fa1a69b1fef22e57, type: 3}
+      propertyPath: damage
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1132824578749169088, guid: 2b38f835ada0bb14fa1a69b1fef22e57, type: 3}
       propertyPath: rockPiece
       value: 
       objectReference: {fileID: 1202423540033928085, guid: 8f62b56a7c37b8d498d1c2c2f328ed7f, type: 3}
+    - target: {fileID: 1132824578749169088, guid: 2b38f835ada0bb14fa1a69b1fef22e57, type: 3}
+      propertyPath: MoveUpAmount
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1132824578749169088, guid: 2b38f835ada0bb14fa1a69b1fef22e57, type: 3}
       propertyPath: rockBreakObject
       value: 

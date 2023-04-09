@@ -28,18 +28,18 @@ public class RockSpawner : MonoBehaviour
 
     void OnTriggerEnter(Collider other){
         if(other.gameObject.tag == "Player"){
-            playerOnIsland = false;
+            playerOnIsland = true;
         }
     }
 
     void OnTriggerExit(Collider other){
         if(other.gameObject.tag == "Player"){
-            playerOnIsland = true;
+            playerOnIsland = false;
         }
     }
 
     public void spawnRock(GameObject manipulatableProjectile){
-        if(!playerOnIsland) return;
+        if(playerOnIsland) return;
 
         var spawnPos = GetComponent<Collider>().ClosestPointOnBounds(player.transform.position);
         GameObject projectileObject = Instantiate(manipulatableProjectile, spawnPos, Quaternion.identity);

@@ -17,7 +17,10 @@ public class CameraFollowPoint : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other)
-    {
+    {   
+        if(objectToFollow == null) return;
+        if(objectToFollow.GetComponent<TreeBoss>() && objectToFollow.GetComponent<TreeBoss>().dead) return;
+        
         if (other.gameObject.tag == "Player")
         {
             cameraControl.objectToFollow = objectToFollow;

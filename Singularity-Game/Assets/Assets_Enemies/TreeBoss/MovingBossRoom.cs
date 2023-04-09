@@ -8,6 +8,8 @@ public class MovingBossRoom : MonoBehaviour
     public Vector3 targetPosition;
     public float timeToMove = 5f;
     public Vector3 shakeIntensity = new Vector3(0.1f, 0.1f, 0.1f);
+    public GameObject movingParticles;
+    public float particleScale = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,7 +17,9 @@ public class MovingBossRoom : MonoBehaviour
     }
 
     public IEnumerator moveRoom()
-    {
+    {   
+        StartCoroutine(movingRoomParticles());
+
         float time = 0;
         Vector3 shakeOffset = Vector3.zero;
 
@@ -28,5 +32,21 @@ public class MovingBossRoom : MonoBehaviour
         }
         transform.localPosition = targetPosition;
     }
+
+    IEnumerator movingRoomParticles(){
+        if (movingParticles != null)
+        {
+            GameObject particles = GameObject.Instantiate(movingParticles, transform.position, Quaternion.identity);
+            particles.transform.parent = transform;
+            particles.transform.localScale = new Vector3(particleScale, particleScale, particleScale);
+
+            yield return new WaitForSeconds(timeToMove / 2);
+            
+            particles.GetComponent<ParticleSystem>().Stop();
+
+            yield return new WaitForSeconds(timeToMove / 2);
+
+            Destroy(particles);
+        }
+    }
 }
-    

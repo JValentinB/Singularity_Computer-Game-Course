@@ -22,13 +22,14 @@ public class CameraControl : MonoBehaviour
     public bool followPoint = false; // follows a point between player and a given object (e.g. a boss)
     public GameObject objectToFollow;
     [HideInInspector] public float followPointRatio = 0.5f;
+    [HideInInspector] public Vector3 downDirection = Vector3.down;
     // public float offset_z = 0;
     // public bool overlayActive = true;
 
     private Transform player;
     private Vector3 velocity = Vector3.zero;
     private float zPosition;
-    private Vector3 downDirection;
+
     private Camera overlayCamera;
 
     private Coroutine turnCameraCoroutine;
@@ -85,7 +86,8 @@ public class CameraControl : MonoBehaviour
         if (!rotateOnShift) return;
 
         if (directionTurningTo != getRotation(direction))
-        {
+        {   
+            downDirection = direction;
             if (turnCameraCoroutine != null)
                 StopCoroutine(turnCameraCoroutine);
             turnCameraCoroutine = StartCoroutine(turnCamera(startDirection, direction, time));
