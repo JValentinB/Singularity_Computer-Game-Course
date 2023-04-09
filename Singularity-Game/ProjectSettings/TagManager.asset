@@ -41,6 +41,7 @@ TagManager:
   - FallingRocks
   - CreditNameField
   - CreditRoleField
+  - FlyAwayField
   layers:
   - Default
   - TransparentFX

@@ -28,7 +28,7 @@ public class CreditsCameraControl : MonoBehaviour
 
     private void FollowPlayer(){
         if(!followPlayer) return;
-        
+
         Vector3 targetPosition = new Vector3(player.position.x + offset_x, player.position.y + offset_y, zPosition);
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
     }
