@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 
 public class ButtonControl : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] public Button NewGameButton, LoadGameButton, OptionsButton, 
+    [SerializeField] public Button NewGameButton, LoadGameButton, OptionsButton, ExitButton, 
     OptionBack, OptionPixelizationUp, OptionPixelizationDown, 
     OptionResolutionUp, OptionResolutionDown,
     OptionFullScreenUp, OptionFullScreenDown,
@@ -46,6 +46,7 @@ public class ButtonControl : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         NewGameButton.onClick.AddListener(NewGameClicked);
         LoadGameButton.onClick.AddListener(LoadGameClicked);
         OptionsButton.onClick.AddListener(ShowOptions);
+        ExitButton.onClick.AddListener(ExitGame);
         OptionBack.onClick.AddListener(ShowMenu);
         OptionPixelizationUp.onClick.AddListener(IncPixelization);
         OptionPixelizationDown.onClick.AddListener(DecPixelization);
@@ -154,6 +155,11 @@ public class ButtonControl : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private void ShowOptions(){
         ButtonSound.Play();
         ActivateOptions(true);
+    }
+
+    private void ExitGame(){
+        ButtonSound.Play();
+        Application.Quit(); 
     }
 
     private void ShowMenu(){
