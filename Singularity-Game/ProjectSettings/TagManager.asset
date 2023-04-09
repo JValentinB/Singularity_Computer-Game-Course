@@ -39,6 +39,9 @@ TagManager:
   - ShifterCrystal
   - BlackHoleCrystal
   - FallingRocks
+  - CreditNameField
+  - CreditRoleField
+  - FlyAwayField
   layers:
   - Default
   - TransparentFX

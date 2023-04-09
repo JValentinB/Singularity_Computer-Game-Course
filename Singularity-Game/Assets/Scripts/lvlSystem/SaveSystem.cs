@@ -101,6 +101,10 @@ public class SaveSystem
         if(saveData.treeBossEntryDestroyed) UnityEngine.Object.Destroy(GameObject.FindWithTag("BossEntry"));
         GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().dead = saveData.treeBossDefeated;
 
+        Checkpoint.treeBossEntryOpened = saveData.treeBossEntryDestroyed;
+        Checkpoint.treeBossDead = saveData.treeBossDefeated;
+        Checkpoint.golemDead = saveData.golemDefeated;
+
         loadingDelay = -1f;
 
         Debug.Log("Savefile successfully loaded without reset!");

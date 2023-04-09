@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class StorytextControl : MonoBehaviour
 {
@@ -61,7 +63,7 @@ public class StorytextControl : MonoBehaviour
                 break;
             case 1:
                 spaceStoryText.Add(
-                    ("P. Otter", "Doesn't look like i can continue here right now!")
+                    ("P. Otter", "Doesn't look like I can continue here right now!")
                 );
                 break;
             case 2:
@@ -417,7 +419,40 @@ public class StorytextControl : MonoBehaviour
                 break;
             case 21:
                 spaceStoryText.Add(
-                    ("", "")
+                    ("SweetAngel_93", "Oh my goodness, you made it! I can't believe it, I've been waiting for you for what seems like forever.")
+                );
+                spaceStoryText.Add(
+                    ("P. Otter", "It wasn't easy, but I had to find you.")
+                );
+                spaceStoryText.Add(
+                    ("SweetAngel_93", "Well, you certainly did. And let me just say, you're even cuter in person than you were in your profile picture.")
+                );
+                spaceStoryText.Add(
+                    ("P. Otter", "Thank you, you're pretty amazing yourself.")
+                );
+                spaceStoryText.Add(
+                    ("SweetAngel_93", "So, what's next for us, you got any plans?")
+                );
+                spaceStoryText.Add(
+                    ("P. Otter", "I was actually thinking about that. I've always dreamed of traveling through the universe and discovering new worlds.\nWhat do you think about joining me on that journey?")
+                );
+                spaceStoryText.Add(
+                    ("SweetAngel_93", "I think that sounds like the most amazing idea I've ever heard. Let's do it!")
+                );
+                spaceStoryText.Add(
+                    ("P. Otter", "Great! We'll have to go to my ship first, and after that, the universe is our playground.")
+                );
+                spaceStoryText.Add(
+                    ("SweetAngel_93", "I can't wait! Imagine all the things we'll see and discover together.")
+                );
+                spaceStoryText.Add(
+                    ("P. Otter", "I can imagine it. And I can't think of anyone I'd rather share those experiences with than you.")
+                );
+                spaceStoryText.Add(
+                    ("SweetAngel_93", "You're too sweet. But seriously, let's make this happen.")
+                );
+                spaceStoryText.Add(
+                    ("P. Otter", "We will. I promise.")
                 );
                 break;
         }
@@ -436,6 +471,8 @@ public class StorytextControl : MonoBehaviour
                 return GameObject.FindWithTag("GolemBoss").GetComponent<StoneGolemBoss>().destroyedBenders;
             case 15:
                 return GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().dead;
+            case 16:
+                return !player.GetComponent<Player>().unlockedWeaponModes[1] && visitedArion;
             case 17:
                 if(storyPartIndex == 3){
                     stopCurrentText();
@@ -554,7 +591,12 @@ public class StorytextControl : MonoBehaviour
             weaponModeDisplay.alpha = 1;
             weaponWheel.alpha = 1;
             player.GetComponent<Player>().lockPlayerControl = false;
-            if(storyPartIndex == 18) GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().freeze = false;
+            if(storyPartIndex == 18){
+                GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().freeze = false;
+            }
+            else if(storyPartIndex == 21){
+                StartCoroutine(FadeToCredits());
+            }
             return;
         }
 
@@ -602,15 +644,15 @@ public class StorytextControl : MonoBehaviour
         switch (letter)
         {
             case '.':
-                yield return new WaitForSeconds(0.8f);
+                yield return new WaitForSeconds(0.5f);
                 ReproduceText();
                 yield break;
             case ',':
-                yield return new WaitForSeconds(0.06f);
+                yield return new WaitForSeconds(0.05f);
                 ReproduceText();
                 yield break;
             case ' ':
-                yield return new WaitForSeconds(0.06f);
+                yield return new WaitForSeconds(0.05f);
                 ReproduceText();
                 yield break;
             default:
@@ -618,5 +660,24 @@ public class StorytextControl : MonoBehaviour
                 ReproduceText();
                 yield break;
         }
+    }
+
+    private IEnumerator FadeToCredits(float fadespeed = 0.3f)
+    {
+        var BlackOutSquare = GameObject.Find("/UI_Ingame/black_screen");
+        Color objectColor = BlackOutSquare.GetComponent<Image>().color;
+        float fadeAmount;
+
+        objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, 0f);
+        while (BlackOutSquare.GetComponent<Image>().color.a < 1)
+        {
+            fadeAmount = objectColor.a + (fadespeed * Time.deltaTime);
+
+            objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
+            BlackOutSquare.GetComponent<Image>().color = objectColor;
+            yield return null;
+        }
+
+        SceneManager.LoadScene("Credits");
     }
 }

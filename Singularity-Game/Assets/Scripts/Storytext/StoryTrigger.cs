@@ -26,7 +26,7 @@ public class StoryTrigger : MonoBehaviour
     }
 
     void OnTriggerExit(Collider col){
-        if(!storyShown && col.tag == "Player" && storyController.CheckStoryRequirements(storyPartIndex)){
+        if(col.tag == "Player" && storyController.CheckStoryRequirements(storyPartIndex)){
             if(oneTimePlay) return;
             storyShown = false;
         }

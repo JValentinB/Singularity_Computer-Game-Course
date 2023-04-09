@@ -39,6 +39,7 @@ public class Menu : MonoBehaviour
         SpaceCameraScript = GameObject.FindWithTag("SpaceCamera").GetComponent<CameraControlSpace>();
         ThrusterAudio = GameObject.FindWithTag("SpaceShipThruster").GetComponent<AudioSource>();
         parentUI = GameObject.FindWithTag("ParentUI");
+        ShipScript.lockPlayerControl = true;
     }
 
     // Update is called once per frame
