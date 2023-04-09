@@ -20,7 +20,6 @@ public class ShipControl : MonoBehaviour
     void Start()
     {
         LaserShotAudio = GetComponent<AudioSource>();
-        lockPlayerControl = true;
         SpaceShipSpeed = 5f;
         defaultXRotation = 0f;
         defaultYRotation = 180f;

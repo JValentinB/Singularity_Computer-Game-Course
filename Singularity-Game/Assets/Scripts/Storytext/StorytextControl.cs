@@ -417,7 +417,40 @@ public class StorytextControl : MonoBehaviour
                 break;
             case 21:
                 spaceStoryText.Add(
-                    ("", "")
+                    ("SweetAngel_93", "Oh my goodness, you made it! I can't believe it, I've been waiting for you for what seems like forever.")
+                );
+                spaceStoryText.Add(
+                    ("P. Otter", "It wasn't easy, but I had to find you.")
+                );
+                spaceStoryText.Add(
+                    ("SweetAngel_93", "Well, you certainly did. And let me just say, you're even cuter in person than you were in your profile picture.")
+                );
+                spaceStoryText.Add(
+                    ("P. Otter", "Thank you, you're pretty amazing yourself.")
+                );
+                spaceStoryText.Add(
+                    ("SweetAngel_93", "So, what's next for us, you got any plans?")
+                );
+                spaceStoryText.Add(
+                    ("P. Otter", "I was actually thinking about that. I've always dreamed of traveling through the universe and discovering new worlds.\nWhat do you think about joining me on that journey?")
+                );
+                spaceStoryText.Add(
+                    ("SweetAngel_93", "I think that sounds like the most amazing idea I've ever heard. Let's do it!")
+                );
+                spaceStoryText.Add(
+                    ("P. Otter", "Great! We'll have to go to my ship first, and after that, the universe is our playground.")
+                );
+                spaceStoryText.Add(
+                    ("SweetAngel_93", "I can't wait! Imagine all the things we'll see and discover together.")
+                );
+                spaceStoryText.Add(
+                    ("P. Otter", "I can imagine it. And I can't think of anyone I'd rather share those experiences with than you.")
+                );
+                spaceStoryText.Add(
+                    ("SweetAngel_93", "You're too sweet. But seriously, let's make this happen.")
+                );
+                spaceStoryText.Add(
+                    ("P. Otter", "We will. I promise.")
                 );
                 break;
         }
