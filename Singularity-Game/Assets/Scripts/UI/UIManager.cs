@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private HealthBar healthBar;
     [SerializeField] private CanvasGroup weaponWheelUI;
     [SerializeField] private CanvasGroup menuUI;
+    [SerializeField] private GameObject menuEnvironment;
+    [SerializeField] private ParticleSystem menuEnvironmentParticle;
     private Animator inventoryAnimator, inventoryInfoTextPanelAnimator;
     public int modeId;
     public Sprite modeImage;
@@ -55,16 +57,44 @@ public class UIManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape) && !inventoryAnimator.GetBool("active") 
         && weaponWheelUI.alpha == 0){
             bool menuIsActive = menuUI.alpha == 1;
-            gameUI.alpha = menuIsActive ? 1 : 0;
-            gameUI.interactable = menuIsActive;
-            gameUI.blocksRaycasts = menuIsActive;
-
-            menuUI.alpha = !menuIsActive ? 1 : 0;
-            menuUI.interactable = !menuIsActive;
-            menuUI.blocksRaycasts = !menuIsActive;
-            menuUI.GetComponent<IngameMenuButtonController>().UpdateValues();
-            player.lockPlayerControl = !menuIsActive;
+            if(menuIsActive) CloseMenu();
+            else OpenMenu();
         }
+    }
+
+    public void OpenMenu(){
+        menuEnvironment.active = true;
+        menuEnvironmentParticle.Play();
+        gameUI.alpha = 0;
+        gameUI.interactable = false;
+        gameUI.blocksRaycasts = false;
+        
+        menuUI.interactable = true;
+        menuUI.blocksRaycasts = true;
+        menuUI.GetComponent<IngameMenuButtonController>().UpdateValues();
+        player.lockPlayerControl = true;
+        menuUI.alpha = 1;
+        Time.timeScale = 0;
+    }
+
+    public void CloseMenu(){
+        if(!menuUI.GetComponent<IngameMenuButtonController>().menuUi.active){
+            menuUI.GetComponent<IngameMenuButtonController>().BackToMenu();
+            return;
+        }
+        Time.timeScale = 1;
+        menuEnvironmentParticle.Stop();
+        menuEnvironment.active = false;
+        menuUI.GetComponent<IngameMenuButtonController>().BackToMenu();
+        gameUI.alpha = 1;
+        gameUI.interactable = true;
+        gameUI.blocksRaycasts = true;
+        
+        menuUI.interactable = false;
+        menuUI.blocksRaycasts = false;
+        menuUI.GetComponent<IngameMenuButtonController>().UpdateValues();
+        player.lockPlayerControl = false;
+        menuUI.alpha = 0;
     }
 
     private void OpenCloseInventory()

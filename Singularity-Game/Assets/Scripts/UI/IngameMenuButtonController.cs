@@ -10,12 +10,37 @@ using UnityEngine.SceneManagement;
 
 public class IngameMenuButtonController : MonoBehaviour
 {
-    [SerializeField] public Button OptionPixelizationUp, OptionPixelizationDown, 
-    OptionResolutionUp, OptionResolutionDown,
-    OptionFullScreenUp, OptionFullScreenDown,
-    OptionUwuifyUp, OptionUwuifyDown;
-    [SerializeField] public TMP_Text PixelizationValue, ResolutionValue, FullScreenValue, UwuifyValue;
+    
+    [Header("General")]
+    [SerializeField] public GameObject menuUi;
+    [SerializeField] public GameObject optionsUi;
+    [SerializeField] public GameObject controlsUi;
+    [SerializeField] public GameObject mainMenuWarningUi;
+    [SerializeField] public GameObject closeWarningUi;
+    [SerializeField] public GameObject backButton;
+    [SerializeField] public UIManager uiManager;
     private AudioSource ButtonSound;
+    [Header("Menu")]
+    [SerializeField] public Button Options;
+    [SerializeField] public Button Controls; 
+    [SerializeField] public Button Continue;
+    [SerializeField] public Button MainMenu;
+    [SerializeField] public Button QuitGame;
+    [Header("Warning")]
+    [SerializeField] public Button closeYes;
+    [SerializeField] public Button closeNo;
+    [SerializeField] public Button mainMenuYes;
+    [SerializeField] public Button mainMenuNo;
+    [Header("Options")]
+    [SerializeField] public Button OptionPixelizationUp;
+    [SerializeField] public Button OptionPixelizationDown; 
+    [SerializeField] public Button OptionResolutionUp;
+    [SerializeField] public Button OptionResolutionDown;
+    [SerializeField] public Button OptionFullScreenUp;
+    [SerializeField] public Button OptionFullScreenDown;
+    [SerializeField] public Button OptionUwuifyUp;
+    [SerializeField] public Button OptionUwuifyDown;
+    [SerializeField] public TMP_Text PixelizationValue, ResolutionValue, FullScreenValue, UwuifyValue;
     [SerializeField] private bool fullScreen, uwuMode;
     [SerializeField] private List<Vector2> resolutions = new List<Vector2>(){
         new Vector2(640, 480),
@@ -28,6 +53,14 @@ public class IngameMenuButtonController : MonoBehaviour
 
     void Start(){
         ButtonSound = GetComponent<AudioSource>();
+        backButton.GetComponent<Button>().onClick.AddListener(BackToMenu);
+        //Menu buttons
+        Options.onClick.AddListener(OpenOptions);
+        Controls.onClick.AddListener(OpenControlls);
+        Continue.onClick.AddListener(CloseMenu);
+        MainMenu.onClick.AddListener(BackToMainMenuWarning);
+        QuitGame.onClick.AddListener(CloseGameWarning);
+        //Options buttons
         OptionPixelizationUp.onClick.AddListener(IncPixelization);
         OptionPixelizationDown.onClick.AddListener(DecPixelization);
         OptionResolutionUp.onClick.AddListener(IncResolution);
@@ -36,6 +69,11 @@ public class IngameMenuButtonController : MonoBehaviour
         OptionFullScreenDown.onClick.AddListener(DecFullScreen);
         OptionUwuifyUp.onClick.AddListener(IncUwuify);
         OptionUwuifyDown.onClick.AddListener(DecUwuify);
+        //Warning buttons
+        closeNo.onClick.AddListener(BackToMenu);
+        mainMenuNo.onClick.AddListener(BackToMenu);
+        closeYes.onClick.AddListener(CloseGame);
+        mainMenuYes.onClick.AddListener(BackToMainMenu);        
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -46,6 +84,50 @@ public class IngameMenuButtonController : MonoBehaviour
     public void OnPointerExit(PointerEventData eventData)
     {
         eventData.pointerEnter.transform.parent.transform.localScale = new Vector3(1f, 1f, 1f);
+    }
+
+    public void BackToMenu(){
+        optionsUi.SetActive(false);
+        controlsUi.SetActive(false);
+        backButton.SetActive(false);
+        mainMenuWarningUi.SetActive(false);
+        closeWarningUi.SetActive(false);
+        menuUi.SetActive(true);
+    }
+
+    public void OpenOptions(){
+        menuUi.SetActive(false);
+        optionsUi.SetActive(true);
+        backButton.SetActive(true);
+    }
+
+    public void OpenControlls(){
+        menuUi.SetActive(false);
+        controlsUi.SetActive(true);
+        backButton.SetActive(true);
+    }
+
+    public void CloseMenu(){
+        uiManager.CloseMenu();
+    }
+
+    public void BackToMainMenuWarning(){
+        menuUi.SetActive(false);
+        mainMenuWarningUi.SetActive(true);
+    }
+
+    public void CloseGameWarning(){
+        menuUi.SetActive(false);
+        closeWarningUi.SetActive(true);
+    }
+
+    public void BackToMainMenu(){
+        Time.timeScale = 1;
+        SceneManager.LoadScene("Space");
+    }
+
+    public void CloseGame(){
+        Application.Quit();
     }
 
     private void IncPixelization(){
