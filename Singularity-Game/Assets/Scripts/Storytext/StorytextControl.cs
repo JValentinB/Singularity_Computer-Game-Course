@@ -61,7 +61,7 @@ public class StorytextControl : MonoBehaviour
                 break;
             case 1:
                 spaceStoryText.Add(
-                    ("P. Otter", "Doesn't look like i can continue here right now!")
+                    ("P. Otter", "Doesn't look like I can continue here right now!")
                 );
                 break;
             case 2:
@@ -469,6 +469,8 @@ public class StorytextControl : MonoBehaviour
                 return GameObject.FindWithTag("GolemBoss").GetComponent<StoneGolemBoss>().destroyedBenders;
             case 15:
                 return GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().dead;
+            case 16:
+                return !player.GetComponent<Player>().unlockedWeaponModes[1] && visitedArion;
             case 17:
                 if(storyPartIndex == 3){
                     stopCurrentText();
