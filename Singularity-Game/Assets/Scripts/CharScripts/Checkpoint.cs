@@ -10,6 +10,7 @@ public class Checkpoint : MonoBehaviour
     private Checkpoint[] checkpoints;
     private static List<int> storyPartIndexCheckpoint;
     private static List<bool> storyShownCheckpoint;
+    public static bool treeBossEntryOpened, treeBossDead, golemDead;
 
     void Start(){
         checkpoints = FindObjectsOfType<Checkpoint>();
@@ -17,6 +18,10 @@ public class Checkpoint : MonoBehaviour
     }
 
     private void LoadStoryProgressLists(){
+        if(golemDead && GameObject.FindWithTag("GolemBoss")) UnityEngine.Object.Destroy(GameObject.FindWithTag("GolemBoss"));
+        if(treeBossEntryOpened && GameObject.FindWithTag("BossEntry")) UnityEngine.Object.Destroy(GameObject.FindWithTag("BossEntry"));
+        GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().dead = treeBossDead;
+
         if(storyPartIndexCheckpoint == null){
            storyPartIndexCheckpoint = new List<int>();
             storyShownCheckpoint = new List<bool>();
@@ -35,6 +40,12 @@ public class Checkpoint : MonoBehaviour
             storyPartIndexCheckpoint.Add(storyTrigger.GetComponent<StoryTrigger>().storyPartIndex);
             storyShownCheckpoint.Add(storyTrigger.GetComponent<StoryTrigger>().storyShown);
         }
+
+        if(GameObject.FindWithTag("BossEntry")) treeBossEntryOpened = false;
+        else treeBossEntryOpened = true;
+        if(GameObject.FindWithTag("GolemHeart")) golemDead = false;
+        else golemDead = true;
+        treeBossDead = GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().dead;
     }
 
     private void OnTriggerEnter(Collider collision)
