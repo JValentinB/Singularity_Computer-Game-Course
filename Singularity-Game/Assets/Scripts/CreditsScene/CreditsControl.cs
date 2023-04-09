@@ -142,7 +142,7 @@ public class CreditsControl : MonoBehaviour
         var timer = 0f;
         while(duration > timer){
             if(IsShipOffScreen()){
-                SceneManager.LoadScene("Space");
+                StartCoroutine(BackToMenu());
                 yield break;
             }
             fuckoffTmp.color = new Color(fuckoffTmp.color.r, fuckoffTmp.color.g, fuckoffTmp.color.b, Mathf.Lerp(0f, 1f, timer/duration));
@@ -152,7 +152,7 @@ public class CreditsControl : MonoBehaviour
 
         while(true){
             if(IsShipOffScreen()){
-                SceneManager.LoadScene("Space");
+                StartCoroutine(BackToMenu());
                 yield break;
             }
             yield return null;
@@ -168,31 +168,25 @@ public class CreditsControl : MonoBehaviour
         return false;
     }
 
-    //Not used anymore
-    private IEnumerator BeGoneCredits(GameObject nameField){
-        var nameFieldTmp = nameField.GetComponent<TMP_Text>();
-        float randDegree = UnityEngine.Random.Range(-60f, 60f);
-        Vector3 eulerAngle = nameFieldTmp.rectTransform.eulerAngles;
-        Vector3 oldPos = nameFieldTmp.rectTransform.position;
+    private IEnumerator BackToMenu(){
+        Color objectColor = GetComponent<Image>().color;
+        var bgm = GameObject.FindWithTag("SpaceCamera").transform.Find("BGM").gameObject.GetComponent<AudioSource>();
+        objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, 0f);
+        var currentVolume = bgm.volume;
 
-        var duration = 0.7f;
+        var duration = 3f;
         var timer = 0f;
-        var textSpeed = 800f;
+
         while(duration > timer){
-            eulerAngle = new Vector3(0f, 0f, Mathf.SmoothStep(nameFieldTmp.rectTransform.rotation.z, randDegree, timer/duration));
-            nameFieldTmp.rectTransform.eulerAngles = eulerAngle;
-            if(nameFieldTmp.rectTransform.localPosition.x < 0) nameFieldTmp.rectTransform.Translate(Vector3.left * textSpeed * Time.deltaTime);
-            else nameFieldTmp.rectTransform.Translate(Vector3.right * textSpeed * Time.deltaTime);
+            objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, Mathf.Lerp(0f, 1f, timer/duration));
+            GetComponent<Image>().color = objectColor;
+            bgm.volume = Mathf.Lerp(currentVolume, 0f, timer/duration);
+            fuckoffTmp.color = new Color(fuckoffTmp.color.r, fuckoffTmp.color.g, fuckoffTmp.color.b, Mathf.Lerp(1f, 0f, timer/duration));
+
             timer += Time.deltaTime;
             yield return null;
         }
-
-        duration = 0.5f;
-        timer = 0f;
-
-        nameFieldTmp.color = new Color(nameFieldTmp.color.r, nameFieldTmp.color.g, nameFieldTmp.color.b, 0f);
-        nameFieldTmp.rectTransform.localPosition = oldPos;
-        nameFieldTmp.rectTransform.eulerAngles = Vector3.zero;
+        SceneManager.LoadScene("Space");
         yield break;
     }
 
