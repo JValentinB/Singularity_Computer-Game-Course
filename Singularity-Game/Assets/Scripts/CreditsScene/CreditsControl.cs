@@ -42,7 +42,7 @@ public class CreditsControl : MonoBehaviour
     private void AddCreditsToList(){
         credits.Add( "Valentin Blum\n\nTimur Aydin\n\nKevin Plessing\n\nJoshua Tardus\n\nYunus Saracoglu\n\nMisheel Ganbold" );
         
-        credits.Add( "Triki Minut\n\nTamino Vay" );
+        credits.Add( "Triki Minut\n\nTamino Vay\n\nCGPitbull" );
     }
 
     private void InitializeTextFields(){
@@ -189,11 +189,6 @@ public class CreditsControl : MonoBehaviour
 
         duration = 0.5f;
         timer = 0f;
-        /* while(duration > timer){
-            if(nameFieldTmp.rectTransform.localPosition.x < 0) nameFieldTmp.rectTransform.Translate(Vector3.left * textSpeed * Time.deltaTime);
-            else nameFieldTmp.rectTransform.Translate(Vector3.right * textSpeed * Time.deltaTime);
-            yield return null;
-        } */
 
         nameFieldTmp.color = new Color(nameFieldTmp.color.r, nameFieldTmp.color.g, nameFieldTmp.color.b, 0f);
         nameFieldTmp.rectTransform.localPosition = oldPos;
