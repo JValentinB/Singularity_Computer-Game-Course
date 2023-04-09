@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class StorytextControl : MonoBehaviour
 {
@@ -589,7 +591,12 @@ public class StorytextControl : MonoBehaviour
             weaponModeDisplay.alpha = 1;
             weaponWheel.alpha = 1;
             player.GetComponent<Player>().lockPlayerControl = false;
-            if(storyPartIndex == 18) GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().freeze = false;
+            if(storyPartIndex == 18){
+                GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().freeze = false;
+            }
+            else if(storyPartIndex == 21){
+                StartCoroutine(FadeToCredits());
+            }
             return;
         }
 
@@ -637,15 +644,15 @@ public class StorytextControl : MonoBehaviour
         switch (letter)
         {
             case '.':
-                yield return new WaitForSeconds(0.8f);
+                yield return new WaitForSeconds(0.5f);
                 ReproduceText();
                 yield break;
             case ',':
-                yield return new WaitForSeconds(0.06f);
+                yield return new WaitForSeconds(0.05f);
                 ReproduceText();
                 yield break;
             case ' ':
-                yield return new WaitForSeconds(0.06f);
+                yield return new WaitForSeconds(0.05f);
                 ReproduceText();
                 yield break;
             default:
@@ -653,5 +660,24 @@ public class StorytextControl : MonoBehaviour
                 ReproduceText();
                 yield break;
         }
+    }
+
+    private IEnumerator FadeToCredits(float fadespeed = 0.3f)
+    {
+        var BlackOutSquare = GameObject.Find("/UI_Ingame/black_screen");
+        Color objectColor = BlackOutSquare.GetComponent<Image>().color;
+        float fadeAmount;
+
+        objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, 0f);
+        while (BlackOutSquare.GetComponent<Image>().color.a < 1)
+        {
+            fadeAmount = objectColor.a + (fadespeed * Time.deltaTime);
+
+            objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
+            BlackOutSquare.GetComponent<Image>().color = objectColor;
+            yield return null;
+        }
+
+        SceneManager.LoadScene("Credits");
     }
 }
