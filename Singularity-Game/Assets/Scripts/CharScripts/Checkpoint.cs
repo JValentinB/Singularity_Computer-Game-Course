@@ -18,6 +18,15 @@ public class Checkpoint : MonoBehaviour
     }
 
     private void LoadStoryProgressLists(){
+        var player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        if(player.doubleJump) UnityEngine.Object.Destroy(GameObject.FindWithTag("DoubleJumpCrystal"));
+        if(player.unlockedWeaponModes[1]) UnityEngine.Object.Destroy(GameObject.FindWithTag("ShifterCrystal"));
+        if(player.unlockedWeaponModes[2]) UnityEngine.Object.Destroy(GameObject.FindWithTag("BlackHoleCrystal"));
+        if(player.unlockedWeaponModes[0]){
+            UnityEngine.Object.Destroy(GameObject.FindWithTag("PullCrystal"));
+            UnityEngine.Object.Destroy(GameObject.FindWithTag("FallingRocks")); 
+        }
+
         if(golemDead && GameObject.FindWithTag("GolemBoss")) UnityEngine.Object.Destroy(GameObject.FindWithTag("GolemBoss"));
         if(treeBossEntryOpened && GameObject.FindWithTag("BossEntry")) UnityEngine.Object.Destroy(GameObject.FindWithTag("BossEntry"));
         GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().dead = treeBossDead;
