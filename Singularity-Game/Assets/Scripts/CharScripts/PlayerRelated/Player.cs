@@ -79,7 +79,6 @@ public class Player : Character
 
     void FixedUpdate()
     {
-        //Debug.Log(jumpsRemaining);
         SpeedToggle();
 
         ChangeLineOfSight();
@@ -100,7 +99,6 @@ public class Player : Character
     {
         GroundCheck();
 
-        // Debug.Log(shiftInversion);
         if (lockPlayerControl)
         {
             animator.SetFloat("Speed", 0f);

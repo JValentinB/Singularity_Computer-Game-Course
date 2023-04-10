@@ -126,7 +126,7 @@ public class Tree_enemy : Enemy
     public new void MoveEnemy()
     {
         var velocity = Vector3.zero;
-        
+
         if (gravitationalDirection.x == 1)
         {
             direction = playerObject.transform.position.y - transform.position.y > 0 ? 1 : -1;
@@ -171,7 +171,7 @@ public class Tree_enemy : Enemy
 
     void PlayWalk()
     {
-        walk.Play();
+        if(InRange(sightRange)) walk.Play();
     }
 }
 

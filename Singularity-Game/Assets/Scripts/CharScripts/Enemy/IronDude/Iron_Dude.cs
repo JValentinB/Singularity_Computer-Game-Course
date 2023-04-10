@@ -167,7 +167,7 @@ public class Iron_Dude : Enemy
 
     void PlayWalk()
     {
-        walk.Play();
+        if(InRange(sightRange)) walk.Play();
     }
 }
 

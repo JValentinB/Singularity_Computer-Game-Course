@@ -33,7 +33,7 @@ public class Menu : MonoBehaviour
         showControlTime = 6f;
         timeBetweenControls = 2f;
         targetY = 3f;
-        targetInterval = 0.01f;
+        targetInterval = 0.02f;
         TMP = GetComponent<TextMeshPro>();
         currentColor = TMP.color;
         Spaceship = GameObject.FindWithTag("Spaceship");
@@ -55,7 +55,7 @@ public class Menu : MonoBehaviour
 
     private void MoveTitleToCenter(){
         if(transform.position.y < targetY + targetInterval && transform.position.y > targetY - targetInterval) return;
-        transform.Translate(0f, -0.03f, 0f);
+        transform.Translate(0f, -0.02f, 0f);
     }
 
     private void ActivateMenuButtons(){
@@ -81,6 +81,7 @@ public class Menu : MonoBehaviour
     private void StartNewGame(){
         if(!newGame) return;
         if(!ThrusterAudio.isPlaying) ThrusterAudio.Play();
+        GameObject.FindWithTag("MenuUI").GetComponent<CanvasGroup>().alpha = 0f;
         
         if(Spaceship.transform.position.y <= 0 && ShipScript.lockPlayerControl){
             Spaceship.transform.Translate(Vector3.down * ShipScript.SpaceShipSpeed * Time.deltaTime);
@@ -89,7 +90,6 @@ public class Menu : MonoBehaviour
         SpaceCameraScript.followPlayer = true;
         ShipScript.lockPlayerControl = false;
 
-        GameObject.FindWithTag("MenuUI").GetComponent<CanvasGroup>().alpha = 0f;
         parentUI.GetComponent<CanvasGroup>().alpha = 1;
         newGame = false;       
         StartCoroutine(showControls());
