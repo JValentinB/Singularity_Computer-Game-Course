@@ -38,7 +38,7 @@ public class Suicider : Enemy
         explosionEffect.GetComponent<AudioSource>().clip = inflateClip;
         explForce = 50000f;
         explRadius = 3f;
-        explUplift = 55f;
+        explUplift = 2500f;
         triggered = false;
         cooldown = 2f;
         done = 0f;
@@ -69,7 +69,8 @@ public class Suicider : Enemy
                         var forceDir = hitObject.transform.position - transform.position;
                         var enemyPos = hitObject.transform.position + forceDir;
                         hitObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                        hitObject.GetComponent<Rigidbody>().AddExplosionForce(explForce, enemyPos, explRadius, explUplift);
+                        hitObject.GetComponent<Rigidbody>().AddForce((Vector3.up + (playerObject.transform.position.x > transform.position.x ? Vector3.right : Vector3.left)) * explForce);
+                        //hitObject.GetComponent<Rigidbody>().AddExplosionForce(explForce, enemyPos, explRadius, explUplift);
                         if(hitObject.GetComponent<Suicider>()){
                             if(!hitObject.GetComponent<Suicider>().triggered && hitObject.GetComponent<Suicider>().done < 1.4f){
                                 hitObject.GetComponent<Suicider>().xp = 0;

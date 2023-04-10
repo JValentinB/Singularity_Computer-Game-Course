@@ -41,7 +41,7 @@ public class TreeBoss : Enemy
     {
         //from Damageable
         animator = GetComponent<Animator>();
-        maxHealth = 1500;
+        maxHealth = 1000;
         currentHealth = maxHealth;
         direction = 1;
         gravitationalDirection = Vector3.down;
