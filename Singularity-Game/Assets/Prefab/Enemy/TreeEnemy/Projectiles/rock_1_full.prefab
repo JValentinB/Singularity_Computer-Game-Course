@@ -113,6 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rockPiece: {fileID: 7435633767587681133, guid: b55428be19128084a962755e6c59fe9c, type: 3}
+  breakSound: {fileID: 7039443408830278626, guid: 9115c0b7bf8ffab4b91135f2e566f173, type: 3}
   speed: 0
   freeze: 0
 --- !u!82 &4912418339047249335

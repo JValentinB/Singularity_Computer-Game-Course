@@ -114,9 +114,11 @@ MonoBehaviour:
   rockPiece: {fileID: 1202423540033928085, guid: 8f62b56a7c37b8d498d1c2c2f328ed7f, type: 3}
   rockBreakObject: {fileID: 0}
   speed: 0
+  damage: 20
+  stoppingTime: 2
   freeze: 0
-  dmg: 0
-  waitBeforeAttack: 0
+  MoveUpAmount: 5
+  direction: {x: 0, y: 0, z: 0}
 --- !u!54 &-780300099286208724
 Rigidbody:
   m_ObjectHideFlags: 0

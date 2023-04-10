@@ -437,11 +437,11 @@ public class Player : Character
         if (SaveSystem.couldNotLoadGame && SaveSystem.loadingDelay <= 0f) SaveSystem.loadingDelay -= Time.deltaTime;
         else if (SaveSystem.couldNotLoadGame) SaveSystem.LoadGameNoReset();
 
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.F5))
         {
             SaveSystem.SaveGame(this);
         }
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.F9))
         {
             SaveSystem.LoadGame();
         }
