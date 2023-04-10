@@ -36,8 +36,8 @@ public class Iron_Dude : Enemy
         critMod = 1.3f;
         //from Enemy
         xp = 100;
-        sightRange = 15;
-        attackRange = 12;
+        sightRange = 13;
+        attackRange = 11;
         playerObject = GameObject.FindWithTag("Player");
         //from Tree_enemy
         attacking = false;
@@ -78,7 +78,6 @@ public class Iron_Dude : Enemy
 
     void IronDudeAttack()
     {
-        ChangeLineOfSight();
         if (cool_down <= 0)
         {
             if (attacking)
@@ -107,8 +106,9 @@ public class Iron_Dude : Enemy
 
     Vector3 instantiatePosition()
     {
-        return new Vector3(transform.position.x + 2 * direction, transform.position.y, transform.position.z);
+        return new Vector3(transform.position.x + 2 * direction, transform.position.y, 0f);
     }
+
     public new void OnDeath()
     {
         if (currentHealth <= 0)
@@ -118,23 +118,26 @@ public class Iron_Dude : Enemy
             dead = true;
         }
     }
+
     public new void MoveEnemy()
     {
         var velocity = Vector3.zero;
+        if (gravitationalDirection.x == 1)
+        {
+            direction = playerObject.transform.position.y - transform.position.y > 0 ? 1 : -1;
+        }
+        else if (gravitationalDirection.x == -1)
+        {
+            direction = playerObject.transform.position.y - transform.position.y > 0 ? -1 : 1;
+        }
+        else
+        {
+            direction = playerObject.transform.position.x - transform.position.x > 0 ? 1 : -1;
+        }
+
         if (InRange(sightRange) && !InRange(attackRange - 0.5f))
         {
-            if (gravitationalDirection.x == 1)
-            {
-                direction = playerObject.transform.position.y - transform.position.y > 0 ? 1 : -1;
-            }
-            else if (gravitationalDirection.x == -1)
-            {
-                direction = playerObject.transform.position.y - transform.position.y > 0 ? -1 : 1;
-            }
-            else
-            {
-                direction = playerObject.transform.position.x - transform.position.x > 0 ? 1 : -1;
-            }
+            
             velocity = Vector3.forward * currentSpeed;
         }
         transform.Translate(velocity * Time.deltaTime);

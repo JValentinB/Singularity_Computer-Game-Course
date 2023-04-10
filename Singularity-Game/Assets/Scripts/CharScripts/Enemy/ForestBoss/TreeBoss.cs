@@ -141,7 +141,9 @@ public class TreeBoss : Enemy
         //Defeat animation
         //Open up escape path
         GetComponent<Animator>().SetBool("Dead", true);
+    }
 
+    public void ToggleObjectsAtDeath(){
         foreach(GameObject gameObject in toggleObjectsAtDeath){
             gameObject.SetActive(!gameObject.activeSelf);
         }

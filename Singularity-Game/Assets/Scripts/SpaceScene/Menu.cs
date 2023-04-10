@@ -98,13 +98,13 @@ public class Menu : MonoBehaviour
     private IEnumerator showControls(){
         yield return new WaitForSeconds(timeBetweenControls);
 
+        GameObject.FindWithTag("StoryField").GetComponent<StorytextControlSpace>().startStory = true;
+
         foreach(var control in controls){
             parentUI.GetComponent<ButtonControl>().SpecialMessage(control, showControlTime);
             
             if(control == controls[controls.Count-1]) break;
             yield return new WaitForSeconds(showControlTime + timeBetweenControls);
         }
-
-        GameObject.FindWithTag("StoryField").GetComponent<StorytextControlSpace>().startStory = true;
     }
 }

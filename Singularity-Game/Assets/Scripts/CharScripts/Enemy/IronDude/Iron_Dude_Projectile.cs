@@ -27,7 +27,7 @@ public class Iron_Dude_Projectile : MonoBehaviour
         waitBeforeAttack = true;
         counter = 0f;
 
-        speed = 30f;
+        speed = 20f;
         dmg = 20;
         dir = new Vector3(0f, 0.5f, 0f);
         fireSound = GetComponent<AudioSource>();
@@ -88,7 +88,18 @@ public class Iron_Dude_Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider col){
         var obj = col.gameObject;
-        if(obj.GetComponent<Damageable>()){
+        if(obj.GetComponent<Damageable>() && !obj.GetComponent<Iron_Dude>()){
+            obj.GetComponent<Damageable>().ApplyDamage(dmg);
+            OnDeath();
+        } else if(!col.isTrigger)
+        {
+            OnDeath();
+        }
+    }
+
+    private void OnTriggerStay(Collider col){
+        var obj = col.gameObject;
+        if(obj.GetComponent<Damageable>() && !obj.GetComponent<Iron_Dude>()){
             obj.GetComponent<Damageable>().ApplyDamage(dmg);
             OnDeath();
         } else if(!col.isTrigger)

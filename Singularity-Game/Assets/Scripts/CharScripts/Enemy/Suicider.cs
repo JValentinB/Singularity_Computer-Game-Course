@@ -31,7 +31,7 @@ public class Suicider : Enemy
         critMod = 1.3f;
         //from Enemy
         xp = 50;
-        sightRange = 10;
+        sightRange = 13;
         attackRange = 3;
         playerObject = GameObject.FindWithTag("Player");
         //from Suicider

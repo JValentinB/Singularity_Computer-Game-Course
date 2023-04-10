@@ -101,6 +101,7 @@ public class SaveSystem
         if(saveData.golemDefeated) UnityEngine.Object.Destroy(GameObject.FindWithTag("GolemBoss"));
         if(saveData.treeBossEntryDestroyed) UnityEngine.Object.Destroy(GameObject.FindWithTag("BossEntry"));
         GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().dead = saveData.treeBossDefeated;
+        if(GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().dead) GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().ToggleObjectsAtDeath();
 
         Checkpoint.treeBossEntryOpened = saveData.treeBossEntryDestroyed;
         Checkpoint.treeBossDead = saveData.treeBossDefeated;

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1466363822}
   - component: {fileID: 1466363827}
   - component: {fileID: 3338929375235107047}
+  - component: {fileID: -1234619227520367781}
   m_Layer: 0
   m_Name: Fireball
   m_TagString: m_Projectile
@@ -4940,3 +4941,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!54 &-1234619227520367781
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955108777505960976}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

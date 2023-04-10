@@ -8,9 +8,9 @@ public class Player : Character
 {
     [Header("For the Player")]
     public int weaponMode = -1;
-    public List<bool> unlockedWeaponModes = new List<bool>() { false, false, false, false };
+    public List<bool> unlockedWeaponModes = new List<bool>() { false, false, false, true };
     public bool killOnHighFallingSpeed = true;
-    private static List<bool> savedWeaponModes = new List<bool>() { false, false, false, false };
+    private static List<bool> savedWeaponModes = new List<bool>() { false, false, false, true };
 
 
     [SerializeField] public bool doubleJump, lockPlayerControl, freezeGame;
@@ -109,6 +109,7 @@ public class Player : Character
         StartCoroutine(FireProjectile());
         Jump();
         SaveAndLoadGame();
+
     }
 
     private void MovePlayer()
@@ -157,6 +158,7 @@ public class Player : Character
     {
         if (Input.GetKeyDown(KeyCode.Space) && jumpsRemaining > 0)
         {
+            jumpsRemaining--;
             createBurst();
             StartCoroutine(playAnimationForTime("Jumping", 0.5f));
 
@@ -167,7 +169,6 @@ public class Player : Character
                 rb.velocity = Vector3.Scale(rb.velocity, new Vector3(0.1f, 1, 1));
 
             rb.AddForce((-1) * gravitationalDirection * jumpForce, ForceMode.Impulse);
-            jumpsRemaining--;
         }
     }
 
@@ -204,6 +205,7 @@ public class Player : Character
                 jumpsRemaining = jumpNumber;
                 isGrounded = true;
             }
+            
         }
         else
             isGrounded = false;

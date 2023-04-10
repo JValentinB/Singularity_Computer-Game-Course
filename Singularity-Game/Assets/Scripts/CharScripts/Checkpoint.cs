@@ -37,6 +37,7 @@ public class Checkpoint : MonoBehaviour
         if(golemDead && GameObject.FindWithTag("GolemBoss")) UnityEngine.Object.Destroy(GameObject.FindWithTag("GolemBoss"));
         if(treeBossEntryOpened && GameObject.FindWithTag("BossEntry")) UnityEngine.Object.Destroy(GameObject.FindWithTag("BossEntry"));
         GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().dead = treeBossDead;
+        if(GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().dead) GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().ToggleObjectsAtDeath();
 
         if(storyPartIndexCheckpoint == null){
            storyPartIndexCheckpoint = new List<int>();
