@@ -86,7 +86,6 @@ public class Player : Character
         Turn();
         if (!lockPlayerControl) MovePlayer();
 
-        GroundCheck();
         FallAnimation();
 
         RotateGravity();
@@ -99,6 +98,8 @@ public class Player : Character
 
     void Update()
     {
+        GroundCheck();
+
         // Debug.Log(shiftInversion);
         if (lockPlayerControl)
         {
@@ -159,6 +160,7 @@ public class Player : Character
     {
         if (Input.GetKeyDown(KeyCode.Space) && jumpsRemaining > 0)
         {
+            StartCoroutine(DoubleJumpFix(jumpsRemaining-1));
             jumpsRemaining--;
             createBurst();
             StartCoroutine(playAnimationForTime("Jumping", 0.5f));
@@ -170,6 +172,15 @@ public class Player : Character
                 rb.velocity = Vector3.Scale(rb.velocity, new Vector3(0.1f, 1, 1));
 
             rb.AddForce((-1) * gravitationalDirection * jumpForce, ForceMode.Impulse);
+        }
+    }
+
+    private IEnumerator DoubleJumpFix(int remaining){
+        var timer = 0.1f;
+        while(timer > 0f){
+            jumpsRemaining = remaining;
+            timer -= Time.deltaTime;
+            yield return null;
         }
     }
 
@@ -196,20 +207,19 @@ public class Player : Character
         if (!raycast1) hit1.distance = Mathf.Infinity;
         if (!raycast2) hit2.distance = Mathf.Infinity;
 
+        Debug.Log(rb.velocity.y);
         // Debug.Log(hit1.distance + " " + hit2.distance);
         if (raycast1 || raycast2)
         {
             if (hit1.distance > falling_distance && hit2.distance > falling_distance)
                 isGrounded = false;
-            else {
+            else /*if(isGrounded && (gravitationalDirection == Vector3.down && rb.velocity.y <= 0.01f) || (gravitationalDirection == Vector3.up && rb.velocity.y < 0f)
+            || (gravitationalDirection == Vector3.right && rb.velocity.y < 0f) || (gravitationalDirection == Vector3.right && rb.velocity.y > 0f) )*/{
                 jumpsRemaining = jumpNumber;
                 isGrounded = true;
             }
             
-            if(isGrounded && (gravitationalDirection == Vector3.down && rb.velocity.y > 0f) || (gravitationalDirection == Vector3.up && rb.velocity.y < 0f)
-              || (gravitationalDirection == Vector3.right && rb.velocity.y < 0f) || (gravitationalDirection == Vector3.right && rb.velocity.y > 0f)){
-
-            }
+            
         }
         else
             isGrounded = false;
