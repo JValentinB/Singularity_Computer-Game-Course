@@ -201,18 +201,15 @@ public class Player : Character
         {
             if (hit1.distance > falling_distance && hit2.distance > falling_distance)
                 isGrounded = false;
-            /* else if(gravitationalDirection == Vector3.down && rb.velocity.y > 0f)
-            {
-                isGrounded = false;
-            }  */else {
+            else {
                 jumpsRemaining = jumpNumber;
                 isGrounded = true;
             }
             
-            /* if(gravitationalDirection == Vector3.down && rb.velocity.y > 0f || gravitationalDirection == Vector3.up && rb.velocity.y < 0f
-              || gravitationalDirection == Vector3.right && rb.velocity.y < 0f || gravitationalDirection == Vector3.right && rb.velocity.y > 0f){
+            if(isGrounded && (gravitationalDirection == Vector3.down && rb.velocity.y > 0f) || (gravitationalDirection == Vector3.up && rb.velocity.y < 0f)
+              || (gravitationalDirection == Vector3.right && rb.velocity.y < 0f) || (gravitationalDirection == Vector3.right && rb.velocity.y > 0f)){
 
-              } */
+            }
         }
         else
             isGrounded = false;
@@ -256,7 +253,7 @@ public class Player : Character
                (weaponMode == 3 && !unlockedWeaponModes[3])) yield break;
 
             projectileCooldownActive = true;
-            if (!infinite_ammo)
+            if ((weaponMode == 2 || weaponMode == 3) && !infinite_ammo)
             {
                 // use ammo on respective weaponmode
                 int res = inventory.RemoveItem(inventory.GetItem(weaponMode), 1);
