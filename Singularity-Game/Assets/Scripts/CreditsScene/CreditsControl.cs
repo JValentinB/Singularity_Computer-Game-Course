@@ -40,7 +40,7 @@ public class CreditsControl : MonoBehaviour
     }
 
     private void AddCreditsToList(){
-        credits.Add( "Valentin Blum\n\nTimur Aydin\n\nKevin Plessing\n\nJoshua Tardus\n\nYunus Saracoglu\n\nMisheel Ganbold" );
+        credits.Add( "Valentin Blum\n\nTimur Aydin\n\nKevin Plessing\n\nJoshua Ruff\n\nYunus Saracoglu\n\nMisheel Ganbold" );
         
         credits.Add( "Triki Minut\n\nTamino Vay\n\nCGPitbull" );
     }

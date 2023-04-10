@@ -220,7 +220,22 @@ public class Player : Character
         else if (!isGrounded)
         {
             animator.SetBool("Falling", true);
+            StartCoroutine(AdjustVelocityOnFall());
         }
+    }
+
+    private IEnumerator AdjustVelocityOnFall(){
+        var adjustInDir = 0f;
+        if(rb.velocity.x > 0f) adjustInDir = -0.3f;
+        else if(rb.velocity.x < 0f) adjustInDir = 0.3f;
+
+        while(animator.GetBool("Falling") && (
+        rb.velocity.x > 0.1f || rb.velocity.x < -0.1f)){
+            rb.velocity = new Vector3(rb.velocity.x + adjustInDir * Time.deltaTime, rb.velocity.y, rb.velocity.z) ;
+            yield return new WaitForEndOfFrame();
+        }
+
+        yield break;
     }
 
     public void ChangeBulletMode(int modeId)
