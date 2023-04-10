@@ -149,12 +149,14 @@ public class Projectile : MonoBehaviour
         var projectiles = GameObject.FindGameObjectsWithTag("m_Projectile");
         foreach (var projectile in projectiles)
         {
+            if(!projectile.GetComponent<m_Projectile>()) break;
             projectile.GetComponent<m_Projectile>().setDir(transform.position);
             // projectile.GetComponent<m_Projectile>().waitBeforeAttack = false;
         }
         var bombFruits = GameObject.FindGameObjectsWithTag("BombFruit");
         foreach (var fruit in bombFruits)
         {
+            if(!fruit.GetComponent<BombFruit>()) break;
             fruit.GetComponent<BombFruit>().setDir(transform.position);
         }
     }

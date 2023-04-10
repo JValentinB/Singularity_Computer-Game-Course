@@ -58,7 +58,7 @@ public class TreeBoss : Enemy
 
     // Update is called once per frame
     void Update()
-    {   
+    {
         if(!startFight || freeze || dead) return;
 
         if(startFight && !fightStarted){

@@ -19,7 +19,7 @@ public class GravitationCrystal : MonoBehaviour
         if(col.tag == "Player"){
             Player player = col.GetComponent<Player>();
             
-            player.GiveItem(player.inventory.GetItem(crystalModeId), 10);
+            player.GiveItem(player.inventory.GetItem(crystalModeId), 1);
             player.unlockedWeaponModes[crystalModeId] = true;
             StartCoroutine(audioManager.PauseCategory(audioManager.music, 1f));
             audioManager.Play(audioManager.music, "CrystalSkill");
