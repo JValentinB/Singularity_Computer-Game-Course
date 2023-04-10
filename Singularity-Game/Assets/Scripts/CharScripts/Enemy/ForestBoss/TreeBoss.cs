@@ -53,11 +53,13 @@ public class TreeBoss : Enemy
 
         rockSpawner = transform.parent.Find("BossGround").GetComponentInChildren<RockSpawner>();
         objectSounds = GetComponent<ObjectSounds>();
+        freeze = true;
     }
 
     // Update is called once per frame
     void Update()
     {   
+        Debug.Log(freeze);
         if(!startFight || freeze || dead) return;
 
         if(startFight && !fightStarted){
@@ -155,9 +157,12 @@ public class TreeBoss : Enemy
     }
 
     IEnumerator startTimeOut(){
-        freeze = true;
+        while(freeze){
+            yield return null;
+        }
+        /* freeze = true;
         yield return new WaitForSeconds(timeoutAtStart);
-        freeze = false;
+        freeze = false; */
         StartCoroutine(ChooseAttack());
     }
 }

@@ -480,7 +480,7 @@ public class StorytextControl : MonoBehaviour
                 }
                 return false;
             case 18:
-                GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().freeze = true;
+                //GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().freeze = true;
                 return true;
             default:
                 return true;
@@ -584,7 +584,7 @@ public class StorytextControl : MonoBehaviour
 
     private void NextText(){
         GetComponent<CanvasGroup>().alpha = 1;
-        if(storyIndex > spaceStoryText.Count || (storyIndex == spaceStoryText.Count && !writing)){ 
+        if(storyIndex > spaceStoryText.Count || (storyIndex == spaceStoryText.Count && !writing)){
             StopCoroutine(storyCoroutine);
             GetComponent<Animator>().SetBool("active", false);
             healthBar.alpha = 1;

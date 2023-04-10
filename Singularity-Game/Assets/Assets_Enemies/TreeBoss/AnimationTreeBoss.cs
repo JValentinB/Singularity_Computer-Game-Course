@@ -72,13 +72,13 @@ public class AnimationTreeBoss : MonoBehaviour
             return;
         }
 
-        if (player != null)
+        if (player != null && !treeBoss.freeze)
             punchIfClose();
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (!treeBoss.freeze && other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             player = other.transform;
             sounds.groaningSoundRandom();
@@ -88,12 +88,34 @@ public class AnimationTreeBoss : MonoBehaviour
             punchTimerCoroutine = StartCoroutine(punchTimer(6f));
         }
     }
+
     void OnTriggerExit(Collider other)
     {
+        if(treeBoss.freeze) return;
+
         if (other.gameObject.tag == "Player")
         {
             player = null;
         }
+    }
+
+    void OnTriggerStay(Collider other){
+        if(treeBoss.freeze && other.gameObject.tag == "Player"){
+            StartCoroutine(AttackAfterDialog(other));
+        }
+    }
+
+    IEnumerator AttackAfterDialog(Collider other){
+        while(treeBoss.freeze){
+            yield return null;
+        }
+    
+        player = other.transform;
+        sounds.groaningSoundRandom();
+
+        if (punchTimerCoroutine != null)
+            StopCoroutine(punchTimerCoroutine);
+        punchTimerCoroutine = StartCoroutine(punchTimer(6f));
     }
 
     void punchIfClose()
