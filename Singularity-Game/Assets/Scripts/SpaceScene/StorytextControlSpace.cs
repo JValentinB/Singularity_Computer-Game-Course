@@ -144,6 +144,7 @@ public class StorytextControlSpace : MonoBehaviour
 
     private void PlayStory(){
         if(!startStory || storyIndex < 0 || spaceStoryText.Count <= 0) return;
+
         if(Input.GetKeyDown(KeyCode.Space)){
             NextText();
             storyIndex++;
@@ -153,11 +154,10 @@ public class StorytextControlSpace : MonoBehaviour
     private void NextText(){
         GetComponent<CanvasGroup>().alpha = 1;
         if(storyIndex > spaceStoryText.Count || (storyIndex == spaceStoryText.Count && !writing)){ 
-            GetComponent<Animator>().SetBool("active", false);
             StartCoroutine(ContinueGame());
             return;
         }
-        GetComponent<Animator>().SetBool("active", true);
+
         if(writing){
             storyIndex--;
             writing = false;
@@ -221,6 +221,7 @@ public class StorytextControlSpace : MonoBehaviour
 
     private IEnumerator ContinueGame(){
         ShipScript.lockPlayerControl = true;
+        GetComponent<CanvasGroup>().alpha = 0f;
         GameObject.FindWithTag("SpaceCamera").GetComponent<CameraControlSpace>().followPlayer = false;
 
         yield return new WaitForSeconds(2f);
