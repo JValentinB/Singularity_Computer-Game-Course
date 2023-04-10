@@ -17,13 +17,15 @@ public class Menu : MonoBehaviour
     private AudioSource ThrusterAudio;
     private float showControlTime, timeBetweenControls;
     private List<string> controls = new List<string>(){
-        /* "Controls for the Ship and Player:",
+        "Controls for the Ship and Player:",
         "Use W,A,S,D to control your Player",
-        "Press 'LMB' to Shoot and 'RMB' to Aim",
+        "Press 'LMB' to Shoot / Melee and 'RMB' to Cast",
         "Press 'Space' to Jump",
         "Press 'Shift' to Dodge / Run",
+        "Press 'Tabulator' to choose your weapon mode",
         "Use 'I' to open your Inventory",
-        "Press 'Space' to Continue!" */
+        "Use 'K' to save and 'L' to load the game",
+        "Press 'Space' to Continue!"
     };
 
     void Start()

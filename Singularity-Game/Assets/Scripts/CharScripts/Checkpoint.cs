@@ -10,15 +10,21 @@ public class Checkpoint : MonoBehaviour
     private Checkpoint[] checkpoints;
     private static List<int> storyPartIndexCheckpoint;
     private static List<bool> storyShownCheckpoint;
+
+    //private static List<(InvItem, int)> playerInventory;
+    private static List<int> invItemID = new List<int>();
+    private static List<int> invItemAmount = new List<int>();
+
     public static bool treeBossEntryOpened, treeBossDead, golemDead;
 
     void Start(){
         checkpoints = FindObjectsOfType<Checkpoint>();
-        LoadStoryProgressLists();
+        StartCoroutine(LoadStoryProgressLists());
     }
 
-    private void LoadStoryProgressLists(){
+    private IEnumerator LoadStoryProgressLists(){
         var player = GameObject.FindWithTag("Player").GetComponent<Player>();
+
         if(player.doubleJump) UnityEngine.Object.Destroy(GameObject.FindWithTag("DoubleJumpCrystal"));
         if(player.unlockedWeaponModes[1]) UnityEngine.Object.Destroy(GameObject.FindWithTag("ShifterCrystal"));
         if(player.unlockedWeaponModes[2]) UnityEngine.Object.Destroy(GameObject.FindWithTag("BlackHoleCrystal"));
@@ -34,20 +40,37 @@ public class Checkpoint : MonoBehaviour
         if(storyPartIndexCheckpoint == null){
            storyPartIndexCheckpoint = new List<int>();
             storyShownCheckpoint = new List<bool>();
-            return;
         } else if(storyPartIndexCheckpoint.Count == 0){
-            return;
+            
+        } else {
+            foreach(Transform storyTrigger in GameObject.FindWithTag("StoryTextParent").transform){
+                int index = storyPartIndexCheckpoint.FindIndex(a => a == storyTrigger.GetComponent<StoryTrigger>().storyPartIndex);
+                storyTrigger.GetComponent<StoryTrigger>().storyShown = storyShownCheckpoint[index];
+            }
         }
-        foreach(Transform storyTrigger in GameObject.FindWithTag("StoryTextParent").transform){
-            int index = storyPartIndexCheckpoint.FindIndex(a => a == storyTrigger.GetComponent<StoryTrigger>().storyPartIndex);
-            storyTrigger.GetComponent<StoryTrigger>().storyShown = storyShownCheckpoint[index];
+
+        yield return new WaitForSeconds(0.3f);
+
+        if(invItemID != null && invItemID.Count != 0 && player.inventory.IsEmpty()){
+            for(int i = 0; i < invItemID.Count; i++){
+                player.GiveItem(player.inventory.GetItem(invItemID[i]), invItemAmount[i]);
+                //player.inventory.AddItem(player.inventory.GetItem(invItemID[i]), invItemAmount[i]);
+            }
         }
+        yield break;
     }
 
     private void SaveStoryProgress(){
+        var player = GameObject.FindWithTag("Player").GetComponent<Player>();
+
         foreach(Transform storyTrigger in GameObject.FindWithTag("StoryTextParent").transform){
             storyPartIndexCheckpoint.Add(storyTrigger.GetComponent<StoryTrigger>().storyPartIndex);
             storyShownCheckpoint.Add(storyTrigger.GetComponent<StoryTrigger>().storyShown);
+        }
+
+        foreach(var item in player.inventory.stackedInventoryItems){
+            invItemID.Add(item.Item1.id);
+            invItemAmount.Add(item.Item2);
         }
 
         if(GameObject.FindWithTag("BossEntry")) treeBossEntryOpened = false;

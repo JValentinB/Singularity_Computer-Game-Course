@@ -516,7 +516,6 @@ public class StorytextControl : MonoBehaviour
             .Replace("No", "Nyo")
             .Replace("mo", "myo")
             .Replace("Mo", "Myo")
-            .Replace(".", UwuifySymbols("."))
             .Replace("?", UwuifySymbols("?"))
             .Replace("!", UwuifySymbols("!"));
             spaceStoryText[i] = (spaceStoryText[i].Item1, newText);

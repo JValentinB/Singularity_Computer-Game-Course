@@ -80,7 +80,8 @@ public class SaveSystem
         //Not checking if inventory is empty. Should be empty since we reload scene
         if(player.inventory.IsEmpty()){
             for(int i = 0; i < saveData.invItemID.Count; i++){
-                player.inventory.AddItem(player.inventory.GetItem(saveData.invItemID[i]), saveData.invItemAmount[i]);
+                player.GiveItem(player.inventory.GetItem(saveData.invItemID[i]), saveData.invItemAmount[i]);
+                //player.inventory.AddItem(player.inventory.GetItem(saveData.invItemID[i]), saveData.invItemAmount[i]);
             }
         }
 
