@@ -40,7 +40,7 @@ public class UIManager : MonoBehaviour
         weaponWheelUI.alpha = 0;
         
         // Delete before release!!!
-        activateAllModes();
+        //activateAllModes();
     }
 
     void Update(){

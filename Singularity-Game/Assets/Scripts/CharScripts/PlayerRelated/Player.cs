@@ -72,10 +72,10 @@ public class Player : Character
 
 
         // Delete Before Release!!!
-        unlockedWeaponModes[0] = true;
+        /* unlockedWeaponModes[0] = true;
         unlockedWeaponModes[1] = true;
         unlockedWeaponModes[2] = true;
-        unlockedWeaponModes[3] = true;
+        unlockedWeaponModes[3] = true; */
     }
 
     void FixedUpdate()
