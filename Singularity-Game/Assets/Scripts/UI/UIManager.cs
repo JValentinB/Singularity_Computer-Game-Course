@@ -44,6 +44,7 @@ public class UIManager : MonoBehaviour
     }
 
     void Update(){
+        unlockedWeaponModes = player.unlockedWeaponModes;
         OpenCloseMenu();
         if(menuUI.alpha == 0){
             OpenCloseInventory();
