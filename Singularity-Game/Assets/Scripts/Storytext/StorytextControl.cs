@@ -181,7 +181,13 @@ public class StorytextControl : MonoBehaviour
                     ("Arion", "Oh, I'm sorry. Were you hoping for something more exciting?\nMaybe you were expecting a crystal that would do your laundry or make you breakfast in the morning?")
                 );
                 spaceStoryText.Add(
-                    ("P. Otter", "...Let's just grab the crystal and move on.")
+                    ("P. Otter", "Very funny. But seriously, what does it do?")
+                );
+                spaceStoryText.Add(
+                    ("Arion", "Well, it just so happens that this crystal has a couple of tricks up its sleeve.\nNot only does it enhance your jumping abilities, but it also allows you to shoot deadly projectiles at your enemies.")
+                );
+                spaceStoryText.Add(
+                    ("P. Otter", "Got it. I'll use it wisely. Let's grab the crystal and move on.")
                 );
                 spaceStoryText.Add(
                     ("Arion", "As you wish, Captain.\nBut don't forget, with great power comes great responsibility... or in this case, the ability to jump a little higher.")
@@ -228,16 +234,10 @@ public class StorytextControl : MonoBehaviour
                 break;
             case 11:
                 spaceStoryText.Add(
-                    ("Arion", "Ah, the Gravity Catalyst, a personal favorite of mine. This little gem packs a powerful punch with its lethal projectiles.\nTrust me, you'll want to keep this one handy when facing tough enemies.")
+                    ("Arion", "Ah, the Gravity Catalyst, a personal favorite of mine.\nThis little gem has the ability to manipulate gravity, allowing you to walk on walls and ceilings.\nTrust me, you'll want to keep this one handy when facing challenging terrain.")
                 );
                 spaceStoryText.Add(
-                    ("P. Otter", "And what about its ability to manipulate gravity and walk on walls and ceilings?")
-                );
-                spaceStoryText.Add(
-                    ("Arion", "Oh, that? Just a small feature to help with traversing challenging terrain.\nBut be warned, it takes a skilled adventurer to master the gravity manipulation. Don't go getting yourself stuck on a ceiling now, Otter.")
-                );
-                spaceStoryText.Add(
-                    ("P. Otter", "I'll be sure to be careful. So, how do I activate the crystal?")
+                    ("P. Otter", "That sounds amazing, but how do I activate the crystal?")
                 );
                 spaceStoryText.Add(
                     ("Arion", "Simply channel your energy into the crystal and it'll do the rest.\nBut be warned, it can only be activated in specific fields scattered throughout the landscape.")
