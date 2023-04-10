@@ -82,6 +82,8 @@ public class Checkpoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
+        SaveStoryProgress();
+        
         if (collision.tag == "Player" && !isCurrentCheckpoint)
         {
             var playerScript = collision.GetComponent<Player>();
@@ -94,8 +96,6 @@ public class Checkpoint : MonoBehaviour
                 checkpoint.isCurrentCheckpoint = false;
             }
             isCurrentCheckpoint = true;
-
-            SaveStoryProgress();
 
             StartCoroutine(activationAnimation(collision.transform));
         }

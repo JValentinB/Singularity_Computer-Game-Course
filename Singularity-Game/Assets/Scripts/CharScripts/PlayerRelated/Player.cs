@@ -219,22 +219,18 @@ public class Player : Character
         else if (!isGrounded)
         {
             animator.SetBool("Falling", true);
-            StartCoroutine(AdjustVelocityOnFall());
+            if(gravitationalDirection == Vector3.down && 
+            (rb.velocity.x > 0.1f || rb.velocity.x < -0.1f)) AdjustVelocityOnFall();
+             
         }
     }
 
-    private IEnumerator AdjustVelocityOnFall(){
+    private void AdjustVelocityOnFall(){
         var adjustInDir = 0f;
-        if(rb.velocity.x > 0f) adjustInDir = -0.3f;
-        else if(rb.velocity.x < 0f) adjustInDir = 0.3f;
+        if(rb.velocity.x > 0f) adjustInDir = -10f;
+        else if(rb.velocity.x < 0f) adjustInDir = 10f;
 
-        while(animator.GetBool("Falling") && (
-        rb.velocity.x > 0.1f || rb.velocity.x < -0.1f)){
-            rb.velocity = new Vector3(rb.velocity.x + adjustInDir * Time.deltaTime, rb.velocity.y, rb.velocity.z) ;
-            yield return new WaitForEndOfFrame();
-        }
-
-        yield break;
+        rb.velocity = new Vector3(rb.velocity.x + adjustInDir * Time.deltaTime, rb.velocity.y, rb.velocity.z);
     }
 
     public void ChangeBulletMode(int modeId)

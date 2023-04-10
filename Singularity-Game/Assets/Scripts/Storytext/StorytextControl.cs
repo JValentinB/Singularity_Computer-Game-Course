@@ -455,6 +455,24 @@ public class StorytextControl : MonoBehaviour
                     ("P. Otter", "We will. I promise.")
                 );
                 break;
+            case 22:
+                spaceStoryText.Add(
+                    ("P. Otter", "Arion, I found a blocked passage here. Looks like we won't be able to get through.")
+                );
+                spaceStoryText.Add(
+                    ("Arion", "Hmm, let me take a look... Looks like it's held in place by some sturdy rocks.\nWe won't be able to move it by hand, that's for sure.")
+                );
+                spaceStoryText.Add(
+                    ("P. Otter", "So what can we do?")
+                );
+                spaceStoryText.Add(
+                    ("Arion", "We need to find a way to remove the roots here.")
+                );
+                spaceStoryText.Add(
+                    ("P. Otter", "Alright, let's start looking for something.")
+                );
+                break;
+
         }
         if(uwuMode) UwuifiyStory();
         stopText = false;
@@ -469,6 +487,9 @@ public class StorytextControl : MonoBehaviour
                 return !player.GetComponent<Player>().doubleJump;
             case 9:
                 return GameObject.FindWithTag("GolemBoss").GetComponent<StoneGolemBoss>().destroyedBenders;
+            case 13:
+                if(GameObject.FindWithTag("BossEntry")) return false;
+                return true;
             case 15:
                 return GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().dead;
             case 16:
@@ -482,6 +503,9 @@ public class StorytextControl : MonoBehaviour
             case 18:
                 //GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().freeze = true;
                 return true;
+            case 22:
+                if(GameObject.FindWithTag("BossEntry")) return true;
+                return false;
             default:
                 return true;
         }
