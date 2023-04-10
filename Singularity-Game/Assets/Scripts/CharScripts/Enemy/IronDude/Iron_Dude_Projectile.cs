@@ -91,7 +91,7 @@ public class Iron_Dude_Projectile : MonoBehaviour
         if(obj.GetComponent<Damageable>()){
             obj.GetComponent<Damageable>().ApplyDamage(dmg);
             OnDeath();
-        } else
+        } else if(!col.isTrigger)
         {
             OnDeath();
         }

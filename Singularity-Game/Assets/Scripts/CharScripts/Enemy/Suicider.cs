@@ -15,7 +15,7 @@ public class Suicider : Enemy
 
     void Start(){
         //from Damageable
-        maxHealth = 50;
+        maxHealth = 40;
         currentHealth = maxHealth;
         direction = 1;
         animator = GetComponent<Animator>();

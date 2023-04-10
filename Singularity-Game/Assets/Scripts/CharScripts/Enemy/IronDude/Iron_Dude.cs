@@ -20,7 +20,7 @@ public class Iron_Dude : Enemy
     void Start()
     {
         //from Damageable
-        maxHealth = 200;
+        maxHealth = 100;
         currentHealth = maxHealth;
         direction = 1;
         animator = GetComponent<Animator>();
@@ -80,13 +80,14 @@ public class Iron_Dude : Enemy
 
     void IronDudeAttack()
     {
-
+        ChangeLineOfSight();
         if (cool_down <= 0)
         {
             if (attacking)
             {
                 animator.SetTrigger("CastAttack");
-                Instantiate(fireball, instantiatePosition(), Quaternion.identity);
+                GameObject ball = Instantiate(fireball, instantiatePosition(), Quaternion.identity);
+                Destroy(ball, 15);
                 cool_down = cool_time;
                 attacking = false;
             }

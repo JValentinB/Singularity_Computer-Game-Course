@@ -22,7 +22,7 @@ public class Tree_enemy : Enemy
     void Start()
     {
         //from Damageable
-        maxHealth = 200;
+        maxHealth = 60;
         currentHealth = maxHealth;
         direction = 1;
         animator = GetComponent<Animator>();
@@ -87,8 +87,10 @@ public class Tree_enemy : Enemy
             if (attacking)
             {
                 animator.SetTrigger("CastAttack");
-                Instantiate(dust, instantiatePosition(), Quaternion.Euler(new Vector3(-90, 0, 0)));
-                Instantiate(rocks[Random.Range(0, rocks.Length)], instantiatePosition(), Quaternion.identity);
+                GameObject fog = Instantiate(dust, instantiatePosition(), Quaternion.Euler(new Vector3(-90, 0, 0)));
+                Destroy(fog, 15);
+                GameObject ball = Instantiate(rocks[Random.Range(0, rocks.Length)], instantiatePosition(), Quaternion.identity);
+                Destroy(ball, 15);
                 cool_down = cool_time;
                 attacking = false;
             }

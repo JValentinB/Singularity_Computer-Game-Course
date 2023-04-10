@@ -8,7 +8,6 @@ public class spikes : MonoBehaviour
     [SerializeField] private float range = 2;
     [SerializeField] private float stopTimer  = 1.5f;
 
-    private AudioSource audioSource;
 
     private float count = 0;
     private float way = 0;
@@ -19,7 +18,6 @@ public class spikes : MonoBehaviour
     void Start()
     {
         dmg = 50;
-        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -34,7 +32,7 @@ public class spikes : MonoBehaviour
         // Fall 2/4
         if (!backward && count >= stopTimer)
         {
-            audioSource.Play();
+            GetComponent<AudioSource>().Play();
             shootUp();
         }
 
