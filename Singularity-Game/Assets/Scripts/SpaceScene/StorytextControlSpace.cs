@@ -153,11 +153,13 @@ public class StorytextControlSpace : MonoBehaviour
 
     private void NextText(){
         GetComponent<CanvasGroup>().alpha = 1;
-        if(storyIndex > spaceStoryText.Count || (storyIndex == spaceStoryText.Count && !writing)){ 
+        if(storyIndex > spaceStoryText.Count || (storyIndex == spaceStoryText.Count && !writing)){
+            GetComponent<Animator>().SetBool("active", false);
             StartCoroutine(ContinueGame());
             return;
         }
 
+        GetComponent<Animator>().SetBool("active", true);
         if(writing){
             storyIndex--;
             writing = false;

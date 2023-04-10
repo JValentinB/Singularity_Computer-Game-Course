@@ -18,7 +18,7 @@ public class Player : Character
     [SerializeField] private GameObject projectile_blackhole;
     [SerializeField] public GameObject jumpBurst;
     [SerializeField] private InvUI invUi;
-    [HideInInspector] public bool setDirectionShot; //Will the next projectile control the direction of a Rockpiece?
+    [HideInInspector] public bool setDirectionShot;
     private SceneControl scenecontrol;
     private static Vector3 latestCheckPointPos;
     public GameObject BlackOutSquare;

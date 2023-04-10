@@ -25,10 +25,11 @@ public class Checkpoint : MonoBehaviour
     private IEnumerator LoadStoryProgressLists(){
         var player = GameObject.FindWithTag("Player").GetComponent<Player>();
 
-        if(player.doubleJump) UnityEngine.Object.Destroy(GameObject.FindWithTag("DoubleJumpCrystal"));
-        if(player.unlockedWeaponModes[1]) UnityEngine.Object.Destroy(GameObject.FindWithTag("ShifterCrystal"));
-        if(player.unlockedWeaponModes[2]) UnityEngine.Object.Destroy(GameObject.FindWithTag("BlackHoleCrystal"));
-        if(player.unlockedWeaponModes[0]){
+        var weaponModes = player.GetSavedWeaponModes();
+        if(player.doubleJump && GameObject.FindWithTag("DoubleJumpCrystal")) UnityEngine.Object.Destroy(GameObject.FindWithTag("DoubleJumpCrystal"));
+        if(weaponModes[1] && GameObject.FindWithTag("ShifterCrystal")) UnityEngine.Object.Destroy(GameObject.FindWithTag("ShifterCrystal"));
+        if(weaponModes[2] && GameObject.FindWithTag("BlackHoleCrystal")) UnityEngine.Object.Destroy(GameObject.FindWithTag("BlackHoleCrystal"));
+        if(weaponModes[0] && GameObject.FindWithTag("PullCrystal")){
             UnityEngine.Object.Destroy(GameObject.FindWithTag("PullCrystal"));
             UnityEngine.Object.Destroy(GameObject.FindWithTag("FallingRocks")); 
         }
@@ -54,7 +55,6 @@ public class Checkpoint : MonoBehaviour
         if(invItemID != null && invItemID.Count != 0 && player.inventory.IsEmpty()){
             for(int i = 0; i < invItemID.Count; i++){
                 player.GiveItem(player.inventory.GetItem(invItemID[i]), invItemAmount[i]);
-                //player.inventory.AddItem(player.inventory.GetItem(invItemID[i]), invItemAmount[i]);
             }
         }
         yield break;
