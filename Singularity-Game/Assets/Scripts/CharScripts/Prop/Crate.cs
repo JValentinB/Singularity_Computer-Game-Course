@@ -7,10 +7,10 @@ public class Crate : Prop
 {
 
     public bool dropSingularityCrystal = true;
-    public int singularityCrystalAmmo = 3;
+    public int singularityCrystalAmmo = 2;
 
     public bool dropAetherCrystal = true;
-    public int aetherCrystalAmmo = 3;
+    public int aetherCrystalAmmo = 5;
 
     void Start(){
         //Components
