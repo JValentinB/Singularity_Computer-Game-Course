@@ -1,6 +1,6 @@
 <?php
 
-if (!is_file("downloaded.txt")) {
+if (!is_file("./downloaded.txt")) {
     file_put_contents("./downloaded.txt", 0);
 }
 
