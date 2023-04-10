@@ -69,6 +69,13 @@ public class Player : Character
         BlackOutSquare.GetComponent<Image>().color = new Color(0f, 0f, 0f, 255f);
         StartCoroutine(FadeBlackOutSquare(false));
         checkForStart();
+
+
+        // Delete Before Release!!!
+        unlockedWeaponModes[0] = true;
+        unlockedWeaponModes[1] = true;
+        unlockedWeaponModes[2] = true;
+        unlockedWeaponModes[3] = true;
     }
 
     void FixedUpdate()
