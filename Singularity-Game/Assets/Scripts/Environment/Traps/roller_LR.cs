@@ -22,7 +22,7 @@ public class roller_LR : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        dmg = 75;
+        dmg = 50;
         crash.GetComponent<AudioSource>();
     }
 

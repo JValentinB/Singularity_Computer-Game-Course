@@ -28,7 +28,7 @@ public class Iron_Dude_Projectile : MonoBehaviour
         counter = 0f;
 
         speed = 30f;
-        dmg = 50;
+        dmg = 20;
         dir = new Vector3(0f, 0.5f, 0f);
         fireSound = GetComponent<AudioSource>();
         fireSound.Play();

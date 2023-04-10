@@ -18,7 +18,7 @@ public class spikes : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        dmg = 100;
+        dmg = 50;
         audioSource = GetComponent<AudioSource>();
     }
 
