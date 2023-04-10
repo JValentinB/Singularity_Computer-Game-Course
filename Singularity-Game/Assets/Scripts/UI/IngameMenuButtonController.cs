@@ -77,12 +77,16 @@ public class IngameMenuButtonController : MonoBehaviour, IPointerEnterHandler, I
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        eventData.pointerEnter.transform.parent.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+        if(!controlsUi.active || eventData.pointerEnter.CompareTag("BackButton")){
+            eventData.pointerEnter.transform.parent.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        eventData.pointerEnter.transform.parent.transform.localScale = new Vector3(1f, 1f, 1f);
+        if(!controlsUi.active || eventData.pointerEnter.CompareTag("BackButton")){
+            eventData.pointerEnter.transform.parent.transform.localScale = new Vector3(1f, 1f, 1f);
+        }
     }
 
     public void BackToMenu(){

@@ -24,7 +24,7 @@ public class Menu : MonoBehaviour
         "Press 'Shift' to Dodge / Run",
         "Press 'Tabulator' to choose your weapon mode",
         "Use 'I' to open your Inventory",
-        "Use 'K' to save and 'L' to load the game",
+        "Use 'F5' to save and 'F9' to load the game",
         "Press 'Space' to Continue!"
     };
 
