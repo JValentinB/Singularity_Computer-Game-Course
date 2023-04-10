@@ -11,7 +11,6 @@ public class WindUpstream : MonoBehaviour
     public GameObject ExitingParticles;
 
     private float prevGravityStrength;
-    private float prevJumpForce;
     //Function will be called on leaving collider range
     private void OnTriggerEnter(Collider col)
     {
@@ -22,11 +21,9 @@ public class WindUpstream : MonoBehaviour
             damageable.inWeightlessFields++;
 
             prevGravityStrength = damageable.gravityStrength;
-            prevJumpForce = damageable.GetComponent<Character>().jumpForce;
             var rb = col.gameObject.GetComponent<Rigidbody>();
             damageable.gravityStrength = gravity;
-            damageable.GetComponent<Character>().jumpForce = jumpForce;
-
+            if(damageable.GetComponent<Character>()) damageable.GetComponent<Character>().jumpForce = jumpForce;
 
             Vector3 direction = damageable.targetDirection;
             float axisSpeed = Mathf.Abs(direction.x) == 0 ? rb.velocity.y : rb.velocity.x;

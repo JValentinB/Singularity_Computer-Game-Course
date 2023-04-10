@@ -22,7 +22,7 @@ public class Player : Character
     private SceneControl scenecontrol;
     private static Vector3 latestCheckPointPos;
     public GameObject BlackOutSquare;
-    public InvManager playerInventory;
+    public InvManager inventory;
     public int meleeDamage;
     public bool infinite_ammo = false;
 
