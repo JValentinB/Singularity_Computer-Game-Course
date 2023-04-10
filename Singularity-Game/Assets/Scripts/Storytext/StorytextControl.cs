@@ -80,10 +80,10 @@ public class StorytextControl : MonoBehaviour
                     ("Arion", "Ahem. Finally, P. Otter.\nIt's about time you decided to turn me on.")
                 );
                 spaceStoryText.Add(
-                    ("P. Otter", "Can you tell me again what we're looking for?")
+                    ("P. Otter", "What happened? Did we crash?")
                 );
                 spaceStoryText.Add(
-                    ("Arion", "Of course, as I already told you before, we require a power regulator.\nIt's basic knowledge that any competent spaceship captain would know.")
+                    ("Arion", "Affirmative. It appears we landed quite hard.\nFortunately, the ship's emergency protocols kicked in, and we were able to land safely.\nBut some of our components may have been scattered.\n...\n According to my scans, we require a power regulator")
                 );
                 spaceStoryText.Add(
                     ("P. Otter", "Alright, where should we start looking first then, Arion?")
