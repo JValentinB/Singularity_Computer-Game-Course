@@ -8,9 +8,8 @@ using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-public class IngameMenuButtonController : MonoBehaviour
-{
-    
+public class IngameMenuButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+{    
     [Header("General")]
     [SerializeField] public GameObject menuUi;
     [SerializeField] public GameObject optionsUi;
@@ -87,6 +86,7 @@ public class IngameMenuButtonController : MonoBehaviour
     }
 
     public void BackToMenu(){
+        ButtonSound.Play();
         optionsUi.SetActive(false);
         controlsUi.SetActive(false);
         backButton.SetActive(false);
@@ -96,37 +96,44 @@ public class IngameMenuButtonController : MonoBehaviour
     }
 
     public void OpenOptions(){
+        ButtonSound.Play();
         menuUi.SetActive(false);
         optionsUi.SetActive(true);
         backButton.SetActive(true);
     }
 
     public void OpenControlls(){
+        ButtonSound.Play();
         menuUi.SetActive(false);
         controlsUi.SetActive(true);
         backButton.SetActive(true);
     }
 
     public void CloseMenu(){
+        ButtonSound.Play();
         uiManager.CloseMenu();
     }
 
     public void BackToMainMenuWarning(){
+        ButtonSound.Play();
         menuUi.SetActive(false);
         mainMenuWarningUi.SetActive(true);
     }
 
     public void CloseGameWarning(){
+        ButtonSound.Play();
         menuUi.SetActive(false);
         closeWarningUi.SetActive(true);
     }
 
     public void BackToMainMenu(){
+        ButtonSound.Play();
         Time.timeScale = 1;
         SceneManager.LoadScene("Space");
     }
 
     public void CloseGame(){
+        ButtonSound.Play();
         Application.Quit();
     }
 
