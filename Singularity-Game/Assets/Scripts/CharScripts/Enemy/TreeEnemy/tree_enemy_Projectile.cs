@@ -9,6 +9,7 @@ public class tree_enemy_Projectile : MonoBehaviour
     public bool freeze = false;
     private Vector3 dir;
     private int dmg;
+    private AudioSource cast;
 
     //Move up, then move to player part
     private Vector3 startPosition;
@@ -29,6 +30,8 @@ public class tree_enemy_Projectile : MonoBehaviour
         this.speed = 15f;
         this.dmg = 50;
         this.dir = new Vector3(0f, 0.5f, 0f);
+        cast = GetComponent<AudioSource>();
+        cast.Play();
     }
 
     void Update(){

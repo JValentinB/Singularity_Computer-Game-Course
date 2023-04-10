@@ -11,6 +11,8 @@ public class roller_LR : MonoBehaviour
     private bool backward = false;
     private float count = 0;
     private int dmg;
+
+    private AudioSource crash;
     enum Direction
     { forward, backward }
     [SerializeField] Direction direction;
@@ -21,6 +23,7 @@ public class roller_LR : MonoBehaviour
     void Start()
     {
         dmg = 75;
+        crash.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -89,6 +92,7 @@ public class roller_LR : MonoBehaviour
         if (obj.GetComponent<Damageable>())
         {
             obj.GetComponent<Damageable>().ApplyDamage(dmg);
+            crash.Play();
         }
     }
 }

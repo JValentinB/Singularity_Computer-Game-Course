@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Switch : MonoBehaviour
@@ -12,6 +13,8 @@ public class Switch : MonoBehaviour
     private bool redAct;
     private bool greenAct;
     private bool switchOnCooldown;
+
+    private AudioSource switcher;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +23,7 @@ public class Switch : MonoBehaviour
         greenAct = false;
         greenLight.SetActive(false);
         DoSwitch();
+        switcher = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -72,7 +76,7 @@ public class Switch : MonoBehaviour
         if (col.GetComponent<Projectile>() && !switchOnCooldown)
         {
             switchOnCooldown = true;
-
+            switcher.Play();
             if (redAct)
             {
                 redAct = false;

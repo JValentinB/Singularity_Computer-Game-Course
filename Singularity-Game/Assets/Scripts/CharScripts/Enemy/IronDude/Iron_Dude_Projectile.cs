@@ -9,6 +9,7 @@ public class Iron_Dude_Projectile : MonoBehaviour
     public bool freeze = false;
     private Vector3 dir;
     private int dmg;
+    private AudioSource fireSound;
 
     //Move up, then move to player part
     private Vector3 startPosition;
@@ -29,6 +30,8 @@ public class Iron_Dude_Projectile : MonoBehaviour
         speed = 30f;
         dmg = 50;
         dir = new Vector3(0f, 0.5f, 0f);
+        fireSound = GetComponent<AudioSource>();
+        fireSound.Play();
     }
 
     void Update(){

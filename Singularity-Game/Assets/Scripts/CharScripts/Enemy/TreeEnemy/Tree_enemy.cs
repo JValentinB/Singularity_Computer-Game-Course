@@ -15,7 +15,7 @@ public class Tree_enemy : Enemy
     private bool dead;
     private float dying_time = 3.0f;
 
-
+    private AudioSource walk;
 
 
     // Start is called before the first frame update
@@ -45,7 +45,7 @@ public class Tree_enemy : Enemy
         attacking = false;
         cool_down = 0.0f;
         dead = false;
-
+        walk = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -163,6 +163,11 @@ public class Tree_enemy : Enemy
         {
             Destroy(gameObject);
         }
+    }
+
+    void PlayWalk()
+    {
+        walk.Play();
     }
 }
 

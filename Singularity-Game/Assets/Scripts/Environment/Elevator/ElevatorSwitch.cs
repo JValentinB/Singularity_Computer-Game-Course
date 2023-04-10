@@ -8,6 +8,8 @@ public class ElevatorSwitch : MonoBehaviour
     [SerializeField] GameObject redLight;
     [SerializeField] GameObject greenLight;
 
+    private AudioSource switcher;
+
     private bool redAct;
     private bool greenAct;
     // Start is called before the first frame update
@@ -17,7 +19,7 @@ public class ElevatorSwitch : MonoBehaviour
         redLight.SetActive(true);
         greenAct = false;
         greenLight.SetActive(false);
-        
+        switcher = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -54,6 +56,7 @@ public class ElevatorSwitch : MonoBehaviour
     {
         if (col.GetComponent<Projectile>())
         {
+            switcher.Play();
             if (redAct)
             {
                 redAct = false;
