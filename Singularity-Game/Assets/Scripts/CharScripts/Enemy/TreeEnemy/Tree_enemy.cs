@@ -38,8 +38,8 @@ public class Tree_enemy : Enemy
         critMod = 1.3f;
         //from Enemy
         xp = 100;
-        sightRange = 15;
-        attackRange = 10;
+        sightRange = 10;
+        attackRange = 7;
         playerObject = GameObject.FindWithTag("Player");
         //from Tree_enemy
         attacking = false;
