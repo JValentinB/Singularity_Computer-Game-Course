@@ -42,10 +42,10 @@ public class LaserBender : MonoBehaviour
         {
             timerCoroutine = StartCoroutine(Timer());
         }
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            DestroyBender();
-        }
+        // if (Input.GetKeyDown(KeyCode.J))
+        // {
+        //     DestroyBender();
+        // }
     }
 
 
@@ -108,8 +108,10 @@ public class LaserBender : MonoBehaviour
         }
     }
 
-    public void DestroyBender()
+    public IEnumerator DestroyBender(float timeTillDestruction)
     {
+        yield return new WaitForSeconds(timeTillDestruction);
+
         if (timerCoroutine != null)
             StopCoroutine(timerCoroutine);
 

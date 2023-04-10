@@ -45,9 +45,11 @@ public class StoneGolemBoss : MonoBehaviour
     Coroutine laserAttackCoroutine;
     bool laserAttackActive = false;
     bool phaseTimerActive = false;
+    Coroutine protectHeartCoroutine;
 
     bool damageParticlesActive = false;
     bool protectHeartActive = false;
+    bool isDestroyingBenders = false;
 
     [SerializeField] public HealthBar healthBar;
 
@@ -71,7 +73,7 @@ public class StoneGolemBoss : MonoBehaviour
         // if R is pressed. Delete Before Release!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (Input.GetKeyDown(KeyCode.R))
         {
-            OnDeath();
+            ApplyDamage(1000);
         }
 
         BossFightPhases();
@@ -93,7 +95,7 @@ public class StoneGolemBoss : MonoBehaviour
         if (!damageParticlesActive)
             StartCoroutine(damageParticles());
         if (!protectHeartActive && !blackHoleActive)
-            StartCoroutine(protectHeart());
+            protectHeartCoroutine = StartCoroutine(protectHeart());
 
         currentHealthPoints -= damage;
         healthBar.UpdateHealth((int)currentHealthPoints);
@@ -120,7 +122,7 @@ public class StoneGolemBoss : MonoBehaviour
         Transform heart = transform.Find("Heart");
 
         objectSounds.Play("RockExplosion");
-        
+
         GameObject particles1 = Instantiate(deathParticles, heart.position, Quaternion.LookRotation(-heart.up));
         GameObject particles2 = Instantiate(heartExplosionParticles, heart.position, Quaternion.LookRotation(-heart.up));
         Destroy(particles1, 8f);
@@ -143,7 +145,13 @@ public class StoneGolemBoss : MonoBehaviour
         if (fightPhase == 0 && currentHealthPoints <= healthPoints * 0.5f)
         {
             fightPhase = 1;
-            DestroyActiveBenders();
+            if (protectHeartActive)
+            {
+                StopCoroutine(protectHeartCoroutine);
+                StartCoroutine(stopProtecting());
+            }
+            isDestroyingBenders = true;
+            animator.SetTrigger("DestroyBenders");
         }
     }
 
@@ -209,6 +217,17 @@ public class StoneGolemBoss : MonoBehaviour
         protectHeartActive = false;
     }
 
+    IEnumerator stopProtecting()
+    {
+        float time = 0f;
+        while (time < 0.4f)
+        {
+            time += Time.deltaTime;
+            animator.SetLayerWeight(3, Mathf.Lerp(1f, 0f, time / 0.4f));
+            yield return null;
+        }
+    }
+
     // ________________________________________________________________________
 
     // Skills _________________________________________________________________ 
@@ -249,8 +268,9 @@ public class StoneGolemBoss : MonoBehaviour
 
         float time = 0f;
         while (time < 1f)
-        {   
-            if(dead){
+        {
+            if (dead)
+            {
                 StartCoroutine(laserCancel(laserBeam));
                 yield break;
             }
@@ -267,7 +287,8 @@ public class StoneGolemBoss : MonoBehaviour
         time = 0f;
         while (time < laserAttackTime)
         {
-            if(dead){
+            if (dead)
+            {
                 StartCoroutine(laserCancel(laserBeam));
                 yield break;
             }
@@ -303,7 +324,8 @@ public class StoneGolemBoss : MonoBehaviour
         laserAttackActive = false;
     }
 
-    IEnumerator laserCancel(LaserBeam laserBeam){
+    IEnumerator laserCancel(LaserBeam laserBeam)
+    {
         float time = 0f;
         while (time < 1f)
         {
@@ -338,8 +360,8 @@ public class StoneGolemBoss : MonoBehaviour
         Rigidbody player = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
         time = 0f;
         while (time < 8f)
-        {   
-            if(dead) time = 100;
+        {
+            if (dead || isDestroyingBenders) break;
 
             time += Time.deltaTime;
             // pull the player towards the black hole
@@ -378,19 +400,29 @@ public class StoneGolemBoss : MonoBehaviour
         blackHoleActive = false;
     }
 
-    // IEnumerator blackHoleCancel(){
-
-    // }
-    void DestroyActiveBenders()
+    void destroyBenderEvent()
     {
+        DestroyActiveBenders();
+    }
+
+    void DestroyActiveBenders()
+    {   
+        objectSounds.Play("DestroyBenders");
         // Copy the list to avoid errors
         destroyedBenders = true;
         List<LaserBender> benders = new List<LaserBender>(laser.benders);
         foreach (LaserBender bender in benders)
         {
-            bender.DestroyBender();
+            float distance = Vector3.Distance(transform.position, bender.transform.position);
+            float time = Mathf.Lerp(0.1f, 2f, distance / 100); // Adjust maxDistance to your needs
+
+            StartCoroutine(bender.DestroyBender(time));
         }
     }
 
     // _________________________________________________________________ Skills
+
+    void playSound(string name){
+        StartCoroutine(objectSounds.PlayForTime(name, 1, 5));
+    }
 }
