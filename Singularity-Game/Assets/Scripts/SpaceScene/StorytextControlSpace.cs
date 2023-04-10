@@ -80,9 +80,9 @@ public class StorytextControlSpace : MonoBehaviour
     public void UwuifiyStory(){
         for(int i = 0; i < spaceStoryText.Count; i++){
             var newText = spaceStoryText[i].Item2;
-            newText = newText/* .Replace("Arion", "Awion " + UwuifySymbols("Arion"))
+            newText = newText.Replace("Arion", "Awion " + UwuifySymbols("Arion"))
             .Replace("P. Otter", "P. Ottew " + UwuifySymbols("P. Otter"))
-            .Replace("What?", "What? ∑(ﾟﾛﾟ〃)") */
+            .Replace("What?", "What? ∑(ﾟﾛﾟ〃)")
             .Replace("help", "hewp *sweats*")
             .Replace("heavy", "heavy *screams*")
             .Replace("l", "w")
@@ -93,10 +93,8 @@ public class StorytextControlSpace : MonoBehaviour
             .Replace("No", "Nyo")
             .Replace("mo", "myo")
             .Replace("Mo", "Myo")
-            .Replace(".", UwuifySymbols("."))
             .Replace("?", UwuifySymbols("?"))
             .Replace("!", UwuifySymbols("!"));
-            Debug.Log(newText);
             spaceStoryText[i] = (spaceStoryText[i].Item1, newText);
         }
     }
