@@ -64,12 +64,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileSpeed: 0
   mode: 2
-  impactEffect: {fileID: 5024009746357069194, guid: f36f29aecf3176548824cab321eabd31, type: 3}
+  impactEffects:
+  - {fileID: 0}
+  - {fileID: 5024009746357069194, guid: f36f29aecf3176548824cab321eabd31, type: 3}
+  - {fileID: 0}
+  - {fileID: 5024009746357069194, guid: 018f9dbea4f22ee4dbe6e7d75981db8d, type: 3}
+  closeToTreeBoss: 0
   modeMaterials:
   - {fileID: 2100000, guid: 68095ed509785cf4ba458b0c77198f20, type: 2}
   - {fileID: 2100000, guid: 0359453be3f6d224599dd7c6ac00d3bf, type: 2}
   - {fileID: 0}
-  - {fileID: 2100000, guid: 6681e4d02b776ac4fac79400cc3bb095, type: 2}
+  - {fileID: 2100000, guid: ed3144bee632c2a4f878701cf2cd9c1f, type: 2}
   - {fileID: 2100000, guid: 6e29bc4ffbf75c14fa583f5d60feb031, type: 2}
   ignoreCollisionWithTag:
   - Player

@@ -21,6 +21,8 @@ public class GolemBossStart : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Debug.Log("Boss fight started!");
+            if(transform.parent.GetComponentInChildren<StoneGolemBoss>() == null) return;
+            
             transform.parent.GetComponentInChildren<StoneGolemBoss>().bossFightStarted = true;
         }
     }

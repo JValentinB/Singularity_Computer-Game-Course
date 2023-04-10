@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private float projectileSpeed;
     [SerializeField] public int mode;
-    public GameObject impactEffect;
+    public List<GameObject> impactEffects;
 
     private ParticleSystem ps;
     private ParticleSystem.MainModule _ps;
@@ -103,7 +103,7 @@ public class Projectile : MonoBehaviour
         {
             alreadyDestroyed = true;
 
-            GameObject impact = Instantiate(impactEffect, transform.position, transform.rotation);
+            GameObject impact = Instantiate(impactEffects[mode], transform.position, transform.rotation);
             objectSounds.Play("Impact");
 
             ps.Stop();

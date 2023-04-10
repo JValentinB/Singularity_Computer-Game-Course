@@ -31,6 +31,7 @@ public class Player : Character
 
     private Coroutine castingCoroutine;
     private bool isCasting = false;
+    private int attackCoroutineCount = 0;
     // [HideInInspector] public int shiftInversion = 1;
     private bool projectileCooldownActive;
     private float projectileCooldown = 0.5f;
@@ -98,8 +99,7 @@ public class Player : Character
             return;
         }
 
-
-        Attack();
+        StartCoroutine(Attack());
         StartCoroutine(FireProjectile());
         Jump();
         SaveAndLoadGame();
@@ -203,10 +203,6 @@ public class Player : Character
             isGrounded = false;
     }
 
-    // bool checkForWall(){
-
-    // }
-
     void FallAnimation()
     {
         if (isGrounded && !animator.GetCurrentAnimatorStateInfo(0).IsName("Landing"))
@@ -229,6 +225,10 @@ public class Player : Character
     {
         if (Input.GetMouseButtonDown(1) && (weaponMode != 0) && !projectileCooldownActive)
         {
+            if ((weaponMode == 1 && !unlockedWeaponModes[1]) ||
+               (weaponMode == 2 && !unlockedWeaponModes[2]) ||
+               (weaponMode == 3 && !unlockedWeaponModes[3])) yield break;
+
             projectileCooldownActive = true;
             if (!infinite_ammo)
             {
@@ -426,7 +426,8 @@ public class Player : Character
         }
     }
 
-    void hitSoundAndParticles(){
+    void hitSoundAndParticles()
+    {
         GameObject.FindWithTag("Staffstone").GetComponent<StaffStoneControl>().hitSoundAndParticles();
     }
 
@@ -435,7 +436,7 @@ public class Player : Character
     private float last_Attack;
     private GameObject gun, sword;
 
-    void Attack()
+    IEnumerator Attack()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -443,11 +444,17 @@ public class Player : Character
             animator.SetLayerWeight(1, 1);
             animator.SetInteger("Attack", (animator.GetInteger("Attack") + 1) % 4);
         }
-        else if (Time.time - last_Attack > 1)
+        else yield break;
+
+        attackCoroutineCount++;
+        yield return new WaitForSeconds(1);
+
+        if (attackCoroutineCount == 1)
         {
             animator.SetLayerWeight(1, 0);
             animator.SetInteger("Attack", 0);
         }
+        attackCoroutineCount--;
     }
 
     private IEnumerator FadeBlackOutSquare(bool fadeToBlack = true, float fadespeed = 1f)
