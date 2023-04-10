@@ -49,15 +49,13 @@ public class Iron_Dude : Enemy
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!dead)
-        {
-            ChangeLineOfSight();
-            RotateGravity();
-            ApplyGravity();
-            MoveEnemy();
-            OnDeath();
-        }
-
+        if (dead) return;
+        
+        ChangeLineOfSight();
+        RotateGravity();
+        ApplyGravity();
+        MoveEnemy();
+        OnDeath();
     }
 
     void Update()
