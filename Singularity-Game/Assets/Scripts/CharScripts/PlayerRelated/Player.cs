@@ -52,8 +52,7 @@ public class Player : Character
         direction = 1;
         jumpForce = 1250f;
         standardJumpForce = jumpForce;
-        jumpNumber = 2;
-        doubleJump = true;
+        jumpNumber = 1;
         jumpsRemaining = jumpNumber;
 
         animator = GetComponent<Animator>();
