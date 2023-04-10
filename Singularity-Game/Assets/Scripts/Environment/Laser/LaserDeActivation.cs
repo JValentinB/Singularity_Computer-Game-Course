@@ -10,10 +10,14 @@ public class LaserDeActivation : MonoBehaviour
     public List<LaserEmitter> laserEmitters;
     public LaserEmitter startingEmitter;
 
+    private bool alreadyEntered = false;
+
     void OnTriggerEnter(Collider other)
-    {
+    {   
+        if(alreadyEntered) return;
+        
         if (other.gameObject.tag == "Player")
-        {
+        {   
             if (laserState == LaserState.Activate)
             {
                 activateEmitter();
@@ -22,6 +26,7 @@ public class LaserDeActivation : MonoBehaviour
             {
                 deactivateAllEmitters();
             }
+            alreadyEntered = true;
         }
     }
 

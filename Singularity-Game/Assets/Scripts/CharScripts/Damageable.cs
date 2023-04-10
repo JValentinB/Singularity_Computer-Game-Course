@@ -27,7 +27,6 @@ public class Damageable : MonoBehaviour
 
     public void ApplyDamage(int damage){
         currentHealth -= damage;
-        Debug.Log(transform.name + " taking Damage");
         if(animator != null)
             StartCoroutine(damageAnimation());
         if(healthBar){
@@ -108,7 +107,6 @@ public class Damageable : MonoBehaviour
     }
 
     IEnumerator damageAnimation(){
-        Debug.Log(transform.name);
         animator.SetTrigger("TakingDamage");
         animator.SetLayerWeight(2, 1);
         yield return new WaitForSeconds(1f);
