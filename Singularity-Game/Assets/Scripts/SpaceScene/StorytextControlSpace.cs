@@ -223,7 +223,6 @@ public class StorytextControlSpace : MonoBehaviour
 
     private IEnumerator ContinueGame(){
         ShipScript.lockPlayerControl = true;
-        GetComponent<CanvasGroup>().alpha = 0f;
         GameObject.FindWithTag("SpaceCamera").GetComponent<CameraControlSpace>().followPlayer = false;
 
         yield return new WaitForSeconds(2f);
