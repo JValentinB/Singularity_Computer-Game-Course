@@ -11,6 +11,7 @@ public class Switch : MonoBehaviour
 
     private bool redAct;
     private bool greenAct;
+    private bool switchOnCooldown;
     // Start is called before the first frame update
     void Start()
     {
@@ -68,8 +69,10 @@ public class Switch : MonoBehaviour
 
     private void OnTriggerEnter(Collider col)
     {
-        if (col.GetComponent<Projectile>())
+        if (col.GetComponent<Projectile>() && !switchOnCooldown)
         {
+            switchOnCooldown = true;
+
             if (redAct)
             {
                 redAct = false;
@@ -88,6 +91,11 @@ public class Switch : MonoBehaviour
 
             DoSwitch();
         }
+        StartCoroutine(SwitchCooldown());
+    }
 
+    private IEnumerator SwitchCooldown(){
+        yield return new WaitForSeconds(0.3f);
+        switchOnCooldown = false;
     }
 }
