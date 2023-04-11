@@ -107,4 +107,18 @@ public class Menu : MonoBehaviour
             yield return new WaitForSeconds(showControlTime + timeBetweenControls);
         }
     }
+
+    private void ResetGameData(){
+        Player.savedWeaponModes = new List<bool>() { false, false, false, true };
+        Player.notFirstTime = true;
+
+        Checkpoint.storyPartIndexCheckpoint = new List<int>();
+        Checkpoint.storyShownCheckpoint = new List<bool>();
+        Checkpoint.invItemID = new List<int>();
+        Checkpoint.invItemAmount = new List<int>();
+        Checkpoint.treeBossEntryOpened = false;
+        Checkpoint.treeBossDead = false;
+        Checkpoint.golemDead = false;
+        Checkpoint.playerDoubleJump = false;
+    }
 }

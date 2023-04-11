@@ -11,7 +11,7 @@ public class Player : Character
     public List<bool> unlockedWeaponModes = new List<bool>() { false, false, false, true };
     [SerializeField] private List<Sprite> modeImages;
     public bool killOnHighFallingSpeed = true;
-    private static List<bool> savedWeaponModes = new List<bool>() { false, false, false, true };
+    public static List<bool> savedWeaponModes = new List<bool>() { false, false, false, true };
     
 
 
@@ -28,7 +28,7 @@ public class Player : Character
     public int meleeDamage;
     public bool infinite_ammo = false;
 
-    private static bool notFirstTime = false;
+    public static bool notFirstTime = false;
     [HideInInspector] public bool controllingPlatform = false;
 
     private Coroutine castingCoroutine;
@@ -384,7 +384,7 @@ public class Player : Character
         }
         else
         {
-            latestCheckPointPos = new Vector3(-200.71f, 77.35f, 0f);
+            latestCheckPointPos = new Vector3(-80f, 60f, 0f);
         }
     }
 

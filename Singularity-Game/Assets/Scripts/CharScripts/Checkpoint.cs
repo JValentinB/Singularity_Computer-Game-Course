@@ -8,12 +8,12 @@ public class Checkpoint : MonoBehaviour
 
     private bool isCurrentCheckpoint = false;
     private Checkpoint[] checkpoints;
-    private static List<int> storyPartIndexCheckpoint;
-    private static List<bool> storyShownCheckpoint;
+    public static List<int> storyPartIndexCheckpoint;
+    public static List<bool> storyShownCheckpoint;
 
     //private static List<(InvItem, int)> playerInventory;
-    private static List<int> invItemID = new List<int>();
-    private static List<int> invItemAmount = new List<int>();
+    public static List<int> invItemID = new List<int>();
+    public static List<int> invItemAmount = new List<int>();
 
     public static bool treeBossEntryOpened, treeBossDead, golemDead, playerDoubleJump;
 
