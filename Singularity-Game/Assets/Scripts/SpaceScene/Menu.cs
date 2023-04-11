@@ -112,7 +112,7 @@ public class Menu : MonoBehaviour
 
     private void ResetGameData(){
         Player.savedWeaponModes = new List<bool>() { false, false, false, true };
-        Player.notFirstTime = true;
+        Player.notFirstTime = false;
 
         Checkpoint.storyPartIndexCheckpoint = new List<int>();
         Checkpoint.storyShownCheckpoint = new List<bool>();

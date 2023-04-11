@@ -22,7 +22,7 @@ public class Player : Character
     [SerializeField] private InvUI invUi;
     [HideInInspector] public bool setDirectionShot;
     private SceneControl scenecontrol;
-    private static Vector3 latestCheckPointPos;
+    public static Vector3 latestCheckPointPos;
     public GameObject BlackOutSquare;
     // public InvManager inventory;
     public int meleeDamage;
@@ -385,6 +385,7 @@ public class Player : Character
         else
         {
             latestCheckPointPos = new Vector3(-80f, 60f, 0f);
+            transform.position = latestCheckPointPos;
         }
     }
 
