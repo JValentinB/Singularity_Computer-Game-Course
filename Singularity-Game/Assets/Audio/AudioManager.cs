@@ -54,17 +54,18 @@ public class AudioManager : MonoBehaviour
         sound.source.Stop();
     }
 
-    public IEnumerator PauseCategory(Sound[] soundCategory, float time)
-    {
+    public void PauseCategory(Sound[] soundCategory, float time)
+    {   
+        Sound playingSound = new Sound();
         foreach (Sound sound in soundCategory)
-        {
-            sound.source.Pause();
+        {   
+            if(sound.source.isPlaying){
+                sound.source.Stop();
+                playingSound = sound;
+                break;
+            }
         }
-        yield return new WaitForSeconds(time);
-        foreach (Sound sound in soundCategory)
-        {
-            sound.source.UnPause();
-        }
+        StartCoroutine(PauseForTime(music, playingSound.soundName, time, 0.1f));
     }
 
     public IEnumerator PauseForTime(Sound[] soundCategory, string name, float time, float fadeTime)
@@ -80,6 +81,7 @@ public class AudioManager : MonoBehaviour
         }
         sound.source.Pause();
         yield return new WaitForSeconds(time);
+        sound.source.UnPause();
         t = 0f;
         while (t < fadeTime)
         {
@@ -87,7 +89,6 @@ public class AudioManager : MonoBehaviour
             sound.source.volume = Mathf.Lerp(0f, 1f, t / fadeTime);
             yield return null;
         }
-        sound.source.UnPause();
     }
 
     // Decrease volume over time and stop playing when volume is 0

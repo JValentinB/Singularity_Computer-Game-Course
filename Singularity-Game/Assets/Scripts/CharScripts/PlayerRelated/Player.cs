@@ -220,7 +220,7 @@ public class Player : Character
             else /*if(isGrounded && (gravitationalDirection == Vector3.down && rb.velocity.y <= 0.01f) || (gravitationalDirection == Vector3.up && rb.velocity.y < 0f)
             || (gravitationalDirection == Vector3.right && rb.velocity.y < 0f) || (gravitationalDirection == Vector3.right && rb.velocity.y > 0f) )*/
             {
-                jumpsRemaining = jumpNumber;
+                jumpsRemaining = doubleJump ? 2 : 1;
                 isGrounded = true;
             }
 

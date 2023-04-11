@@ -6,6 +6,7 @@ public class GravitationCrystal : MonoBehaviour
 {
     [SerializeField] private int crystalModeId;
     AudioManager audioManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,8 +28,7 @@ public class GravitationCrystal : MonoBehaviour
                 player.GiveItem(player.inventory.GetItem(crystalModeId), 1);
             }
             
-            
-            StartCoroutine(audioManager.PauseCategory(audioManager.music, 1f));
+            // audioManager.PauseCategory(audioManager.music, 1f);
             audioManager.Play(audioManager.music, "CrystalSkill");
             
             gameObject.SetActive(false);
