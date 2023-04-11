@@ -38,6 +38,7 @@ public class Boulder : Damageable
     void Update()
     {
         ApplyGravity();
+        UpdateCheckpoint();
         velocity = rb.velocity.magnitude;
     }
 
@@ -64,5 +65,9 @@ public class Boulder : Damageable
                 Destroy(impact, 5);
             }
         }
+    }
+
+    private void UpdateCheckpoint(){
+        if(destroyedRoots || GameObject.FindWithTag("BossEntry")) Checkpoint.treeBossEntryOpened = true;
     }
 }

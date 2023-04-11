@@ -610,12 +610,7 @@ public class StorytextControl : MonoBehaviour
     private void NextText(){
         GetComponent<CanvasGroup>().alpha = 1;
         if(storyIndex > spaceStoryText.Count || (storyIndex == spaceStoryText.Count && !writing)){
-            StopCoroutine(storyCoroutine);
-            GetComponent<Animator>().SetBool("active", false);
-            healthBar.alpha = 1;
-            weaponModeDisplay.alpha = 1;
-            weaponWheel.alpha = 1;
-            player.GetComponent<Player>().lockPlayerControl = false;
+            LeaveCurrentText();
             if(storyPartIndex == 18){
                 GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().freeze = false;
             }
@@ -629,16 +624,35 @@ public class StorytextControl : MonoBehaviour
             storyIndex--;
             writing = false;
             charIndex = finalText.Length;
+
+            if(storyIndex >= spaceStoryText.Count || storyIndex < 0){
+                LeaveCurrentText();
+                return; 
+            }
             headerField.text = spaceStoryText[storyIndex].Item1;
             textField.text = spaceStoryText[storyIndex].Item2;
         } else if(storyIndex < spaceStoryText.Count){
             textField.text = "";
             charIndex = 0;
+
+            if(storyIndex >= spaceStoryText.Count || storyIndex < 0){
+                LeaveCurrentText();
+                return; 
+            }
             headerField.text = spaceStoryText[storyIndex].Item1;
             finalText = spaceStoryText[storyIndex].Item2;
             ReproduceText();
             writing = true;
         }  
+    }
+
+    private void LeaveCurrentText(){
+        StopCoroutine(storyCoroutine);
+        GetComponent<Animator>().SetBool("active", false);
+        healthBar.alpha = 1;
+        weaponModeDisplay.alpha = 1;
+        weaponWheel.alpha = 1;
+        player.GetComponent<Player>().lockPlayerControl = false;
     }
 
     private void ReproduceText()

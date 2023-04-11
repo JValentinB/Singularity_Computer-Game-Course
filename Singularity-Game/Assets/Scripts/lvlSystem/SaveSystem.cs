@@ -86,7 +86,9 @@ public class SaveSystem
         }
 
         foreach(Transform storyTrigger in GameObject.FindWithTag("StoryTextParent").transform){
+            if(storyTrigger == null || storyTrigger.GetComponent<StoryTrigger>() == null) break;
             int index = saveData.storyPartIndex.FindIndex(a => a == storyTrigger.GetComponent<StoryTrigger>().storyPartIndex);
+            if(index >= saveData.storyShown.Count || index < 0) break;
             storyTrigger.GetComponent<StoryTrigger>().storyShown = saveData.storyShown[index];
         }
 

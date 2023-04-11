@@ -30,7 +30,6 @@ public class ShatteringRoots : MonoBehaviour
                 }
             }
 
-            Checkpoint.treeBossEntryOpened = true;
             collision.gameObject.GetComponent<Boulder>().destroyedRoots = true;
         }
     }
