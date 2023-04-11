@@ -63,7 +63,7 @@ public class Player : Character
         setDirectionShot = false;
         meleeDamage = 15;
         // Undelete before Release!!!
-        // unlockedWeaponModes = savedWeaponModes;
+        unlockedWeaponModes = savedWeaponModes;
 
         scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
         inventory = new InvManager();
