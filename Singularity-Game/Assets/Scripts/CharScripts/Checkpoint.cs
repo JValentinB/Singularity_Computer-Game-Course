@@ -82,8 +82,8 @@ public class Checkpoint : MonoBehaviour
             invItemAmount.Add(item.Item2);
         }
 
-        if(GameObject.FindWithTag("BossEntry")) treeBossEntryOpened = false;
-        else treeBossEntryOpened = true;
+        if(!GameObject.FindWithTag("BossEntry")) treeBossEntryOpened = true;
+        else treeBossEntryOpened = false;
         if(GameObject.FindWithTag("GolemHeart")) golemDead = false;
         else golemDead = true;
         treeBossDead = GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().dead;

@@ -68,6 +68,6 @@ public class Boulder : Damageable
     }
 
     private void UpdateCheckpoint(){
-        if(destroyedRoots || GameObject.FindWithTag("BossEntry")) Checkpoint.treeBossEntryOpened = true;
+        if(destroyedRoots) Checkpoint.treeBossEntryOpened = true;
     }
 }

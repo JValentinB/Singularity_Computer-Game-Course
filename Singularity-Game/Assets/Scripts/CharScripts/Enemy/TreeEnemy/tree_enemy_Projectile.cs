@@ -29,7 +29,7 @@ public class tree_enemy_Projectile : MonoBehaviour
 
 
         this.speed = 15f;
-        this.dmg = 15;
+        this.dmg = 30;
         this.dir = new Vector3(0f, 0.5f, 0f);
         cast = GetComponent<AudioSource>();
         cast.Play();
