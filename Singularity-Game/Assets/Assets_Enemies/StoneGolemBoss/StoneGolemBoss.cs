@@ -70,6 +70,7 @@ public class StoneGolemBoss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(isDestroyingBenders);
         // if R is pressed. Delete Before Release!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -410,6 +411,8 @@ public class StoneGolemBoss : MonoBehaviour
         objectSounds.Play("DestroyBenders");
         // Copy the list to avoid errors
         destroyedBenders = true;
+        if(laser == null || laser.benders.Count == 0) return; 
+
         List<LaserBender> benders = new List<LaserBender>(laser.benders);
         foreach (LaserBender bender in benders)
         {
@@ -424,5 +427,9 @@ public class StoneGolemBoss : MonoBehaviour
 
     void playSound(string name){
         StartCoroutine(objectSounds.PlayForTime(name, 1, 5));
+    }
+
+    void FinishedDestroyingBenders(){
+        isDestroyingBenders = false;
     }
 }

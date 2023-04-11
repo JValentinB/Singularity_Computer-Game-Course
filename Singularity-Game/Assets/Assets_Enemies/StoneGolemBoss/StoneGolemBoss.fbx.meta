@@ -31,7 +31,8 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: Event FinishedDestroyingBenders has a time (4.191982)
+      outside the clip's valid range (0.000000..4.166667). It will never be fired
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -127,6 +128,13 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
+      - time: 0.13793103
+        functionName: playSound
+        data: Shouting
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 0.84771186
         functionName: destroyBenderEvent
         data: 
@@ -134,9 +142,9 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.13793103
-        functionName: playSound
-        data: Shouting
+      - time: 0.90454304
+        functionName: FinishedDestroyingBenders
+        data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0

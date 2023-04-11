@@ -485,6 +485,8 @@ public class StorytextControl : MonoBehaviour
                 return !player.GetComponent<Player>().unlockedWeaponModes[1] && !visitedArion;
             case 6:
                 return !player.GetComponent<Player>().doubleJump;
+            case 8:
+                return player.GetComponent<Player>().doubleJump;
             case 9:
                 return GameObject.FindWithTag("GolemBoss").GetComponent<StoneGolemBoss>().destroyedBenders;
             case 13:
