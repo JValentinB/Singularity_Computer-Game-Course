@@ -90,6 +90,8 @@ public class Menu : MonoBehaviour
         SpaceCameraScript.followPlayer = true;
         ShipScript.lockPlayerControl = false;
 
+        ResetGameData();
+
         parentUI.GetComponent<CanvasGroup>().alpha = 1;
         newGame = false;       
         StartCoroutine(showControls());
