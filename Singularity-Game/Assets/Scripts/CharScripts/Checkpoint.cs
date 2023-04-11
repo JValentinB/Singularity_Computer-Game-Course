@@ -91,7 +91,7 @@ public class Checkpoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        SaveStoryProgress();
+        if(collision.tag == "Player") SaveStoryProgress();
         
         if (collision.tag == "Player" && !isCurrentCheckpoint)
         {

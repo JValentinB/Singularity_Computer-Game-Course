@@ -21,6 +21,9 @@ public class Crate : Prop
         currentHealth = maxHealth;
         gravitationalDirection = Vector3.down;
         direction = 1;
+
+        singularityCrystalAmmo = 2;
+        aetherCrystalAmmo = 5;
     }
 
     void FixedUpdate(){
