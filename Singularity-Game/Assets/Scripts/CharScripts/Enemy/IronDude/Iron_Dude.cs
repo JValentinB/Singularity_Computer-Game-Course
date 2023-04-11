@@ -9,7 +9,7 @@ public class Iron_Dude : Enemy
     [SerializeField] private bool attacking;
     [SerializeField] private GameObject fireball;
     [SerializeField] private float cool_time = 3.5f;
-    [SerializeField] private float CASTING_TIME = 0.5f;
+    // [SerializeField] private float CASTING_TIME = 0.5f;
     private float cool_down;
     private bool dead;
     private float dying_time = 3.0f;

@@ -10,7 +10,7 @@ public class Tree_enemy : Enemy
     [SerializeField] private GameObject[] rocks;
     [SerializeField] private GameObject dust;
     [SerializeField] private float cool_time = 3.0f;
-    [SerializeField] private float CASTING_TIME = 3.0f;
+    // [SerializeField] private float CASTING_TIME = 3.0f;
     private float cool_down;
     private bool dead;
     private float dying_time = 3.0f;

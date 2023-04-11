@@ -33,7 +33,6 @@ public class CameraControl : MonoBehaviour
     private Camera overlayCamera;
 
     private Coroutine turnCameraCoroutine;
-    private bool isTurningCamera = false;
     private float directionTurningTo = 0;
 
     // Start is called before the first frame update
@@ -96,7 +95,6 @@ public class CameraControl : MonoBehaviour
 
     public IEnumerator turnCamera(Vector3 startDirection, Vector3 direction, float time)
     {
-        isTurningCamera = true;
         float startRotation = transform.eulerAngles.z;
         // startRotation = startRotation > 180 ? startRotation - 360 : startRotation;
         float endRotation = getRotation(direction);
@@ -125,7 +123,6 @@ public class CameraControl : MonoBehaviour
             yield return null;
         }
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, endRotation));
-        isTurningCamera = false;
     }
 
     float getRotation(Vector3 direction)

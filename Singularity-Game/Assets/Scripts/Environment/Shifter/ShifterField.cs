@@ -20,7 +20,7 @@ public class ShifterField : MonoBehaviour
     private List<Damageable> damageables = new List<Damageable>();
 
     private Coroutine timerCoroutine;
-    private bool inverting = false;
+    // private bool inverting = false;
 
     void Start()
     {

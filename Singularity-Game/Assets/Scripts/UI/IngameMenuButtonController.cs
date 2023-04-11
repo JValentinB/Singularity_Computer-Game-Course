@@ -77,14 +77,14 @@ public class IngameMenuButtonController : MonoBehaviour, IPointerEnterHandler, I
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(!controlsUi.active || eventData.pointerEnter.CompareTag("BackButton")){
+        if(!controlsUi.activeSelf || eventData.pointerEnter.CompareTag("BackButton")){
             eventData.pointerEnter.transform.parent.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if(!controlsUi.active || eventData.pointerEnter.CompareTag("BackButton")){
+        if(!controlsUi.activeSelf || eventData.pointerEnter.CompareTag("BackButton")){
             eventData.pointerEnter.transform.parent.transform.localScale = new Vector3(1f, 1f, 1f);
         }
     }

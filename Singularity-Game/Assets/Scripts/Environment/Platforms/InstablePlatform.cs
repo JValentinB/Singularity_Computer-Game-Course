@@ -25,7 +25,6 @@ public class InstablePlatform : Platform
 
     private Light crystalLight;
     private float intensity;
-    private float threshold = 0f;
     int shakingHash = Animator.StringToHash("Base Layer.Shaking");
 
     Rigidbody[] rigidbodies;

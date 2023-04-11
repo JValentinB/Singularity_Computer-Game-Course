@@ -9,8 +9,10 @@ public class Player : Character
     [Header("For the Player")]
     public int weaponMode = -1;
     public List<bool> unlockedWeaponModes = new List<bool>() { false, false, false, true };
+    [SerializeField] private List<Sprite> modeImages;
     public bool killOnHighFallingSpeed = true;
     private static List<bool> savedWeaponModes = new List<bool>() { false, false, false, true };
+    
 
 
     [SerializeField] public bool doubleJump, lockPlayerControl, freezeGame;
@@ -22,7 +24,7 @@ public class Player : Character
     private SceneControl scenecontrol;
     private static Vector3 latestCheckPointPos;
     public GameObject BlackOutSquare;
-    public InvManager inventory;
+    // public InvManager inventory;
     public int meleeDamage;
     public bool infinite_ammo = false;
 
@@ -74,7 +76,7 @@ public class Player : Character
         /* unlockedWeaponModes[0] = true;
         unlockedWeaponModes[1] = true;
         unlockedWeaponModes[2] = true; */
-        unlockedWeaponModes[3] = true; 
+        unlockedWeaponModes[3] = true;
     }
 
     void FixedUpdate()
@@ -96,7 +98,8 @@ public class Player : Character
     }
 
     void Update()
-    {
+    {   
+        // Debug.Log("Weapon Mode: " + weaponMode);
         GroundCheck();
 
         if (lockPlayerControl)
@@ -108,6 +111,7 @@ public class Player : Character
         StartCoroutine(Attack());
         StartCoroutine(FireProjectile());
         Jump();
+        changeActiveSkill();
         SaveAndLoadGame();
 
     }
@@ -158,7 +162,7 @@ public class Player : Character
     {
         if (Input.GetKeyDown(KeyCode.Space) && jumpsRemaining > 0)
         {
-            StartCoroutine(DoubleJumpFix(jumpsRemaining-1));
+            StartCoroutine(DoubleJumpFix(jumpsRemaining - 1));
             jumpsRemaining--;
             createBurst();
             StartCoroutine(playAnimationForTime("Jumping", 0.5f));
@@ -173,9 +177,11 @@ public class Player : Character
         }
     }
 
-    private IEnumerator DoubleJumpFix(int remaining){
+    private IEnumerator DoubleJumpFix(int remaining)
+    {
         var timer = 0.1f;
-        while(timer > 0f){
+        while (timer > 0f)
+        {
             jumpsRemaining = remaining;
             timer -= Time.deltaTime;
             yield return null;
@@ -205,19 +211,20 @@ public class Player : Character
         if (!raycast1) hit1.distance = Mathf.Infinity;
         if (!raycast2) hit2.distance = Mathf.Infinity;
 
-        Debug.Log(rb.velocity.y);
+        // Debug.Log(rb.velocity.y);
         // Debug.Log(hit1.distance + " " + hit2.distance);
         if (raycast1 || raycast2)
         {
             if (hit1.distance > falling_distance && hit2.distance > falling_distance)
                 isGrounded = false;
             else /*if(isGrounded && (gravitationalDirection == Vector3.down && rb.velocity.y <= 0.01f) || (gravitationalDirection == Vector3.up && rb.velocity.y < 0f)
-            || (gravitationalDirection == Vector3.right && rb.velocity.y < 0f) || (gravitationalDirection == Vector3.right && rb.velocity.y > 0f) )*/{
+            || (gravitationalDirection == Vector3.right && rb.velocity.y < 0f) || (gravitationalDirection == Vector3.right && rb.velocity.y > 0f) )*/
+            {
                 jumpsRemaining = jumpNumber;
                 isGrounded = true;
             }
-            
-            
+
+
         }
         else
             isGrounded = false;
@@ -233,16 +240,17 @@ public class Player : Character
         else if (!isGrounded)
         {
             animator.SetBool("Falling", true);
-            if(gravitationalDirection == Vector3.down && 
+            if (gravitationalDirection == Vector3.down &&
             (rb.velocity.x > 0.1f || rb.velocity.x < -0.1f)) AdjustVelocityOnFall();
-             
+
         }
     }
 
-    private void AdjustVelocityOnFall(){
+    private void AdjustVelocityOnFall()
+    {
         var adjustInDir = 0f;
-        if(rb.velocity.x > 0f) adjustInDir = -10f;
-        else if(rb.velocity.x < 0f) adjustInDir = 10f;
+        if (rb.velocity.x > 0f) adjustInDir = -10f;
+        else if (rb.velocity.x < 0f) adjustInDir = 10f;
 
         rb.velocity = new Vector3(rb.velocity.x + adjustInDir * Time.deltaTime, rb.velocity.y, rb.velocity.z);
     }
@@ -253,9 +261,9 @@ public class Player : Character
     }
 
     private IEnumerator FireProjectile()
-    {
+    {   
         if (Input.GetMouseButtonDown(1) && (weaponMode != 0) && !projectileCooldownActive)
-        {
+        {   
             if ((weaponMode == 1 && !unlockedWeaponModes[1]) ||
                (weaponMode == 2 && !unlockedWeaponModes[2]) ||
                (weaponMode == 3 && !unlockedWeaponModes[3])) yield break;
@@ -266,6 +274,7 @@ public class Player : Character
                 // use ammo on respective weaponmode
                 int res = inventory.RemoveItem(inventory.GetItem(weaponMode), 1);
                 //Debug.Log(res);
+                projectileCooldownActive = false;
                 if (res == -1) yield break;
             }
 
@@ -462,7 +471,36 @@ public class Player : Character
         GameObject.FindWithTag("Staffstone").GetComponent<StaffStoneControl>().hitSoundAndParticles();
     }
 
-    //FIXME Muss noch neu gemacht werden:
+    void changeActiveSkill()
+    {
+        // Debug.Log("Before: " + weaponMode);
+        if (Input.GetKeyDown(KeyCode.Alpha1) && unlockedWeaponModes[3])
+        {
+            weaponMode = 3;
+            GameObject.Find("UIManager").GetComponent<UIManager>().ChangeWeaponModePerKey(3, modeImages[3]);
+            return;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2) && unlockedWeaponModes[0])
+        {
+            weaponMode = 0;
+            GameObject.Find("UIManager").GetComponent<UIManager>().ChangeWeaponModePerKey(0, modeImages[0]);
+            return;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4) && unlockedWeaponModes[1])
+        {
+            weaponMode = 1;
+            GameObject.Find("UIManager").GetComponent<UIManager>().ChangeWeaponModePerKey(1, modeImages[1]);
+            return;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3) && unlockedWeaponModes[2])
+        {
+            weaponMode = 2;
+            GameObject.Find("UIManager").GetComponent<UIManager>().ChangeWeaponModePerKey(2, modeImages[2]);
+            return;
+        }
+    }
+    //FIXME Muss noch neu gemacht werden: 
+    // Wird wohl nie neu gemacht werden, lol
     //---------------------------------------
     private float last_Attack;
     private GameObject gun, sword;

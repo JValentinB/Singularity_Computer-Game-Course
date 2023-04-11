@@ -10,7 +10,7 @@ public class Suicider : Enemy
 {
     [SerializeField] private GameObject explosionEffect;
     [SerializeField] private AudioClip explosionClip, inflateClip;
-    private float explForce, explRadius, explUplift, cooldown, done;
+    private float explForce, cooldown, done; //explRadius,explUplift,
     public bool triggered;
 
     void Start(){
@@ -37,8 +37,8 @@ public class Suicider : Enemy
         //from Suicider
         explosionEffect.GetComponent<AudioSource>().clip = inflateClip;
         explForce = 50000f;
-        explRadius = 3f;
-        explUplift = 2500f;
+        // explRadius = 3f;
+        // explUplift = 2500f;
         triggered = false;
         cooldown = 2f;
         done = 0f;

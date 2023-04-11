@@ -40,7 +40,6 @@ public class LaserBeam : MonoBehaviour
     [HideInInspector] public bool benderReset = false;
     private bool beamReseted = false;
     bool isBlocked = false;
-    bool noChange = false;
     bool laserHit = false;
     [HideInInspector] public bool laserRotated = false;
     [HideInInspector] public float rotationAngle = 0f;

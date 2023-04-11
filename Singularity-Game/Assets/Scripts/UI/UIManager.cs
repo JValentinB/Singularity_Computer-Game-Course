@@ -28,8 +28,9 @@ public class UIManager : MonoBehaviour
     [Header("StoneGolemBoss")]
     [SerializeField] private CanvasGroup stoneGolemHealthBar;
     [SerializeField] private StoneGolemBoss stoneGolem;
-    
-    void Start(){
+
+    void Start()
+    {
         modeId = 0;
         unlockedWeaponModes = player.unlockedWeaponModes;
 
@@ -38,38 +39,43 @@ public class UIManager : MonoBehaviour
 
         weaponWheelUI.blocksRaycasts = false;
         weaponWheelUI.alpha = 0;
-        
+
         // Delete before release!!!
         //activateAllModes();
     }
 
-    void Update(){
+    void Update()
+    {
         unlockedWeaponModes = player.unlockedWeaponModes;
         OpenCloseMenu();
-        if(menuUI.alpha == 0){
+        if (menuUI.alpha == 0)
+        {
             OpenCloseInventory();
             OpenCloseWeaponWheel();
             UpdateWeaponMode();
             UpdateBossHealthBar();
-        }        
+        }
     }
 
-    private void OpenCloseMenu(){
-        if(Input.GetKeyDown(KeyCode.Escape) && !inventoryAnimator.GetBool("active") 
-        && weaponWheelUI.alpha == 0){
+    private void OpenCloseMenu()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && !inventoryAnimator.GetBool("active")
+        && weaponWheelUI.alpha == 0)
+        {
             bool menuIsActive = menuUI.alpha == 1;
-            if(menuIsActive) CloseMenu();
+            if (menuIsActive) CloseMenu();
             else OpenMenu();
         }
     }
 
-    public void OpenMenu(){
-        menuEnvironment.active = true;
+    public void OpenMenu()
+    {
+        menuEnvironment.SetActive(true);
         menuEnvironmentParticle.Play();
         gameUI.alpha = 0;
         gameUI.interactable = false;
         gameUI.blocksRaycasts = false;
-        
+
         menuUI.interactable = true;
         menuUI.blocksRaycasts = true;
         menuUI.GetComponent<IngameMenuButtonController>().UpdateValues();
@@ -78,19 +84,21 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    public void CloseMenu(){
-        if(!menuUI.GetComponent<IngameMenuButtonController>().menuUi.active){
+    public void CloseMenu()
+    {
+        if (!menuUI.GetComponent<IngameMenuButtonController>().menuUi.activeSelf)
+        {
             menuUI.GetComponent<IngameMenuButtonController>().BackToMenu();
             return;
         }
         Time.timeScale = 1;
         menuEnvironmentParticle.Stop();
-        menuEnvironment.active = false;
+        menuEnvironment.SetActive(false);
         menuUI.GetComponent<IngameMenuButtonController>().BackToMenu();
         gameUI.alpha = 1;
         gameUI.interactable = true;
         gameUI.blocksRaycasts = true;
-        
+
         menuUI.interactable = false;
         menuUI.blocksRaycasts = false;
         menuUI.GetComponent<IngameMenuButtonController>().UpdateValues();
@@ -100,12 +108,15 @@ public class UIManager : MonoBehaviour
 
     private void OpenCloseInventory()
     {
-        if(Input.GetKeyDown(KeyCode.I) || (inventoryAnimator.GetBool("active") && Input.GetKeyDown(KeyCode.Escape)))
+        if (Input.GetKeyDown(KeyCode.I) || (inventoryAnimator.GetBool("active") && Input.GetKeyDown(KeyCode.Escape)))
         {
             inventoryAnimator.SetBool("active", !inventoryAnimator.GetBool("active"));
-            if(!inventoryAnimator.GetBool("active")){
+            if (!inventoryAnimator.GetBool("active"))
+            {
                 inventoryInfoTextPanelAnimator.SetBool("shutDown", true);
-            } else {
+            }
+            else
+            {
                 inventoryInfoTextPanelAnimator.SetBool("shutDown", false);
             }
         }
@@ -114,7 +125,7 @@ public class UIManager : MonoBehaviour
     private void OpenCloseWeaponWheel()
     {
         //maybe animator
-        if(Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             weaponWheelUI.blocksRaycasts = true;
             weaponWheelUI.interactable = true;
@@ -122,7 +133,7 @@ public class UIManager : MonoBehaviour
             weaponWheelUI.alpha = 1;
             player.lockPlayerControl = true;
         }
-        if(Input.GetKeyUp(KeyCode.Tab))
+        if (Input.GetKeyUp(KeyCode.Tab))
         {
             weaponWheelUI.blocksRaycasts = false;
             weaponWheelUI.interactable = false;
@@ -131,9 +142,11 @@ public class UIManager : MonoBehaviour
             player.lockPlayerControl = false;
         }
     }
-    
-    private void UpdateWeaponMode(){
-        if(modeImage && player.weaponMode != modeId){
+
+    private void UpdateWeaponMode()
+    {
+        if (modeImage && player.weaponMode != modeId)
+        {
             activeModeDisplay.GetComponent<Image>().color = Color.white;
             activeModeDisplay.GetComponent<Image>().sprite = modeImage;
             activeModeDisplay.GetComponent<Image>().preserveAspect = true;
@@ -141,14 +154,25 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ChangeWeaponModePerKey(int id, Sprite image)
+    {
+        activeModeDisplay.GetComponent<Image>().color = Color.white;
+        activeModeDisplay.GetComponent<Image>().sprite = image;
+        activeModeDisplay.GetComponent<Image>().preserveAspect = true;
+        modeId = id;
+    }
+
     // Delete this before Release!!! (only for testing)
-    private void activateAllModes(){
-        for(int i = 0; i < unlockedWeaponModes.Count; i++){
+    private void activateAllModes()
+    {
+        for (int i = 0; i < unlockedWeaponModes.Count; i++)
+        {
             unlockedWeaponModes[i] = true;
         }
     }
 
-    public void UpdateBossHealthBar(){
+    public void UpdateBossHealthBar()
+    {
         stoneGolemHealthBar.alpha = stoneGolem.bossFightStarted ? 1 : 0;
         treeBossHealthBar.alpha = treeBoss.startFight ? 1 : 0;
     }

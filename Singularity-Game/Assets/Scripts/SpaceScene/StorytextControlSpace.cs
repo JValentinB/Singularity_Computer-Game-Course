@@ -109,34 +109,34 @@ public class StorytextControlSpace : MonoBehaviour
                     "!?", "?-?-?!?1", "Σ(•。•)" 
                 };
                 return exclamations[rand%exclamations.Count];
-                break;
+                // break;
             case "?":
                 var questionmarks = new List<string>(){
                     "(?_?)", "(・・?)", "(・∀・)?", "( ‥)?", "(•ิ_•ิ)?", "ლ(ಠ_ಠ ლ)"
                 };
                 return questionmarks[rand%questionmarks.Count];
-                break;
+                // break;
             case ".":
                 var dots = new List<string>(){
                     ".-.-.", "♡(>ᴗ•)", "¯\\_(ツ)_/¯"
                 };
                 return dots[rand%dots.Count];
-                break;
+                // break;
             case "P. Otter":
                 var potter = new List<string>(){
                     "/╲/\\╭(ఠఠ益ఠఠ)╮/\\╱\\", "(∩ᄑ_ᄑ)⊃━☆ﾟ*･｡*･:≡( ε:)", "(╯°益°)╯彡┻━┻", "(⌐■_■)", "( ＾▽＾)っ✂╰⋃╯"
                 };
                 return potter[rand%potter.Count];
-                break; 
+                // break; 
             case "Arion":
                 var arion = new List<string>(){
                     "(づ￣ ³￣)づ", "(づ◡﹏◡)づ", "|ʘ‿ʘ)╯", "ฅ(^◕ᴥ◕^)ฅ"
                 };
                 return arion[rand%arion.Count];
-                break; 
+                // break; 
             default:
                 return symbol;
-                break;
+                // break;
         }
     }
 

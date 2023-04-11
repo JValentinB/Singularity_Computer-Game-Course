@@ -157,7 +157,6 @@ public class CreditsControl : MonoBehaviour
             }
             yield return null;
         }
-        yield break;
     }
 
     private bool IsShipOffScreen(){

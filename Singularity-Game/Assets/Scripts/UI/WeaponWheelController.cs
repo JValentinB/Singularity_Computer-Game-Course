@@ -6,14 +6,14 @@ using UnityEngine.UI;
 public class WeaponWheelController : MonoBehaviour
 {
     [SerializeField] private GameObject weaponWheelUi;
-    [SerializeField] private int activeModes;
+    // [SerializeField] private int activeModes;
     private CanvasGroup weaponWheelUiCanvasGroup;
     private Animator anim;
     
     // Start is called before the first frame update
     void Start()
     {
-        activeModes = 0;
+        // activeModes = 0;
         weaponWheelUiCanvasGroup = weaponWheelUi.GetComponent<CanvasGroup>();
         anim = GetComponent<Animator>();
     }

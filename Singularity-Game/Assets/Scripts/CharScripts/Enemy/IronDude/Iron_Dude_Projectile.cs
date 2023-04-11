@@ -13,16 +13,16 @@ public class Iron_Dude_Projectile : MonoBehaviour
 
     //Move up, then move to player part
     private Vector3 startPosition;
-    private bool init;
-    private float MoveUpAmount;
+    // private bool init;
+    // private float MoveUpAmount;
     private float WaitBeforeMovingAmount;
     private bool waitBeforeAttack;
     private float counter;
 
     void Start(){
         startPosition = transform.position;
-        init = true;
-        MoveUpAmount = 8f;
+        // init = true;
+        // MoveUpAmount = 8f;
         WaitBeforeMovingAmount = 0.2f;
         waitBeforeAttack = true;
         counter = 0f;

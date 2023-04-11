@@ -19,8 +19,7 @@ public class rootSpike : MonoBehaviour
     Vector3 localScale;
     Vector3 startPosition;
     private bool started = false;
-    private bool isGrowing = false;
-    private bool isShrinking = false;
+    // private bool isGrowing = false;
 
     [HideInInspector] public Vector3 growingDirection;
 
@@ -67,7 +66,7 @@ public class rootSpike : MonoBehaviour
 
     IEnumerator rootScale(float startScale, float endScale)
     {
-        isGrowing = true;
+        // isGrowing = true;
 
         transform.localScale = localScale * startScale;
 

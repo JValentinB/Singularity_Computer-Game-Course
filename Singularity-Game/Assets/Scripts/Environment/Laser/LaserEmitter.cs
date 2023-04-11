@@ -18,7 +18,6 @@ public class LaserEmitter : MonoBehaviour
     private AudioSource audioSource;
     private ObjectSounds objectSounds;
 
-    float time = 0f;
 
     // Start is called before the first frame update
     void Start()
