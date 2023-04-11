@@ -70,12 +70,12 @@ public class StoneGolemBoss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(isDestroyingBenders);
+        // Debug.Log(isDestroyingBenders);
         // if R is pressed. Delete Before Release!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ApplyDamage(1000);
-        }
+        // if (Input.GetKeyDown(KeyCode.R))
+        // {
+        //     ApplyDamage(1000);
+        // }
 
         BossFightPhases();
 
