@@ -96,7 +96,7 @@ public class Checkpoint : MonoBehaviour
         if (collision.tag == "Player" && !isCurrentCheckpoint)
         {
             var playerScript = collision.GetComponent<Player>();
-            playerScript.currentHealth = playerScript.maxHealth;
+            playerScript.ApplyDamage(-(playerScript.maxHealth - playerScript.currentHealth));
             playerScript.setCheckPoint(transform.position);
             playerScript.setFirstTime();
             playerScript.SetSavedWeaponModes(playerScript.unlockedWeaponModes);

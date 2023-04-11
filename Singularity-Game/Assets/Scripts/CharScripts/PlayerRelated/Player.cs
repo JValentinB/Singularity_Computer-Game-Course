@@ -275,8 +275,10 @@ public class Player : Character
                 // use ammo on respective weaponmode
                 int res = inventory.RemoveItem(inventory.GetItem(weaponMode), 1);
                 //Debug.Log(res);
-                projectileCooldownActive = false;
-                if (res == -1) yield break;
+                if (res == -1){
+                    projectileCooldownActive = false;
+                    yield break;
+                }
             }
 
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
