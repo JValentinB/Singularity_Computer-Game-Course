@@ -62,7 +62,8 @@ public class Player : Character
         rb.mass = mass;
         setDirectionShot = false;
         meleeDamage = 15;
-        unlockedWeaponModes = savedWeaponModes;
+        // Undelete before Release!!!
+        // unlockedWeaponModes = savedWeaponModes;
 
         scenecontrol = GameObject.Find("Main Camera").GetComponent<SceneControl>();
         inventory = new InvManager();

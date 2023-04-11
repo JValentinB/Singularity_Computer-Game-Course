@@ -102,37 +102,37 @@ public class LightAreas : MonoBehaviour
         {
             boxesEntered--;
             if (boxesEntered <= 0)
-            {
-                if (colorTransition != null && backToMainColor)
-                {
-                    StopCoroutine(colorTransition);
-                    if (color)
-                        colorTransition = StartCoroutine(TransitionLight(mainLight.color, mainColor));
+            {   
+                if (color)
+                {   
+                    if (colorTransition != null && backToMainColor)
+                        StopCoroutine(colorTransition);
+                    colorTransition = StartCoroutine(TransitionLight(mainLight.color, mainColor));
                 }
-                if(intensityTransition != null && backToMainColor)
-                {
-                    StopCoroutine(intensityTransition);
-                    if (intensity)
-                        intensityTransition = StartCoroutine(TransitionIntensity(mainLight.intensity, mainIntensity));
+                if (intensity)
+                {   
+                    if(intensityTransition != null && backToMainColor)
+                        StopCoroutine(intensityTransition);
+                    intensityTransition = StartCoroutine(TransitionIntensity(mainLight.intensity, mainIntensity));
                 }
-                if (fovTransition != null && backToMainFov)
+                if(fov)
                 {  
-                    StopCoroutine(fovTransition);
-                    if (fov)
-                        fovTransition = StartCoroutine(TransitionFov(mainCamera.fieldOfView, mainFov));
+                    if (fovTransition != null && backToMainFov)
+                        StopCoroutine(fovTransition);
+                    fovTransition = StartCoroutine(TransitionFov(mainCamera.fieldOfView, mainFov));
                 }
-                if (vignetteTransition != null && backToMainVignette)
+                Vignette mainVignette;
+                if (vignette && volumeProfile.TryGet<Vignette>(out mainVignette))
                 {
-                    StopCoroutine(vignetteTransition);
-                    Vignette mainVignette;
-                    if (vignette && volumeProfile.TryGet<Vignette>(out mainVignette))
-                        vignetteTransition = StartCoroutine(TransitionVignette(mainVignette, mainVignette.intensity.value, 0f));
+                    if (vignetteTransition != null && backToMainVignette)
+                        StopCoroutine(vignetteTransition);
+                    vignetteTransition = StartCoroutine(TransitionVignette(mainVignette, mainVignette.intensity.value, 0f));
                 }
-                if (musicTransition != null)
-                {
-                    StopCoroutine(musicTransition);
-                    if (music)
-                        musicTransition = StartCoroutine(TransitionMusic(musicName, audioManager.getSourceVolume(audioManager.music, musicName), 0));
+                if (music)
+                {   
+                    if(musicTransition != null)
+                        StopCoroutine(musicTransition);
+                    musicTransition = StartCoroutine(TransitionMusic(musicName, audioManager.getSourceVolume(audioManager.music, musicName), 0));
                 }
             }
         }
@@ -159,9 +159,6 @@ public class LightAreas : MonoBehaviour
         }
         if(vignette2 && vignetteTransition != null){
             StopCoroutine(vignetteTransition);
-        }
-        if(music2 && musicTransition != null){
-            StopCoroutine(musicTransition);
         }
     }
 
@@ -222,7 +219,7 @@ public class LightAreas : MonoBehaviour
             audioManager.setSourceVolume(audioManager.music, musicName, volume);
             yield return null;
         }
-        if(isPlaying)
+        if(targetVolume == 0)
             audioManager.Stop(audioManager.music, musicName);
     }
 }
