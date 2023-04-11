@@ -15,7 +15,7 @@ public class Checkpoint : MonoBehaviour
     private static List<int> invItemID = new List<int>();
     private static List<int> invItemAmount = new List<int>();
 
-    public static bool treeBossEntryOpened, treeBossDead, golemDead;
+    public static bool treeBossEntryOpened, treeBossDead, golemDead, playerDoubleJump;
 
     void Start(){
         checkpoints = FindObjectsOfType<Checkpoint>();
@@ -26,7 +26,11 @@ public class Checkpoint : MonoBehaviour
         var player = GameObject.FindWithTag("Player").GetComponent<Player>();
 
         var weaponModes = player.GetSavedWeaponModes();
-        if(player.doubleJump && GameObject.FindWithTag("DoubleJumpCrystal")) UnityEngine.Object.Destroy(GameObject.FindWithTag("DoubleJumpCrystal"));
+        if(playerDoubleJump && GameObject.FindWithTag("DoubleJumpCrystal")){
+            UnityEngine.Object.Destroy(GameObject.FindWithTag("DoubleJumpCrystal"));
+            player.doubleJump = playerDoubleJump;
+        }
+        
         if(weaponModes[1] && GameObject.FindWithTag("ShifterCrystal")) UnityEngine.Object.Destroy(GameObject.FindWithTag("ShifterCrystal"));
         if(weaponModes[2] && GameObject.FindWithTag("BlackHoleCrystal")) UnityEngine.Object.Destroy(GameObject.FindWithTag("BlackHoleCrystal"));
         if(weaponModes[0] && GameObject.FindWithTag("PullCrystal")){
@@ -63,6 +67,8 @@ public class Checkpoint : MonoBehaviour
 
     private void SaveStoryProgress(){
         var player = GameObject.FindWithTag("Player").GetComponent<Player>();
+
+        playerDoubleJump = player.doubleJump;
 
         foreach(Transform storyTrigger in GameObject.FindWithTag("StoryTextParent").transform){
             storyPartIndexCheckpoint.Add(storyTrigger.GetComponent<StoryTrigger>().storyPartIndex);
