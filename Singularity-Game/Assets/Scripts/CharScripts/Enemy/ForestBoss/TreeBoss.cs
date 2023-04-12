@@ -58,7 +58,8 @@ public class TreeBoss : Enemy
 
     // Update is called once per frame
     void Update()
-    {
+    {   
+        // Debug.Log(dead);
         if(!startFight || freeze || dead) return;
 
         if(startFight && !fightStarted){
@@ -66,7 +67,7 @@ public class TreeBoss : Enemy
             StartCoroutine(startTimeOut());
         }
 
-        if (startFight && currentHealth <= 0f) OnDeath();
+        if (startFight && currentHealth <= 0f) Death();
 
         if(stunned && !stunTimerRunning){
             StartCoroutine(stunnedTimer());
@@ -111,7 +112,6 @@ public class TreeBoss : Enemy
             }
             yield return new WaitForSeconds(attackInterval);
         }
-        OnDeath();
     }
 
     private void SecondPhase()
@@ -134,12 +134,14 @@ public class TreeBoss : Enemy
         }
     }
 
-    new private void OnDeath()
-    {
+    private void Death()
+    {   
+        Debug.Log("Died");
         startFight = false;
         dead = true;
         //Defeat animation
         //Open up escape path
+        ToggleObjectsAtDeath();
         GetComponent<Animator>().SetBool("Dead", true);
     }
 

@@ -61,7 +61,8 @@ public class RigControlTreeBoss : MonoBehaviour
     }
 
     public void setWeight(float weight)
-    {
+    {   
+        Debug.Log(weight);
         rig.weight = weight;
     }
 

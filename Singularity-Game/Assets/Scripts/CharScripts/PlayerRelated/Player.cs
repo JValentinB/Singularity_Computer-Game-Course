@@ -70,7 +70,9 @@ public class Player : Character
         BlackOutSquare = GameObject.Find("/UI_Ingame/black_screen");
         BlackOutSquare.GetComponent<Image>().color = new Color(0f, 0f, 0f, 255f);
         StartCoroutine(FadeBlackOutSquare(false));
-        checkForStart();
+
+        // Delete
+        // checkForStart();
 
 
         // Delete Before Release!!!
