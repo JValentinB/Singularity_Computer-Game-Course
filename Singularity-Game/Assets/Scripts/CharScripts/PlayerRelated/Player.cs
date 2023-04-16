@@ -71,8 +71,7 @@ public class Player : Character
         BlackOutSquare.GetComponent<Image>().color = new Color(0f, 0f, 0f, 255f);
         StartCoroutine(FadeBlackOutSquare(false));
 
-        // Delete
-        // checkForStart();
+        checkForStart();
 
 
         // Delete Before Release!!!

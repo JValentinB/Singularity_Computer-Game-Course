@@ -483,6 +483,8 @@ public class StorytextControl : MonoBehaviour
         {
             case 1:
                 return !player.GetComponent<Player>().unlockedWeaponModes[1] && !visitedArion;
+            case 2: 
+                return !GameObject.FindWithTag("TreeBoss").GetComponent<TreeBoss>().dead;
             case 6:
                 return !player.GetComponent<Player>().doubleJump;
             case 8:

@@ -28,7 +28,7 @@ public class StoryTrigger : MonoBehaviour
     void OnTriggerExit(Collider col){
         if(col.tag == "Player" && storyController.CheckStoryRequirements(storyPartIndex)){
             if(oneTimePlay){
-                Destroy(gameObject);
+                //Destroy(gameObject);
                 return;
             } 
             storyShown = false;
