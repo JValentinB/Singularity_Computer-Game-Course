@@ -39,7 +39,9 @@ public class IngameMenuButtonController : MonoBehaviour, IPointerEnterHandler, I
     [SerializeField] public Button OptionFullScreenDown;
     [SerializeField] public Button OptionUwuifyUp;
     [SerializeField] public Button OptionUwuifyDown;
-    [SerializeField] public TMP_Text PixelizationValue, ResolutionValue, FullScreenValue, UwuifyValue;
+    [SerializeField] public Button OptionBrightnessUp;
+    [SerializeField] public Button OptionBrightnessDown;
+    [SerializeField] public TMP_Text PixelizationValue, ResolutionValue, FullScreenValue, UwuifyValue, BrightnessValue;
     [SerializeField] private bool fullScreen, uwuMode;
     [SerializeField] private List<Vector2> resolutions = new List<Vector2>(){
         new Vector2(640, 480),
@@ -68,6 +70,8 @@ public class IngameMenuButtonController : MonoBehaviour, IPointerEnterHandler, I
         OptionFullScreenDown.onClick.AddListener(DecFullScreen);
         OptionUwuifyUp.onClick.AddListener(IncUwuify);
         OptionUwuifyDown.onClick.AddListener(DecUwuify);
+        OptionBrightnessUp.onClick.AddListener(IncBrightnessValue);
+        OptionBrightnessDown.onClick.AddListener(DecBrightnessValue);
         //Warning buttons
         closeNo.onClick.AddListener(BackToMenu);
         mainMenuNo.onClick.AddListener(BackToMenu);
@@ -251,10 +255,41 @@ public class IngameMenuButtonController : MonoBehaviour, IPointerEnterHandler, I
         UwuifyValue.text = StorytextControl.uwuMode ? "Yes" : "No";
     }
 
+    private void IncBrightnessValue(){
+        VolumeProfile volume = Camera.main.GetComponent<Volume>().profile;
+        ColorAdjustments colorAdjustments;
+        volume.TryGet<ColorAdjustments>(out colorAdjustments);
+
+        float newBrightness = colorAdjustments.postExposure.value + 0.1f;
+        colorAdjustments.postExposure.value = Mathf.Clamp(newBrightness, 0, 3);
+        UpdateBrightnessValue(colorAdjustments.postExposure.value);
+    }
+
+    private void DecBrightnessValue(){
+        VolumeProfile volume = Camera.main.GetComponent<Volume>().profile;
+        ColorAdjustments colorAdjustments;
+        volume.TryGet<ColorAdjustments>(out colorAdjustments);
+
+        float newBrightness = colorAdjustments.postExposure.value - 0.1f;
+        colorAdjustments.postExposure.value = Mathf.Clamp(newBrightness, 0, 3);
+        UpdateBrightnessValue(colorAdjustments.postExposure.value);
+    }
+
+    private void UpdateBrightnessValue(float brightnessValue){
+        BrightnessValue.text = brightnessValue.ToString("F2");
+    }
+
     public void UpdateValues(){
         UpdateResolutionValue();
         UpdateFullScreenValue();
         UpdateUwuifyValue();
         UpdatePixelizationValue();
+
+        VolumeProfile volume = Camera.main.GetComponent<Volume>().profile;
+        ColorAdjustments colorAdjustments;
+        volume.TryGet<ColorAdjustments>(out colorAdjustments);
+
+        float brightnessValue = colorAdjustments.postExposure.value;
+        UpdateBrightnessValue(brightnessValue);
     }
 }
